@@ -4,8 +4,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Weglot\Admin\Pages_Weglot;
+
 spl_autoload_register( 'weglot_autoload' );
 
+// Weglot autoload class PHP with class-name.php
 function weglot_autoload( $class_name ) {
 	$dir_class = __DIR__ . '/src/';
 	$prefix    = 'class-';
@@ -28,19 +31,27 @@ function weglot_autoload( $class_name ) {
 	}
 }
 
+/**
+ * Init plugin
+ *
+ * @return void
+ */
 function weglot_init() {
 	$services = [
 		'test' => 'test',
 	];
 
 	$actions = [
-		'test' => 'test',
+		new Pages_Weglot(),
 	];
 
 	if ( function_exists( 'apache_get_modules' ) && ! in_array( 'mod_rewrite', apache_get_modules() ) ) {
 		add_action( 'admin_notices', [ '\Weglot\Notices\Rewrite_Module_Weglot', 'admin_notice' ] );
 	}
+
+	load_plugin_textdomain( 'weglot', false, WEGLOT_DIR_LANGUAGES );
+
+	foreach ( $actions as $action ) {
+		$action->hooks();
+	}
 }
-
-
-

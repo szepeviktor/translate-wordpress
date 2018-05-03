@@ -26,9 +26,12 @@ define( 'WEGLOT_PHP_MIN', '5.5' );
 define( 'WEGLOT_DIR', dirname( __FILE__ ) );
 define( 'WEGLOT_BNAME', plugin_basename( __FILE__ ) );
 define( 'WEGLOT_DIRURL', plugin_dir_url( __FILE__ ) );
+define( 'WEGLOT_DIR_LANGUAGES', dirname( WEGLOT_BNAME ) . '/languages' );
 
 define( 'WEGLOT_TEMPLATES', WEGLOT_DIR . '/templates' );
-define( 'WEGLOT_TEMPLATES_NOTICES', WEGLOT_TEMPLATES . '/notices' );
+define( 'WEGLOT_TEMPLATES_ADMIN', WEGLOT_TEMPLATES . '/admin' );
+define( 'WEGLOT_TEMPLATES_ADMIN_NOTICES', WEGLOT_TEMPLATES_ADMIN . '/notices' );
+define( 'WEGLOT_TEMPLATES_ADMIN_PAGES', WEGLOT_TEMPLATES_ADMIN . '/pages' );
 
 
 function weglot_check_compatibility() {
