@@ -4,6 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Weglot\Bootstrap_Weglot;
 use Weglot\Admin\Pages_Weglot;
 
 spl_autoload_register( 'weglot_autoload' );
@@ -37,9 +38,7 @@ function weglot_autoload( $class_name ) {
  * @return void
  */
 function weglot_init() {
-	$services = [
-		'test' => 'test',
-	];
+	$services = [];
 
 	$actions = [
 		new Pages_Weglot(),
@@ -51,7 +50,8 @@ function weglot_init() {
 
 	load_plugin_textdomain( 'weglot', false, WEGLOT_DIR_LANGUAGES );
 
-	foreach ( $actions as $action ) {
-		$action->hooks();
-	}
+	$bootstrap = new Bootstrap_Weglot();
+	$bootstrap->set_actions( $actions )
+			->set_services( $services )
+			->init_plugin();
 }
