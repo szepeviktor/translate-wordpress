@@ -17,7 +17,7 @@ function weglot_autoload( $class_name ) {
 
 	$total_parts = count( $file_parts ) - 1;
 	$dir_file    = $dir_class;
-	for ( $i = 1 ; $i <= $total_parts; $i++ ) {
+	for ( $i = 1; $i <= $total_parts; $i++ ) {
 		if ( $total_parts !== $i ) {
 			$dir_file .= strtolower( $file_parts[ $i ] ) . '/';
 		} else {
@@ -45,7 +45,7 @@ function weglot_init() {
 		new Pages_Weglot(),
 	];
 
-	if ( function_exists( 'apache_get_modules' ) && ! in_array( 'mod_rewrite', apache_get_modules() ) ) {
+	if ( function_exists( 'apache_get_modules' ) && ! array_search( 'mod_rewrite', apache_get_modules(), true ) ) {
 		add_action( 'admin_notices', [ '\Weglot\Notices\Rewrite_Module_Weglot', 'admin_notice' ] );
 	}
 
