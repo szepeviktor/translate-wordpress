@@ -17,7 +17,7 @@ function weglot_autoload( $class_name ) {
 
 	$total_parts = count( $file_parts ) - 1;
 	$dir_file    = $dir_class;
-	for ( $i = 1 ; $i <= $total_parts; $i++ ) {
+	for ( $i = 1; $i <= $total_parts; $i++ ) {
 		if ( $total_parts !== $i ) {
 			$dir_file .= strtolower( $file_parts[ $i ] ) . '/';
 		} else {
