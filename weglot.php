@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package Weglot
  * @version 2.0
@@ -22,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'WEGLOT_VERSION', '2.0' );
-define( 'WEGLOT_PHP_MIN', '5.5' );
+define( 'WEGLOT_PHP_MIN', '5.4' );
 define( 'WEGLOT_DIR', dirname( __FILE__ ) );
 define( 'WEGLOT_BNAME', plugin_basename( __FILE__ ) );
 define( 'WEGLOT_DIRURL', plugin_dir_url( __FILE__ ) );
@@ -33,7 +32,11 @@ define( 'WEGLOT_TEMPLATES_ADMIN', WEGLOT_TEMPLATES . '/admin' );
 define( 'WEGLOT_TEMPLATES_ADMIN_NOTICES', WEGLOT_TEMPLATES_ADMIN . '/notices' );
 define( 'WEGLOT_TEMPLATES_ADMIN_PAGES', WEGLOT_TEMPLATES_ADMIN . '/pages' );
 
-
+/**
+ * Check compatibility this Weglot with WordPress config
+ *
+ * @return void
+ */
 function weglot_check_compatibility() {
 
 	// Check php version.
@@ -44,21 +47,40 @@ function weglot_check_compatibility() {
 		}
 
 		/* translators: 1 is a plugin name, 2 is Weglot version, 3 is current php version. */
-		wp_die( sprintf( esc_html__( '%1$s  requires PHP %2$s minimum, your website is actually running version %3$s.', 'weglot' ), '<strong>Weglot</strong>', '<code>' . esc_attr( WEGLOT_PHP_MIN ) . '</code>', '<code>' . esc_attr( phpversion() ) . '</code>' ) );
+		wp_die( sprintf( esc_html__( '%1$s  requires PHP %2$s minimum, your website is actually running version %3$s.', 'weglot' ), '<strong>Weglot translate</strong>', '<code>' . esc_attr( WEGLOT_PHP_MIN ) . '</code>', '<code>' . esc_attr( phpversion() ) . '</code>' ) );
 	}
 }
 
-
+/**
+ * Activate Weglot
+ *
+ * @return void
+ */
 function weglot_plugin_activate() {
 	weglot_check_compatibility();
 }
 
+/**
+ * Deactivate Weglot
+ *
+ * @return void
+ */
 function weglot_plugin_deactivate() {
 }
 
+/**
+ * Uninstall Weglot
+ *
+ * @return void
+ */
 function weglot_plugin_uninstall() {
 }
 
+/**
+ * Load Weglot
+ *
+ * @return void
+ */
 function weglot_plugin_loaded() {
 	weglot_check_compatibility();
 
