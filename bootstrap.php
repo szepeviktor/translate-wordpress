@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Weglot\Bootstrap_Weglot;
 use Weglot\Admin\Pages_Weglot;
+use Weglot\Admin\Plugin_Links_Weglot;
 
 spl_autoload_register( 'weglot_autoload' );
 
@@ -42,6 +43,7 @@ function weglot_init() {
 
 	$actions = [
 		new Pages_Weglot(),
+		new Plugin_Links_Weglot(),
 	];
 
 	if ( function_exists( 'apache_get_modules' ) && ! array_search( 'mod_rewrite', apache_get_modules(), true ) ) {
