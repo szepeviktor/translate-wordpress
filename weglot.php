@@ -20,6 +20,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+define( 'WEGLOT_SLUG', 'weglot-translate' );
+define( 'WEGLOT_OPTION_GROUP', 'group-weglot-translate' );
 define( 'WEGLOT_VERSION', '2.0' );
 define( 'WEGLOT_PHP_MIN', '5.4' );
 define( 'WEGLOT_DIR', dirname( __FILE__ ) );
@@ -53,7 +55,7 @@ function weglot_check_compatibility() {
 
 /**
  * Activate Weglot
- *
+ * @since 2.0
  * @return void
  */
 function weglot_plugin_activate() {
@@ -62,7 +64,7 @@ function weglot_plugin_activate() {
 
 /**
  * Deactivate Weglot
- *
+ * @since 2.0
  * @return void
  */
 function weglot_plugin_deactivate() {
@@ -70,7 +72,7 @@ function weglot_plugin_deactivate() {
 
 /**
  * Uninstall Weglot
- *
+ * @since 2.0
  * @return void
  */
 function weglot_plugin_uninstall() {
@@ -78,7 +80,7 @@ function weglot_plugin_uninstall() {
 
 /**
  * Load Weglot
- *
+ * @since 2.0
  * @return void
  */
 function weglot_plugin_loaded() {

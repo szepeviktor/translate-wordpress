@@ -10,7 +10,12 @@ use Weglot\Admin\Plugin_Links_Weglot;
 
 spl_autoload_register( 'weglot_autoload' );
 
-// Weglot autoload class PHP with class-name.php
+/**
+ * Weglot autoload class PHP with class-name.php
+ * @since 2.0
+ * @param string $class_name
+ * @return void
+ */
 function weglot_autoload( $class_name ) {
 	$dir_class = __DIR__ . '/src/';
 	$prefix    = 'class-';
@@ -35,7 +40,7 @@ function weglot_autoload( $class_name ) {
 
 /**
  * Init plugin
- *
+ * @since 2.0
  * @return void
  */
 function weglot_init() {
