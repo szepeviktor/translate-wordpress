@@ -99,4 +99,14 @@ class Bootstrap_Weglot {
 			$action->hooks();
 		}
 	}
+
+	public function activate_plugin() {
+		foreach ( $this->actions as $action ) {
+			if ( ! method_exists( $action, 'activate' ) ) {
+				continue;
+			}
+
+			$action->activate();
+		}
+	}
 }

@@ -60,6 +60,10 @@ function weglot_check_compatibility() {
  */
 function weglot_plugin_activate() {
 	weglot_check_compatibility();
+
+	require_once __DIR__ . '/bootstrap.php';
+
+	Context_Weglot::weglot_get_context()->activate_plugin();
 }
 
 /**

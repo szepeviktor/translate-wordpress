@@ -7,13 +7,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Weglot\Models\Hooks_Interface_Weglot;
+use Weglot\Models\Mediator_Service_Interface_Weglot;
 
 /**
  * Sanitize options after submit form
  *
  * @since 2.0
  */
-class Options_Weglot implements Hooks_Interface_Weglot {
+class Options_Weglot implements Hooks_Interface_Weglot, Mediator_Service_Interface_Weglot {
+	/**
+	 * @see Mediator_Service_Interface_Weglot
+	 *
+	 * @param array $services
+	 * @return Options_Weglot
+	 */
+	public function use_services( $services ) {
+		$this->option_services = $services['Option_Service_Weglot'];
+		return $this;
+	}
 
 	/**
 	 * @see Hooks_Interface_Weglot
@@ -23,6 +34,23 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 	 */
 	public function hooks() {
 		add_action( 'admin_init', [ $this, 'weglot_options_init' ] );
+	}
+
+	/**
+	 * Activate plugin
+	 *
+	 * @return void
+	 */
+	public function activate() {
+		$version = $this->option_services->get_option( 'version' );
+		if ( $version ) {
+			return;
+		}
+
+		$options            = $this->option_services->get_options();
+		$options['version'] = WEGLOT_VERSION;
+
+		$this->option_services->set_options( $options );
 	}
 
 	/**

@@ -8,8 +8,11 @@ use Weglot\Bootstrap_Weglot;
 
 use Weglot\Admin\Pages_Weglot;
 use Weglot\Admin\Plugin_Links_Weglot;
+use Weglot\Admin\Options_Weglot;
 
 use Weglot\Services\Option_Service_Weglot;
+
+use Weglot\Models\Mediator_Service_Interface_Weglot;
 
 spl_autoload_register( 'weglot_autoload' );
 
@@ -54,18 +57,34 @@ abstract class Context_Weglot {
 			return self::$context;
 		}
 
+		self::$context = new Bootstrap_Weglot();
+
 		$services = [
 			new Option_Service_Weglot(),
 		];
 
+		self::$context->set_services( $services );
+
 		$actions = [
 			new Pages_Weglot(),
 			new Plugin_Links_Weglot(),
+			new Options_Weglot(),
 		];
 
-		self::$context = new Bootstrap_Weglot();
-		self::$context->set_actions( $actions )
-					->set_services( $services );
+		foreach ( $actions as $action ) {
+			if ( $action instanceof Mediator_Service_Interface_Weglot ) {
+				$action->use_services( self::$context->get_services() );
+			}
+		}
+
+		foreach ( self::$context->get_services() as $service ) {
+			if ( $service instanceof Mediator_Service_Interface_Weglot ) {
+				$service->use_services( self::$context->get_services() );
+				self::$context->set_service( $service );
+			}
+		}
+
+		self::$context->set_actions( $actions );
 
 		return self::$context;
 	}
