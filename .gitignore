@@ -1,5 +1,4 @@
-.vscode
+# Created by .ignore support plugin (hsz.mobi)
 
-vendor
+#vendor - No ignore, just for WordPress plugin
 .DS_Store
-composer.lock

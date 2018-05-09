@@ -4,7 +4,7 @@ Tags: translate,translation,language,multilingual,bilingual,international,locali
 Requires at least: 4.5
 Tested up to: 4.9
 Requires PHP: 5.3
-Stable tag: 1.11
+Stable tag: 1.12.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -62,7 +62,7 @@ You can help translate Weglot Translate plugin on [__translate.wordpress.org__](
 
 = Minimum Requirements for Weglot Translate =
 * WordPress 3.0 or greater
-* PHP version 5.5 or greater
+* PHP version 5.3 or greater
 * Rewrite rules activated
 
 = Installation steps for Weglot Translate =
@@ -152,11 +152,18 @@ See changelog for upgrade changes.
 
 == Changelog ==
 
-= 1.12 (**/**/2018) =
-* Add new filters
-* Add new actions
+= 1.12.2 (04/05/2018) =
+* Bugfix : Limitation on the number of characters translated at the same time
+
+= 1.12.1 (03/05/2018) =
+* Bugfix : error for users with a version lower than PHP 5.4 . [] => array()
+
+= 1.12 (03/05/2018) =
 * Bugfix : undefined index on ajax call
 * Bugfix : Redirection checkout payment on WooCommerce
+* Bugfix : Register widget
+* Add option for AMP compatibility
+* Add filter for dynamic string
 
 = 1.11 (05/04/2018) =
 * Add new languages

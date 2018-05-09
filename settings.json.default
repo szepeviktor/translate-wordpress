@@ -1,6 +1,0 @@
-{
-  "php-cs-fixer.onsave": true,
-  "phpformatter.pharPath": "php-cs-fixer",
-  "phpcs.enable": true,
-  "phpcs.standard": "WordPress-VIP"
-}
