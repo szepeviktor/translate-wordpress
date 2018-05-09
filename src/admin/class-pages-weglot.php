@@ -7,6 +7,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Weglot\Models\Hooks_Interface_Weglot;
+use Weglot\Models\Mediator_Service_Interface_Weglot;
+
 use Weglot\Helpers\Helper_Pages_Weglot;
 use Weglot\Helpers\Helper_Tabs_Admin_Weglot;
 
@@ -16,7 +18,18 @@ use Weglot\Helpers\Helper_Tabs_Admin_Weglot;
  * @since 2.0
  *
  */
-class Pages_Weglot implements Hooks_Interface_Weglot {
+class Pages_Weglot implements Hooks_Interface_Weglot, Mediator_Service_Interface_Weglot {
+	/**
+	 * @see Mediator_Service_Interface_Weglot
+	 *
+	 * @param array $services
+	 * @return Options_Weglot
+	 */
+	public function use_services( $services ) {
+		$this->option_services = $services['Option_Service_Weglot'];
+		return $this;
+	}
+
 	/**
 	 * @see Hooks_Interface_Weglot
 	 *
@@ -47,6 +60,8 @@ class Pages_Weglot implements Hooks_Interface_Weglot {
 		if ( isset( $_GET['tab'] ) ) {
 			$this->tab_active = sanitize_text_field( wp_unslash( $_GET['tab'] ) );
 		}
+
+		$this->options = $this->option_services->get_options();
 
 		include_once WEGLOT_TEMPLATES_ADMIN_PAGES . '/settings.php';
 	}

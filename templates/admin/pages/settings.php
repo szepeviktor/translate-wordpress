@@ -11,7 +11,7 @@ use Weglot\Helpers\Helper_Tabs_Admin_Weglot;
 <div class="wrap">
 	<?php include_once WEGLOT_TEMPLATES_ADMIN_PAGES . '/nav.php'; ?>
 
-	<form method="post" id="mainform" action="" enctype="multipart/form-data">
+	<form method="post" id="mainform" action="<?php echo esc_url( admin_url( 'options.php' ) ); ?>">
 		<?php
 		switch ( $this->tab_active ) {
 			case Helper_Tabs_Admin_Weglot::SETTINGS:
@@ -25,6 +25,8 @@ use Weglot\Helpers\Helper_Tabs_Admin_Weglot;
 				include_once WEGLOT_TEMPLATES_ADMIN_PAGES . '/tabs/status.php';
 				break;
 		}
+
+		submit_button();
 		?>
 	</form>
 </div>
