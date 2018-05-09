@@ -37,15 +37,56 @@ class Bootstrap_Weglot {
 		$this->actions = $actions;
 		return $this;
 	}
+
+	/**
+	 * Get services
+	 * @since 2.0
+	 * @return array
+	 */
+	public function get_actions() {
+		return $this->actions;
+	}
+
 	/**
 	 * Set services
-	 *
+	 * @since 2.0
 	 * @param array $services
 	 * @return BootStrap_Weglot
 	 */
 	public function set_services( $services ) {
-		$this->services = $services;
+		foreach ( $services as $service ) {
+			$this->set_service( $service );
+		}
 		return $this;
+	}
+
+	public function set_service( $service ) {
+		$classname = get_class( $service );
+		if ( preg_match( '@\\\\([\w]+)$@', $classname, $matches ) ) {
+			$classname = $matches[1];
+		}
+
+		$this->services[ $classname ] = $service;
+		return $this;
+	}
+
+
+	/**
+	 * Get services
+	 * @since 2.0
+	 * @return array
+	 */
+	public function get_services() {
+		return $this->services;
+	}
+
+	public function get_service( $name ) {
+		if ( ! array_key_exists( $name, $this->services ) ) {
+			return null;
+			// @TODO : Throw exception
+		}
+
+		return $this->services[ $name ];
 	}
 
 	/**

@@ -87,6 +87,7 @@ function weglot_plugin_loaded() {
 	weglot_check_compatibility();
 
 	require_once __DIR__ . '/bootstrap.php';
+	require_once __DIR__ . '/weglot-functions.php';
 
 	weglot_init();
 }
