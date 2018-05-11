@@ -11,7 +11,7 @@
 
 
 ## Requirements
-- PHP version 5.5 and later
+- PHP version 5.4 and later
 - Weglot API Key, starting at [free level](https://dashboard.weglot.com/register)
 
 [travis-image]: https://api.travis-ci.com/weglot/weglot-wordpress.svg?branch=dev
