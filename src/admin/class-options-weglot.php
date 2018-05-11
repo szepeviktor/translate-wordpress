@@ -1,13 +1,13 @@
 <?php
 
-namespace Weglot\Admin;
+namespace WeglotWP\Admin;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-use Weglot\Models\Hooks_Interface_Weglot;
-use Weglot\Models\Mediator_Service_Interface_Weglot;
+use WeglotWP\Models\Hooks_Interface_Weglot;
+use WeglotWP\Models\Mediator_Service_Interface_Weglot;
 
 /**
  * Sanitize options after submit form

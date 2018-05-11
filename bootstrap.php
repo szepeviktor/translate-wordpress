@@ -4,15 +4,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-use Weglot\Bootstrap_Weglot;
+use WeglotWP\Bootstrap_Weglot;
 
-use Weglot\Admin\Pages_Weglot;
-use Weglot\Admin\Plugin_Links_Weglot;
-use Weglot\Admin\Options_Weglot;
+use WeglotWP\Admin\Pages_Weglot;
+use WeglotWP\Admin\Plugin_Links_Weglot;
+use WeglotWP\Admin\Options_Weglot;
+use WeglotWP\Admin\Admin_Enqueue_Weglot;
 
-use Weglot\Services\Option_Service_Weglot;
+use WeglotWP\Services\Option_Service_Weglot;
 
-use Weglot\Models\Mediator_Service_Interface_Weglot;
+use WeglotWP\Models\Mediator_Service_Interface_Weglot;
 
 spl_autoload_register( 'weglot_autoload' );
 
@@ -23,9 +24,8 @@ spl_autoload_register( 'weglot_autoload' );
  * @return void
  */
 function weglot_autoload( $class_name ) {
-	$dir_class = __DIR__ . '/src/';
-	$prefix    = 'class-';
-
+	$dir_class  = __DIR__ . '/src/';
+	$prefix     = 'class-';
 	$file_parts = explode( '\\', $class_name );
 
 	$total_parts = count( $file_parts ) - 1;
@@ -69,6 +69,7 @@ abstract class Context_Weglot {
 			new Pages_Weglot(),
 			new Plugin_Links_Weglot(),
 			new Options_Weglot(),
+			new Admin_Enqueue_Weglot(),
 		];
 
 		foreach ( $actions as $action ) {
@@ -98,7 +99,7 @@ abstract class Context_Weglot {
  */
 function weglot_init() {
 	if ( function_exists( 'apache_get_modules' ) && ! array_search( 'mod_rewrite', apache_get_modules(), true ) ) {
-		add_action( 'admin_notices', [ '\Weglot\Notices\Rewrite_Module_Weglot', 'admin_notice' ] );
+		add_action( 'admin_notices', [ '\WeglotWP\Notices\Rewrite_Module_Weglot', 'admin_notice' ] );
 	}
 
 	load_plugin_textdomain( 'weglot', false, WEGLOT_DIR_LANGUAGES );

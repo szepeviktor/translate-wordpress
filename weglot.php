@@ -28,6 +28,7 @@ define( 'WEGLOT_DIR', dirname( __FILE__ ) );
 define( 'WEGLOT_BNAME', plugin_basename( __FILE__ ) );
 define( 'WEGLOT_DIRURL', plugin_dir_url( __FILE__ ) );
 define( 'WEGLOT_DIR_LANGUAGES', dirname( WEGLOT_BNAME ) . '/languages' );
+define( 'WEGLOT_URL_DIST', WEGLOT_DIRURL . '/dist' );
 
 define( 'WEGLOT_TEMPLATES', WEGLOT_DIR . '/templates' );
 define( 'WEGLOT_TEMPLATES_ADMIN', WEGLOT_TEMPLATES . '/admin' );
@@ -90,6 +91,7 @@ function weglot_plugin_uninstall() {
 function weglot_plugin_loaded() {
 	weglot_check_compatibility();
 
+	require_once __DIR__ . '/vendor/autoload.php';
 	require_once __DIR__ . '/bootstrap.php';
 	require_once __DIR__ . '/weglot-functions.php';
 

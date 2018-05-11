@@ -3,3 +3,6 @@
 vendor
 .DS_Store
 composer.lock
+node_modules
+
+#dist - Need to be ignore

@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-use Weglot\Helpers\Helper_Tabs_Admin_Weglot;
+use WeglotWP\Helpers\Helper_Tabs_Admin_Weglot;
 
 ?>
 

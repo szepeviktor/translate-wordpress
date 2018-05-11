@@ -1,12 +1,13 @@
 <?php
 
-namespace Weglot\Admin;
+namespace WeglotWP\Admin;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-use Weglot\Models\Hooks_Interface_Weglot;
+use WeglotWP\Models\Hooks_Interface_Weglot;
+use WeglotWP\Helpers\Helper_Pages_Weglot;
 
 /**
  * Enqueue CSS / JS on administration
@@ -34,8 +35,13 @@ class Admin_Enqueue_Weglot implements Hooks_Interface_Weglot {
 	 * @return void
 	 */
 	public function weglot_admin_enqueue_scripts( $page ) {
-		if ( ! array_search( $page, [ 'toplevel_page_weglot', 'settings_page_weglot-status' ], true ) ) {
+		if ( ! in_array( $page, [ 'toplevel_page_' . Helper_Pages_Weglot::SETTINGS ], true ) ) {
 			return;
 		}
+
+		wp_enqueue_script( 'weglot-admin-selectize-js', WEGLOT_URL_DIST . '/selectize/js/selectize.min.js', [ 'jquery', 'jquery-ui-core', 'jquery-ui-sortable' ] );
+		wp_enqueue_style( 'weglot-admin-selectize-css', WEGLOT_URL_DIST . '/selectize/css/selectize.css' );
+
+		wp_enqueue_script( 'weglot-admin', WEGLOT_URL_DIST . '/bundle.js', [ 'weglot-admin-selectize-js' ] );
 	}
 }

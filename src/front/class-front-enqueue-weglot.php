@@ -1,12 +1,12 @@
 <?php
 
-namespace Weglot\Front;
+namespace WeglotWP\Front;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-use Weglot\Models\Hooks_Interface_Weglot;
+use WeglotWP\Models\Hooks_Interface_Weglot;
 
 /**
  * Enqueue CSS / JS on front

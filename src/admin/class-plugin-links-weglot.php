@@ -1,13 +1,13 @@
 <?php
 
-namespace Weglot\Admin;
+namespace WeglotWP\Admin;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-use Weglot\Models\Hooks_Interface_Weglot;
-use Weglot\Helpers\Helper_Pages_Weglot;
+use WeglotWP\Models\Hooks_Interface_Weglot;
+use WeglotWP\Helpers\Helper_Pages_Weglot;
 
 /**
  * Update links on plugin page

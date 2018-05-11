@@ -1,12 +1,12 @@
 <?php
 
-namespace Weglot\Notices;
+namespace WeglotWP\Notices;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-use Weglot\Models\Abstract_Notices_Weglot;
+use WeglotWP\Models\Abstract_Notices_Weglot;
 
 /**
  * Rewrite module notice template

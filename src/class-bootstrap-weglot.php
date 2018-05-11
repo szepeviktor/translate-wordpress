@@ -1,6 +1,6 @@
 <?php
 
-namespace Weglot;
+namespace WeglotWP;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
