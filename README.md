@@ -3,7 +3,9 @@
 
 # WordPress Plugin V2 - In development
 
+[![WeglotSlack][slack-image][slack-url]
 [![Build Status][travis-image]][travis-url]
+
 
 ## [WARNING] : this plugin must not be installed in production yet
 
@@ -14,3 +16,7 @@
 
 [travis-image]: https://api.travis-ci.com/weglot/weglot-wordpress.svg?branch=dev
 [travis-url]: https://travis-ci.com/weglot/weglot-wordpress
+
+[slack-image]: https://weglot-community.now.sh/badge.svg
+[slack-url]: https://weglot-community.now.sh/
+
