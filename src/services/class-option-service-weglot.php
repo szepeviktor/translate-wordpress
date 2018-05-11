@@ -19,7 +19,7 @@ class Option_Service_Weglot {
 	protected $options_default = [
 		'api_key'              => '',
 		'original_language'    => 'en',
-		'destination_language' => '',
+		'destination_language' => [],
 		'exclude_amp'          => true,
 		'version'              => null,
 	];

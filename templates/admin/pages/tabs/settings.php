@@ -18,7 +18,7 @@ $options_available = [
 		'description' => '',
 	],
 	'destination_language' => [
-		'key'         => 'destination_language	',
+		'key'         => 'destination_language',
 		'label'       => __( 'Destination language', 'weglot' ),
 		'description' => '',
 	],
@@ -58,7 +58,12 @@ $options_available = [
 					id="<?php echo esc_attr( $options_available['original_language']['key'] ); ?>"
 				>
 					<?php foreach ( Languages::data() as $key_lang => $language ) : ?>
-						<option value="<?php echo esc_attr( $language['code'] ); ?>"><?php echo esc_html( $language['local'] ); ?></option>
+						<option
+							value="<?php echo esc_attr( $language['code'] ); ?>"
+							<?php selected( $key_lang, $this->options[ $options_available['original_language']['key'] ] ); ?>
+						>
+							<?php echo esc_html( $language['local'] ); ?>
+						</option>
 					<?php endforeach; ?>
 				</select>
 			</td>
@@ -72,12 +77,17 @@ $options_available = [
 			<td class="forminp forminp-text">
 				<select
 					class="weglot-select"
-					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['destination_language']['key'] ) ); ?>"
+					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['destination_language']['key'] ) ); ?>[]"
 					id="<?php echo esc_attr( $options_available['destination_language']['key'] ); ?>"
 					multiple="true"
 				>
 					<?php foreach ( Languages::data() as $key_lang => $language ) : ?>
-						<option value="<?php echo esc_attr( $language['code'] ); ?>"><?php echo esc_html( $language['local'] ); ?></option>
+						<option
+							value="<?php echo esc_attr( $language['code'] ); ?>"
+							<?php selected( true, in_array( $key_lang, $this->options[ $options_available['destination_language']['key'] ], true ) ); ?>
+						>
+							<?php echo esc_html( $language['local'] ); ?>
+						</option>
 					<?php endforeach; ?>
 				</select>
 			</td>
