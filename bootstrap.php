@@ -11,6 +11,8 @@ use WeglotWP\Admin\Plugin_Links_Weglot;
 use WeglotWP\Admin\Options_Weglot;
 use WeglotWP\Admin\Admin_Enqueue_Weglot;
 
+use WeglotWP\Front\Translate_Page_Weglot;
+
 use WeglotWP\Services\Option_Service_Weglot;
 
 use WeglotWP\Models\Mediator_Service_Interface_Weglot;
@@ -70,6 +72,7 @@ abstract class Context_Weglot {
 			new Plugin_Links_Weglot(),
 			new Options_Weglot(),
 			new Admin_Enqueue_Weglot(),
+			new Translate_Page_Weglot(),
 		];
 
 		foreach ( $actions as $action ) {
