@@ -3,7 +3,7 @@
 
 # WordPress Plugin V2 - In development
 
-[![WeglotSlack][slack-image][slack-url]
+[![Weglot Slack][slack-image]][slack-url]
 [![Build Status][travis-image]][travis-url]
 
 
