@@ -52,7 +52,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 
 	/**
 	 * @see weglot_init / ob_start
-	 *
+	 * @since 2.0
 	 * @param string $content
 	 * @return string
 	 */
