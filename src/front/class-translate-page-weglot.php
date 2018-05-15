@@ -63,7 +63,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 		$client            = new Client( $api_key );
 		$parser            = new Parser( $client, $config );
 
-		$translated_content = $parser->translate( $content, $original_language, 'fr' );
+		$translated_content = $parser->translate( $content, $original_language, 'fr' ); // phpcs:ignore
 
 		return $translated_content;
 	}

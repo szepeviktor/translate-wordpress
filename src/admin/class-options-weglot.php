@@ -74,8 +74,6 @@ class Options_Weglot implements Hooks_Interface_Weglot, Mediator_Service_Interfa
 	 * @return array
 	 */
 	public function sanitize_options( $options ) {
-		// var_dump($options);
-		// die;
 		return $options;
 	}
 }
