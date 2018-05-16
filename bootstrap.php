@@ -13,6 +13,7 @@ use WeglotWP\Admin\Admin_Enqueue_Weglot;
 
 use WeglotWP\Front\Translate_Page_Weglot;
 use WeglotWP\Front\Front_Enqueue_Weglot;
+use WeglotWP\Front\Shortcode_Weglot;
 
 use WeglotWP\Services\Button_Service_Weglot;
 use WeglotWP\Services\Request_Url_Service_Weglot;
@@ -73,6 +74,7 @@ abstract class Context_Weglot {
 		self::$context->set_services( $services );
 
 		$actions = [
+			new Shortcode_Weglot(),
 			new Front_Enqueue_Weglot(),
 			new Pages_Weglot(),
 			new Plugin_Links_Weglot(),

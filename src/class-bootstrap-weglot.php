@@ -6,6 +6,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use WeglotWP\Models\Hooks_Interface_Weglot;
+
 /**
  * Init plugin
  *
@@ -96,7 +98,9 @@ class Bootstrap_Weglot {
 	 */
 	public function init_plugin() {
 		foreach ( $this->actions as $action ) {
-			$action->hooks();
+			if ( $action instanceof Hooks_Interface_Weglot ) {
+				$action->hooks();
+			}
 		}
 	}
 
