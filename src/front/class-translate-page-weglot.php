@@ -11,6 +11,7 @@ use WeglotWP\Models\Mediator_Service_Interface_Weglot;
 
 use Weglot\Client\Client;
 use Weglot\Parser\Parser;
+use Weglot\Util\Url;
 use Weglot\Parser\ConfigProvider\ServerConfigProvider;
 
 /**
@@ -26,8 +27,9 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 	 * @return Options_Weglot
 	 */
 	public function use_services( $services ) {
-		$this->option_services = $services['Option_Service_Weglot'];
-		$this->button_services = $services['Button_Service_Weglot'];
+		$this->option_services      = $services['Option_Service_Weglot'];
+		$this->button_services      = $services['Button_Service_Weglot'];
+		$this->request_url_services = $services['Request_Url_Weglot'];
 		return $this;
 	}
 
@@ -51,6 +53,17 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 	 * @return void
 	 */
 	public function weglot_init() {
+		$this->current_language = $this->request_url_services->get_current_language();
+		if ( null === $this->current_language || ! $this->request_url_services->is_translatable_url() ) {
+			return;
+		}
+
+		$_SERVER['REQUEST_URI'] = str_replace(
+			'/' . $this->current_language . '/',
+			'/',
+			$_SERVER['REQUEST_URI'] //phpcs:ignore
+		);
+
 		ob_start( [ $this, 'weglot_treat_page' ] );
 	}
 
@@ -61,13 +74,13 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 	 * @return string
 	 */
 	public function weglot_treat_page( $content ) {
-		$config            = new ServerConfigProvider();
-		$api_key           = $this->option_services->get_option( 'api_key' );
-		$original_language = $this->option_services->get_option( 'original_language' );
-		$client            = new Client( $api_key );
-		$parser            = new Parser( $client, $config );
+		$config             = new ServerConfigProvider();
+		$api_key            = $this->option_services->get_option( 'api_key' );
+		$original_language  = $this->option_services->get_option( 'original_language' );
+		$client             = new Client( $api_key );
+		$parser             = new Parser( $client, $config );
 
-		$translated_content = $parser->translate( $content, $original_language, 'fr' ); // phpcs:ignore
+		$translated_content = $parser->translate( $content, $original_language, $this->current_language ); // phpcs:ignore
 		$button_html        = $this->button_services->get_html();
 		return str_replace( '</body>', $button_html . '</body>', $translated_content );
 	}
