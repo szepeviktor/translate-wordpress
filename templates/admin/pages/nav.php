@@ -17,10 +17,4 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<?php echo esc_html( $tab['title'] ); ?>
 		</a>
 	<?php endforeach ?>
-
-	<!-- <a
-		href="http://weglotv2.local/wp-admin/admin.php?page=wc-settings&amp;tab=products"
-		class="nav-tab ">
-		Products
-	</a> -->
 </nav>

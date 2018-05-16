@@ -39,9 +39,9 @@ class Admin_Enqueue_Weglot implements Hooks_Interface_Weglot {
 			return;
 		}
 
-		wp_enqueue_script( 'weglot-admin-selectize-js', WEGLOT_URL_DIST . '/selectize/js/selectize.min.js', [ 'jquery', 'jquery-ui-core', 'jquery-ui-sortable' ] );
-		wp_enqueue_style( 'weglot-admin-selectize-css', WEGLOT_URL_DIST . '/selectize/css/selectize.css' );
+		wp_enqueue_script( 'weglot-admin-select2-js', WEGLOT_URL_DIST . '/select2/select2.min.js', [ 'jquery' ] );
+		wp_enqueue_style( 'weglot-admin-select2-css', WEGLOT_URL_DIST . '/select2/select2.min.css' );
 
-		wp_enqueue_script( 'weglot-admin', WEGLOT_URL_DIST . '/bundle.js', [ 'weglot-admin-selectize-js' ] );
+		wp_enqueue_script( 'weglot-admin', WEGLOT_URL_DIST . '/bundle.js', [ 'weglot-admin-select2-js' ] );
 	}
 }

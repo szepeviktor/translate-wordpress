@@ -12,7 +12,9 @@ use WeglotWP\Admin\Options_Weglot;
 use WeglotWP\Admin\Admin_Enqueue_Weglot;
 
 use WeglotWP\Front\Translate_Page_Weglot;
+use WeglotWP\Front\Front_Enqueue_Weglot;
 
+use WeglotWP\Services\Button_Service_Weglot;
 use WeglotWP\Services\Option_Service_Weglot;
 
 use WeglotWP\Models\Mediator_Service_Interface_Weglot;
@@ -63,11 +65,13 @@ abstract class Context_Weglot {
 
 		$services = [
 			new Option_Service_Weglot(),
+			new Button_Service_Weglot(),
 		];
 
 		self::$context->set_services( $services );
 
 		$actions = [
+			new Front_Enqueue_Weglot(),
 			new Pages_Weglot(),
 			new Plugin_Links_Weglot(),
 			new Options_Weglot(),

@@ -32,5 +32,6 @@ class Front_Enqueue_Weglot implements Hooks_Interface_Weglot {
 	 * @return void
 	 */
 	public function weglot_wp_enqueue_scripts() {
+		wp_enqueue_style( 'weglot-css', WEGLOT_URL_DIST . '/css/index.css' );
 	}
 }

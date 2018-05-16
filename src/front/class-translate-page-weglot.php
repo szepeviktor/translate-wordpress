@@ -27,6 +27,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 	 */
 	public function use_services( $services ) {
 		$this->option_services = $services['Option_Service_Weglot'];
+		$this->button_services = $services['Button_Service_Weglot'];
 		return $this;
 	}
 
@@ -37,6 +38,9 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 	 * @return void
 	 */
 	public function hooks() {
+		if ( is_admin() ) {
+			return;
+		}
 		add_action( 'init', [ $this, 'weglot_init' ] );
 	}
 
@@ -64,8 +68,8 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 		$parser            = new Parser( $client, $config );
 
 		$translated_content = $parser->translate( $content, $original_language, 'fr' ); // phpcs:ignore
-
-		return $translated_content;
+		$button_html        = $this->button_services->get_html();
+		return str_replace( '</body>', $button_html . '</body>', $translated_content );
 	}
 }
 
