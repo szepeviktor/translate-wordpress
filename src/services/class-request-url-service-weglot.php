@@ -7,6 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Weglot\Util\Url;
+use Weglot\Util\Server;
 
 use WeglotWP\Models\Mediator_Service_Interface_Weglot;
 
@@ -91,19 +92,15 @@ class Request_Url_Service_Weglot implements Mediator_Service_Interface_Weglot {
 	 * @return string
 	 */
 	protected function get_url_origin( $use_forwarded_host = false ) {
-		$s = $_SERVER; //phpcs:ignore
-
-		$ssl      = ( ! empty( $s['HTTPS'] ) && 'on' === $s['HTTPS'] ) ? true : false;
-		$sp       = strtolower( $s['SERVER_PROTOCOL'] );
-		$protocol = substr( $sp, 0, strpos( $sp, '/' ) ) . ( ( $ssl ) ? 's' : '' );
-		$port     = $s['SERVER_PORT'];
-		$port     = ( ( ! $ssl && '80' === $port ) || ( $ssl && '443' === $port ) ) ? '' : ':' . $port;
-		$host     = ( $use_forwarded_host && isset( $s['HTTP_X_FORWARDED_HOST'] ) ) ? $s['HTTP_X_FORWARDED_HOST'] : (isset( $s['HTTP_HOST'] ) ? $s['HTTP_HOST'] : null );
-		$host     = isset( $host ) ? $host : $s['SERVER_NAME'] . $port;
-
-		return $protocol . '://' . $host;
+		return Server::fullUrl($_SERVER, $use_forwarded_host); //phpcs:ignore
 	}
 
+	/**
+	 * @todo : Change this when weglot-php included
+	 *
+	 * @param string $code
+	 * @return boolean
+	 */
 	public function is_language_rtl( $code ) {
 		$rtls = [ 'ar', 'he', 'fa' ];
 		if ( in_array( $code, $rtls, true ) ) {
