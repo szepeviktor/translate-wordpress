@@ -15,7 +15,7 @@ use WeglotWP\Models\Mediator_Service_Interface_Weglot;
  *
  * @since 2.0
  */
-class Request_Url_Weglot implements Mediator_Service_Interface_Weglot {
+class Request_Url_Service_Weglot implements Mediator_Service_Interface_Weglot {
 	/**
 	 * @since 2.0
 	 *
@@ -102,6 +102,15 @@ class Request_Url_Weglot implements Mediator_Service_Interface_Weglot {
 		$host     = isset( $host ) ? $host : $s['SERVER_NAME'] . $port;
 
 		return $protocol . '://' . $host;
+	}
+
+	public function is_language_rtl( $code ) {
+		$rtls = [ 'ar', 'he', 'fa' ];
+		if ( in_array( $code, $rtls, true ) ) {
+			return true;
+		}
+
+		return false;
 	}
 }
 

@@ -32,3 +32,12 @@ function weglot_get_option( $key ) {
 function weglot_get_original_language() {
 	return weglot_get_option( 'original_language' );
 }
+
+/**
+ * Get current language
+ * @since 2.0
+ * @return string
+ */
+function weglot_get_current_language() {
+	return Context_Weglot::weglot_get_context()->get_service( 'Request_Url_Service_Weglot' )->get_current_language();
+}
