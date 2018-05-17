@@ -41,10 +41,10 @@
   transition: opacity 175ms linear;
   outline: 0; }
 
-.item-exclude-url {
+.item-exclude {
   position: relative;
   margin-bottom: 10px; }
-  .item-exclude-url input[type='text'] {
+  .item-exclude input[type='text'] {
     width: 90%;
     max-width: 90%;
     border: 2px solid #eaeef0;
@@ -54,6 +54,6 @@
     box-shadow: none;
     font-weight: 500;
     height: 42px; }
-    .item-exclude-url input[type='text']:focus {
+    .item-exclude input[type='text']:focus {
       border-color: #446dea;
       box-shadow: none; }

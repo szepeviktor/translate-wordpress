@@ -34,7 +34,7 @@ class Request_Url_Service_Weglot implements Mediator_Service_Interface_Weglot {
 	 * @return string
 	 */
 	public function init_weglot_url() {
-		$exclude_urls = $this->option_services->get_option( 'exclude_url' );
+		$exclude_urls = $this->option_services->get_option( 'exclude_urls' );
 
 		$this->weglot_url = new Url(
 			$this->get_full_url(),

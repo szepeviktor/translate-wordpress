@@ -23,9 +23,14 @@ $options_available = [
 		'label'       => __( 'Destination language', 'weglot' ),
 		'description' => '',
 	],
-	'exclude_url' => [
-		'key'         => 'exclude_url',
+	'exclude_urls' => [
+		'key'         => 'exclude_urls',
 		'label'       => __( 'Exclusion URL', 'weglot' ),
+		'description' => '',
+	],
+	'exclude_blocks' => [
+		'key'         => 'exclude_blocks',
+		'label'       => __( 'Exclusion Blocks', 'weglot' ),
 		'description' => '',
 	],
 ];
@@ -109,20 +114,20 @@ $languages = new Languages( $client );
 	<tbody>
 		<tr valign="top">
 			<th scope="row" class="titledesc">
-				<label for="<?php echo esc_attr( $options_available['exclude_url']['key'] ); ?>">
-					<?php echo esc_html( $options_available['exclude_url']['label'] ); ?>
+				<label for="<?php echo esc_attr( $options_available['exclude_urls']['key'] ); ?>">
+					<?php echo esc_html( $options_available['exclude_urls']['label'] ); ?>
 				</label>
 			</th>
 			<td class="forminp forminp-text">
-				<div id="container-<?php echo esc_attr( $options_available['exclude_url']['key'] ); ?>">
+				<div id="container-<?php echo esc_attr( $options_available['exclude_urls']['key'] ); ?>">
 					<?php
-					if ( ! empty( $this->options[ $options_available['exclude_url']['key'] ] ) ) :
-						foreach ( $this->options[ $options_available['exclude_url']['key'] ] as $option ) :
+					if ( ! empty( $this->options[ $options_available['exclude_urls']['key'] ] ) ) :
+						foreach ( $this->options[ $options_available['exclude_urls']['key'] ] as $option ) :
 					?>
-						<div class="item-exclude-url">
+						<div class="item-exclude">
 							<input
 								type="text"
-								name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['exclude_url']['key'] ) ); ?>[]"
+								name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['exclude_urls']['key'] ) ); ?>[]"
 								value="<?php echo esc_attr( $option ); ?>"
 							>
 							<button class="js-btn-remove js-btn-remove-exclude-url">
@@ -137,19 +142,62 @@ $languages = new Languages( $client );
 				<button id="js-add-exclude-url" class="btn btn-soft"><?php esc_html_e( 'Add an exclusion', 'weglot' ); ?></button>
 			</td>
 		</tr>
+		<tr valign="top">
+			<th scope="row" class="titledesc">
+				<label for="<?php echo esc_attr( $options_available['exclude_blocks']['key'] ); ?>">
+					<?php echo esc_html( $options_available['exclude_blocks']['label'] ); ?>
+				</label>
+			</th>
+			<td class="forminp forminp-text">
+				<div id="container-<?php echo esc_attr( $options_available['exclude_blocks']['key'] ); ?>">
+					<?php
+					if ( ! empty( $this->options[ $options_available['exclude_blocks']['key'] ] ) ) :
+						foreach ( $this->options[ $options_available['exclude_blocks']['key'] ] as $option ) :
+					?>
+						<div class="item-exclude">
+							<input
+								type="text"
+								name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['exclude_blocks']['key'] ) ); ?>[]"
+								value="<?php echo esc_attr( $option ); ?>"
+							>
+							<button class="js-btn-remove js-btn-remove-exclude-blocks">
+								<span class="dashicons dashicons-minus"></span>
+							</button>
+						</div>
+					<?php
+						endforeach;
+					endif;
+					?>
+				</div>
+				<button id="js-add-exclude-block" class="btn btn-soft"><?php esc_html_e( 'Add an exclusion', 'weglot' ); ?></button>
+			</td>
+		</tr>
 	</tbody>
 </table>
 
 <?php settings_fields( WEGLOT_OPTION_GROUP ); ?>
 
 <template id="tpl-exclusion-url">
-	<div class="item-exclude-url">
+	<div class="item-exclude">
 		<input
 			type="text"
-			name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['exclude_url']['key'] ) ); ?>[]"
+			name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['exclude_urls']['key'] ) ); ?>[]"
 			value=""
 		>
-		<button class="js-btn-remove js-btn-remove-exclude-url">
+		<button class="js-btn-remove js-btn-remove-exclude">
+			<span class="dashicons dashicons-minus"></span>
+		</button>
+	</div>
+</template>
+
+<template id="tpl-exclusion-block">
+	<div class="item-exclude">
+		<input
+			type="text"
+			name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['exclude_blocks']['key'] ) ); ?>[]"
+			value=""
+		>
+		<button class="js-btn-remove js-btn-remove-exclude">
 			<span class="dashicons dashicons-minus"></span>
 		</button>
 	</div>

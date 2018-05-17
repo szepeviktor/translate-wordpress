@@ -22,6 +22,8 @@ class Option_Service_Weglot {
 		'destination_language' => [],
 		'exclude_amp'          => true,
 		'version'              => null,
+		'exclude_blocks'       => [],
+		'exclude_urls'         => [],
 	];
 
 	public function get_options_default() {

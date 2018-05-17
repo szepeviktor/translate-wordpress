@@ -11,7 +11,9 @@ const init_admin = function(){
 
 	const init_exclude_url = () => {
 		const template_add_exclude_url = document.querySelector("#tpl-exclusion-url");
-		const parent_append = document.querySelector("#container-exclude_url");
+		const template_add_exclude_block = document.querySelector("#tpl-exclusion-block");
+		const parent_exclude_url_append = document.querySelector("#container-exclude_urls");
+		const parent_exclude_block_append = document.querySelector("#container-exclude_blocks");
 
 		function removeLineUrl(e) {
 			e.preventDefault();
@@ -22,10 +24,22 @@ const init_admin = function(){
 			.querySelector("#js-add-exclude-url")
 			.addEventListener("click", (e) => {
 				e.preventDefault()
-				parent_append.insertAdjacentHTML("beforeend", template_add_exclude_url.innerHTML);
+				parent_exclude_url_append.insertAdjacentHTML("beforeend", template_add_exclude_url.innerHTML);
 				document
 					.querySelector(
-						".item-exclude-url:last-child .js-btn-remove-exclude-url"
+						"#container-exclude_url .item-exclude:last-child .js-btn-remove-exclude"
+					)
+					.addEventListener("click", removeLineUrl);
+			});
+
+		document
+			.querySelector("#js-add-exclude-block")
+			.addEventListener("click", (e) => {
+				e.preventDefault()
+				parent_exclude_block_append.insertAdjacentHTML("beforeend", template_add_exclude_block.innerHTML);
+				document
+					.querySelector(
+						"##container-exclude_block .item-exclude:last-child .js-btn-remove-exclude"
 					)
 					.addEventListener("click", removeLineUrl);
 			});

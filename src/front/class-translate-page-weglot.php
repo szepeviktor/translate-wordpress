@@ -100,9 +100,11 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 			return str_replace( '</body>', $button_html . '</body>', $content );
 		}
 
+		$exclude_blocks = $this->option_services->get_option( 'exclude_blocks' );
+
 		$config             = new ServerConfigProvider();
 		$client             = new Client( $this->api_key );
-		$parser             = new Parser( $client, $config );
+		$parser             = new Parser( $client, $config, $exclude_blocks );
 
 		$translated_content = $parser->translate( $content, $original_language, $this->current_language ); // phpcs:ignore
 
