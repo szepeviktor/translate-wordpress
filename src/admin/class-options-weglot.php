@@ -74,6 +74,10 @@ class Options_Weglot implements Hooks_Interface_Weglot, Mediator_Service_Interfa
 	 * @return array
 	 */
 	public function sanitize_options( $options ) {
+		$options['exclude_url'] = array_filter( $options['exclude_url'], function( $value ) {
+			return '' !== $value;
+		} );
+
 		return $options;
 	}
 }

@@ -43,9 +43,18 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 		if ( is_admin() ) {
 			return;
 		}
+		$this->api_key            = $this->option_services->get_option( 'api_key' );
 
-		$this->current_language = $this->request_url_services->get_current_language();
-		if ( null === $this->current_language || ! $this->request_url_services->is_translatable_url() ) {
+		if ( ! $this->api_key ) {
+			return;
+		}
+
+		$this->current_language   = $this->request_url_services->get_current_language();
+
+		if (
+			null === $this->current_language ||
+			! $this->request_url_services->is_translatable_url()
+		) {
 			return;
 		}
 
@@ -84,14 +93,19 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 	 * @return string
 	 */
 	public function weglot_treat_page( $content ) {
-		$config             = new ServerConfigProvider();
-		$api_key            = $this->option_services->get_option( 'api_key' );
 		$original_language  = $this->option_services->get_option( 'original_language' );
-		$client             = new Client( $api_key );
+		$button_html        = $this->button_services->get_html();
+
+		if ( $this->current_language === $original_language ) {
+			return str_replace( '</body>', $button_html . '</body>', $content );
+		}
+
+		$config             = new ServerConfigProvider();
+		$client             = new Client( $this->api_key );
 		$parser             = new Parser( $client, $config );
 
 		$translated_content = $parser->translate( $content, $original_language, $this->current_language ); // phpcs:ignore
-		$button_html        = $this->button_services->get_html();
+
 		return str_replace( '</body>', $button_html . '</body>', $translated_content );
 	}
 
@@ -101,7 +115,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 	 * @return void
 	 */
 	public function weglot_href_lang() {
-		echo esc_html( $this->request_url_services->get_weglot_url()->generateHrefLangsTags() );
+		echo $this->request_url_services->get_weglot_url()->generateHrefLangsTags(); //phpcs:ignore
 	}
 }
 

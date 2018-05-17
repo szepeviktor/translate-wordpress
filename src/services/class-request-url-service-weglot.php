@@ -34,11 +34,15 @@ class Request_Url_Service_Weglot implements Mediator_Service_Interface_Weglot {
 	 * @return string
 	 */
 	public function init_weglot_url() {
+		$exclude_urls = $this->option_services->get_option( 'exclude_url' );
+
 		$this->weglot_url = new Url(
 			$this->get_full_url(),
 			$this->option_services->get_option( 'original_language' ),
 			$this->option_services->get_option( 'destination_language' )
 		); // @TODO : View path prefix
+
+		// $this->weglot_url->setExcludedUrls( $exclude_urls );
 
 		return $this;
 	}
@@ -80,20 +84,12 @@ class Request_Url_Service_Weglot implements Mediator_Service_Interface_Weglot {
 	 * @since 2.0
 	 *
 	 * @return string
+	 * @param mixed $use_forwarded_host
 	 */
-	public function get_full_url() {
-		return $this->get_url_origin( $use_forwarded_host ) . $_SERVER['REQUEST_URI']; //phpcs:ignore
-	}
-
-	/**
-	 * @since 2.0
-	 *
-	 * @param boolean $use_forwarded_host
-	 * @return string
-	 */
-	protected function get_url_origin( $use_forwarded_host = false ) {
+	public function get_full_url( $use_forwarded_host = false ) {
 		return Server::fullUrl($_SERVER, $use_forwarded_host); //phpcs:ignore
 	}
+
 
 	/**
 	 * @todo : Change this when weglot-php included

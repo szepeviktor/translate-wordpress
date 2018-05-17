@@ -109,31 +109,48 @@ $languages = new Languages( $client );
 	<tbody>
 		<tr valign="top">
 			<th scope="row" class="titledesc">
-				<label for="<?php echo esc_attr( $options_available['api_key']['key'] ); ?>">
-					<?php echo esc_html( $options_available['api_key']['label'] ); ?>
+				<label for="<?php echo esc_attr( $options_available['exclude_url']['key'] ); ?>">
+					<?php echo esc_html( $options_available['exclude_url']['label'] ); ?>
 				</label>
 			</th>
 			<td class="forminp forminp-text">
-				<select
-					class="weglot-select-exclusion"
-					multiple="multiple"
-					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['exclude_url']['key'] ) ); ?>[]"
-					id="<?php echo esc_attr( $options_available['exclude_url']['key'] ); ?>"
-					multiple="true"
-				>
+				<div id="container-<?php echo esc_attr( $options_available['exclude_url']['key'] ); ?>">
 					<?php
 					if ( ! empty( $this->options[ $options_available['exclude_url']['key'] ] ) ) :
 						foreach ( $this->options[ $options_available['exclude_url']['key'] ] as $option ) :
 					?>
-						<option selected="selected"><?php echo esc_attr( $option ); ?></option>
+						<div class="item-exclude-url">
+							<input
+								type="text"
+								name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['exclude_url']['key'] ) ); ?>[]"
+								value="<?php echo esc_attr( $option ); ?>"
+							>
+							<button class="js-btn-remove js-btn-remove-exclude-url">
+								<span class="dashicons dashicons-minus"></span>
+							</button>
+						</div>
 					<?php
 						endforeach;
 					endif;
 					?>
-				</select>
+				</div>
+				<button id="js-add-exclude-url" class="btn btn-soft"><?php esc_html_e( 'Add an exclusion', 'weglot' ); ?></button>
 			</td>
 		</tr>
 	</tbody>
 </table>
 
 <?php settings_fields( WEGLOT_OPTION_GROUP ); ?>
+
+<template id="tpl-exclusion-url">
+	<div class="item-exclude-url">
+		<input
+			type="text"
+			name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['exclude_url']['key'] ) ); ?>[]"
+			value=""
+		>
+		<button class="js-btn-remove js-btn-remove-exclude-url">
+			<span class="dashicons dashicons-minus"></span>
+		</button>
+	</div>
+</template>
