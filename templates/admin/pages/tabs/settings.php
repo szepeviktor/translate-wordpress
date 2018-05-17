@@ -160,7 +160,7 @@ $languages = new Languages( $client );
 								name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['exclude_blocks']['key'] ) ); ?>[]"
 								value="<?php echo esc_attr( $option ); ?>"
 							>
-							<button class="js-btn-remove js-btn-remove-exclude-blocks">
+							<button class="js-btn-remove js-btn-remove-exclude">
 								<span class="dashicons dashicons-minus"></span>
 							</button>
 						</div>

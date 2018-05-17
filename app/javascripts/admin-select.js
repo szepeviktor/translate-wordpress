@@ -16,7 +16,7 @@ const init_admin = function(){
 		const parent_exclude_block_append = document.querySelector("#container-exclude_blocks");
 
 		function removeLineUrl(e) {
-			e.preventDefault();
+			e.preventDefault()
 			this.parentNode.remove()
 		}
 
@@ -45,7 +45,7 @@ const init_admin = function(){
 			});
 
 		const remove_urls = document
-			.querySelectorAll(".js-btn-remove-exclude-url")
+			.querySelectorAll(".js-btn-remove-exclude")
 
 		remove_urls.forEach((el) => {
 			el.addEventListener("click", removeLineUrl);
