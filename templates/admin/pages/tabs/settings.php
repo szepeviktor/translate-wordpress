@@ -23,6 +23,11 @@ $options_available = [
 		'label'       => __( 'Destination language', 'weglot' ),
 		'description' => '',
 	],
+	'exclude_url' => [
+		'key'         => 'exclude_url',
+		'label'       => __( 'Exclusion URL', 'weglot' ),
+		'description' => '',
+	],
 ];
 
 $client    = new Client( $this->option_services->get_option( 'api_key' ) );
@@ -93,6 +98,38 @@ $languages = new Languages( $client );
 							<?php echo esc_html( $language->getLocalName() ); ?>
 						</option>
 					<?php endforeach; ?>
+				</select>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3><?php esc_html_e( 'Exclusion translation', 'weglot' ); ?> </h3>
+<table class="form-table">
+	<tbody>
+		<tr valign="top">
+			<th scope="row" class="titledesc">
+				<label for="<?php echo esc_attr( $options_available['api_key']['key'] ); ?>">
+					<?php echo esc_html( $options_available['api_key']['label'] ); ?>
+				</label>
+			</th>
+			<td class="forminp forminp-text">
+				<select
+					class="weglot-select-exclusion"
+					multiple="multiple"
+					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['exclude_url']['key'] ) ); ?>[]"
+					id="<?php echo esc_attr( $options_available['exclude_url']['key'] ); ?>"
+					multiple="true"
+				>
+					<?php
+					if ( ! empty( $this->options[ $options_available['exclude_url']['key'] ] ) ) :
+						foreach ( $this->options[ $options_available['exclude_url']['key'] ] as $option ) :
+					?>
+						<option selected="selected"><?php echo esc_attr( $option ); ?></option>
+					<?php
+						endforeach;
+					endif;
+					?>
 				</select>
 			</td>
 		</tr>

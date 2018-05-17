@@ -66,54 +66,19 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = "./app/styles/admin.scss");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./app/javascripts/admin-select.js":
-/*!*****************************************!*\
-  !*** ./app/javascripts/admin-select.js ***!
-  \*****************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\nconst init_admin_select = function(){\n\tconst $ = jQuery\n\tdocument.addEventListener('DOMContentLoaded', () => {\n\t\t$(\".weglot-select\").select2();\n\t})\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (init_admin_select);\n\n\n\n//# sourceURL=webpack:///./app/javascripts/admin-select.js?");
-
-/***/ }),
-
-/***/ "./app/javascripts/index.js":
-/*!**********************************!*\
-  !*** ./app/javascripts/index.js ***!
-  \**********************************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _admin_select__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./admin-select */ \"./app/javascripts/admin-select.js\");\n\n\nObject(_admin_select__WEBPACK_IMPORTED_MODULE_0__[\"default\"])()\n\n\n//# sourceURL=webpack:///./app/javascripts/index.js?");
-
-/***/ }),
-
-/***/ "./app/styles/index.scss":
+/***/ "./app/styles/admin.scss":
 /*!*******************************!*\
-  !*** ./app/styles/index.scss ***!
+  !*** ./app/styles/admin.scss ***!
   \*******************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("// removed by extract-text-webpack-plugin\n\n//# sourceURL=webpack:///./app/styles/index.scss?");
-
-/***/ }),
-
-/***/ 0:
-/*!****************************************************************!*\
-  !*** multi ./app/javascripts/index.js ./app/styles/index.scss ***!
-  \****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-eval("__webpack_require__(/*! ./app/javascripts/index.js */\"./app/javascripts/index.js\");\nmodule.exports = __webpack_require__(/*! ./app/styles/index.scss */\"./app/styles/index.scss\");\n\n\n//# sourceURL=webpack:///multi_./app/javascripts/index.js_./app/styles/index.scss?");
+eval("// removed by extract-text-webpack-plugin\n\n//# sourceURL=webpack:///./app/styles/admin.scss?");
 
 /***/ })
 

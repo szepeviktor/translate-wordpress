@@ -11,10 +11,7 @@ if (env === 'development') {
 			loader: 'style-loader'
 		},
 		{
-			loader: 'css-loader',
-			options: {
-				modules: true
-			}
+			loader: 'css-loader'
 		},
 		{
 			loader: 'sass-loader'
@@ -23,10 +20,13 @@ if (env === 'development') {
 }
 
 const config = {
-	entry: ["./app/javascripts/index.js", "./app/styles/index.scss"],
+	entry: {
+		"admin-js" : "./app/javascripts/index.js",
+		"front-css" : "./app/styles/index.scss",
+		"admin-css" : "./app/styles/admin.scss"
+	},
 	output: {
 		path: path.resolve(__dirname, "dist"),
-		filename: "bundle.js"
 	},
 	mode: "development",
 	module: {
@@ -34,19 +34,8 @@ const config = {
 			{
 				test: /\.(js|jsx)$/,
 				exclude: /node_modules/,
-				include: path.join(__dirname, "node_modules", "select2"),
+				include: path.join(__dirname, "node_modules"),
 				use: "babel-loader"
-			},
-			{
-				test: /\.css$/,
-				use: [
-					{
-						loader: "style-loader"
-					},
-					{
-						loader: "css-loader"
-					}
-				]
 			},
 			{
 				test: /\.(gif|jpe?g|png)$/,
@@ -80,7 +69,7 @@ const config = {
 			NODE_ENV: env
 		}),
 		new ExtractTextPlugin({
-			filename: "css/index.css"
+			filename: "css/[name].css"
 		})
 	]
 };

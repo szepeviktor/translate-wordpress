@@ -21,6 +21,12 @@ class Shortcode_Weglot implements Mediator_Service_Interface_Weglot {
 		add_shortcode( 'weglot_switcher', [ $this, 'weglot_switcher_callback' ] );
 	}
 
+	/**
+	 * @see Mediator_Service_Interface_Weglot
+	 *
+	 * @param array $services
+	 * @return void
+	 */
 	public function use_services( $services ) {
 		$this->button_services = $services['Button_Service_Weglot'];
 	}
