@@ -18,6 +18,9 @@ use WeglotWP\Helpers\Helper_Tabs_Admin_Weglot;
 			default:
 				include_once WEGLOT_TEMPLATES_ADMIN_PAGES . '/tabs/settings.php';
 				break;
+			case Helper_Tabs_Admin_Weglot::APPEARANCE:
+				include_once WEGLOT_TEMPLATES_ADMIN_PAGES . '/tabs/appearance.php';
+				break;
 			case Helper_Tabs_Admin_Weglot::ADVANCED:
 				include_once WEGLOT_TEMPLATES_ADMIN_PAGES . '/tabs/advanced.php';
 				break;
@@ -25,6 +28,8 @@ use WeglotWP\Helpers\Helper_Tabs_Admin_Weglot;
 				include_once WEGLOT_TEMPLATES_ADMIN_PAGES . '/tabs/status.php';
 				break;
 		}
+
+		settings_fields( WEGLOT_OPTION_GROUP );
 
 		submit_button();
 		?>

@@ -40,8 +40,8 @@ $languages = new Languages( $client );
 
 ?>
 
-<h2><?php esc_html_e( 'Settings', 'weglot' ); ?></h2>
-
+<h3><?php esc_html_e( 'Settings', 'weglot' ); ?></h3>
+<hr>
 <table class="form-table">
 	<tbody>
 		<tr valign="top">
@@ -110,6 +110,7 @@ $languages = new Languages( $client );
 </table>
 
 <h3><?php esc_html_e( 'Exclusion translation', 'weglot' ); ?> </h3>
+<hr>
 <table class="form-table">
 	<tbody>
 		<tr valign="top">
@@ -174,8 +175,6 @@ $languages = new Languages( $client );
 		</tr>
 	</tbody>
 </table>
-
-<?php settings_fields( WEGLOT_OPTION_GROUP ); ?>
 
 <template id="tpl-exclusion-url">
 	<div class="item-exclude">

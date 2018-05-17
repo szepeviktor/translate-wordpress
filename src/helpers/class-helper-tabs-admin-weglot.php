@@ -29,6 +29,11 @@ abstract class Helper_Tabs_Admin_Weglot {
 	const STATUS = 'status';
 
 	/**
+	 * @var string
+	 */
+	const APPEARANCE = 'appearance';
+
+	/**
 	 * Get tabs constant
 	 *
 	 * @since 2.0
@@ -40,6 +45,7 @@ abstract class Helper_Tabs_Admin_Weglot {
 			self::SETTINGS,
 			self::ADVANCED,
 			self::STATUS,
+			self::APPEARANCE,
 		];
 	}
 
@@ -55,6 +61,10 @@ abstract class Helper_Tabs_Admin_Weglot {
 			self::SETTINGS => [
 				'title' => __( 'Settings', 'welot' ),
 				'url'   => get_admin_url( null, sprintf( 'admin.php?page=%s&tab=%s', Helper_Pages_Weglot::SETTINGS, self::SETTINGS ) ),
+			],
+			self::APPEARANCE   => [
+				'title' => __( 'Appearance', 'welot' ),
+				'url'   => get_admin_url( null, sprintf( 'admin.php?page=%s&tab=%s', Helper_Pages_Weglot::SETTINGS, self::APPEARANCE ) ),
 			],
 			self::ADVANCED => [
 				'title' => __( 'Advanced', 'welot' ),

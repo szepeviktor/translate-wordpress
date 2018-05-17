@@ -24,6 +24,7 @@ class Option_Service_Weglot {
 		'version'              => null,
 		'exclude_blocks'       => [],
 		'exclude_urls'         => [],
+		'auto_redirect'        => 0,
 	];
 
 	public function get_options_default() {

@@ -74,13 +74,23 @@ class Options_Weglot implements Hooks_Interface_Weglot, Mediator_Service_Interfa
 	 * @return array
 	 */
 	public function sanitize_options( $options ) {
-		$options['exclude_urls'] = array_filter( $options['exclude_urls'], function( $value ) {
-			return '' !== $value;
-		} );
-		$options['exclude_blocks'] = array_filter( $options['exclude_blocks'], function( $value ) {
-			return '' !== $value;
-		} );
+		$options_bdd = $this->option_services->get_options();
+		$new_options = wp_parse_args( $options, $options_bdd );
 
-		return $options;
+		if ( isset( $options['exclude_urls'] ) ) {
+			$new_options['exclude_urls'] = array_filter( $options['exclude_urls'], function( $value ) {
+				return '' !== $value;
+			} );
+		}
+
+		if ( isset( $options['exclude_blocks'] ) ) {
+			$new_options['exclude_blocks'] = array_filter( $options['exclude_blocks'], function( $value ) {
+				return '' !== $value;
+			} );
+		}
+
+		$new_options['auto_redirect'] = isset( $options['auto_redirect'] ) ? 1 : 0;
+
+		return $new_options;
 	}
 }
