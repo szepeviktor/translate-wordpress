@@ -76,6 +76,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 		$this->noredirect         = false;
 		$this->original_language  = $this->option_services->get_option( 'original_language' );
 
+		$this->redirect_services->verify_no_redirect();
 		$this->check_need_to_redirect();
 		$this->prepare_request_uri();
 		$this->prepare_rtl_language();
@@ -91,7 +92,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 	public function check_need_to_redirect() {
 		if (
 			$this->request_url_services->get_weglot_url()->getBaseUrl() === '/' && // front_page
-			! $this->noredirect && // No force redirect
+			! $this->redirect_services->get_no_redirect() && // No force redirect
 			! Server::detectBot( $_SERVER ) !== BotType::OTHER && //phpcs:ignore
 			$this->option_services->get_option( 'auto_redirect' ) // have option redirect
 		) {
