@@ -18,6 +18,7 @@ use WeglotWP\Front\Shortcode_Weglot;
 use WeglotWP\Services\Button_Service_Weglot;
 use WeglotWP\Services\Request_Url_Service_Weglot;
 use WeglotWP\Services\Option_Service_Weglot;
+use WeglotWP\Services\Redirect_Service_Weglot;
 
 use WeglotWP\Models\Mediator_Service_Interface_Weglot;
 
@@ -69,6 +70,7 @@ abstract class Context_Weglot {
 			new Option_Service_Weglot(),
 			new Button_Service_Weglot(),
 			new Request_Url_Service_Weglot(),
+			new Redirect_Service_Weglot(),
 		];
 
 		self::$context->set_services( $services );

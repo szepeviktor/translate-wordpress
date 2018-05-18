@@ -3,6 +3,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+use WeglotWP\Helpers\Helper_Tabs_Admin_Weglot;
 
 use Weglot\Client\Endpoint\Languages;
 use Weglot\Client\Client;
@@ -26,12 +27,12 @@ $options_available = [
 	'exclude_urls' => [
 		'key'         => 'exclude_urls',
 		'label'       => __( 'Exclusion URL', 'weglot' ),
-		'description' => '',
+		'description' => __( 'You can write regex.', 'weglot' ),
 	],
 	'exclude_blocks' => [
 		'key'         => 'exclude_blocks',
 		'label'       => __( 'Exclusion Blocks', 'weglot' ),
-		'description' => '',
+		'description' => __( 'Enter CSS selectors, separated by commas.', 'weglot' ),
 	],
 ];
 
@@ -118,6 +119,7 @@ $languages = new Languages( $client );
 				<label for="<?php echo esc_attr( $options_available['exclude_urls']['key'] ); ?>">
 					<?php echo esc_html( $options_available['exclude_urls']['label'] ); ?>
 				</label>
+				<p><?php echo esc_html( $options_available['exclude_urls']['description'] ); ?></p>
 			</th>
 			<td class="forminp forminp-text">
 				<div id="container-<?php echo esc_attr( $options_available['exclude_urls']['key'] ); ?>">
@@ -148,6 +150,7 @@ $languages = new Languages( $client );
 				<label for="<?php echo esc_attr( $options_available['exclude_blocks']['key'] ); ?>">
 					<?php echo esc_html( $options_available['exclude_blocks']['label'] ); ?>
 				</label>
+				<p><?php echo esc_html( $options_available['exclude_blocks']['description'] ); ?></p>
 			</th>
 			<td class="forminp forminp-text">
 				<div id="container-<?php echo esc_attr( $options_available['exclude_blocks']['key'] ); ?>">
@@ -201,3 +204,5 @@ $languages = new Languages( $client );
 		</button>
 	</div>
 </template>
+
+<input type="hidden" name="tab" value="<?php echo esc_attr( Helper_Tabs_Admin_Weglot::SETTINGS ); ?>">

@@ -6,6 +6,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use WeglotWP\Helpers\Helper_Tabs_Admin_Weglot;
+
 use WeglotWP\Models\Hooks_Interface_Weglot;
 use WeglotWP\Models\Mediator_Service_Interface_Weglot;
 
@@ -74,23 +76,58 @@ class Options_Weglot implements Hooks_Interface_Weglot, Mediator_Service_Interfa
 	 * @return array
 	 */
 	public function sanitize_options( $options ) {
+		$tab         = ( isset( $_POST['tab'] ) ) ? $_POST['tab'] : Helper_Tabs_Admin_Weglot::SETTINGS; //phpcs:ignore
 		$options_bdd = $this->option_services->get_options();
+
 		$new_options = wp_parse_args( $options, $options_bdd );
 
+		switch ( $tab ) {
+			case Helper_Tabs_Admin_Weglot::SETTINGS:
+			default:
+				$new_options = $this->sanitize_options_settings( $new_options, $options );
+				break;
+			case Helper_Tabs_Admin_Weglot::ADVANCED:
+				$new_options = $this->sanitize_options_advanced( $new_options, $options );
+				break;
+		}
+
+		return $new_options;
+	}
+
+	/**
+	 * @since 2.0
+	 * @param array $new_options
+	 * @param array $options
+	 * @return array
+	 */
+	public function sanitize_options_settings( $new_options, $options ) {
 		if ( isset( $options['exclude_urls'] ) ) {
 			$new_options['exclude_urls'] = array_filter( $options['exclude_urls'], function( $value ) {
 				return '' !== $value;
 			} );
+		} else {
+			$new_options['exclude_urls'] = [];
 		}
 
 		if ( isset( $options['exclude_blocks'] ) ) {
 			$new_options['exclude_blocks'] = array_filter( $options['exclude_blocks'], function( $value ) {
 				return '' !== $value;
 			} );
+		} else {
+			$new_options['exclude_blocks'] = [];
 		}
 
-		$new_options['auto_redirect'] = isset( $options['auto_redirect'] ) ? 1 : 0;
+		return $new_options;
+	}
 
+	/**
+	 * @since 2.0
+	 * @param array $new_options
+	 * @param array $options
+	 * @return array
+	 */
+	public function sanitize_options_advanced( $new_options, $options ) {
+		$new_options['auto_redirect'] = isset( $options['auto_redirect'] ) ? 1 : 0;
 		return $new_options;
 	}
 }

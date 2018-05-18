@@ -9,9 +9,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 use WeglotWP\Models\Hooks_Interface_Weglot;
 use WeglotWP\Models\Mediator_Service_Interface_Weglot;
 
+
+use Weglot\Client\Api\Enum\BotType;
 use Weglot\Client\Client;
 use Weglot\Parser\Parser;
 use Weglot\Util\Url;
+use Weglot\Util\Server;
 use Weglot\Parser\ConfigProvider\ServerConfigProvider;
 
 /**
@@ -30,6 +33,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 		$this->option_services      = $services['Option_Service_Weglot'];
 		$this->button_services      = $services['Button_Service_Weglot'];
 		$this->request_url_services = $services['Request_Url_Service_Weglot'];
+		$this->redirect_services    = $services['Redirect_Service_Weglot'];
 		return $this;
 	}
 
@@ -69,21 +73,57 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 	 * @return void
 	 */
 	public function weglot_init() {
+		$this->noredirect         = false;
+		$this->original_language  = $this->option_services->get_option( 'original_language' );
 
+		$this->check_need_to_redirect();
+		$this->prepare_request_uri();
+		$this->prepare_rtl_language();
+
+		ob_start( [ $this, 'weglot_treat_page' ] );
+	}
+
+	/**
+	 * @since 2.0
+	 *
+	 * @return void
+	 */
+	public function check_need_to_redirect() {
+		if (
+			$this->request_url_services->get_weglot_url()->getBaseUrl() === '/' && // front_page
+			! $this->noredirect && // No force redirect
+			! Server::detectBot( $_SERVER ) !== BotType::OTHER && //phpcs:ignore
+			$this->option_services->get_option( 'auto_redirect' ) // have option redirect
+		) {
+			$this->redirect_services->auto_redirect();
+		}
+	}
+
+	/**
+	 * @since 2.0
+	 *
+	 * @return void
+	 */
+	public function prepare_request_uri() {
 		// Use for good process on URL
 		$_SERVER['REQUEST_URI'] = str_replace(
 			'/' . $this->current_language . '/',
 			'/',
 			$_SERVER['REQUEST_URI'] //phpcs:ignore
 		);
+	}
 
+	/**
+	 * @since 2.0
+	 *
+	 * @return void
+	 */
+	public function prepare_rtl_language() {
 		if ( $this->request_url_services->is_language_rtl( $this->current_language ) ) {
 			$GLOBALS['text_direction'] = 'rtl';
 		} else {
 			$GLOBALS['text_direction'] = 'ltr';
 		}
-
-		ob_start( [ $this, 'weglot_treat_page' ] );
 	}
 
 	/**
@@ -93,10 +133,9 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 	 * @return string
 	 */
 	public function weglot_treat_page( $content ) {
-		$original_language  = $this->option_services->get_option( 'original_language' );
 		$button_html        = $this->button_services->get_html();
 
-		if ( $this->current_language === $original_language ) {
+		if ( $this->current_language === $this->original_language ) {
 			return str_replace( '</body>', $button_html . '</body>', $content );
 		}
 
@@ -106,7 +145,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 		$client             = new Client( $this->api_key );
 		$parser             = new Parser( $client, $config, $exclude_blocks );
 
-		$translated_content = $parser->translate( $content, $original_language, $this->current_language ); // phpcs:ignore
+		$translated_content = $parser->translate( $content, $this->original_language, $this->current_language ); // phpcs:ignore
 
 		return str_replace( '</body>', $button_html . '</body>', $translated_content );
 	}

@@ -27,7 +27,7 @@ const init_admin = function(){
 				parent_exclude_url_append.insertAdjacentHTML("beforeend", template_add_exclude_url.innerHTML);
 				document
 					.querySelector(
-						"#container-exclude_url .item-exclude:last-child .js-btn-remove-exclude"
+						"#container-exclude_urls .item-exclude:last-child .js-btn-remove-exclude"
 					)
 					.addEventListener("click", removeLineUrl);
 			});
@@ -39,7 +39,7 @@ const init_admin = function(){
 				parent_exclude_block_append.insertAdjacentHTML("beforeend", template_add_exclude_block.innerHTML);
 				document
 					.querySelector(
-						"##container-exclude_block .item-exclude:last-child .js-btn-remove-exclude"
+						"#container-exclude_blocks .item-exclude:last-child .js-btn-remove-exclude"
 					)
 					.addEventListener("click", removeLineUrl);
 			});
