@@ -80,8 +80,8 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 		$this->check_need_to_redirect();
 		$this->prepare_request_uri();
 		$this->prepare_rtl_language();
-
-		ob_start( [ $this, 'weglot_treat_page' ] );
+		$this->weglot_treat_page();
+		// ob_start( [ $this, 'weglot_treat_page' ] );
 	}
 
 	/**
@@ -91,6 +91,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 	 */
 	public function check_need_to_redirect() {
 		if (
+			! wp_doing_ajax() && // no ajax
 			$this->request_url_services->get_weglot_url()->getBaseUrl() === '/' && // front_page
 			! $this->redirect_services->get_no_redirect() && // No force redirect
 			! Server::detectBot( $_SERVER ) !== BotType::OTHER && //phpcs:ignore

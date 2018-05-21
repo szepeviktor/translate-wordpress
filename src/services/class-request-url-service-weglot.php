@@ -24,8 +24,29 @@ class Request_Url_Service_Weglot implements Mediator_Service_Interface_Weglot {
 	 */
 	protected $weglot_url = null;
 
+	/**
+	 * @since 2.0
+	 * @see Mediator_Service_Interface_Weglot
+	 * @param array $services
+	 * @return void
+	 */
 	public function use_services( $services ) {
 		$this->option_services = $services['Option_Service_Weglot'];
+	}
+
+	/**
+	 * Use for abstract \Weglot\Util\Url
+	 *
+	 * @param string $url
+	 * @return Weglot\Util\Url
+	 */
+	public function create_url_object( $url ) {
+		return new Url(
+			$url,
+			$this->option_services->get_option( 'original_language' ),
+			$this->option_services->get_option( 'destination_language' ),
+			$this->get_home_wordpress_directory()
+		);
 	}
 
 	/**
@@ -39,10 +60,11 @@ class Request_Url_Service_Weglot implements Mediator_Service_Interface_Weglot {
 		$this->weglot_url = new Url(
 			$this->get_full_url(),
 			$this->option_services->get_option( 'original_language' ),
-			$this->option_services->get_option( 'destination_language' )
-		); // @TODO : View path prefix
+			$this->option_services->get_option( 'destination_language' ),
+			$this->get_home_wordpress_directory()
+		);
 
-		// $this->weglot_url->setExcludedUrls( $exclude_urls );
+		// @todo : Add : $this->weglot_url->setExcludedUrls( $exclude_urls ); phpcs:ignore
 
 		return $this;
 	}
@@ -104,6 +126,28 @@ class Request_Url_Service_Weglot implements Mediator_Service_Interface_Weglot {
 		}
 
 		return false;
+	}
+
+	/**
+	 * @since 2.0
+	 *
+	 * @return string|null
+	 */
+	public function get_home_wordpress_directory() {
+		$opt_siteurl   = trim( get_option( 'siteurl' ), '/' );
+		$opt_home      = trim( get_option( 'home' ), '/' );
+		if ( empty( $opt_siteurl ) || empty( $opt_home ) ) {
+			return null;
+		}
+
+		if (
+			( substr( $opt_home, 0, 7 ) === 'http://' && strpos( substr( $opt_home, 7 ), '/' ) !== false) || ( substr( $opt_home, 0, 8 ) === 'https://' && strpos( substr( $opt_home, 8 ), '/' ) !== false ) ) {
+			$parsed_url = parse_url( $opt_home ); // phpcs:ignore
+			$path       = isset( $parsed_url['path'] ) ? $parsed_url['path'] : '/';
+			return $path;
+		}
+
+		return null;
 	}
 }
 

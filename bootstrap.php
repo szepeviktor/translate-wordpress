@@ -19,8 +19,11 @@ use WeglotWP\Services\Button_Service_Weglot;
 use WeglotWP\Services\Request_Url_Service_Weglot;
 use WeglotWP\Services\Option_Service_Weglot;
 use WeglotWP\Services\Redirect_Service_Weglot;
+use WeglotWP\Services\Network_Service_Weglot;
 
 use WeglotWP\Models\Mediator_Service_Interface_Weglot;
+
+use WeglotWP\Third\Woocommerce\WC_Filter_Urls_Weglot;
 
 spl_autoload_register( 'weglot_autoload' );
 
@@ -71,6 +74,7 @@ abstract class Context_Weglot {
 			new Button_Service_Weglot(),
 			new Request_Url_Service_Weglot(),
 			new Redirect_Service_Weglot(),
+			new Network_Service_Weglot(),
 		];
 
 		self::$context->set_services( $services );
@@ -83,6 +87,7 @@ abstract class Context_Weglot {
 			new Options_Weglot(),
 			new Admin_Enqueue_Weglot(),
 			new Translate_Page_Weglot(),
+			new WC_Filter_Urls_Weglot(),
 		];
 
 		foreach ( $actions as $action ) {
