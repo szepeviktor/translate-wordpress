@@ -14,6 +14,7 @@ use WeglotWP\Admin\Admin_Enqueue_Weglot;
 use WeglotWP\Front\Translate_Page_Weglot;
 use WeglotWP\Front\Front_Enqueue_Weglot;
 use WeglotWP\Front\Shortcode_Weglot;
+use WeglotWP\Front\Redirect_Log_User_Weglot;
 
 use WeglotWP\Services\Button_Service_Weglot;
 use WeglotWP\Services\Request_Url_Service_Weglot;
@@ -88,6 +89,7 @@ abstract class Context_Weglot {
 			new Admin_Enqueue_Weglot(),
 			new Translate_Page_Weglot(),
 			new WC_Filter_Urls_Weglot(),
+			new Redirect_Log_User_Weglot(),
 		];
 
 		foreach ( $actions as $action ) {
