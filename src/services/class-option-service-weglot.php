@@ -27,6 +27,12 @@ class Option_Service_Weglot {
 		'auto_redirect'        => 0,
 	];
 
+	/**
+	 * Get options default
+	 *
+	 * @since 2.0
+	 * @return array
+	 */
 	public function get_options_default() {
 		return $this->options_default;
 	}

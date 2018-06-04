@@ -8,6 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use WeglotWP\Models\Hooks_Interface_Weglot;
 use WeglotWP\Models\Mediator_Service_Interface_Weglot;
+use WeglotWP\Helpers\Helper_Filter_Url_Weglot;
 
 /**
  * WC_Filter_Urls_Weglot
@@ -41,42 +42,14 @@ class WC_Filter_Urls_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 			return;
 		}
 
-		add_filter( 'woocommerce_get_cart_url', [ $this, 'woocommerce_filter_url_without_ajax' ] );
-		add_filter( 'woocommerce_get_checkout_url', [ $this, 'woocommerce_filter_url_without_ajax' ] );
+		add_filter( 'woocommerce_get_cart_url', [ '\WeglotWP\Helpers\Helper_Filter_Url_Weglot', 'filter_url_without_ajax' ] );
+		add_filter( 'woocommerce_get_checkout_url', [ '\WeglotWP\Helpers\Helper_Filter_Url_Weglot', 'filter_url_without_ajax' ] );
 		add_filter( 'woocommerce_payment_successful_result', [ $this, 'woocommerce_filter_url_array' ] );
-		add_filter( 'woocommerce_get_checkout_order_received_url', [ $this, 'woocommerce_filter_with_ajax' ] );
-		// add_action( 'woocommerce_reset_password_notification', [ $this, 'redirectUrlLostPassword']);
+		add_filter( 'woocommerce_get_checkout_order_received_url',  [ '\WeglotWP\Helpers\Helper_Filter_Url_Weglot', 'filter_url_with_ajax' ] );
+		add_action( 'woocommerce_reset_password_notification', [ $this, 'woocommerce_filter_reset_password' ] );
 
-		// add_filter( 'woocommerce_login_redirect', [ $this, 'wg_log_redirect' ] );
-		// add_filter( 'woocommerce_registration_redirect', [ $this, 'wg_log_redirect' ] );
-	}
-
-	protected function get_current_and_original_language() {
-		$current_language    = $this->request_url_services->get_current_language();
-		$original_language   = $this->option_services->get_option( 'original_language' );
-
-		return [
-			'current'  => $current_language,
-			'original' => $original_language,
-		];
-	}
-
-	/**
-	 * Filter url woocommerce without Ajax
-	 *
-	 * @since 2.0
-	 * @param string $woo_url
-	 * @return string
-	 */
-	public function woocommerce_filter_url_without_ajax( $woo_url ) {
-		$current_and_original_language = $this->get_current_and_original_language();
-
-		if ( $current_and_original_language['current'] === $current_and_original_language['original'] ) {
-			return $woo_url;
-		}
-
-		$url = $this->request_url_services->create_url_object( $woo_url );
-		return $url->getForLanguage( $current_and_original_language['current'] );
+		add_filter( 'woocommerce_login_redirect', [ '\WeglotWP\Helpers\Helper_Filter_Url_Weglot', 'filter_url_log_redirect' ] );
+		add_filter( 'woocommerce_registration_redirect', [ '\WeglotWP\Helpers\Helper_Filter_Url_Weglot', 'filter_url_log_redirect' ] );
 	}
 
 	/**
@@ -87,12 +60,13 @@ class WC_Filter_Urls_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 	 * @return string
 	 */
 	public function woocommerce_filter_url_array( $result ) {
-		$current_and_original_language = $this->get_current_and_original_language();
+		$current_and_original_language = Helper_Filter_Url_Weglot::get_current_and_original_language();
 		$choose_current_language       = $current_and_original_language['current'];
 		if ( $current_and_original_language['current'] !== $current_and_original_language['original'] ) { // Not ajax
 			$url = $this->request_url_services->create_url_object( $result['redirect'] );
 		} else {
-			if ( isset( $_SERVER['HTTP_REFERER'] ) ) { //phpcs:ignore Ajax
+			if ( isset( $_SERVER['HTTP_REFERER'] ) ) { //phpcs:ignore
+				// Ajax
 				$url                     = $this->request_url_services->create_url_object( $_SERVER['HTTP_REFERER'] ); //phpcs:ignore
 				$choose_current_language = $url->detectCurrentLanguage();
 				$url                     = $this->request_url_services->create_url_object( $result['redirect'] );
@@ -102,25 +76,22 @@ class WC_Filter_Urls_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 		return $result;
 	}
 
+
 	/**
-	 * Filter url woocommerce with optional Ajax
-	 *
-	 * @param string $woo_url
-	 * @return string
+	 * Redirect URL Lost password for WooCommerce
+	 * @param mixed $url
 	 */
-	public function woocommerce_filter_with_ajax( $woo_url ) {
-		$current_and_original_language = $this->get_current_and_original_language();
-		$choose_current_language       = $current_and_original_language['current'];
-		if ( $current_and_original_language['current'] !== $current_and_original_language['original'] ) { // Not ajax
-			$url = $this->request_url_services->create_url_object( $woo_url );
-		} else {
-			if ( isset( $_SERVER['HTTP_REFERER'] ) ) { //phpcs:ignore Ajax
-				$url                     = $this->request_url_services->create_url_object( $_SERVER['HTTP_REFERER'] ); //phpcs:ignore
-				$choose_current_language = $url->detectCurrentLanguage();
-				$url                     = $this->request_url_services->create_url_object( $woo_url );
-			}
+	public function woocommerce_filter_reset_password( $url ) {
+		$current_and_original_language = Helper_Filter_Url_Weglot::get_current_and_original_language();
+
+		if ( $current_and_original_language['current'] === $current_and_original_language['original'] ) {
+			return $url;
 		}
 
-		return $url->getForLanguage( $choose_current_language );
+		$url_redirect = add_query_arg( 'reset-link-sent', 'true', wc_get_account_endpoint_url( 'lost-password' ) );
+		$url_redirect = $this->request_url_services->create_url_object( $url_redirect );
+
+		wp_redirect( $url_redirect->getForLanguage( $current_and_original_language['current'] ) ); //phpcs:ignore
+		exit;
 	}
 }

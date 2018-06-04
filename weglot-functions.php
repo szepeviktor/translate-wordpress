@@ -41,3 +41,21 @@ function weglot_get_original_language() {
 function weglot_get_current_language() {
 	return Context_Weglot::weglot_get_context()->get_service( 'Request_Url_Service_Weglot' )->get_current_language();
 }
+
+/**
+ * Get destination language
+ * @since 2.0
+ * @return string
+ */
+function weglot_get_destination_language() {
+	return weglot_get_option( 'destination_language' );
+}
+
+/**
+ * Get Request Url Service
+ * @since 2.0
+ * @return Request_Url_Service_Weglot
+ */
+function weglot_get_request_url_service() {
+	return Context_Weglot::weglot_get_context()->get_service( 'Request_Url_Service_Weglot' );
+}
