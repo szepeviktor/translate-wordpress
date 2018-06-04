@@ -80,8 +80,8 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 		$this->check_need_to_redirect();
 		$this->prepare_request_uri();
 		$this->prepare_rtl_language();
-		$this->weglot_treat_page();
-		// ob_start( [ $this, 'weglot_treat_page' ] );
+
+		ob_start( [ $this, 'weglot_treat_page' ] );
 	}
 
 	/**
