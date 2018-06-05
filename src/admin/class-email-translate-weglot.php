@@ -29,7 +29,7 @@ class Email_Translate_Weglot implements Hooks_Interface_Weglot, Mediator_Service
 	 * @return Options_Weglot
 	 */
 	public function use_services( $services ) {
-		$this->request_url_service  = $services['Request_Url_Service'];
+		$this->request_url_service  = $services['Request_Url_Service_Weglot'];
 		$this->option_services      = $services['Option_Service_Weglot'];
 		return $this;
 	}
@@ -101,6 +101,7 @@ class Email_Translate_Weglot implements Hooks_Interface_Weglot, Mediator_Service
 		}
 
 		$current_and_original_language   = weglot_get_current_and_original_language();
+		$exclude_blocks                  = $this->option_services->get_option( 'exclude_blocks' );
 
 		$config             = new ServerConfigProvider();
 		$client             = new Client( $api_key );
