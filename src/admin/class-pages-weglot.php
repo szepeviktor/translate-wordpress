@@ -53,6 +53,13 @@ class Pages_Weglot implements Hooks_Interface_Weglot, Mediator_Service_Interface
 		// , WEGLOT_DIRURL . '/images/weglot_fav_bw.png'
 	}
 
+	/**
+	 * Page settings
+	 *
+	 * @since 2.0
+	 *
+	 * @return void
+	 */
 	public function weglot_plugin_settings_page() {
 		$this->tabs       = Helper_Tabs_Admin_Weglot::get_full_tabs();
 		$this->tab_active = Helper_Tabs_Admin_Weglot::SETTINGS;

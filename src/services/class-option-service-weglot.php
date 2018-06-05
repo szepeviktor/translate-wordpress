@@ -25,6 +25,7 @@ class Option_Service_Weglot {
 		'exclude_blocks'       => [],
 		'exclude_urls'         => [],
 		'auto_redirect'        => 0,
+		'email_translate'      => 0,
 	];
 
 	/**

@@ -127,7 +127,8 @@ class Options_Weglot implements Hooks_Interface_Weglot, Mediator_Service_Interfa
 	 * @return array
 	 */
 	public function sanitize_options_advanced( $new_options, $options ) {
-		$new_options['auto_redirect'] = isset( $options['auto_redirect'] ) ? 1 : 0;
+		$new_options['auto_redirect']   = isset( $options['auto_redirect'] ) ? 1 : 0;
+		$new_options['email_translate'] = isset( $options['email_translate'] ) ? 1 : 0;
 		return $new_options;
 	}
 }

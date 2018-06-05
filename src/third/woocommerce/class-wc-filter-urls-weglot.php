@@ -60,7 +60,7 @@ class WC_Filter_Urls_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 	 * @return string
 	 */
 	public function woocommerce_filter_url_array( $result ) {
-		$current_and_original_language = Helper_Filter_Url_Weglot::get_current_and_original_language();
+		$current_and_original_language = weglot_get_current_and_original_language();
 		$choose_current_language       = $current_and_original_language['current'];
 		if ( $current_and_original_language['current'] !== $current_and_original_language['original'] ) { // Not ajax
 			$url = $this->request_url_services->create_url_object( $result['redirect'] );
@@ -82,7 +82,7 @@ class WC_Filter_Urls_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 	 * @param mixed $url
 	 */
 	public function woocommerce_filter_reset_password( $url ) {
-		$current_and_original_language = Helper_Filter_Url_Weglot::get_current_and_original_language();
+		$current_and_original_language = weglot_get_current_and_original_language();
 
 		if ( $current_and_original_language['current'] === $current_and_original_language['original'] ) {
 			return $url;

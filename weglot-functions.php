@@ -59,3 +59,15 @@ function weglot_get_destination_language() {
 function weglot_get_request_url_service() {
 	return Context_Weglot::weglot_get_context()->get_service( 'Request_Url_Service_Weglot' );
 }
+
+/**
+ * Get an array with current and original language
+ * @since 2.0
+ * @return array
+ */
+function weglot_get_current_and_original_language() {
+	return [
+		'current'  => weglot_get_current_language(),
+		'original' => weglot_get_original_language(),
+	];
+}

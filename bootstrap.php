@@ -10,6 +10,7 @@ use WeglotWP\Admin\Pages_Weglot;
 use WeglotWP\Admin\Plugin_Links_Weglot;
 use WeglotWP\Admin\Options_Weglot;
 use WeglotWP\Admin\Admin_Enqueue_Weglot;
+use WeglotWP\Admin\Email_Translate_Weglot;
 
 use WeglotWP\Front\Translate_Page_Weglot;
 use WeglotWP\Front\Front_Enqueue_Weglot;
@@ -90,6 +91,7 @@ abstract class Context_Weglot {
 			new Translate_Page_Weglot(),
 			new WC_Filter_Urls_Weglot(),
 			new Redirect_Log_User_Weglot(),
+			new Email_Translate_Weglot(),
 		];
 
 		foreach ( $actions as $action ) {

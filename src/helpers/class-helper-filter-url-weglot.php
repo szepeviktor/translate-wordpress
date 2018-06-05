@@ -14,28 +14,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 abstract class Helper_Filter_Url_Weglot {
 
 	/**
-	 * Get an array with current and original language
-	 * @since 2.0
-	 * @return array
-	 */
-	public static function get_current_and_original_language() {
-		$current_language    = weglot_get_current_language();
-		$original_language   = weglot_get_original_language();
-
-		return [
-			'current'  => $current_language,
-			'original' => $original_language,
-		];
-	}
-
-	/**
 	 * Filter URL log redirection
 	 *
 	 * @param string $url_filter
 	 * @return string
 	 */
 	public static function filter_url_log_redirect( $url_filter ) {
-		$current_and_original_language   = self::get_current_and_original_language();
+		$current_and_original_language   = weglot_get_current_and_original_language();
 		$request_url_service             = weglot_get_request_url_service();
 		$choose_current_language         = $current_and_original_language['current'];
 		$url                             = $request_url_service->create_url_object( $url_filter );
@@ -62,7 +47,7 @@ abstract class Helper_Filter_Url_Weglot {
 	 * @return string
 	 */
 	public static function filter_url_without_ajax( $url_filter ) {
-		$current_and_original_language = self::get_current_and_original_language();
+		$current_and_original_language = weglot_get_current_and_original_language();
 		$request_url_service           = weglot_get_request_url_service();
 		if ( $current_and_original_language['current'] === $current_and_original_language['original'] ) {
 			return $url_filter;
@@ -81,7 +66,7 @@ abstract class Helper_Filter_Url_Weglot {
 	 * @return string
 	 */
 	public static function filter_url_with_ajax( $url_filter ) {
-		$current_and_original_language = self::get_current_and_original_language();
+		$current_and_original_language = weglot_get_current_and_original_language();
 		$choose_current_language       = $current_and_original_language['current'];
 		$request_url_service           = weglot_get_request_url_service();
 		if ( $current_and_original_language['current'] !== $current_and_original_language['original'] ) { // Not ajax
