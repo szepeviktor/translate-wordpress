@@ -26,6 +26,10 @@ class Option_Service_Weglot {
 		'exclude_urls'         => [],
 		'auto_redirect'        => 0,
 		'email_translate'      => 0,
+		'is_fullname'          => true,
+		'with_name'            => false,
+		'is_dropdown'          => true,
+		'with_flags'           => true,
 	];
 
 	/**

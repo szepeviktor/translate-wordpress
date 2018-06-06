@@ -61,7 +61,7 @@ if ( version_compare( phpversion(), '5.4', '<' ) ) {
 			<tr>
 				<td><?php esc_html_e( 'WordPress Debug mode', 'weglot' ); ?></td>
 				<td>
-					<?php if ( defined( WP_DEBUG ) && WP_DEBUG ): ?>
+					<?php if ( defined( WP_DEBUG ) && WP_DEBUG ): //phpcs:ignore ?>
 						<mark class="yes"><span class="dashicons dashicons-yes"></span></mark>
 					<?php endif; ?>
 				</td>

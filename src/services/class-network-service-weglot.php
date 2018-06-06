@@ -28,7 +28,7 @@ class Network_Service_Weglot implements Mediator_Service_Interface_Weglot {
 	 * @return void
 	 */
 	public function use_services( $services ) {
-		$this->request_url_services = $services['Request_Url_Service'];
+		$this->request_url_services = $services['Request_Url_Service_Weglot'];
 	}
 
 	/**

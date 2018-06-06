@@ -86,6 +86,9 @@ class Options_Weglot implements Hooks_Interface_Weglot, Mediator_Service_Interfa
 			default:
 				$new_options = $this->sanitize_options_settings( $new_options, $options );
 				break;
+			case Helper_Tabs_Admin_Weglot::APPEARANCE:
+				$new_options = $this->sanitize_options_appearance( $new_options, $options );
+				break;
 			case Helper_Tabs_Admin_Weglot::ADVANCED:
 				$new_options = $this->sanitize_options_advanced( $new_options, $options );
 				break;
@@ -129,6 +132,20 @@ class Options_Weglot implements Hooks_Interface_Weglot, Mediator_Service_Interfa
 	public function sanitize_options_advanced( $new_options, $options ) {
 		$new_options['auto_redirect']   = isset( $options['auto_redirect'] ) ? 1 : 0;
 		$new_options['email_translate'] = isset( $options['email_translate'] ) ? 1 : 0;
+		return $new_options;
+	}
+
+	/**
+	 * @since 2.0
+	 * @param array $new_options
+	 * @param array $options
+	 * @return array
+	 */
+	public function sanitize_options_appearance( $new_options, $options ) {
+		$new_options['is_fullname']       = isset( $options['is_fullname'] ) ? 1 : 0;
+		$new_options['with_name']         = isset( $options['with_name'] ) ? 1 : 0;
+		$new_options['is_dropdown']       = isset( $options['is_dropdown'] ) ? 1 : 0;
+		$new_options['with_flags']        = isset( $options['with_flags'] ) ? 1 : 0;
 		return $new_options;
 	}
 }

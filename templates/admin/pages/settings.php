@@ -29,10 +29,11 @@ use WeglotWP\Helpers\Helper_Tabs_Admin_Weglot;
 				break;
 		}
 
-		if ( ! in_array( $this->tab_active, [ Helper_Tabs_Admin_Weglot::STATUS ] ) ) {
+		if ( ! in_array( $this->tab_active, [ Helper_Tabs_Admin_Weglot::STATUS ], true ) ) {
 			settings_fields( WEGLOT_OPTION_GROUP );
 			submit_button();
 		}
 		?>
+		<input type="hidden" name="tab" value="<?php echo esc_attr( $this->tab_active ); ?>">
 	</form>
 </div>

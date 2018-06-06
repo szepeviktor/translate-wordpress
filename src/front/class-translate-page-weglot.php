@@ -158,7 +158,8 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 	 * @return void
 	 */
 	public function weglot_href_lang() {
-		echo $this->request_url_services->get_weglot_url()->generateHrefLangsTags(); //phpcs:ignore
+		$href_lang_tags = $this->request_url_services->get_weglot_url()->generateHrefLangsTags(); //phpcs:ignore
+		echo apply_filters( 'weglot_href_lang', $href_lang_tags ); //phpcs:ignore
 	}
 }
 

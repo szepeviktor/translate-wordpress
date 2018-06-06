@@ -204,5 +204,3 @@ $languages = new Languages( $client );
 		</button>
 	</div>
 </template>
-
-<input type="hidden" name="tab" value="<?php echo esc_attr( Helper_Tabs_Admin_Weglot::SETTINGS ); ?>">

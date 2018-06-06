@@ -4,7 +4,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-use Weglot\Client\Endpoint\Languages;
 use Weglot\Client\Client;
 
 use WeglotWP\Helpers\Helper_Tabs_Admin_Weglot;
@@ -61,5 +60,3 @@ $options_available = [
 		</tr>
 	</tbody>
 </table>
-
-<input type="hidden" name="tab" value="<?php echo esc_attr( Helper_Tabs_Admin_Weglot::ADVANCED ); ?>">
