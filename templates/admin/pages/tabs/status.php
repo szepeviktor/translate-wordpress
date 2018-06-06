@@ -16,7 +16,7 @@ use Weglot\WeglotContext;
 $apache_mod_rewrite = ' <mark class="yes"><span class="dashicons dashicons-yes"></span></mark>';
 if ( ! function_exists( 'apache_get_modules' ) ) {
 	$apache_mod_rewrite = 'Unknown';
-} elseif ( ! in_array( 'mod_rewrite', apache_get_modules() ) ) {
+} elseif ( ! in_array( 'mod_rewrite', apache_get_modules(), true ) ) {
 	$apache_mod_rewrite = '<mark class="error"><span class="dashicons dashicons-warning"></span></mark>';
 }
 
