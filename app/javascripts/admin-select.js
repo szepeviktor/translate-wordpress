@@ -20,19 +20,24 @@ const init_admin = function(){
 			this.parentNode.remove()
 		}
 
-		document
-			.querySelector("#js-add-exclude-url")
-			.addEventListener("click", (e) => {
-				e.preventDefault()
-				parent_exclude_url_append.insertAdjacentHTML("beforeend", template_add_exclude_url.innerHTML);
-				document
-					.querySelector(
-						"#container-exclude_urls .item-exclude:last-child .js-btn-remove-exclude"
-					)
-					.addEventListener("click", removeLineUrl);
-			});
+		if (document.querySelector("#js-add-exclude-url")){
 
-		document
+			document
+				.querySelector("#js-add-exclude-url")
+				.addEventListener("click", (e) => {
+					e.preventDefault()
+					parent_exclude_url_append.insertAdjacentHTML("beforeend", template_add_exclude_url.innerHTML);
+					document
+						.querySelector(
+							"#container-exclude_urls .item-exclude:last-child .js-btn-remove-exclude"
+						)
+						.addEventListener("click", removeLineUrl);
+				});
+
+		}
+
+		if (document.querySelector("#js-add-exclude-block")) {
+			document
 			.querySelector("#js-add-exclude-block")
 			.addEventListener("click", (e) => {
 				e.preventDefault()
@@ -43,6 +48,7 @@ const init_admin = function(){
 					)
 					.addEventListener("click", removeLineUrl);
 			});
+		}
 
 		const remove_urls = document
 			.querySelectorAll(".js-btn-remove-exclude")

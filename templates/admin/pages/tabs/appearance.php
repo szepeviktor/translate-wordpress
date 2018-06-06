@@ -9,25 +9,30 @@ use Weglot\Client\Endpoint\Languages;
 use Weglot\Client\Client;
 
 $options_available = [
+	'type_flags' => [
+		'key'         => 'type_flags',
+		'label'       => __( 'Type of flags', 'weglot' ),
+		'description' => '',s
+	],
 	'is_fullname' => [
 		'key'         => 'is_fullname',
 		'label'       => __( 'Is fullname', 'weglot' ),
-		'description' => '',
+		'description' => __( "Check if you want the name of the languge. Don't check if you want the language code.", 'weglot' ),
 	],
 	'with_name' => [
 		'key'         => 'with_name',
 		'label'       => __( 'With name', 'weglot' ),
-		'description' => '',
+		'description' => __( 'Check if you want to display the name of languages.', 'weglot' ),
 	],
 	'is_dropdown' => [
 		'key'         => 'is_dropdown',
 		'label'       => __( 'Is dropdown', 'weglot' ),
-		'description' => '',
+		'description' => __( 'Check if you want the button to be a dropdown box.', 'weglot' ),
 	],
 	'with_flags' => [
 		'key'         => 'with_flags',
 		'label'       => __( 'With flags', 'weglot' ),
-		'description' => '',
+		'description' => __( 'Check if you want flags in the language button.', 'weglot' ),
 	],
 ];
 
@@ -38,6 +43,34 @@ $options_available = [
 <hr>
 <table class="form-table">
 	<tbody>
+
+		<tr valign="top">
+			<th scope="row" class="titledesc">
+				<label for="<?php echo esc_attr( $options_available['type_flags']['key'] ); ?>">
+					<?php echo esc_html( $options_available['type_flags']['label'] ); ?>
+				</label>
+			</th>
+			<td class="forminp forminp-text">
+				<select
+					class="wg-input-select"
+					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['type_flags']['key'] ) ); ?>"
+					id="<?php echo esc_attr( $options_available['type_flags']['key'] ); ?>"
+				>
+					<option <?php selected( $this->options[ $options_available['type_flags']['key'] ], '0' ); ?> value="0">
+						<?php esc_html_e( 'Rectangle mat', 'weglot' ); ?>
+					</option>
+					<option <?php selected( $this->options[ $options_available['type_flags']['key'] ], '1' ); ?> value="1">
+						<?php esc_html_e( 'Rectangle shiny', 'weglot' ); ?>
+					</option>
+					<option <?php selected( $this->options[ $options_available['type_flags']['key'] ], '2' ); ?> value="2">
+						<?php esc_html_e( 'Square', 'weglot' ); ?>
+					</option>
+					<option <?php selected( $this->options[ $options_available['type_flags']['key'] ], '3' ); ?> value="3">
+						<?php esc_html_e( 'Circle', 'weglot' ); ?>
+					</option>
+				</select>
+			</td>
+		</tr>
 		<tr valign="top">
 			<th scope="row" class="titledesc">
 				<label for="<?php echo esc_attr( $options_available['is_fullname']['key'] ); ?>">
@@ -51,6 +84,7 @@ $options_available = [
 					type="checkbox"
 					<?php checked( $this->options[ $options_available['is_fullname']['key'] ], 1 ); ?>
 				>
+				<p class="description"><?php echo esc_html( $options_available['is_fullname']['description'] ); ?></p>
 			</td>
 		</tr>
 		<tr valign="top">
@@ -66,6 +100,7 @@ $options_available = [
 					type="checkbox"
 					<?php checked( $this->options[ $options_available['with_name']['key'] ], 1 ); ?>
 				>
+				<p class="description"><?php echo esc_html( $options_available['with_name']['description'] ); ?></p>
 			</td>
 		</tr>
 		<tr valign="top">
@@ -81,6 +116,7 @@ $options_available = [
 					type="checkbox"
 					<?php checked( $this->options[ $options_available['is_dropdown']['key'] ], 1 ); ?>
 				>
+				<p class="description"><?php echo esc_html( $options_available['is_dropdown']['description'] ); ?></p>
 			</td>
 		</tr>
 		<tr valign="top">
@@ -96,6 +132,7 @@ $options_available = [
 					type="checkbox"
 					<?php checked( $this->options[ $options_available['with_flags']['key'] ], 1 ); ?>
 				>
+				<p class="description"><?php echo esc_html( $options_available['with_flags']['description'] ); ?></p>
 			</td>
 		</tr>
 	</tbody>

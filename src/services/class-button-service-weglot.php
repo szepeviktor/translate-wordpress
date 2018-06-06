@@ -30,33 +30,44 @@ class Button_Service_Weglot implements Mediator_Service_Interface_Weglot {
 		$this->request_url_services = $services['Request_Url_Service_Weglot'];
 	}
 
+	/**
+	 * Get html button switcher
+	 *
+	 * @since 2.0
+	 * @return string
+	 */
 	public function get_html() {
 		$options                          = $this->option_services->get_options();
 		$is_fullname                      = $options['is_fullname'];
 		$with_name                        = $options['with_name'];
 		$is_dropdown                      = $options['is_dropdown'];
-		$flag_class                       = $options['with_flags'];
-		$destination_language             = $options['destination_language'];
-		$original_language                = $options['original_language'];
-		$current_language                 = $this->request_url_services->get_current_language();
+		$with_flags                       = $options['with_flags'];
 		$type_flags                       = $options['type_flags'];
 		$weglot_url                       = $this->request_url_services->get_weglot_url();
 
-		$flag_class                       = 'wg-flags ';
+		$destination_language             = $options['destination_language'];
+		$original_language                = $options['original_language'];
+		$current_language                 = $this->request_url_services->get_current_language();
+
+		$flag_class                       = $with_flags ? 'wg-flags ' : '';
+		$flag_class .= '0' === $type_flags ? '' : 'flag-' . $type_flags . ' ';
+		// var_dump($flag_class);
+		// die;
 		$tag                              = $is_dropdown ? 'div' : 'li';
 		$list_tag                         = $is_dropdown ? '<ul>' : '';
+		$class_aside                      = $is_dropdown ? 'wg-drop ' : 'wg-list ';
 
 		$client    = new Client( $this->option_services->get_option( 'api_key' ) );
 		$languages = new Languages( $client );
 		$languages = $languages->handle();
 
 		$button_html = sprintf( '<!--Weglot %s-->', WEGLOT_VERSION );
-		$button_html .= "<aside data-wg-notranslate='' id='weglot-selector' class='wg-default wg-drop country-selector closed'>";
+		$button_html .= sprintf( "<aside data-wg-notranslate='' id='weglot-selector' class='wg-default country-selector closed %s'>", $class_aside );
 
 		$button_html .= sprintf(
-			'<%s data-wg-notranslate="" class="wgcurrent wg-li wg-flags %s"><a href="#" onclick="return false;">%s</a></%s>',
+			'<%s data-wg-notranslate="" class="wgcurrent wg-li %s"><a href="#" onclick="return false;">%s</a></%s>',
 			$tag,
-			$current_language,
+			$flag_class . $current_language,
 			$languages[ $current_language ]->getEnglishName(),
 			$tag
 		);
