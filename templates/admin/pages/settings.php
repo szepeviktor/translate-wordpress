@@ -29,9 +29,10 @@ use WeglotWP\Helpers\Helper_Tabs_Admin_Weglot;
 				break;
 		}
 
-		settings_fields( WEGLOT_OPTION_GROUP );
-
-		submit_button();
+		if ( ! in_array( $this->tab_active, [ Helper_Tabs_Admin_Weglot::STATUS ] ) ) {
+			settings_fields( WEGLOT_OPTION_GROUP );
+			submit_button();
+		}
 		?>
 	</form>
 </div>
