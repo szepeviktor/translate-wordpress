@@ -71,3 +71,12 @@ function weglot_get_current_and_original_language() {
 		'original' => weglot_get_original_language(),
 	];
 }
+
+/**
+ * Get languages available on Weglot
+ * @since 2.0
+ * @return array
+ */
+function weglot_get_languages_available() {
+	return Context_Weglot::weglot_get_context()->get_service( 'Language_Service_Weglot' )->get_languages_available();
+}
