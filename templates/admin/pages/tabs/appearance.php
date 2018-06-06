@@ -5,14 +5,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 use WeglotWP\Helpers\Helper_Tabs_Admin_Weglot;
 
-use Weglot\Client\Endpoint\Languages;
-use Weglot\Client\Client;
-
 $options_available = [
 	'type_flags' => [
 		'key'         => 'type_flags',
 		'label'       => __( 'Type of flags', 'weglot' ),
-		'description' => '',s
+		'description' => '',
 	],
 	'is_fullname' => [
 		'key'         => 'is_fullname',

@@ -5,9 +5,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 use WeglotWP\Helpers\Helper_Tabs_Admin_Weglot;
 
-use Weglot\Client\Endpoint\Languages;
-use Weglot\Client\Client;
-
 $options_available = [
 	'api_key' => [
 		'key'         => 'api_key',
@@ -36,8 +33,8 @@ $options_available = [
 	],
 ];
 
-$client    = new Client( $this->option_services->get_option( 'api_key' ) );
-$languages = new Languages( $client );
+
+$languages = $this->language_services->get_languages_available();
 
 ?>
 
@@ -72,7 +69,7 @@ $languages = new Languages( $client );
 					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['original_language']['key'] ) ); ?>"
 					id="<?php echo esc_attr( $options_available['original_language']['key'] ); ?>"
 				>
-					<?php foreach ( $languages->handle() as $language ) : ?>
+					<?php foreach ( $languages as $language ) : ?>
 						<option
 							value="<?php echo esc_attr( $language->getIso639() ); ?>"
 							<?php selected( $language->getIso639(), $this->options[ $options_available['original_language']['key'] ] ); ?>
@@ -96,7 +93,7 @@ $languages = new Languages( $client );
 					id="<?php echo esc_attr( $options_available['destination_language']['key'] ); ?>"
 					multiple="true"
 				>
-					<?php foreach ( $languages->handle() as $language ) : ?>
+					<?php foreach ( $languages as $language ) : ?>
 						<option
 							value="<?php echo esc_attr( $language->getIso639() ); ?>"
 							<?php selected( true, in_array( $language->getIso639(), $this->options[ $options_available['destination_language']['key'] ], true ) ); ?>

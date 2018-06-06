@@ -6,8 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-use Weglot\Client\Endpoint\Languages;
-use Weglot\Client\Client;
 
 use WeglotWP\Models\Mediator_Service_Interface_Weglot;
 
@@ -28,6 +26,7 @@ class Button_Service_Weglot implements Mediator_Service_Interface_Weglot {
 	public function use_services( $services ) {
 		$this->option_services      = $services['Option_Service_Weglot'];
 		$this->request_url_services = $services['Request_Url_Service_Weglot'];
+		$this->language_services    = $services['Language_Service_Weglot'];
 	}
 
 	/**
@@ -51,15 +50,12 @@ class Button_Service_Weglot implements Mediator_Service_Interface_Weglot {
 
 		$flag_class                       = $with_flags ? 'wg-flags ' : '';
 		$flag_class .= '0' === $type_flags ? '' : 'flag-' . $type_flags . ' ';
-		// var_dump($flag_class);
-		// die;
+
 		$tag                              = $is_dropdown ? 'div' : 'li';
 		$list_tag                         = $is_dropdown ? '<ul>' : '';
 		$class_aside                      = $is_dropdown ? 'wg-drop ' : 'wg-list ';
 
-		$client    = new Client( $this->option_services->get_option( 'api_key' ) );
-		$languages = new Languages( $client );
-		$languages = $languages->handle();
+		$languages = $this->language_services->get_languages_available();
 
 		$button_html = sprintf( '<!--Weglot %s-->', WEGLOT_VERSION );
 		$button_html .= sprintf( "<aside data-wg-notranslate='' id='weglot-selector' class='wg-default country-selector closed %s'>", $class_aside );

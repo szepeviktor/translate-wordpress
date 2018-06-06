@@ -26,7 +26,8 @@ class Pages_Weglot implements Hooks_Interface_Weglot, Mediator_Service_Interface
 	 * @return Options_Weglot
 	 */
 	public function use_services( $services ) {
-		$this->option_services = $services['Option_Service_Weglot'];
+		$this->option_services   = $services['Option_Service_Weglot'];
+		$this->language_services = $services['Language_Service_Weglot'];
 		return $this;
 	}
 
@@ -49,8 +50,7 @@ class Pages_Weglot implements Hooks_Interface_Weglot, Mediator_Service_Interface
 	 * @return void
 	 */
 	public function weglot_plugin_menu() {
-		add_menu_page( 'Weglot', 'Weglot', 'manage_options', Helper_Pages_Weglot::SETTINGS, [ $this, 'weglot_plugin_settings_page' ] );
-		// , WEGLOT_DIRURL . '/images/weglot_fav_bw.png'
+		add_menu_page( 'Weglot', 'Weglot', 'manage_options', Helper_Pages_Weglot::SETTINGS, [ $this, 'weglot_plugin_settings_page' ], WEGLOT_URL_DIST . '/images/weglot_fav_bw.png' );
 	}
 
 	/**
