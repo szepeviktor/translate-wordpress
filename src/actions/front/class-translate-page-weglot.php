@@ -135,10 +135,8 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 	 * @return string
 	 */
 	public function weglot_treat_page( $content ) {
-		$button_html        = $this->button_services->get_html();
-
 		if ( $this->current_language === $this->original_language ) {
-			return str_replace( '</body>', $button_html . '</body>', $content );
+			return $this->weglot_render_dom( $content );
 		}
 
 		$exclude_blocks = $this->option_services->get_option( 'exclude_blocks' );
@@ -149,7 +147,38 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 
 		$translated_content = $parser->translate( $content, $this->original_language, $this->current_language ); // phpcs:ignore
 
-		return str_replace( '</body>', $button_html . '</body>', $translated_content );
+		return $this->weglot_render_dom( $translated_content );
+	}
+
+	/**
+	 * @since 2.0
+	 * @param string $dom
+	 * @return string
+	 */
+	public function weglot_add_button_html( $dom ) {
+		$button_html        = $this->button_services->get_html();
+
+		// Place the button if we see short code
+		if ( strpos( $dom, '<div id="weglot_here"></div>' ) !== false ) {
+			$dom  = str_replace( '<div id="weglot_here"></div>', $button_html, $dom );
+		}
+
+		// Place the button if not in the page
+		if ( strpos( $dom, 'class="weglot-current' ) === false ) {
+			$button_html = str_replace( '<aside data-wg-notranslate class="', '<aside data-wg-notranslate class="wg-default ', $button_html );
+			$dom         = ( strpos( $dom, '</body>' ) !== false) ? str_replace( '</body>', $button_html . ' </body>', $dom ) : str_replace( '</footer>', $button_html . ' </footer>', $dom );
+		}
+
+		return $dom;
+	}
+
+	/**
+	 * @since 2.0
+	 * @param string $dom
+	 * @return string
+	 */
+	public function weglot_render_dom( $dom ) {
+		return $this->weglot_add_button_html( $dom );
 	}
 
 	/**

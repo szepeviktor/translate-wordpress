@@ -6,16 +6,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use WeglotWP\Bootstrap_Weglot;
 
-use WeglotWP\Admin\Pages_Weglot;
-use WeglotWP\Admin\Plugin_Links_Weglot;
-use WeglotWP\Admin\Options_Weglot;
-use WeglotWP\Admin\Admin_Enqueue_Weglot;
-use WeglotWP\Admin\Email_Translate_Weglot;
+use WeglotWP\Actions\Email_Translate_Weglot;
+use WeglotWP\Actions\Register_Widget_Weglot;
 
-use WeglotWP\Front\Translate_Page_Weglot;
-use WeglotWP\Front\Front_Enqueue_Weglot;
-use WeglotWP\Front\Shortcode_Weglot;
-use WeglotWP\Front\Redirect_Log_User_Weglot;
+use WeglotWP\Actions\Admin\Pages_Weglot;
+use WeglotWP\Actions\Admin\Plugin_Links_Weglot;
+use WeglotWP\Actions\Admin\Options_Weglot;
+use WeglotWP\Actions\Admin\Admin_Enqueue_Weglot;
+
+use WeglotWP\Actions\Front\Translate_Page_Weglot;
+use WeglotWP\Actions\Front\Front_Enqueue_Weglot;
+use WeglotWP\Actions\Front\Shortcode_Weglot;
+use WeglotWP\Actions\Front\Redirect_Log_User_Weglot;
 
 use WeglotWP\Services\Button_Service_Weglot;
 use WeglotWP\Services\Request_Url_Service_Weglot;
@@ -63,8 +65,21 @@ function weglot_autoload( $class_name ) {
  * @since 2.0
  */
 abstract class Context_Weglot {
+
+	/**
+	 * @static
+	 * @since 2.0
+	 * @var Bootstrap_Weglot|null
+	 */
 	protected static $context;
 
+	/**
+	 * Create context if not exist
+	 *
+	 * @static
+	 * @since 2.0
+	 * @return void
+	 */
 	public static function weglot_get_context() {
 		if ( null !== self::$context ) {
 			return self::$context;
@@ -94,6 +109,7 @@ abstract class Context_Weglot {
 			new WC_Filter_Urls_Weglot(),
 			new Redirect_Log_User_Weglot(),
 			new Email_Translate_Weglot(),
+			new Register_Widget_Weglot(),
 		];
 
 		foreach ( $actions as $action ) {
