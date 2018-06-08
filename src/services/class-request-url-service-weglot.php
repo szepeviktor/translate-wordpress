@@ -55,7 +55,7 @@ class Request_Url_Service_Weglot implements Mediator_Service_Interface_Weglot {
 	 * @return string
 	 */
 	public function init_weglot_url() {
-		$exclude_urls = $this->option_services->get_option( 'exclude_urls' );
+		$exclude_urls_option = $this->option_services->get_option( 'exclude_urls' );
 
 		$this->weglot_url = new Url(
 			$this->get_full_url(),
@@ -64,7 +64,7 @@ class Request_Url_Service_Weglot implements Mediator_Service_Interface_Weglot {
 			$this->get_home_wordpress_directory()
 		);
 
-		// @todo : Add : $this->weglot_url->setExcludedUrls( $exclude_urls ); phpcs:ignore
+		// @todo : Add : $this->weglot_url->setExcludedUrls( $exclude_urls_option ); phpcs:ignore
 
 		return $this;
 	}
@@ -148,6 +148,88 @@ class Request_Url_Service_Weglot implements Mediator_Service_Interface_Weglot {
 		}
 
 		return null;
+	}
+
+
+	/**
+	 * Is eligible URL
+	 *
+	 * @param string $url
+	 * @return boolean
+	 */
+	public function is_eligible_url( $url ) {
+		$url = urldecode( $this->url_to_relative( $url ) );
+
+		//Format exclude URL
+		$exclude_urls_option = weglot_get_exclude_urls();
+
+		if ( ! empty( $exclude_urls_option ) ) {
+			$exclude_urls_option    = preg_replace( '#\s+#', ',', trim( $exclude_urls_option ) );
+
+			$excluded_urls  = explode( ',', $exclude_urls_option );
+			foreach ( $excluded_urls as $ex_url ) {
+				$ex_url = $this->url_to_relative( $ex_url );
+			}
+			$exclude_urls_option = implode( ',', $excluded_urls );
+		}
+
+		$exclusions = preg_replace( '#\s+#', ',', $exclude_urls_option );
+
+		$list_regex = [];
+		if ( ! empty( $exclusions ) ) {
+			$list_regex  = explode( ',', $exclusions );
+		}
+
+		$exclude_amp = weglot_get_exclude_amp_translation();
+		if ( $exclude_amp ) {
+			$list_regex[] = apply_filters( 'weglot_regex_amp', '([&\?/])amp(/)?$' );
+		}
+
+		foreach ( $list_regex as $regex ) {
+			$str           = $this->escape_slash( $regex );
+			$prepare_regex = sprintf( '/%s/', $str );
+			if ( preg_match( $prepare_regex, $url ) === 1 ) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * @since 2.0
+	 *
+	 * @param string $str
+	 * @return string
+	 */
+	public function escape_slash( $str ) {
+		return str_replace( '/', '\/', $str );
+	}
+
+
+	/**
+	 * @since 2.0
+	 *
+	 * @param string $url
+	 * @return string
+	 */
+	public function url_to_relative( $url ) {
+		if ( ( substr( $url, 0, 7 ) === 'http://' ) || ( substr( $url, 0, 8 ) === 'https://' ) ) {
+			// the current link is an "absolute" URL - parse it to get just the path
+			$parsed   = wp_parse_url( $url );
+			$path     = isset( $parsed['path'] ) ? $parsed['path'] : '';
+			$query    = isset( $parsed['query'] ) ? '?' . $parsed['query'] : '';
+			$fragment = isset( $parsed['fragment'] ) ? '#' . $parsed['fragment'] : '';
+
+			if ( $this->get_home_wordpress_directory() ) {
+				$relative = str_replace( $this->get_home_wordpress_directory(), '', $path );
+
+				return ( empty( $relative ) ) ? '/' : $relative;
+			} else {
+				return $path . $query . $fragment;
+			}
+		}
+		return $url;
 	}
 }
 

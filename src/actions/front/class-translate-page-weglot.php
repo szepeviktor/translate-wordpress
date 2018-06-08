@@ -30,10 +30,11 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 	 * @return Options_Weglot
 	 */
 	public function use_services( $services ) {
-		$this->option_services      = $services['Option_Service_Weglot'];
-		$this->button_services      = $services['Button_Service_Weglot'];
-		$this->request_url_services = $services['Request_Url_Service_Weglot'];
-		$this->redirect_services    = $services['Redirect_Service_Weglot'];
+		$this->option_services         = $services['Option_Service_Weglot'];
+		$this->button_services         = $services['Button_Service_Weglot'];
+		$this->request_url_services    = $services['Request_Url_Service_Weglot'];
+		$this->redirect_services       = $services['Redirect_Service_Weglot'];
+		$this->replace_url_services    = $services['Replace_Url_Service_Weglot'];
 		return $this;
 	}
 
@@ -177,8 +178,20 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 	 * @param string $dom
 	 * @return string
 	 */
+	public function weglot_replace_link( $dom ) {
+		$dom = $this->replace_url_services->modify_link( '/<a([^\>]+?)?href=(\"|\')([^\s\>]+?)(\"|\')([^\>]+?)?>/', $dom, 'a' );
+		return $dom;
+	}
+
+	/**
+	 * @since 2.0
+	 * @param string $dom
+	 * @return string
+	 */
 	public function weglot_render_dom( $dom ) {
-		return $this->weglot_add_button_html( $dom );
+		$dom = $this->weglot_add_button_html( $dom );
+		$dom = $this->weglot_replace_link( $dom );
+		return $dom;
 	}
 
 	/**

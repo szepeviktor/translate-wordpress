@@ -98,3 +98,21 @@ function weglot_get_button_selector_html( $add_class ) {
 function weglot_get_button_allowed_tags() {
 	return Context_Weglot::weglot_get_context()->get_service( 'Button_Service_Weglot' )->get_allowed_tags();
 }
+
+/**
+ * Get exclude urls
+ * @since 2.0
+ * @return array
+ */
+function weglot_get_exclude_urls() {
+	return weglot_get_option( 'exclude_urls' );
+}
+
+/**
+ * Get exclude AMP to translate
+ * @since 2.0
+ * @return bool
+ */
+function weglot_get_exclude_amp_translation() {
+	return weglot_get_option( 'exclude_amp' );
+}

@@ -25,6 +25,9 @@ use WeglotWP\Services\Option_Service_Weglot;
 use WeglotWP\Services\Redirect_Service_Weglot;
 use WeglotWP\Services\Network_Service_Weglot;
 use WeglotWP\Services\Language_Service_Weglot;
+use WeglotWP\Services\Replace_Url_Service_Weglot;
+use WeglotWP\Services\Multisite_Service_Weglot;
+use WeglotWP\Services\Replace_Link_Service_Weglot;
 
 use WeglotWP\Models\Mediator_Service_Interface_Weglot;
 
@@ -94,6 +97,9 @@ abstract class Context_Weglot {
 			new Redirect_Service_Weglot(),
 			new Network_Service_Weglot(),
 			new Language_Service_Weglot(),
+			new Replace_Url_Service_Weglot(),
+			new Multisite_Service_Weglot(),
+			new Replace_Link_Service_Weglot(),
 		];
 
 		self::$context->set_services( $services );
