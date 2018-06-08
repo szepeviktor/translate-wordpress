@@ -115,7 +115,7 @@ class Replace_Link_Service_Weglot implements Mediator_Service_Interface_Weglot {
 	 * @param string $sometags2
 	 * @return string
 	 */
-	public function replace_dataurl( $translated_page, $current_url, $quote1, $quote2, $sometags = null, $sometags2 = null) {
+	public function replace_dataurl( $translated_page, $current_url, $quote1, $quote2, $sometags = null, $sometags2 = null ) {
 		$current_language   = weglot_get_current_language();
 		$translated_page    = preg_replace( '/<' . preg_quote( $sometags, '/' ) . 'data-url=' . preg_quote( $quote1 . $current_url . $quote2, '/' ) . '/', '<' . $sometags . 'data-url=' . $quote1 . $this->replace_url( $current_url, $current_language ) . $quote2, $translated_page );
 

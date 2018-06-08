@@ -106,6 +106,8 @@ class Button_Service_Weglot implements Mediator_Service_Interface_Weglot {
 
 		$button_html .= $list_tag;
 
+		array_unshift( $destination_language, $original_language );
+
 		foreach ( $destination_language as $key => $key_code ) {
 			if ( $key_code === $current_language ) {
 				continue;
