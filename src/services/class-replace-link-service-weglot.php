@@ -67,7 +67,7 @@ class Replace_Link_Service_Weglot implements Mediator_Service_Interface_Weglot {
 	}
 
 	/**
-	 * Replace <a>
+	 * Replace href in <a>
 	 * @since 2.0
 	 * @param string $translated_page
 	 * @param string $current_url
@@ -80,6 +80,158 @@ class Replace_Link_Service_Weglot implements Mediator_Service_Interface_Weglot {
 	public function replace_a( $translated_page, $current_url, $quote1, $quote2, $sometags = null, $sometags2 = null ) {
 		$current_language  = weglot_get_current_language();
 		$translated_page   = preg_replace( '/<a' . preg_quote( $sometags, '/' ) . 'href=' . preg_quote( $quote1 . $current_url . $quote2, '/' ) . '/', '<a' . $sometags . 'href=' . $quote1 . $this->replace_url( $current_url, $current_language ) . $quote2, $translated_page );
+
+		return $translated_page;
+	}
+
+	/**
+	 * Replace data-link attribute
+	 *
+	 * @since 2.0
+	 * @param string $translated_page
+	 * @param string $current_url
+	 * @param string $quote1
+	 * @param string $quote2
+	 * @param string $sometags
+	 * @param string $sometags2
+	 * @return string
+	 */
+	public function replace_datalink( $translated_page, $current_url, $quote1, $quote2, $sometags = null, $sometags2 = null ) {
+		$current_language   = weglot_get_current_language();
+		$translated_page    = preg_replace( '/<' . preg_quote( $sometags, '/' ) . 'data-link=' . preg_quote( $quote1 . $current_url . $quote2, '/' ) . '/', '<' . $sometags . 'data-link=' . $quote1 . $this->replace_url( $current_url, $current_language ) . $quote2, $translated_page );
+
+		return $translated_page;
+	}
+
+	/**
+	 * Replace data-url attribute
+	 *
+	 * @since 2.0
+	 * @param string $translated_page
+	 * @param string $current_url
+	 * @param string $quote1
+	 * @param string $quote2
+	 * @param string $sometags
+	 * @param string $sometags2
+	 * @return string
+	 */
+	public function replace_dataurl( $translated_page, $current_url, $quote1, $quote2, $sometags = null, $sometags2 = null) {
+		$current_language   = weglot_get_current_language();
+		$translated_page    = preg_replace( '/<' . preg_quote( $sometags, '/' ) . 'data-url=' . preg_quote( $quote1 . $current_url . $quote2, '/' ) . '/', '<' . $sometags . 'data-url=' . $quote1 . $this->replace_url( $current_url, $current_language ) . $quote2, $translated_page );
+
+		return $translated_page;
+	}
+
+	/**
+	 * Replace data-cart-url attribute
+	 *
+	 * @since 2.0
+	 * @param string $translated_page
+	 * @param string $current_url
+	 * @param string $quote1
+	 * @param string $quote2
+	 * @param string $sometags
+	 * @param string $sometags2
+	 * @return string
+	 */
+	public function replace_datacart( $translated_page, $current_url, $quote1, $quote2, $sometags = null, $sometags2 = null ) {
+		$current_language   = weglot_get_current_language();
+		$translated_page    = preg_replace( '/<' . preg_quote( $sometags, '/' ) . 'data-cart-url=' . preg_quote( $quote1 . $current_url . $quote2, '/' ) . '/', '<' . $sometags . 'data-cart-url=' . $quote1 . $this->replace_url( $current_url, $current_language ) . $quote2, $translated_page );
+
+		return $translated_page;
+	}
+
+	/**
+	 * Replace form action attribute
+	 *
+	 * @since 2.0
+	 * @param string $translated_page
+	 * @param string $current_url
+	 * @param string $quote1
+	 * @param string $quote2
+	 * @param string $sometags
+	 * @param string $sometags2
+	 * @return string
+	 */
+	public function replace_form( $translated_page, $current_url, $quote1, $quote2, $sometags = null, $sometags2 = null ) {
+		$current_language   = weglot_get_current_language();
+		$translated_page    = preg_replace( '/<form' . preg_quote( $sometags, '/' ) . 'action=' . preg_quote( $quote1 . $current_url . $quote2, '/' ) . '/', '<form ' . $sometags . 'action=' . $quote1 . $this->replace_url( $current_url, $current_language ) . $quote2, $translated_page );
+
+		return $translated_page;
+	}
+
+	/**
+	 * Replace option attribute
+	 *
+	 * @since 2.0
+	 * @param string $translated_page
+	 * @param string $current_url
+	 * @param string $quote1
+	 * @param string $quote2
+	 * @param string $sometags
+	 * @param string $sometags2
+	 * @return string
+	 */
+	public function replace_option( $translated_page, $current_url, $quote1, $quote2, $sometags = null, $sometags2 = null ) {
+		$current_language   = weglot_get_current_language();
+		$translated_page    = preg_replace( '/<option ' . preg_quote( $sometags, '/' ) . preg_quote( $quote1 . $current_url . $quote2, '/' ) . '(.*?)?>/', '<option ' . $sometags . $quote1 . $this->replace_url( $current_url, $current_language ) . $quote2 . '$2>', $translated_page );
+
+		return $translated_page;
+	}
+
+	/**
+	 * Replace canonical attribute
+	 *
+	 * @since 2.0
+	 * @param string $translated_page
+	 * @param string $current_url
+	 * @param string $quote1
+	 * @param string $quote2
+	 * @param string $sometags
+	 * @param string $sometags2
+	 * @return string
+	 */
+	public function replace_canonical( $translated_page, $current_url, $quote1, $quote2, $sometags = null, $sometags2 = null ) {
+		$current_language   = weglot_get_current_language();
+		$translated_page    = preg_replace( '/<link rel="canonical"' . preg_quote( $sometags, '/' ) . 'href=' . preg_quote( $quote1 . $current_url . $quote2, '/' ) . '/', '<link rel="canonical"' . $sometags . 'href=' . $quote1 . $this->replace_url( $current_url, $current_language ) . $quote2, $translated_page );
+
+		return $translated_page;
+	}
+
+	/**
+	 * Replace amphtml attribute
+	 *
+	 * @since 2.0
+	 * @param string $translated_page
+	 * @param string $current_url
+	 * @param string $quote1
+	 * @param string $quote2
+	 * @param string $sometags
+	 * @param string $sometags2
+	 * @return string
+	 */
+	public function replace_amp( $translated_page, $current_url, $quote1, $quote2, $sometags = null, $sometags2 = null ) {
+		$current_language   = weglot_get_current_language();
+		$translated_page    = preg_replace( '/<link rel="amphtml"' . preg_quote( $sometags, '/' ) . 'href=' . preg_quote( $quote1 . $current_url . $quote2, '/' ) . '/', '<link rel="amphtml"' . $sometags . 'href=' . $quote1 . $this->replace_url( $current_url, $current_language ) . $quote2, $translated_page );
+
+		return $translated_page;
+	}
+
+	/**
+	 * Replace meta og url attribute
+	 *
+	 * @since 2.0
+	 * @param string $translated_page
+	 * @param string $current_url
+	 * @param string $quote1
+	 * @param string $quote2
+	 * @param string $sometags
+	 * @param string $sometags2
+	 * @return string
+	 */
+	public function replace_meta( $translated_page, $current_url, $quote1, $quote2, $sometags = null, $sometags2 = null ) {
+		$current_language   = weglot_get_current_language();
+		$translated_page    = preg_replace( '/<meta property="og:url"' . preg_quote( $sometags, '/' ) . 'content=' . preg_quote( $quote1 . $current_url . $quote2, '/' ) . '/', '<meta property="og:url"' . $sometags . 'content=' . $quote1 . $this->replace_url( $current_url, $current_language ) . $quote2, $translated_page );
 
 		return $translated_page;
 	}
