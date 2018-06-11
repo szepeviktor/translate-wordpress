@@ -31,6 +31,11 @@ $options_available = [
 		'label'       => __( 'With flags', 'weglot' ),
 		'description' => __( 'Check if you want flags in the language button.', 'weglot' ),
 	],
+	'override_css' => [
+		'key'         => 'override_css',
+		'label'       => __( 'Override CSS', 'weglot' ),
+		'description' => __( "Don't change it unless you want a specific style for your button.", 'weglot' ),
+	],
 ];
 
 
@@ -130,6 +135,25 @@ $options_available = [
 					<?php checked( $this->options[ $options_available['with_flags']['key'] ], 1 ); ?>
 				>
 				<p class="description"><?php echo esc_html( $options_available['with_flags']['description'] ); ?></p>
+			</td>
+		</tr>
+		<tr valign="top">
+			<th scope="row" class="titledesc">
+				<label for="<?php echo esc_attr( $options_available['override_css']['key'] ); ?>">
+					<?php echo esc_html( $options_available['override_css']['label'] ); ?>
+				</label>
+			</th>
+			<td class="forminp forminp-text">
+				<textarea
+					class="wg-input-textarea"
+					id="<?php echo esc_attr( $options_available['override_css']['key'] ); ?>"
+					type="text"
+					rows="10"
+					cols="30"
+					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['override_css']['key'] ) ); ?>" placeholder=".country-selector {
+  margin-bottom: 20px;
+}"><?php echo $this->options[ $options_available['override_css']['key'] ]; //phpcs:ignore?></textarea>
+				<p class="description"><?php echo esc_html( $options_available['override_css']['description'] ); ?></p>
 			</td>
 		</tr>
 	</tbody>

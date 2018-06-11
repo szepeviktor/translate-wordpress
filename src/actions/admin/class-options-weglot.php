@@ -148,7 +148,8 @@ class Options_Weglot implements Hooks_Interface_Weglot, Mediator_Service_Interfa
 		$new_options['is_dropdown']       = isset( $options['is_dropdown'] ) ? 1 : 0;
 		$new_options['with_flags']        = isset( $options['with_flags'] ) ? 1 : 0;
 
-		$new_options['type_flags']        = isset( $options['type_flags'] ) ? $options['type_flags'] : '0';
+		$new_options['type_flags']          = isset( $options['type_flags'] ) ? $options['type_flags'] : '0';
+		$new_options['override_css']        = isset( $options['override_css'] ) ? $options['override_css'] : '';
 
 		return $new_options;
 	}
