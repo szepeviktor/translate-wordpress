@@ -40,11 +40,6 @@ class Shortcode_Weglot implements Mediator_Service_Interface_Weglot {
 	 * @return string
 	 */
 	public function weglot_switcher_callback() {
-		if ( $this->already_print ) {
-			return;
-		}
-		$this->already_print = true;
-
-		echo $this->button_services->get_html( 'weglot-shortcode' ); //phpcs:ignore
+		return $this->button_services->get_html( 'weglot-shortcode' ); //phpcs:ignore
 	}
 }
