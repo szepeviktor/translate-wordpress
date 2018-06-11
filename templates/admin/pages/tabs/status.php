@@ -103,7 +103,7 @@ if ( version_compare( phpversion(), '5.4', '<' ) ) {
 				<tr>
 					<td><?php esc_html_e( 'Module mod_rewrite', 'weglot' ); ?></td>
 					<td>
-						<?php echo esc_html( $apache_mod_rewrite ); ?>
+						<?php echo $apache_mod_rewrite; //phpcs:ignore ?>
 					</td>
 				</tr>
 		  </tbody>
