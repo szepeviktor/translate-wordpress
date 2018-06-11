@@ -29,7 +29,9 @@ class Option_Service_Weglot {
 		'is_fullname'          => true,
 		'with_name'            => false,
 		'is_dropdown'          => true,
+		'type_flags'           => 0,
 		'with_flags'           => true,
+		'override_css'         => '',
 	];
 
 	/**
