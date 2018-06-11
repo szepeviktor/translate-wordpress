@@ -104,7 +104,7 @@
   position: fixed;
   bottom: 0px;
   right: 40px; }
-  .weglot-default.weglot-widget {
+  .weglot-default.weglot-widget, .weglot-default.weglot-shortcode {
     position: static;
     right: 0; }
   .weglot-default.weglot-list {

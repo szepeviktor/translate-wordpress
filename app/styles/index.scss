@@ -134,7 +134,8 @@
 	position : fixed;
 	bottom : 0px;
 	right : 40px;
-	&.weglot-widget{
+	&.weglot-widget,
+	&.weglot-shortcode{
 		position: static;
 		right: 0;
 	}
