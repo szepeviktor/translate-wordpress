@@ -64,7 +64,7 @@ class Request_Url_Service_Weglot implements Mediator_Service_Interface_Weglot {
 			$this->get_home_wordpress_directory()
 		);
 
-		// @todo : Add : $this->weglot_url->setExcludedUrls( $exclude_urls_option ); phpcs:ignore
+		$this->weglot_url->setExcludedUrls( $exclude_urls_option );
 
 		return $this;
 	}

@@ -19,6 +19,11 @@ $options_available = [
 		'label'       => __( 'Email translate', 'weglot' ),
 		'description' => __( 'Translate email who use function wp_mail', 'weglot' ),
 	],
+	'exclude_amp' => [
+		'key'         => 'exclude_amp',
+		'label'       => __( 'Exclude AMP', 'weglot' ),
+		'description' => __( 'Exclude translation on AMP page', 'weglot' ),
+	],
 ];
 
 ?>
@@ -56,6 +61,22 @@ $options_available = [
 					<?php checked( $this->options[ $options_available['email_translate']['key'] ], 1 ); ?>
 				>
 				<p class="description"><?php echo esc_html( $options_available['email_translate']['description'] ); ?></p>
+			</td>
+		</tr>
+		<tr valign="top">
+			<th scope="row" class="titledesc">
+				<label for="<?php echo esc_attr( $options_available['exclude_amp']['key'] ); ?>">
+					<?php echo esc_html( $options_available['exclude_amp']['label'] ); ?>
+				</label>
+			</th>
+			<td class="forminp forminp-text">
+				<input
+					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['exclude_amp']['key'] ) ); ?>"
+					id="<?php echo esc_attr( $options_available['exclude_amp']['key'] ); ?>"
+					type="checkbox"
+					<?php checked( $this->options[ $options_available['exclude_amp']['key'] ], 1 ); ?>
+				>
+				<p class="description"><?php echo esc_html( $options_available['exclude_amp']['description'] ); ?></p>
 			</td>
 		</tr>
 	</tbody>
