@@ -14,7 +14,6 @@ use WeglotWP\Models\Mediator_Service_Interface_Weglot;
  * @since 2.0
  */
 class Shortcode_Weglot implements Mediator_Service_Interface_Weglot {
-	protected $already_print = false;
 
 	/**
 	 * @since 2.0
