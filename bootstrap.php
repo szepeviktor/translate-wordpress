@@ -144,7 +144,7 @@ abstract class Context_Weglot {
  * @return void
  */
 function weglot_init() {
-	if ( function_exists( 'apache_get_modules' ) && ! array_search( 'mod_rewrite', apache_get_modules(), true ) ) {
+	if ( function_exists( 'apache_get_modules' ) && ! in_array( 'mod_rewrite', apache_get_modules(), true ) ) {
 		add_action( 'admin_notices', [ '\WeglotWP\Notices\Rewrite_Module_Weglot', 'admin_notice' ] );
 	}
 
