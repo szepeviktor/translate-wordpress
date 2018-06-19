@@ -219,6 +219,8 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 		$dom = $this->replace_url_services->modify_link( '/<link rel="amphtml"(.*?)?href=(\"|\')([^\s\>]+?)(\"|\')/', $dom, 'amp' );
 		$dom = $this->replace_url_services->modify_link( '/<meta property="og:url"(.*?)?content=(\"|\')([^\s\>]+?)(\"|\')/', $dom, 'meta' );
 
+
+
 		return $dom;
 	}
 
@@ -230,6 +232,10 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 	public function weglot_render_dom( $dom ) {
 		$dom = $this->weglot_add_button_html( $dom );
 		$dom = $this->weglot_replace_link( $dom );
+
+		$dom = preg_replace( '/<html (.*?)?lang=(\"|\')(\S*)(\"|\')/', '<html $1lang=$2' . $this->current_language . '$4', $dom );
+		$dom = preg_replace( '/property="og:locale" content=(\"|\')(\S*)(\"|\')/', 'property="og:locale" content=$1' . $this->current_language . '$3', $dom );
+
 		return $dom;
 	}
 
