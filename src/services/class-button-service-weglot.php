@@ -88,12 +88,12 @@ class Button_Service_Weglot implements Mediator_Service_Interface_Weglot {
 		$flag_class .= '0' === $type_flags ? '' : 'flag-' . $type_flags . ' ';
 
 		$tag                              = $is_dropdown ? 'div' : 'li';
-		$class_aside                      = $is_dropdown ? 'weglot-drop ' : 'weglot-list ';
+		$class_aside                      = $is_dropdown ? 'weglot-dropdown ' : 'weglot-inline ';
 
 		$languages = $this->language_services->get_languages_available();
 
 		$button_html = sprintf( '<!--Weglot %s-->', WEGLOT_VERSION );
-		$button_html .= sprintf( "<aside id='weglot-new-selector'>", $class_aside . ' ' . $add_class );
+		$button_html .= sprintf( "<aside class='weglot-selector %s'>", $class_aside . $add_class );
 
 		$name = '';
 		if ( $with_name ) {

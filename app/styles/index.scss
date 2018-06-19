@@ -2,7 +2,7 @@
 @import '_colors.scss';
 $heightSelector: 48px;
 
-#weglot-new-selector {
+.weglot-selector {
 	position : fixed;
 	bottom : 0px;
 	right : 40px;
@@ -14,6 +14,7 @@ $heightSelector: 48px;
 	white-space: nowrap;
 	width:auto;
 	border: 1px solid #e0e0e0;
+
 	label{
 		position:relative;
 		display:block;
@@ -92,7 +93,26 @@ $heightSelector: 48px;
 				}
 			}
 		}
-
+	}
+	&.weglot-inline{
+		display:flex;
+		background-color: transparent;
+		border:none;
+		label{
+			&:after{
+				display:none;
+			}
+		}
+		ul {
+			border:none;
+			background-color: transparent;
+			max-height: 100%;
+			position:static;
+			display:flex;
+			li{
+				margin-right:10px;
+			}
+		}
 	}
 }
 
