@@ -97,11 +97,16 @@ class Button_Service_Weglot implements Mediator_Service_Interface_Weglot {
 		$button_html = sprintf( '<!--Weglot %s-->', WEGLOT_VERSION );
 		$button_html .= sprintf( "<aside data-wg-notranslate='' id='weglot-selector' class='weglot-default country-selector closed %s'>", $class_aside . ' ' . $add_class );
 
+		$name = '';
+		if ( $with_name ) {
+			$name = ( $is_fullname ) ? $languages[ $current_language ]->getEnglishName() : strtoupper( $languages[ $current_language ]->getIso639() );
+		}
+
 		$button_html .= sprintf(
 			'<%s data-wg-notranslate="" class="weglot-current weglot-li %s"><a href="#" onclick="return false;">%s</a></%s>',
 			$tag,
 			$flag_class . $current_language,
-			$languages[ $current_language ]->getEnglishName(),
+			$name,
 			$tag
 		);
 
@@ -114,12 +119,17 @@ class Button_Service_Weglot implements Mediator_Service_Interface_Weglot {
 				continue;
 			}
 
+			$name = '';
+			if ( $with_name ) {
+				$name = ( $is_fullname ) ? $languages[ $key_code ]->getEnglishName() : strtoupper( $languages[ $key_code ]->getIso639() );
+			}
+
 			$button_html .= sprintf( '<li class="weglot-li %s">', $flag_class . $key_code );
 
 			$button_html .= sprintf(
 				'<a data-wg-notranslate href="%s">%s</a>',
 				$weglot_url->getForLanguage( $key_code ),
-				$languages[ $key_code ]->getEnglishName()
+				$name
 			);
 
 			$button_html .= '</li>';

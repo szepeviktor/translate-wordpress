@@ -24,7 +24,9 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 	 * @return Customize_Menu_Weglot
 	 */
 	public function use_services( $services ) {
-		$this->language_services = $services['Language_Service_Weglot'];
+		$this->language_services      = $services['Language_Service_Weglot'];
+		$this->option_services        = $services['Option_Service_Weglot'];
+		$this->request_url_services   = $services['Request_Url_Service_Weglot'];
 		return $this;
 	}
 
@@ -47,7 +49,22 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 	 * @return void
 	 */
 	public function add_nav_menu_link_attributes( $attrs, $item ) {
-		if ( strpos( $item->post_name, 'weglot_menu_title-' ) !== false ) {
+		$current_language = $this->request_url_services->get_current_language();
+		$str              = 'weglot_menu_title-';
+		if ( strpos( $item->post_name, $str ) !== false ) {
+			$options                          = $this->option_services->get_options();
+			$with_flags                       = $options['with_flags'];
+			$type_flags                       = $options['type_flags'];
+
+			$flag_class                       = $with_flags ? 'weglot-flags ' : '';
+			$flag_class .= '0' === $type_flags ? '' : 'flag-' . $type_flags . ' ';
+
+			$lang                         = substr( $item->post_name, strlen( $str ) );
+			if ( $lang === $current_language ) {
+				$attrs['class'] = 'weglot-current ';
+			}
+			$attrs['class'] .= $flag_class . $lang;
+
 			$attrs['data-wg-notranslate'] = 'true';
 		}
 

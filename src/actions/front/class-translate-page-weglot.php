@@ -159,6 +159,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 	 */
 	public function weglot_add_button_html( $dom ) {
 		$button_html        = $this->button_services->get_html();
+		$options            = $this->option_services->get_options();
 
 		// Place the button if we see short code
 		if ( strpos( $dom, '<div id="weglot_here"></div>' ) !== false ) {
@@ -173,13 +174,21 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 				$protocol = 'https://';
 			}
 
+			$is_fullname  = $options['is_fullname'];
+			$with_name    = $options['with_name'];
+
 			foreach ( $languages_configured as $language ) {
 				$shortcode_title      = sprintf( '[weglot_menu_title-%s]', $language->getIso639() );
 				$shortcode_url        = sprintf( '[weglot_menu_current_url-%s]', $language->getIso639() );
 
 				$url                  = $this->request_url_services->get_weglot_url();
 
-				$dom                  = str_replace( $shortcode_title, $language->getEnglishName(), $dom );
+				$name = '';
+				if ( $with_name ) {
+					$name = ( $is_fullname ) ? $language->getEnglishName() : strtoupper( $language->getIso639() );
+				}
+
+				$dom                  = str_replace( $shortcode_title, $name, $dom );
 				$dom                  = str_replace( $protocol . $shortcode_url, $url->getForLanguage( $language->getIso639() ), $dom );
 			}
 		}
