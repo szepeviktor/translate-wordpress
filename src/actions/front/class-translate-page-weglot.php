@@ -219,8 +219,6 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 		$dom = $this->replace_url_services->modify_link( '/<link rel="amphtml"(.*?)?href=(\"|\')([^\s\>]+?)(\"|\')/', $dom, 'amp' );
 		$dom = $this->replace_url_services->modify_link( '/<meta property="og:url"(.*?)?content=(\"|\')([^\s\>]+?)(\"|\')/', $dom, 'meta' );
 
-
-
 		return $dom;
 	}
 
