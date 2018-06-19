@@ -2,32 +2,17 @@ const path = require("path");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const webpack = require("webpack");
-const env = JSON.stringify(process.env.NODE_ENV || "development");
+const env = JSON.stringify(process.env.NODE_ENV) || "development";
 
-
-let sassLoader = {}
-if (env === 'development') {
-	sassLoader = [
-		{
-			loader: 'style-loader'
-		},
-		{
-			loader: 'css-loader'
-		},
-		{
-			loader: 'sass-loader'
-		}
-	]
-}
-
-const config = {
+module.exports = {
 	entry: {
-		"admin-js" : "./app/javascripts/index.js",
-		"front-css" : "./app/styles/index.scss",
-		"admin-css" : "./app/styles/admin.scss"
+		"admin-js": "./app/javascripts/index.js",
+		"front-css": "./app/styles/index.scss",
+		"admin-css": "./app/styles/admin.scss"
 	},
 	output: {
-		path: path.resolve(__dirname, "dist"),
+		path: __dirname + "/dist",
+		publicPath: "/dist/"
 	},
 	mode: "development",
 	module: {
@@ -48,9 +33,7 @@ const config = {
 			},
 			{
 				test: /\.scss$/,
-				use:
-					env !== "development"
-						? ExtractTextPlugin.extract({
+				use: ExtractTextPlugin.extract({
 								fallback: "style-loader",
 								use: [
 									{
@@ -61,7 +44,6 @@ const config = {
 									}
 								]
 						  })
-						: sassLoader
 			}
 		]
 	},
@@ -72,8 +54,9 @@ const config = {
 		new ExtractTextPlugin({
 			filename: "css/[name].css"
 		}),
-		new CopyWebpackPlugin([{ from: 'app/static', to: 'images' }])
+		new CopyWebpackPlugin([
+			{ from: "app/images", to: "images" },
+			{ from: "app/static", to: "images" }
+		])
 	]
 };
-
-module.exports = config;
