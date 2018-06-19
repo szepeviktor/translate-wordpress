@@ -6,4 +6,4 @@ composer.lock
 node_modules
 package-lock.json
 
-#dist - Need to be ignore
+dist
