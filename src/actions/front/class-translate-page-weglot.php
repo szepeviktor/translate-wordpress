@@ -161,9 +161,10 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 		$button_html        = $this->button_services->get_html();
 		$options            = $this->option_services->get_options();
 
-		// Place the button if we see short code
+		// Place the button if we see markup
 		if ( strpos( $dom, '<div id="weglot_here"></div>' ) !== false ) {
-			$dom  = str_replace( '<div id="weglot_here"></div>', $button_html, $dom );
+			$button_html  = $this->button_services->get_html( 'weglot-shortcode' );
+			$dom          = str_replace( '<div id="weglot_here"></div>', $button_html, $dom );
 		}
 
 		if ( strpos( $dom, '[weglot_menu' ) !== false ) {
