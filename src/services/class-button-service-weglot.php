@@ -89,6 +89,7 @@ class Button_Service_Weglot implements Mediator_Service_Interface_Weglot {
 
 		$tag                              = $is_dropdown ? 'div' : 'li';
 		$list_tag                         = $is_dropdown ? '<ul>' : '';
+		$list_tag_close                   = $is_dropdown ? '</ul>' : '';
 		$class_aside                      = $is_dropdown ? 'weglot-drop ' : 'weglot-list ';
 
 		$languages = $this->language_services->get_languages_available();
@@ -124,7 +125,7 @@ class Button_Service_Weglot implements Mediator_Service_Interface_Weglot {
 			$button_html .= '</li>';
 		}
 
-		$button_html .= $list_tag;
+		$button_html .= $list_tag_close;
 		$button_html .= '</aside>';
 
 		return apply_filters( 'weglot_button_html', $button_html );

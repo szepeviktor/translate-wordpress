@@ -35,6 +35,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 		$this->request_url_services    = $services['Request_Url_Service_Weglot'];
 		$this->redirect_services       = $services['Redirect_Service_Weglot'];
 		$this->replace_url_services    = $services['Replace_Url_Service_Weglot'];
+		$this->language_services       = $services['Language_Service_Weglot'];
 		return $this;
 	}
 
@@ -162,6 +163,25 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_
 		// Place the button if we see short code
 		if ( strpos( $dom, '<div id="weglot_here"></div>' ) !== false ) {
 			$dom  = str_replace( '<div id="weglot_here"></div>', $button_html, $dom );
+		}
+
+		if ( strpos( $dom, '[weglot_menu' ) !== false ) {
+			$languages_configured = $this->language_services->get_languages_configured();
+			$protocol             = 'http://';
+			$is_ssl               = is_ssl();
+			if ( $is_ssl ) {
+				$protocol = 'https://';
+			}
+
+			foreach ( $languages_configured as $language ) {
+				$shortcode_title      = sprintf( '[weglot_menu_title-%s]', $language->getIso639() );
+				$shortcode_url        = sprintf( '[weglot_menu_current_url-%s]', $language->getIso639() );
+
+				$url                  = $this->request_url_services->get_weglot_url();
+
+				$dom                  = str_replace( $shortcode_title, $language->getEnglishName(), $dom );
+				$dom                  = str_replace( $protocol . $shortcode_url, $url->getForLanguage( $language->getIso639() ), $dom );
+			}
 		}
 
 		// Place the button if not in the page

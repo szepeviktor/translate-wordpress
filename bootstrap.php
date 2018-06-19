@@ -13,6 +13,7 @@ use WeglotWP\Actions\Admin\Pages_Weglot;
 use WeglotWP\Actions\Admin\Plugin_Links_Weglot;
 use WeglotWP\Actions\Admin\Options_Weglot;
 use WeglotWP\Actions\Admin\Admin_Enqueue_Weglot;
+use WeglotWP\Actions\Admin\Customize_Menu_Weglot;
 
 use WeglotWP\Actions\Front\Translate_Page_Weglot;
 use WeglotWP\Actions\Front\Front_Enqueue_Weglot;
@@ -116,6 +117,7 @@ abstract class Context_Weglot {
 			new Redirect_Log_User_Weglot(),
 			new Email_Translate_Weglot(),
 			new Register_Widget_Weglot(),
+			new Customize_Menu_Weglot(),
 		];
 
 		foreach ( $actions as $action ) {

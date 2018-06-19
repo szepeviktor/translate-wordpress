@@ -38,7 +38,6 @@ class Replace_Url_Service_Weglot implements Mediator_Service_Interface_Weglot {
 		$current_language = weglot_get_current_language();
 
 		preg_match_all( $pattern, $translated_page, $out, PREG_PATTERN_ORDER );
-
 		$count_out_0 = count( $out[0] );
 		for ( $i = 0;$i < $count_out_0; $i++ ) {
 			$sometags    = ( isset( $out[1] ) ) ? $out[1][ $i ] : null;

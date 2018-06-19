@@ -81,6 +81,10 @@ function weglot_get_languages_available() {
 	return Context_Weglot::weglot_get_context()->get_service( 'Language_Service_Weglot' )->get_languages_available();
 }
 
+function weglot_get_languages_configured() {
+	return Context_Weglot::weglot_get_context()->get_service( 'Language_Service_Weglot' )->get_languages_configured();
+}
+
 /**
  * Get button selector HTML
  * @since 2.0
