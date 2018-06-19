@@ -56,7 +56,8 @@ module.exports = {
 		}),
 		new CopyWebpackPlugin([
 			{ from: "app/images", to: "images" },
-			{ from: "app/static", to: "images" }
+			{ from: "app/static", to: "images" },
+			{ from: "app/javascripts/selectize.js", to: "selectize.js" }
 		])
 	]
 };

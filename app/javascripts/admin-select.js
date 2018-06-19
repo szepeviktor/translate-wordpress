@@ -2,10 +2,24 @@ const init_admin = function(){
 	const $ = jQuery
 
 	const init_select2 = () => {
-		$(".weglot-select").select2();
-
-		$(".weglot-select-exclusion").select2({
-			tags: true,
+		$(".weglot-select").selectize({
+			delimiter: '|',
+			persist: false,
+			maxItems: null,
+			valueField: 'code',
+			labelField: 'local',
+			searchField: ['code', 'english', 'local'],
+			sortField: [
+				{ field: 'code', direction: 'asc' },
+				{ field: 'english', direction: 'asc' }
+			],
+			plugins: ['remove_button'],
+			options: weglot_languages.available,
+			render: {
+				option: function (item, escape) {
+					return '<div class="weglot__choice__language">' + '<span class="weglot__choice__language--local">' + escape(item.local) + "</span>" + '<span class="weglot__choice__language--english">' + escape(item.english) + " [" + escape(item.code) + "]</span>" + "</div>";
+				}
+			}
 		});
 	}
 

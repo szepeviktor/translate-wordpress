@@ -1,9 +1,15 @@
 @import '_colors.scss';
+@import 'selectize.css';
 
-.select2-container {
-	min-width: 300px;
+.weglot__choice__language{
+	border-bottom:1px solid #eee;
+	margin:5px 0px;
+	&--english{
+		border-width:50px;
+		color:#757575;
+		display:block;
+	}
 }
-
 
 .btn{
 	background:$primary;
