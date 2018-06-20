@@ -98,31 +98,20 @@ function weglot_rollback( ) {
 		wp_nonce_ays( '' );
 	}
 
-
-
-	$plugin_transient = get_site_transient( 'update_plugins' );
-	$plugin_folder    = WEGLOT_BNAME;
-	$plugin_file      = basename( __FILE__ );
 	$version          = WEGLOT_LATEST_VERSION;
-	$url              = sprintf( 'https://downloads.wordpress.org/plugin/weglot.%s.zip', WEGLOT_LATEST_VERSION );
-
 
 	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-	$plugin        = 'weglot/weglot.php';
+	$plugin        = 'weglot';
 	$title         = sprintf( __( '%s Update Rollback', 'weglot' ), WEGLOT_NAME );
 	$nonce         = 'upgrade-plugin_' . $plugin;
 	$url           = 'update.php?action=upgrade-plugin&plugin=' . rawurlencode( $plugin );
-	$version       = '1.13.1';
+	$version       = WEGLOT_LATEST_VERSION;
 	$upgrader_skin = new Plugin_Upgrader_Skin( compact( 'title', 'nonce', 'url', 'plugin', 'version' ) );
 
 	$rollback = new \WeglotWP\Helpers\Helper_Rollback_Weglot( $upgrader_skin );
-	var_dump($rollback);
-	wp_die(
-		// translators: %s is the plugin name.
-		'', sprintf( __( '%s Update Rollback', 'weglot' ), WEGLOT_NAME ), array(
-			'response' => 200,
-		)
-	);
+	$rollback->rollback($version);
+
+	wp_redirect( admin_url( 'plugins.php' ) );
 }
 
 /**
