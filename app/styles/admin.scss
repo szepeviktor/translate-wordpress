@@ -80,3 +80,47 @@
 		}
 	}
 }
+
+::-webkit-input-placeholder {
+	color: #C0C0C0;
+}
+:-moz-placeholder { /* Firefox 18- */
+	color: #C0C0C0;
+}
+::-moz-placeholder {  /* Firefox 19+ */
+	color: #C0C0C0;
+}
+:-ms-input-placeholder {
+	color: #C0C0C0;
+}
+
+.sub-label {
+	font-size: 13px;
+	font-weight: normal;
+	margin: 2px 0 0;
+}
+
+.original-select {
+	padding: 8px;
+	height: 36px!important;
+	width: 300px;
+}
+
+.selectize-control.multi .selectize-input > div {
+	background-color : #eff0ff;
+}
+
+input[type="text"] {
+	padding:8px;
+}
+
+.selectize-control, input[type="text"] {
+	width : 100%;
+	max-width: 300px;
+}
+
+#submit {
+	height: 50px;
+	padding: 0 30px!important;
+	font-size: 16px;
+}

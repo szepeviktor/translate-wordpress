@@ -1,5 +1,7 @@
 <?php
 
+use WeglotWP\Helpers\Helper_Tabs_Admin_Weglot;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -8,13 +10,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <nav class="nav-tab-wrapper">
 	<?php
-	foreach ( $this->tabs as $key => $tab ) :
+	foreach ( $this->tabs as $key => $tab ) {
 		$class_active = ( $this->tab_active === $key ) ? 'nav-tab-active' : '';
+	    if($key !== Helper_Tabs_Admin_Weglot::STATUS) {
+
 	?>
 		<a
 			href="<?php echo esc_url( $tab['url'] ); ?>"
 			class="nav-tab <?php echo esc_html( $class_active ); ?>">
 			<?php echo esc_html( $tab['title'] ); ?>
 		</a>
-	<?php endforeach ?>
+	<?php } } ?>
 </nav>
