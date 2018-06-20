@@ -5,7 +5,7 @@ $finder = PhpCsFixer\Finder::create()
             ->in(__DIR__)
             ->exclude('vendor')
             ->notName("*.txt")
-            ->name('*.php')
+            ->notPath("weglot.php")
             ->ignoreDotFiles(true)
             ->ignoreVCS(true);
 ;

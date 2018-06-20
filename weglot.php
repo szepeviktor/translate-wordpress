@@ -1,6 +1,5 @@
 <?php
 /**
- * @package Weglot
  * @version 2.0
  */
 
@@ -15,52 +14,57 @@ Domain Path: /languages/
 Version: 2.0
 */
 
-
-if ( ! defined( 'ABSPATH' ) ) {
+if ( ! defined('ABSPATH')) {
 	exit;
 }
 
-define( 'WEGLOT_SLUG', 'weglot-translate' );
-define( 'WEGLOT_OPTION_GROUP', 'group-weglot-translate' );
-define( 'WEGLOT_VERSION', '2.0' );
-define( 'WEGLOT_PHP_MIN', '5.4' );
-define( 'WEGLOT_DIR', dirname( __FILE__ ) );
-define( 'WEGLOT_BNAME', plugin_basename( __FILE__ ) );
-define( 'WEGLOT_DIRURL', plugin_dir_url( __FILE__ ) );
-define( 'WEGLOT_DIR_LANGUAGES', dirname( WEGLOT_BNAME ) . '/languages' );
-define( 'WEGLOT_URL_DIST', WEGLOT_DIRURL . '/dist' );
+define('WEGLOT_NAME', 'Weglot');
+define('WEGLOT_SLUG', 'weglot-translate');
+define('WEGLOT_OPTION_GROUP', 'group-weglot-translate');
+define('WEGLOT_VERSION', '2.0');
+define('WEGLOT_PHP_MIN', '5.4');
+define('WEGLOT_DIR', __DIR__);
+define('WEGLOT_BNAME', plugin_basename(__FILE__));
+define('WEGLOT_DIRURL', plugin_dir_url(__FILE__));
+define('WEGLOT_DIR_LANGUAGES', dirname(WEGLOT_BNAME) . '/languages');
+define('WEGLOT_URL_DIST', WEGLOT_DIRURL . '/dist');
+define('WEGLOT_LATEST_VERSION', '1.13.1');
 
-define( 'WEGLOT_TEMPLATES', WEGLOT_DIR . '/templates' );
-define( 'WEGLOT_TEMPLATES_ADMIN', WEGLOT_TEMPLATES . '/admin' );
-define( 'WEGLOT_TEMPLATES_ADMIN_NOTICES', WEGLOT_TEMPLATES_ADMIN . '/notices' );
-define( 'WEGLOT_TEMPLATES_ADMIN_PAGES', WEGLOT_TEMPLATES_ADMIN . '/pages' );
+define('WEGLOT_TEMPLATES', WEGLOT_DIR . '/templates');
+define('WEGLOT_TEMPLATES_ADMIN', WEGLOT_TEMPLATES . '/admin');
+define('WEGLOT_TEMPLATES_ADMIN_NOTICES', WEGLOT_TEMPLATES_ADMIN . '/notices');
+define('WEGLOT_TEMPLATES_ADMIN_PAGES', WEGLOT_TEMPLATES_ADMIN . '/pages');
 
 /**
- * Check compatibility this Weglot with WordPress config
- *
- * @return void
+ * Check compatibility this Weglot with WordPress config.
  */
-function weglot_check_compatibility() {
-
+function weglot_is_compatible() {
 	// Check php version.
-	if ( version_compare( phpversion(), WEGLOT_PHP_MIN ) < 0 ) {
-		if ( current_filter() !== 'activate_' . WEGLOT_BNAME ) {
-			require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-			deactivate_plugins( WEGLOT_BNAME, true );
-		}
-
-		/* translators: 1 is a plugin name, 2 is Weglot version, 3 is current php version. */
-		wp_die( sprintf( esc_html__( '%1$s  requires PHP %2$s minimum, your website is actually running version %3$s.', 'weglot' ), '<strong>Weglot translate</strong>', '<code>' . esc_attr( WEGLOT_PHP_MIN ) . '</code>', '<code>' . esc_attr( phpversion() ) . '</code>' ) );
+	if (version_compare(PHP_VERSION, WEGLOT_PHP_MIN) < 0) {
+		add_action('admin_notices', 'weglot_php_min_compatibility' );
+		return false;
 	}
+
+	return true;
+}
+
+function weglot_php_min_compatibility(){
+	if ( ! file_exists( WEGLOT_TEMPLATES_ADMIN_NOTICES . '/php-min.php' ) ) {
+		return;
+	}
+
+	include_once WEGLOT_TEMPLATES_ADMIN_NOTICES . '/php-min.php';
 }
 
 /**
- * Activate Weglot
+ * Activate Weglot.
+ *
  * @since 2.0
- * @return void
  */
 function weglot_plugin_activate() {
-	weglot_check_compatibility();
+	if( ! weglot_is_compatible() ){
+		return;
+	}
 
 	require_once __DIR__ . '/bootstrap.php';
 
@@ -68,40 +72,89 @@ function weglot_plugin_activate() {
 }
 
 /**
- * Deactivate Weglot
+ * Deactivate Weglot.
+ *
  * @since 2.0
- * @return void
  */
 function weglot_plugin_deactivate() {
 }
 
 /**
- * Uninstall Weglot
+ * Uninstall Weglot.
+ *
  * @since 2.0
- * @return void
  */
 function weglot_plugin_uninstall() {
 }
 
 /**
- * Load Weglot
- * @since 2.0
+ * Rollback v2 => v1
+ *
  * @return void
  */
-function weglot_plugin_loaded() {
-	weglot_check_compatibility();
+function weglot_rollback( ) {
+	if ( ! isset( $_GET['_wpnonce'] ) || ! wp_verify_nonce( $_GET['_wpnonce'], 'weglot_rollback' ) ) {
+		wp_nonce_ays( '' );
+	}
 
-	require_once __DIR__ . '/vendor/autoload.php';
-	require_once __DIR__ . '/weglot-compatibility.php';
-	require_once __DIR__ . '/bootstrap.php';
-	require_once __DIR__ . '/weglot-functions.php';
+	$plugin_transient = get_site_transient( 'update_plugins' );
+	$plugin_folder    = WEGLOT_BNAME;
+	$plugin_file      = basename( __FILE__ );
+	$version          = WEGLOT_LATEST_VERSION;
+	$url              = sprintf( 'https://downloads.wordpress.org/plugin/weglot.%s.zip', WEGLOT_LATEST_VERSION );
+	$temp_array       = [
+		'slug'        => $plugin_folder,
+		'new_version' => $version,
+		'url'         => 'https://weglot.com',
+		'package'     => $url,
+	];
 
-	weglot_init();
+
+
+
+	if ( false === $transient ) {
+		require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+		// translators: %s is the plugin name.
+		$title         = sprintf( __( '%s Update Rollback', 'weglot' ), WEGLOT_NAME );
+		$plugin        = 'weglot/weglot.php';
+		$nonce         = 'upgrade-plugin_' . $plugin;
+		$url           = 'update.php?action=upgrade-plugin&plugin=' . rawurlencode( $plugin );
+		$upgrader_skin = new Plugin_Upgrader_Skin( compact( 'title', 'nonce', 'url', 'plugin' ) );
+		$upgrader      = new Plugin_Upgrader( $upgrader_skin );
+		remove_filter( 'site_transient_update_plugins', 'rocket_check_update', 100 );
+		$upgrader->upgrade( $plugin );
+		wp_die(
+			// translators: %s is the plugin name.
+			'', sprintf( __( '%s Update Rollback', 'rocket' ), WEGLOT_NAME ), [
+				'response' => 200,
+			]
+		);
+	}
+
 }
 
+/**
+ * Load Weglot.
+ *
+ * @since 2.0
+ */
+function weglot_plugin_loaded() {
+	require_once __DIR__ . '/vendor/autoload.php';
+	require_once __DIR__ . '/weglot-compatibility.php';
 
-register_activation_hook( __FILE__, 'weglot_plugin_activate' );
-register_deactivation_hook( __FILE__, 'weglot_plugin_deactivate' );
-register_uninstall_hook( __FILE__, 'weglot_plugin_uninstall' );
+	if( !weglot_is_compatible() ){
+		add_action( 'admin_post_weglot_rollback','weglot_rollback' );
+	}
+	else{
+		require_once __DIR__ . '/bootstrap.php';
+		require_once __DIR__ . '/weglot-functions.php';
 
-add_action( 'plugins_loaded', 'weglot_plugin_loaded' );
+		weglot_init();
+	}
+}
+
+register_activation_hook(__FILE__, 'weglot_plugin_activate');
+register_deactivation_hook(__FILE__, 'weglot_plugin_deactivate');
+register_uninstall_hook(__FILE__, 'weglot_plugin_uninstall');
+
+add_action('plugins_loaded', 'weglot_plugin_loaded');
