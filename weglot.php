@@ -110,8 +110,6 @@ function weglot_rollback( ) {
 
 	$rollback = new \WeglotWP\Helpers\Helper_Rollback_Weglot( $upgrader_skin );
 	$rollback->rollback($version);
-
-	wp_redirect( admin_url( 'plugins.php' ) );
 }
 
 /**
