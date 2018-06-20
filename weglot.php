@@ -18,6 +18,7 @@ if ( ! defined('ABSPATH')) {
 	exit;
 }
 
+
 define('WEGLOT_NAME', 'Weglot');
 define('WEGLOT_SLUG', 'weglot-translate');
 define('WEGLOT_OPTION_GROUP', 'group-weglot-translate');
@@ -48,7 +49,7 @@ function weglot_is_compatible() {
 	return true;
 }
 
-function weglot_php_min_compatibility(){
+function weglot_php_min_compatibility() {
 	if ( ! file_exists( WEGLOT_TEMPLATES_ADMIN_NOTICES . '/php-min.php' ) ) {
 		return;
 	}
@@ -62,7 +63,7 @@ function weglot_php_min_compatibility(){
  * @since 2.0
  */
 function weglot_plugin_activate() {
-	if( ! weglot_is_compatible() ){
+	if ( ! weglot_is_compatible() ) {
 		return;
 	}
 
@@ -97,40 +98,31 @@ function weglot_rollback( ) {
 		wp_nonce_ays( '' );
 	}
 
+
+
 	$plugin_transient = get_site_transient( 'update_plugins' );
 	$plugin_folder    = WEGLOT_BNAME;
 	$plugin_file      = basename( __FILE__ );
 	$version          = WEGLOT_LATEST_VERSION;
 	$url              = sprintf( 'https://downloads.wordpress.org/plugin/weglot.%s.zip', WEGLOT_LATEST_VERSION );
-	$temp_array       = [
-		'slug'        => $plugin_folder,
-		'new_version' => $version,
-		'url'         => 'https://weglot.com',
-		'package'     => $url,
-	];
 
 
+	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+	$plugin        = 'weglot/weglot.php';
+	$title         = sprintf( __( '%s Update Rollback', 'weglot' ), WEGLOT_NAME );
+	$nonce         = 'upgrade-plugin_' . $plugin;
+	$url           = 'update.php?action=upgrade-plugin&plugin=' . rawurlencode( $plugin );
+	$version       = '1.13.1';
+	$upgrader_skin = new Plugin_Upgrader_Skin( compact( 'title', 'nonce', 'url', 'plugin', 'version' ) );
 
-
-	if ( false === $transient ) {
-		require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+	$rollback = new \WeglotWP\Helpers\Helper_Rollback_Weglot( $upgrader_skin );
+	var_dump($rollback);
+	wp_die(
 		// translators: %s is the plugin name.
-		$title         = sprintf( __( '%s Update Rollback', 'weglot' ), WEGLOT_NAME );
-		$plugin        = 'weglot/weglot.php';
-		$nonce         = 'upgrade-plugin_' . $plugin;
-		$url           = 'update.php?action=upgrade-plugin&plugin=' . rawurlencode( $plugin );
-		$upgrader_skin = new Plugin_Upgrader_Skin( compact( 'title', 'nonce', 'url', 'plugin' ) );
-		$upgrader      = new Plugin_Upgrader( $upgrader_skin );
-		remove_filter( 'site_transient_update_plugins', 'rocket_check_update', 100 );
-		$upgrader->upgrade( $plugin );
-		wp_die(
-			// translators: %s is the plugin name.
-			'', sprintf( __( '%s Update Rollback', 'rocket' ), WEGLOT_NAME ), [
-				'response' => 200,
-			]
-		);
-	}
-
+		'', sprintf( __( '%s Update Rollback', 'weglot' ), WEGLOT_NAME ), array(
+			'response' => 200,
+		)
+	);
 }
 
 /**
@@ -140,12 +132,12 @@ function weglot_rollback( ) {
  */
 function weglot_plugin_loaded() {
 	require_once __DIR__ . '/vendor/autoload.php';
+	require_once __DIR__ . '/weglot-autoload.php';
 	require_once __DIR__ . '/weglot-compatibility.php';
 
-	if( !weglot_is_compatible() ){
-		add_action( 'admin_post_weglot_rollback','weglot_rollback' );
-	}
-	else{
+	if ( ! weglot_is_compatible() ) {
+		add_action( 'admin_post_weglot_rollback', 'weglot_rollback' );
+	} else {
 		require_once __DIR__ . '/bootstrap.php';
 		require_once __DIR__ . '/weglot-functions.php';
 

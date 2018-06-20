@@ -12,7 +12,6 @@ $finder = PhpCsFixer\Finder::create()
 
 return PhpCsFixer\Config::create()
     ->setRules([
-        'array_syntax' => ['syntax' => 'short'],
 		'binary_operator_spaces' => [
 			'align_double_arrow' => true,
 			'align_equals' => true
