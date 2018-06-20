@@ -49,6 +49,11 @@ function weglot_is_compatible() {
 	return true;
 }
 
+/**
+ * Admin notices if weglot not compatible
+ *
+ * @return void
+ */
 function weglot_php_min_compatibility() {
 	if ( ! file_exists( WEGLOT_TEMPLATES_ADMIN_NOTICES . '/php-min.php' ) ) {
 		return;
@@ -98,14 +103,14 @@ function weglot_rollback( ) {
 		wp_nonce_ays( '' );
 	}
 
-	$version          = WEGLOT_LATEST_VERSION;
-
 	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+
 	$plugin        = 'weglot';
 	$title         = sprintf( __( '%s Update Rollback', 'weglot' ), WEGLOT_NAME );
 	$nonce         = 'upgrade-plugin_' . $plugin;
 	$url           = 'update.php?action=upgrade-plugin&plugin=' . rawurlencode( $plugin );
 	$version       = WEGLOT_LATEST_VERSION;
+
 	$upgrader_skin = new Plugin_Upgrader_Skin( compact( 'title', 'nonce', 'url', 'plugin', 'version' ) );
 
 	$rollback = new \WeglotWP\Helpers\Helper_Rollback_Weglot( $upgrader_skin );
