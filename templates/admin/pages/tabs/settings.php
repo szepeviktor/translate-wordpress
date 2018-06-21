@@ -131,6 +131,7 @@ $languages = $this->language_services->get_languages_available();
 						<div class="item-exclude">
 							<input
 								type="text"
+                                placeholder="/my-awesome-url"
 								name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['exclude_urls']['key'] ) ); ?>[]"
 								value="<?php echo esc_attr( $option ); ?>"
 							>
@@ -143,7 +144,7 @@ $languages = $this->language_services->get_languages_available();
 					endif;
 					?>
 				</div>
-				<button id="js-add-exclude-url" class="btn btn-soft"><?php esc_html_e( 'Add an exclusion', 'weglot' ); ?></button>
+				<button id="js-add-exclude-url" class="btn btn-soft"><?php esc_html_e( 'Add an URL to exclude', 'weglot' ); ?></button>
 			</td>
 		</tr>
 		<tr valign="top">
@@ -184,6 +185,7 @@ $languages = $this->language_services->get_languages_available();
 	<div class="item-exclude">
 		<input
 			type="text"
+            placeholder="/my-awesome-url"
 			name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['exclude_urls']['key'] ) ); ?>[]"
 			value=""
 		>

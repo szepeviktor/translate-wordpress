@@ -64,20 +64,12 @@
 .item-exclude{
 	position: relative;
 	margin-bottom: 10px;
-	input[type='text'] {
-		width: 90%;
-		max-width: 90%;
-		border: 2px solid #eaeef0;
-		border-radius: 4px;
-		padding: 10px;
-		margin: 0;
+}
+
+input[type='text'] {
+	&:focus {
+		border-color: $primaryHover;
 		box-shadow: none;
-		font-weight: 500;
-		height: 42px;
-		&:focus {
-			border-color: $primaryHover;
-			box-shadow: none;
-		}
 	}
 }
 
