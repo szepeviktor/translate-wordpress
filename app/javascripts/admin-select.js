@@ -1,7 +1,7 @@
 const init_admin = function(){
 	const $ = jQuery
 
-	const init_select2 = () => {
+	const init_select = () => {
 		$(".weglot-select").selectize({
 			delimiter: '|',
 			persist: false,
@@ -29,7 +29,7 @@ const init_admin = function(){
 		const parent_exclude_url_append = document.querySelector("#container-exclude_urls");
 		const parent_exclude_block_append = document.querySelector("#container-exclude_blocks");
 
-		function removeLineUrl(e) {
+		function removeLine(e) {
 			e.preventDefault()
 			this.parentNode.remove()
 		}
@@ -43,12 +43,13 @@ const init_admin = function(){
 					parent_exclude_url_append.insertAdjacentHTML("beforeend", template_add_exclude_url.innerHTML);
 					document
 						.querySelector(
-							"#container-exclude_urls .item-exclude:last-child .js-btn-remove-exclude"
+							"#container-exclude_urls .item-exclude:last-child .js-btn-remove"
 						)
-						.addEventListener("click", removeLineUrl);
+						.addEventListener("click", removeLine);
 				});
 
 		}
+
 
 		if (document.querySelector("#js-add-exclude-block")) {
 			document
@@ -60,21 +61,22 @@ const init_admin = function(){
 					.querySelector(
 						"#container-exclude_blocks .item-exclude:last-child .js-btn-remove-exclude"
 					)
-					.addEventListener("click", removeLineUrl);
+					.addEventListener("click", removeLine);
 			});
 		}
 
 		const remove_urls = document
-			.querySelectorAll(".js-btn-remove-exclude")
+			.querySelectorAll(".js-btn-remove")
 
 		remove_urls.forEach((el) => {
-			el.addEventListener("click", removeLineUrl);
+			el.addEventListener("click", removeLine);
 		})
+
 
 	}
 
 	document.addEventListener('DOMContentLoaded', () => {
-		init_select2();
+		init_select();
 		init_exclude_url();
 	})
 }

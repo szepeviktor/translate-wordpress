@@ -14,6 +14,14 @@
 - PHP version 5.4 and later
 - Weglot API Key, starting at [free level](https://dashboard.weglot.com/register)
 
+
+## Developers
+
+To install the development environment:
+- `git clone https://github.com/weglot/translate-wordpress.git weglot`
+- `cd weglot && composer install && npm install`
+
+
 [travis-image]: https://api.travis-ci.com/weglot/weglot-wordpress.svg?branch=dev
 [travis-url]: https://travis-ci.com/weglot/weglot-wordpress
 
