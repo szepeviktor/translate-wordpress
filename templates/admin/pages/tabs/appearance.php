@@ -41,11 +41,51 @@ $options_available = [
 
 ?>
 
-<h3><?php esc_html_e( 'Appearance', 'weglot' ); ?></h3>
-<hr>
+
 <table class="form-table">
 	<tbody>
-
+        <tr valign="top">
+            <th scope="row" class="titledesc">
+                <label >
+                    <?php echo esc_html__("Button preview",'weglot'); ?>
+                </label>
+            </th>
+            <td class="forminp forminp-text">
+               TODO: preview
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row" class="titledesc">
+                <label for="<?php echo esc_attr( $options_available['is_dropdown']['key'] ); ?>">
+                    <?php echo esc_html( $options_available['is_dropdown']['label'] ); ?>
+                </label>
+            </th>
+            <td class="forminp forminp-text">
+                <input
+                        name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['is_dropdown']['key'] ) ); ?>"
+                        id="<?php echo esc_attr( $options_available['is_dropdown']['key'] ); ?>"
+                        type="checkbox"
+                    <?php checked( $this->options[ $options_available['is_dropdown']['key'] ], 1 ); ?>
+                >
+                <p class="description"><?php echo esc_html( $options_available['is_dropdown']['description'] ); ?></p>
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row" class="titledesc">
+                <label for="<?php echo esc_attr( $options_available['with_flags']['key'] ); ?>">
+                    <?php echo esc_html( $options_available['with_flags']['label'] ); ?>
+                </label>
+            </th>
+            <td class="forminp forminp-text">
+                <input
+                        name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['with_flags']['key'] ) ); ?>"
+                        id="<?php echo esc_attr( $options_available['with_flags']['key'] ); ?>"
+                        type="checkbox"
+                    <?php checked( $this->options[ $options_available['with_flags']['key'] ], 1 ); ?>
+                >
+                <p class="description"><?php echo esc_html( $options_available['with_flags']['description'] ); ?></p>
+            </td>
+        </tr>
 		<tr valign="top">
 			<th scope="row" class="titledesc">
 				<label for="<?php echo esc_attr( $options_available['type_flags']['key'] ); ?>">
@@ -75,22 +115,6 @@ $options_available = [
 		</tr>
 		<tr valign="top">
 			<th scope="row" class="titledesc">
-				<label for="<?php echo esc_attr( $options_available['is_fullname']['key'] ); ?>">
-					<?php echo esc_html( $options_available['is_fullname']['label'] ); ?>
-				</label>
-			</th>
-			<td class="forminp forminp-text">
-				<input
-					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['is_fullname']['key'] ) ); ?>"
-					id="<?php echo esc_attr( $options_available['is_fullname']['key'] ); ?>"
-					type="checkbox"
-					<?php checked( $this->options[ $options_available['is_fullname']['key'] ], 1 ); ?>
-				>
-				<p class="description"><?php echo esc_html( $options_available['is_fullname']['description'] ); ?></p>
-			</td>
-		</tr>
-		<tr valign="top">
-			<th scope="row" class="titledesc">
 				<label for="<?php echo esc_attr( $options_available['with_name']['key'] ); ?>">
 					<?php echo esc_html( $options_available['with_name']['label'] ); ?>
 				</label>
@@ -105,43 +129,29 @@ $options_available = [
 				<p class="description"><?php echo esc_html( $options_available['with_name']['description'] ); ?></p>
 			</td>
 		</tr>
-		<tr valign="top">
-			<th scope="row" class="titledesc">
-				<label for="<?php echo esc_attr( $options_available['is_dropdown']['key'] ); ?>">
-					<?php echo esc_html( $options_available['is_dropdown']['label'] ); ?>
-				</label>
-			</th>
-			<td class="forminp forminp-text">
-				<input
-					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['is_dropdown']['key'] ) ); ?>"
-					id="<?php echo esc_attr( $options_available['is_dropdown']['key'] ); ?>"
-					type="checkbox"
-					<?php checked( $this->options[ $options_available['is_dropdown']['key'] ], 1 ); ?>
-				>
-				<p class="description"><?php echo esc_html( $options_available['is_dropdown']['description'] ); ?></p>
-			</td>
-		</tr>
-		<tr valign="top">
-			<th scope="row" class="titledesc">
-				<label for="<?php echo esc_attr( $options_available['with_flags']['key'] ); ?>">
-					<?php echo esc_html( $options_available['with_flags']['label'] ); ?>
-				</label>
-			</th>
-			<td class="forminp forminp-text">
-				<input
-					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['with_flags']['key'] ) ); ?>"
-					id="<?php echo esc_attr( $options_available['with_flags']['key'] ); ?>"
-					type="checkbox"
-					<?php checked( $this->options[ $options_available['with_flags']['key'] ], 1 ); ?>
-				>
-				<p class="description"><?php echo esc_html( $options_available['with_flags']['description'] ); ?></p>
-			</td>
-		</tr>
+        <tr valign="top">
+            <th scope="row" class="titledesc">
+                <label for="<?php echo esc_attr( $options_available['is_fullname']['key'] ); ?>">
+                    <?php echo esc_html( $options_available['is_fullname']['label'] ); ?>
+                </label>
+            </th>
+            <td class="forminp forminp-text">
+                <input
+                        name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['is_fullname']['key'] ) ); ?>"
+                        id="<?php echo esc_attr( $options_available['is_fullname']['key'] ); ?>"
+                        type="checkbox"
+                    <?php checked( $this->options[ $options_available['is_fullname']['key'] ], 1 ); ?>
+                >
+                <p class="description"><?php echo esc_html( $options_available['is_fullname']['description'] ); ?></p>
+            </td>
+        </tr>
 		<tr valign="top">
 			<th scope="row" class="titledesc">
 				<label for="<?php echo esc_attr( $options_available['override_css']['key'] ); ?>">
 					<?php echo esc_html( $options_available['override_css']['label'] ); ?>
 				</label>
+                <p class="sub-label"><?php echo esc_html( $options_available['override_css']['description'] ); ?></p>
+            </td>
 			</th>
 			<td class="forminp forminp-text">
 				<textarea
@@ -153,8 +163,6 @@ $options_available = [
 					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['override_css']['key'] ) ); ?>" placeholder=".country-selector {
   margin-bottom: 20px;
 }"><?php echo $this->options[ $options_available['override_css']['key'] ]; //phpcs:ignore?></textarea>
-				<p class="description"><?php echo esc_html( $options_available['override_css']['description'] ); ?></p>
-			</td>
 		</tr>
 	</tbody>
 </table>

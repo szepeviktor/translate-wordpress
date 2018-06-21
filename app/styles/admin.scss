@@ -66,7 +66,7 @@
 	margin-bottom: 10px;
 }
 
-input[type='text'] {
+input[type='text'],textarea {
 	&:focus {
 		border-color: $primaryHover;
 		box-shadow: none;
@@ -92,21 +92,24 @@ input[type='text'] {
 	margin: 2px 0 0;
 }
 
-.original-select {
+.original-select,#type_flags {
 	padding: 8px;
 	height: 36px!important;
 	width: 300px;
+}
+#type_flags {
+	width: 150px;
 }
 
 .selectize-control.multi .selectize-input > div {
 	background-color : #eff0ff;
 }
 
-input[type="text"] {
+input[type="text"],.wg-input-textarea {
 	padding:8px;
 }
 
-.selectize-control, input[type="text"] {
+.selectize-control, input[type="text"],.wg-input-textarea {
 	width : 100%;
 	max-width: 300px;
 }
@@ -115,4 +118,42 @@ input[type="text"] {
 	height: 50px;
 	padding: 0 30px!important;
 	font-size: 16px;
+}
+
+.description {
+	display: inline-block;
+}
+
+.wg-tooltip {
+	position : absolute;
+	display:none;
+}
+.wg-infobox {
+	position: relative;
+	color: #3741cc;
+	font-weight: bold;
+}
+.wg-infobox:hover .wg-tooltip {
+	line-height: 1.4;
+	position: absolute;
+	top: 27px;
+	display: block;
+	background-color: #24292d;
+	width: 160px;
+	padding: 10px;
+	color: white;
+	font-weight: normal;
+	border: 1px solid #e0e0e0;
+	font-size: 12px;
+}
+
+.arrow-up {
+	width: 0;
+	height: 0;
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	border-bottom: 10px solid #24292d;
+	position: absolute;
+	top: -10px;
+	left: 36px;
 }

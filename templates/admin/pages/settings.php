@@ -36,4 +36,16 @@ use WeglotWP\Helpers\Helper_Tabs_Admin_Weglot;
 		?>
 		<input type="hidden" name="tab" value="<?php echo esc_attr( $this->tab_active ); ?>">
 	</form>
+    <br><br>
+    <hr>
+    <br>
+    <a target="_blank"
+       href="http://wordpress.org/support/view/plugin-reviews/weglot?rate=5#postform">
+        <?php esc_html_e('Love Weglot? Give us 5 stars on WordPress.org :)', 'weglot'); ?>
+    </a>
+    <br><br>
+    <i class="fa fa-question-circle" aria-hidden="true"
+       style="font-size : 17px;"></i>
+    <p style="display:inline-block; margin-left:5px;"><?php echo sprintf(esc_html__('If you need any help, you can contact us via our live chat at %1$sweglot.com%2$s or email us at support@weglot.com.', 'weglot'), '<a href="https://weglot.com/" target="_blank">', '</a>') . '<br>' . sprintf(esc_html__('You can also check our %1$sFAQ%2$s', 'weglot'), '<a href="http://support.weglot.com/" target="_blank">', '</a>'); ?></p>
+    <br>
 </div>

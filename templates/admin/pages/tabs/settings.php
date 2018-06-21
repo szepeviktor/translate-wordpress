@@ -9,7 +9,7 @@ $options_available = [
 	'api_key' => [
 		'key'         => 'api_key',
 		'label'       => __( 'API Key', 'weglot' ),
-		'description' => __( 'Log in to <a target="_blank" href="https://weglot.com/register-wordpress">Weglot</a> to get your API key.', 'weglot' ),
+		'description' => __( 'Log in to <a target="_blank" href="https://weglot.com/register-wordpress">Weglot</a> to get your API key. <span class="wg-infobox">Why?<span class="wg-tooltip"><span class="arrow-up"></span>A Weglot account is needed to access and manage your translations. It takes nothing more than 20 seconds !</span></span>', 'weglot' ),
 	],
 	'original_language' => [
 		'key'         => 'original_language',
@@ -24,12 +24,12 @@ $options_available = [
 	'exclude_urls' => [
 		'key'         => 'exclude_urls',
 		'label'       => __( 'Exclusion URL', 'weglot' ),
-		'description' => __( 'You can write regex.', 'weglot' ),
+		'description' => __( 'Add URL that you want to exclude from translations. You can use regular expression to match multiple URLs. ', 'weglot' ),
 	],
 	'exclude_blocks' => [
 		'key'         => 'exclude_blocks',
 		'label'       => __( 'Exclusion Blocks', 'weglot' ),
-		'description' => __( 'Enter CSS selectors, separated by commas.', 'weglot' ),
+		'description' => __( 'Enter the CSS selector of blocks you don\'t want to translate (like a sidebar, a menu, a paragraph etc...', 'weglot' ),
 	],
 ];
 
@@ -163,6 +163,7 @@ $languages = $this->language_services->get_languages_available();
 						<div class="item-exclude">
 							<input
 								type="text"
+                                placeholder=".my-class"
 								name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['exclude_blocks']['key'] ) ); ?>[]"
 								value="<?php echo esc_attr( $option ); ?>"
 							>
@@ -175,7 +176,7 @@ $languages = $this->language_services->get_languages_available();
 					endif;
 					?>
 				</div>
-				<button id="js-add-exclude-block" class="btn btn-soft"><?php esc_html_e( 'Add an exclusion', 'weglot' ); ?></button>
+				<button id="js-add-exclude-block" class="btn btn-soft"><?php esc_html_e( 'Add a block to exclude', 'weglot' ); ?></button>
 			</td>
 		</tr>
 	</tbody>
@@ -199,6 +200,7 @@ $languages = $this->language_services->get_languages_available();
 	<div class="item-exclude">
 		<input
 			type="text"
+            placeholder=".my-class"
 			name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['exclude_blocks']['key'] ) ); ?>[]"
 			value=""
 		>
