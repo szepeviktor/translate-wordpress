@@ -47,7 +47,7 @@ $options_available = [
         <tr valign="top">
             <th scope="row" class="titledesc">
                 <label >
-                    <?php echo esc_html__("Button preview",'weglot'); ?>
+                    <?php echo esc_html__('Button preview', 'weglot'); ?>
                 </label>
             </th>
             <td class="forminp forminp-text">
