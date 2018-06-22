@@ -12,7 +12,7 @@ $options_available = [
 	'auto_redirect' => [
 		'key'         => 'auto_redirect',
 		'label'       => __( 'Auto redirection', 'weglot' ),
-		'description' => __('Check if you want to redirect users based on their browser language.'),
+		'description' => __( 'Check if you want to redirect users based on their browser language.', 'weglot' ),
 	],
 	'email_translate' => [
 		'key'         => 'email_translate',
