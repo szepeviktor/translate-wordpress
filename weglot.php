@@ -14,6 +14,11 @@ Domain Path: /languages/
 Version: 2.0
 */
 
+/**
+ * This file need to be compatible with PHP 5.3
+ * Example : Don't use short syntax for array()
+ */
+
 if ( ! defined('ABSPATH')) {
 	exit;
 }
@@ -124,7 +129,7 @@ function weglot_rollback( ) {
  */
 function weglot_plugin_loaded() {
 	require_once __DIR__ . '/weglot-autoload.php';
-	require_once __DIR__ . '/weglot-compatibility.php';
+require_once __DIR__ . '/weglot-compatibility.php';
 
 	if ( ! weglot_is_compatible() ) {
 		add_action( 'admin_post_weglot_rollback', 'weglot_rollback' );

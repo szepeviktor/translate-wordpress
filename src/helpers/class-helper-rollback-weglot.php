@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * This file need to be compatible with PHP 5.3
+ * Example : Don't use short syntax for array()
+ */
+
 namespace WeglotWP\Helpers;
 
 // Exit if accessed directly.
