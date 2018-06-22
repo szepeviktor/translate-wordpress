@@ -64,19 +64,104 @@
 .item-exclude{
 	position: relative;
 	margin-bottom: 10px;
-	input[type='text'] {
-		width: 90%;
-		max-width: 90%;
-		border: 2px solid #eaeef0;
-		border-radius: 4px;
-		padding: 10px;
-		margin: 0;
+}
+
+input[type='text'],textarea {
+	&:focus {
+		border-color: $primaryHover;
 		box-shadow: none;
-		font-weight: 500;
-		height: 42px;
-		&:focus {
-			border-color: $primaryHover;
-			box-shadow: none;
+	}
+}
+
+::-webkit-input-placeholder,
+:-moz-placeholder,
+::-moz-placeholder,
+:-ms-input-placeholder
+{
+	color: #C0C0C0;
+}
+
+.sub-label {
+	font-size: 13px;
+	font-weight: normal;
+	margin: 2px 0 0;
+}
+
+.original-select,#type_flags {
+	padding: 8px;
+	height: 36px!important;
+	width: 300px;
+}
+#type_flags {
+	width: 150px;
+}
+
+.selectize-control.multi .selectize-input > div {
+	background-color : #eff0ff;
+}
+
+input[type="text"],.wg-input-textarea {
+	padding:8px;
+}
+
+.selectize-control, input[type="text"],.wg-input-textarea {
+	width : 100%;
+	max-width: 300px;
+}
+
+#submit {
+	height: 50px;
+	padding: 0 30px!important;
+	font-size: 16px;
+}
+
+.description {
+	display: inline-block;
+}
+
+.wg-tooltip {
+	position : absolute;
+	display:none;
+}
+.wg-infobox {
+	position: relative;
+	color: #3741cc;
+	font-weight: bold;
+
+	&:hover {
+		.wg-tooltip {
+			line-height: 1.4;
+			position: absolute;
+			top: 27px;
+			display: block;
+			background-color: #24292d;
+			width: 160px;
+			padding: 10px;
+			color: white;
+			font-weight: normal;
+			border: 1px solid #e0e0e0;
+			font-size: 12px;
 		}
 	}
+}
+#mainform {
+	margin-bottom: 50px;
+}
+.arrow-up {
+	width: 0;
+	height: 0;
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	border-bottom: 10px solid #24292d;
+	position: absolute;
+	top: -10px;
+	left: 36px;
+}
+
+.weglot-5stars {
+	display:inline-block;
+	margin-left:5px;
+}
+.question-icon {
+	font-size : 17px;
 }

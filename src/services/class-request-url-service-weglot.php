@@ -65,6 +65,7 @@ class Request_Url_Service_Weglot implements Mediator_Service_Interface_Weglot {
 		);
 
 		$exclude_urls_option[] = '#wpadminbar';
+		$exclude_urls_option[] = '#query-monitor';
 
 		$this->weglot_url->setExcludedUrls( $exclude_urls_option );
 

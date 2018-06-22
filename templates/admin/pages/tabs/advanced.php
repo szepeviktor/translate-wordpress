@@ -12,12 +12,12 @@ $options_available = [
 	'auto_redirect' => [
 		'key'         => 'auto_redirect',
 		'label'       => __( 'Auto redirection', 'weglot' ),
-		'description' => '',
+		'description' => __( 'Check if you want to redirect users based on their browser language.', 'weglot' ),
 	],
 	'email_translate' => [
 		'key'         => 'email_translate',
 		'label'       => __( 'Email translate', 'weglot' ),
-		'description' => __( 'Translate email who use function wp_mail', 'weglot' ),
+		'description' => __( 'Check to translate all emails who use function wp_mail', 'weglot' ),
 	],
 	'exclude_amp' => [
 		'key'         => 'exclude_amp',
@@ -45,6 +45,7 @@ $options_available = [
 					type="checkbox"
 					<?php checked( $this->options[ $options_available['auto_redirect']['key'] ], 1 ); ?>
 				>
+                <p class="description"><?php echo esc_html( $options_available['auto_redirect']['description'] ); ?></p>
 			</td>
 		</tr>
 		<tr valign="top">
