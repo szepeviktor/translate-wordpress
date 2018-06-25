@@ -17,21 +17,21 @@ class Option_Service_Weglot {
 	 * @var array
 	 */
 	protected $options_default = [
-		'api_key'              => '',
-		'original_language'    => 'en',
-		'destination_language' => [],
-		'exclude_amp'          => true,
-		'version'              => null,
-		'exclude_blocks'       => [],
-		'exclude_urls'         => [],
-		'auto_redirect'        => 0,
-		'email_translate'      => 0,
-		'is_fullname'          => true,
-		'with_name'            => false,
-		'is_dropdown'          => true,
-		'type_flags'           => 0,
-		'with_flags'           => true,
-		'override_css'         => '',
+		'api_key'                => '',
+		'original_language'      => 'en',
+		'destination_language'   => [],
+		'translate_amp'          => false,
+		'version'                => null,
+		'exclude_blocks'         => [],
+		'exclude_urls'           => [],
+		'auto_redirect'          => false,
+		'email_translate'        => false,
+		'is_fullname'            => true,
+		'with_name'              => false,
+		'is_dropdown'            => true,
+		'type_flags'             => 0,
+		'with_flags'             => true,
+		'override_css'           => '',
 	];
 
 	/**

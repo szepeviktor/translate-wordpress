@@ -113,10 +113,10 @@ function weglot_get_exclude_urls() {
 }
 
 /**
- * Get exclude AMP to translate
+ * Get translate AMP option
  * @since 2.0
  * @return bool
  */
-function weglot_get_exclude_amp_translation() {
-	return weglot_get_option( 'exclude_amp' );
+function weglot_get_translate_amp_translation() {
+	return weglot_get_option( 'translate_amp' );
 }
