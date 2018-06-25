@@ -133,4 +133,19 @@ class Bootstrap_Weglot {
 			$action->activate();
 		}
 	}
+
+	/**
+	 * Deactivate plugin
+	 * @since 2.0
+	 * @return void
+	 */
+	public function deactivate_plugin() {
+		foreach ( $this->actions as $action ) {
+			if ( ! method_exists( $action, 'deactivate' ) ) {
+				continue;
+			}
+
+			$action->deactivate();
+		}
+	}
 }

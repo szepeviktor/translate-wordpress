@@ -56,6 +56,7 @@ abstract class Context_Weglot {
 			'\WeglotWP\Actions\Admin\Options_Weglot',
 			'\WeglotWP\Actions\Admin\Admin_Enqueue_Weglot',
 			'\WeglotWP\Actions\Admin\Customize_Menu_Weglot',
+			'\WeglotWP\Actions\Admin\Permalink_Weglot',
 			'\WeglotWP\Actions\Front\Translate_Page_Weglot',
 			'\WeglotWP\Actions\Front\Front_Enqueue_Weglot',
 			'\WeglotWP\Actions\Front\Shortcode_Weglot',
