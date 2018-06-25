@@ -45,7 +45,7 @@ $options_available = [
 					type="checkbox"
 					<?php checked( $this->options[ $options_available['auto_redirect']['key'] ], 1 ); ?>
 				>
-                <p class="description"><?php echo esc_html( $options_available['auto_redirect']['description'] ); ?></p>
+				<p class="description"><?php echo esc_html( $options_available['auto_redirect']['description'] ); ?></p>
 			</td>
 		</tr>
 		<tr valign="top">
