@@ -6,7 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-use WeglotWP\Models\Mediator_Service_Interface_Weglot;
 
 use Weglot\Client\Endpoint\Languages;
 use Weglot\Client\Client;
@@ -16,18 +15,16 @@ use Weglot\Client\Client;
  *
  * @since 2.0
  */
-class Language_Service_Weglot implements Mediator_Service_Interface_Weglot {
+class Language_Service_Weglot {
 	protected $languages = null;
 
 	/**
-	 * @see Mediator_Service_Interface_Weglot
 	 * @since 2.0
-	 * @param array $services
-	 * @return void
 	 */
-	public function use_services( $services ) {
-		$this->option_services = $services['Option_Service_Weglot'];
+	public function __construct() {
+		$this->option_services = weglot_get_service( 'Option_Service_Weglot' );
 	}
+
 
 	/**
 	 * Get languages available from API

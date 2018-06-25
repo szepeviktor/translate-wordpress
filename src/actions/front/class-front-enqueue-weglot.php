@@ -7,14 +7,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use WeglotWP\Models\Hooks_Interface_Weglot;
-use WeglotWP\Models\Mediator_Service_Interface_Weglot;
 
 /**
  * Enqueue CSS / JS on front
  *
  * @since 2.0
  */
-class Front_Enqueue_Weglot implements Hooks_Interface_Weglot, Mediator_Service_Interface_Weglot {
+class Front_Enqueue_Weglot implements Hooks_Interface_Weglot {
+
+	/**
+	 * @since 2.0
+	 */
+	public function __construct() {
+		$this->option_services         = weglot_get_service( 'Option_Service_Weglot' );
+	}
 
 	/**
 	 * @see Hooks_Interface_Weglot
@@ -24,17 +30,6 @@ class Front_Enqueue_Weglot implements Hooks_Interface_Weglot, Mediator_Service_I
 	 */
 	public function hooks() {
 		add_action( 'wp_enqueue_scripts', [ $this, 'weglot_wp_enqueue_scripts' ] );
-	}
-
-	/**
-	 * @see Mediator_Service_Interface_Weglot
-	 *
-	 * @param array $services
-	 * @return Front_Enqueue_Weglot
-	 */
-	public function use_services( $services ) {
-		$this->option_services         = $services['Option_Service_Weglot'];
-		return $this;
 	}
 
 	/**

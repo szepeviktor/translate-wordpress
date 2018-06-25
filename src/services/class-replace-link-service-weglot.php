@@ -6,22 +6,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-use WeglotWP\Models\Mediator_Service_Interface_Weglot;
-
-
 /**
  * @since 2.0
  */
-class Replace_Link_Service_Weglot implements Mediator_Service_Interface_Weglot {
+class Replace_Link_Service_Weglot {
 
 	/**
 	 * @since 2.0
-	 * @see Mediator_Service_Interface_Weglot
-	 * @param array $services
-	 * @return void
 	 */
-	public function use_services( $services ) {
-		$this->multisite_service = $services['Multisite_Service_Weglot'];
+	public function __construct() {
+		$this->multisite_service           = weglot_get_service( 'Multisite_Service_Weglot' );
 	}
 
 	/**

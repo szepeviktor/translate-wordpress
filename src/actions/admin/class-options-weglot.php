@@ -9,23 +9,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 use WeglotWP\Helpers\Helper_Tabs_Admin_Weglot;
 
 use WeglotWP\Models\Hooks_Interface_Weglot;
-use WeglotWP\Models\Mediator_Service_Interface_Weglot;
 
 /**
  * Sanitize options after submit form
  *
  * @since 2.0
  */
-class Options_Weglot implements Hooks_Interface_Weglot, Mediator_Service_Interface_Weglot {
+class Options_Weglot implements Hooks_Interface_Weglot {
+
 	/**
-	 * @see Mediator_Service_Interface_Weglot
-	 *
-	 * @param array $services
-	 * @return Options_Weglot
+	 * @since 2.0
 	 */
-	public function use_services( $services ) {
-		$this->option_services = $services['Option_Service_Weglot'];
-		return $this;
+	public function __construct() {
+		$this->option_services = weglot_get_service( 'Option_Service_Weglot' );
 	}
 
 	/**

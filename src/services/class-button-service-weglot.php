@@ -7,27 +7,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-use WeglotWP\Models\Mediator_Service_Interface_Weglot;
-
 /**
  * Button services
  *
  * @since 2.0
  */
-class Button_Service_Weglot implements Mediator_Service_Interface_Weglot {
-
+class Button_Service_Weglot {
 
 	/**
-	 * @see Mediator_Service_Interface_Weglot
 	 * @since 2.0
-	 * @param array $services
-	 * @return void
 	 */
-	public function use_services( $services ) {
-		$this->option_services      = $services['Option_Service_Weglot'];
-		$this->request_url_services = $services['Request_Url_Service_Weglot'];
-		$this->language_services    = $services['Language_Service_Weglot'];
+	public function __construct() {
+		$this->option_services           = weglot_get_service( 'Option_Service_Weglot' );
+		$this->request_url_services      = weglot_get_service( 'Request_Url_Service_Weglot' );
+		$this->language_services         = weglot_get_service( 'Language_Service_Weglot' );
 	}
+
 
 	/**
 	 * Use for wp_ses

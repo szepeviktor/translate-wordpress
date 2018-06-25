@@ -5,13 +5,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Get a service Weglot
+ * @since 2.0
+ *
+ * @param string $service
+ * @return object
+ */
+function weglot_get_service( $service ) {
+	return Context_Weglot::weglot_get_context()->get_service( $service );
+}
+
+/**
  * Get all options
  * @since 2.0
  *
  * @return array
  */
 function weglot_get_options() {
-	return Context_Weglot::weglot_get_context()->get_service( 'Option_Service_Weglot' )->get_options();
+	return Context_Weglot::weglot_get_context()->get_service( '' )->get_options();
 }
 
 /**

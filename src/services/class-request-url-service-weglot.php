@@ -9,14 +9,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Weglot\Util\Url;
 use Weglot\Util\Server;
 
-use WeglotWP\Models\Mediator_Service_Interface_Weglot;
 
 /**
  * Request URL
  *
  * @since 2.0
  */
-class Request_Url_Service_Weglot implements Mediator_Service_Interface_Weglot {
+class Request_Url_Service_Weglot {
 	/**
 	 * @since 2.0
 	 *
@@ -26,12 +25,9 @@ class Request_Url_Service_Weglot implements Mediator_Service_Interface_Weglot {
 
 	/**
 	 * @since 2.0
-	 * @see Mediator_Service_Interface_Weglot
-	 * @param array $services
-	 * @return void
 	 */
-	public function use_services( $services ) {
-		$this->option_services = $services['Option_Service_Weglot'];
+	public function __construct() {
+		$this->option_services           = weglot_get_service( 'Option_Service_Weglot' );
 	}
 
 	/**

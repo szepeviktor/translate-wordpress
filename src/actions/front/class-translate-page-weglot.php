@@ -7,7 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use WeglotWP\Models\Hooks_Interface_Weglot;
-use WeglotWP\Models\Mediator_Service_Interface_Weglot;
 
 
 use Weglot\Client\Api\Enum\BotType;
@@ -22,22 +21,20 @@ use Weglot\Parser\ConfigProvider\ServerConfigProvider;
  *
  * @since 2.0
  */
-class Translate_Page_Weglot implements Hooks_Interface_Weglot, Mediator_Service_Interface_Weglot {
+class Translate_Page_Weglot implements Hooks_Interface_Weglot {
+
 	/**
-	 * @see Mediator_Service_Interface_Weglot
-	 *
-	 * @param array $services
-	 * @return Options_Weglot
+	 * @since 2.0
 	 */
-	public function use_services( $services ) {
-		$this->option_services         = $services['Option_Service_Weglot'];
-		$this->button_services         = $services['Button_Service_Weglot'];
-		$this->request_url_services    = $services['Request_Url_Service_Weglot'];
-		$this->redirect_services       = $services['Redirect_Service_Weglot'];
-		$this->replace_url_services    = $services['Replace_Url_Service_Weglot'];
-		$this->language_services       = $services['Language_Service_Weglot'];
-		return $this;
+	public function __construct() {
+		$this->option_services           = weglot_get_service( 'Option_Service_Weglot' );
+		$this->button_services           = weglot_get_service( 'Button_Service_Weglot' );
+		$this->request_url_services      = weglot_get_service( 'Request_Url_Service_Weglot' );
+		$this->redirect_services         = weglot_get_service( 'Redirect_Service_Weglot' );
+		$this->replace_url_services      = weglot_get_service( 'Replace_Url_Service_Weglot' );
+		$this->language_services         = weglot_get_service( 'Language_Service_Weglot' );
 	}
+
 
 	/**
 	 * @see Hooks_Interface_Weglot

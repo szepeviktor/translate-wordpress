@@ -7,7 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use WeglotWP\Models\Hooks_Interface_Weglot;
-use WeglotWP\Models\Mediator_Service_Interface_Weglot;
 
 use Weglot\Client\Client;
 use Weglot\Parser\Parser;
@@ -20,18 +19,14 @@ use Weglot\Parser\ConfigProvider\ServerConfigProvider;
  * @since 2.0
  *
  */
-class Email_Translate_Weglot implements Hooks_Interface_Weglot, Mediator_Service_Interface_Weglot {
+class Email_Translate_Weglot implements Hooks_Interface_Weglot {
 
 	/**
-	 * @see Mediator_Service_Interface_Weglot
-	 *
-	 * @param array $services
-	 * @return Options_Weglot
+	 * @since 2.0
 	 */
-	public function use_services( $services ) {
-		$this->request_url_service  = $services['Request_Url_Service_Weglot'];
-		$this->option_services      = $services['Option_Service_Weglot'];
-		return $this;
+	public function __construct() {
+		$this->option_services           = weglot_get_service( 'Option_Service_Weglot' );
+		$this->request_url_services      = weglot_get_service( 'Request_Url_Service_Weglot' );
 	}
 
 	/**

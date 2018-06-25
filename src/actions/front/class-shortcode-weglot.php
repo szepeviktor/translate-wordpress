@@ -7,29 +7,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use WeglotWP\Models\Hooks_Interface_Weglot;
-use WeglotWP\Models\Mediator_Service_Interface_Weglot;
 
 /**
  *
  * @since 2.0
  */
-class Shortcode_Weglot implements Mediator_Service_Interface_Weglot {
+class Shortcode_Weglot {
 
 	/**
 	 * @since 2.0
 	 */
 	public function __construct() {
-		add_shortcode( 'weglot_switcher', [ $this, 'weglot_switcher_callback' ] );
-	}
+		$this->button_services = weglot_get_service( 'Button_Service_Weglot' );
 
-	/**
-	 * @see Mediator_Service_Interface_Weglot
-	 *
-	 * @param array $services
-	 * @return void
-	 */
-	public function use_services( $services ) {
-		$this->button_services = $services['Button_Service_Weglot'];
+		add_shortcode( 'weglot_switcher', [ $this, 'weglot_switcher_callback' ] );
 	}
 
 	/**

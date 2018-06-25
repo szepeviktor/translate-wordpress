@@ -7,7 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use WeglotWP\Models\Hooks_Interface_Weglot;
-use WeglotWP\Models\Mediator_Service_Interface_Weglot;
 use WeglotWP\Helpers\Helper_Pages_Weglot;
 
 /**
@@ -16,7 +15,15 @@ use WeglotWP\Helpers\Helper_Pages_Weglot;
  * @since 2.0
  *
  */
-class Admin_Enqueue_Weglot implements Hooks_Interface_Weglot, Mediator_Service_Interface_Weglot {
+class Admin_Enqueue_Weglot implements Hooks_Interface_Weglot {
+
+	/**
+	 * @since 2.0
+	 */
+	public function __construct() {
+		$this->language_services = weglot_get_service( 'Language_Service_Weglot' );
+	}
+
 	/**
 	 * @see Hooks_Interface_Weglot
 	 *
@@ -25,17 +32,6 @@ class Admin_Enqueue_Weglot implements Hooks_Interface_Weglot, Mediator_Service_I
 	 */
 	public function hooks() {
 		add_action( 'admin_enqueue_scripts', [ $this, 'weglot_admin_enqueue_scripts' ] );
-	}
-
-	/**
-	 * @see Mediator_Service_Interface_Weglot
-	 *
-	 * @param array $services
-	 * @return Admin_Enqueue_Weglot
-	 */
-	public function use_services( $services ) {
-		$this->language_services = $services['Language_Service_Weglot'];
-		return $this;
 	}
 
 

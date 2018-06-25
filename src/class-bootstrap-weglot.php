@@ -62,13 +62,17 @@ class Bootstrap_Weglot {
 		return $this;
 	}
 
+	/**
+	 * Set a service
+	 * @since 2.0
+	 * @param string $service
+	 * @return BootStrap_Weglot
+	 */
 	public function set_service( $service ) {
-		$classname = get_class( $service );
-		if ( preg_match( '@\\\\([\w]+)$@', $classname, $matches ) ) {
-			$classname = $matches[1];
-		}
-
-		$this->services[ $classname ] = $service;
+		$name = explode( '\\', $service );
+		end( $name );
+		$key                             = key( $name );
+		$this->services[ $name[ $key ] ] = $service;
 		return $this;
 	}
 
@@ -82,10 +86,20 @@ class Bootstrap_Weglot {
 		return $this->services;
 	}
 
+	/**
+	 * Get one service by classname
+	 * @since 2.0
+	 * @param string $name
+	 * @return object
+	 */
 	public function get_service( $name ) {
 		if ( ! array_key_exists( $name, $this->services ) ) {
 			return null;
 			// @TODO : Throw exception
+		}
+
+		if ( is_string( $this->services[ $name ] ) ) {
+			$this->services[ $name ] = new $this->services[ $name ]();
 		}
 
 		return $this->services[ $name ];
@@ -98,12 +112,18 @@ class Bootstrap_Weglot {
 	 */
 	public function init_plugin() {
 		foreach ( $this->actions as $action ) {
+			$action = new $action();
 			if ( $action instanceof Hooks_Interface_Weglot ) {
 				$action->hooks();
 			}
 		}
 	}
 
+	/**
+	 * Activate plugin
+	 * @since 2.0
+	 * @return void
+	 */
 	public function activate_plugin() {
 		foreach ( $this->actions as $action ) {
 			if ( ! method_exists( $action, 'activate' ) ) {

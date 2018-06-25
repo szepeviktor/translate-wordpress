@@ -7,7 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use WeglotWP\Models\Hooks_Interface_Weglot;
-use WeglotWP\Models\Mediator_Service_Interface_Weglot;
 use WeglotWP\Helpers\Helper_Pages_Weglot;
 
 /**
@@ -15,18 +14,15 @@ use WeglotWP\Helpers\Helper_Pages_Weglot;
  * @since 2.0
  *
  */
-class Customize_Menu_Weglot implements Hooks_Interface_Weglot, Mediator_Service_Interface_Weglot {
+class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 
 	/**
-	 * @see Mediator_Service_Interface_Weglot
-	 *
-	 * @param array $services
-	 * @return Customize_Menu_Weglot
+	 * @since 2.0
 	 */
-	public function use_services( $services ) {
-		$this->language_services      = $services['Language_Service_Weglot'];
-		$this->option_services        = $services['Option_Service_Weglot'];
-		$this->request_url_services   = $services['Request_Url_Service_Weglot'];
+	public function __construct() {
+		$this->language_services      = weglot_get_service( 'Language_Service_Weglot' );
+		$this->option_services        = weglot_get_service( 'Option_Service_Weglot' );
+		$this->request_url_services   = weglot_get_service( 'Request_Url_Service_Weglot' );
 		return $this;
 	}
 
