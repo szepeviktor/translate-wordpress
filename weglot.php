@@ -98,6 +98,8 @@ function weglot_plugin_deactivate() {
  * @since 2.0
  */
 function weglot_plugin_uninstall() {
+	flush_rewrite_rules();
+	delete_option(WEGLOT_SLUG);
 }
 
 /**
