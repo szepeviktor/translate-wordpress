@@ -35,32 +35,32 @@ abstract class Context_Weglot {
 		self::$context = new Bootstrap_Weglot();
 
 		$services = [
-			\WeglotWP\Services\Button_Service_Weglot::class,
-			\WeglotWP\Services\Request_Url_Service_Weglot::class,
-			\WeglotWP\Services\Option_Service_Weglot::class,
-			\WeglotWP\Services\Redirect_Service_Weglot::class,
-			\WeglotWP\Services\Network_Service_Weglot::class,
-			\WeglotWP\Services\Language_Service_Weglot::class,
-			\WeglotWP\Services\Replace_Url_Service_Weglot::class,
-			\WeglotWP\Services\Multisite_Service_Weglot::class,
-			\WeglotWP\Services\Replace_Link_Service_Weglot::class,
+			'\WeglotWP\Services\Button_Service_Weglot',
+			'\WeglotWP\Services\Request_Url_Service_Weglot',
+			'\WeglotWP\Services\Option_Service_Weglot',
+			'\WeglotWP\Services\Redirect_Service_Weglot',
+			'\WeglotWP\Services\Network_Service_Weglot',
+			'\WeglotWP\Services\Language_Service_Weglot',
+			'\WeglotWP\Services\Replace_Url_Service_Weglot',
+			'\WeglotWP\Services\Multisite_Service_Weglot',
+			'\WeglotWP\Services\Replace_Link_Service_Weglot',
 		];
 
 		self::$context->set_services( $services );
 
 		$actions = [
-			\WeglotWP\Actions\Email_Translate_Weglot::class,
-			\WeglotWP\Actions\Register_Widget_Weglot::class,
-			\WeglotWP\Actions\Admin\Pages_Weglot::class,
-			\WeglotWP\Actions\Admin\Plugin_Links_Weglot::class,
-			\WeglotWP\Actions\Admin\Options_Weglot::class,
-			\WeglotWP\Actions\Admin\Admin_Enqueue_Weglot::class,
-			\WeglotWP\Actions\Admin\Customize_Menu_Weglot::class,
-			\WeglotWP\Actions\Front\Translate_Page_Weglot::class,
-			\WeglotWP\Actions\Front\Front_Enqueue_Weglot::class,
-			\WeglotWP\Actions\Front\Shortcode_Weglot::class,
-			\WeglotWP\Actions\Front\Redirect_Log_User_Weglot::class,
-			\WeglotWP\Third\Woocommerce\WC_Filter_Urls_Weglot::class,
+			'\WeglotWP\Actions\Email_Translate_Weglot',
+			'\WeglotWP\Actions\Register_Widget_Weglot',
+			'\WeglotWP\Actions\Admin\Pages_Weglot',
+			'\WeglotWP\Actions\Admin\Plugin_Links_Weglot',
+			'\WeglotWP\Actions\Admin\Options_Weglot',
+			'\WeglotWP\Actions\Admin\Admin_Enqueue_Weglot',
+			'\WeglotWP\Actions\Admin\Customize_Menu_Weglot',
+			'\WeglotWP\Actions\Front\Translate_Page_Weglot',
+			'\WeglotWP\Actions\Front\Front_Enqueue_Weglot',
+			'\WeglotWP\Actions\Front\Shortcode_Weglot',
+			'\WeglotWP\Actions\Front\Redirect_Log_User_Weglot',
+			'\WeglotWP\Third\Woocommerce\WC_Filter_Urls_Weglot',
 		];
 
 		self::$context->set_actions( $actions );
