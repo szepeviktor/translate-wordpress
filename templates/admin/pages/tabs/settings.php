@@ -46,14 +46,14 @@ $languages = $this->language_services->get_languages_available();
 				<label for="<?php echo esc_attr( $options_available['api_key']['key'] ); ?>">
 					<?php echo esc_html( $options_available['api_key']['label'] ); ?>
 				</label>
-                <p class="sub-label"><?php echo $options_available['api_key']['description']; ?></p>
+				<p class="sub-label"><?php echo $options_available['api_key']['description']; //phpcs:ignore ?></p>
 			</th>
 			<td class="forminp forminp-text">
 				<input
 					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['api_key']['key'] ) ); ?>"
 					id="<?php echo esc_attr( $options_available['api_key']['key'] ); ?>"
 					type="text"
-                    placeholder="wg_XXXXXXXXXXXX"
+					placeholder="wg_XXXXXXXXXXXX"
 					value="<?php echo esc_attr( $this->options[ $options_available['api_key']['key'] ] ); ?>"
 				>
 			</td>
@@ -63,7 +63,7 @@ $languages = $this->language_services->get_languages_available();
 				<label for="<?php echo esc_attr( $options_available['original_language']['key'] ); ?>">
 					<?php echo esc_html( $options_available['original_language']['label'] ); ?>
 				</label>
-                <p class="sub-label"><?php echo $options_available['original_language']['description']; ?></p>
+					<p class="sub-label"><?php echo $options_available['original_language']['description']; //phpcs:ignore ?></p>
 			</th>
 			<td class="forminp forminp-text">
 				<select
@@ -76,7 +76,7 @@ $languages = $this->language_services->get_languages_available();
 							value="<?php echo esc_attr( $language->getIso639() ); ?>"
 							<?php selected( $language->getIso639(), $this->options[ $options_available['original_language']['key'] ] ); ?>
 						>
-							<?php echo esc_html__( $language->getEnglishName() ); ?>
+							<?php echo esc_html__( $language->getEnglishName() ); //phpcs:ignore ?>
 						</option>
 					<?php endforeach; ?>
 				</select>
@@ -87,7 +87,7 @@ $languages = $this->language_services->get_languages_available();
 				<label for="<?php echo esc_attr( $options_available['destination_language']['key'] ); ?>">
 					<?php echo esc_html( $options_available['destination_language']['label'] ); ?>
 				</label>
-                <p class="sub-label"><?php echo $options_available['destination_language']['description']; ?></p>
+				<p class="sub-label"><?php echo $options_available['destination_language']['description']; //phpcs:ignore ?></p>
 			</th>
 			<td class="forminp forminp-text">
 				<select
@@ -127,11 +127,11 @@ $languages = $this->language_services->get_languages_available();
 					<?php
 					if ( ! empty( $this->options[ $options_available['exclude_urls']['key'] ] ) ) :
 						foreach ( $this->options[ $options_available['exclude_urls']['key'] ] as $option ) :
-					?>
+							?>
 						<div class="item-exclude">
 							<input
 								type="text"
-                                placeholder="/my-awesome-url"
+								placeholder="/my-awesome-url"
 								name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['exclude_urls']['key'] ) ); ?>[]"
 								value="<?php echo esc_attr( $option ); ?>"
 							>
@@ -139,7 +139,7 @@ $languages = $this->language_services->get_languages_available();
 								<span class="dashicons dashicons-minus"></span>
 							</button>
 						</div>
-					<?php
+							<?php
 						endforeach;
 					endif;
 					?>
@@ -159,11 +159,11 @@ $languages = $this->language_services->get_languages_available();
 					<?php
 					if ( ! empty( $this->options[ $options_available['exclude_blocks']['key'] ] ) ) :
 						foreach ( $this->options[ $options_available['exclude_blocks']['key'] ] as $option ) :
-					?>
+							?>
 						<div class="item-exclude">
 							<input
 								type="text"
-                                placeholder=".my-class"
+								placeholder=".my-class"
 								name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['exclude_blocks']['key'] ) ); ?>[]"
 								value="<?php echo esc_attr( $option ); ?>"
 							>
@@ -171,7 +171,7 @@ $languages = $this->language_services->get_languages_available();
 								<span class="dashicons dashicons-minus"></span>
 							</button>
 						</div>
-					<?php
+							<?php
 						endforeach;
 					endif;
 					?>
@@ -186,7 +186,7 @@ $languages = $this->language_services->get_languages_available();
 	<div class="item-exclude">
 		<input
 			type="text"
-            placeholder="/my-awesome-url"
+			placeholder="/my-awesome-url"
 			name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['exclude_urls']['key'] ) ); ?>[]"
 			value=""
 		>
@@ -200,7 +200,7 @@ $languages = $this->language_services->get_languages_available();
 	<div class="item-exclude">
 		<input
 			type="text"
-            placeholder=".my-class"
+			placeholder=".my-class"
 			name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['exclude_blocks']['key'] ) ); ?>[]"
 			value=""
 		>

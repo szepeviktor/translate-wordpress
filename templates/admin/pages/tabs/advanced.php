@@ -16,7 +16,7 @@ $options_available = [
 	],
 	'email_translate' => [
 		'key'         => 'email_translate',
-		'label'       => __( 'Email translate', 'weglot' ),
+		'label'       => __( 'Translate email', 'weglot' ),
 		'description' => __( 'Check to translate all emails who use function wp_mail', 'weglot' ),
 	],
 	'translate_amp' => [
