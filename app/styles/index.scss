@@ -12,9 +12,23 @@ $lineHeight: 36px;
 	outline : none;
 	text-decoration: none;
 	white-space: nowrap;
-	width:auto;
 	border: 1px solid #e0e0e0;
-
+ 	&.weglot-widget{
+		position: relative;
+		right: auto;
+		label{
+			height: auto;
+		}
+		ul{
+			margin-left:-1px;
+			bottom:auto;
+			li{
+				a:not(.button){
+					text-decoration: none;
+				}
+			}
+		}
+	}
 	label{
 		position:relative;
 		transition:background 0.3s;
