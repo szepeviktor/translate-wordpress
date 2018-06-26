@@ -43,7 +43,7 @@ $lineHeight: 36px;
 			content:"";
 			position:absolute;
 			display:block;
-			top:50%;
+			top:42%;
 			right:0px;
 			width:0;
 			height:0;
@@ -81,6 +81,7 @@ $lineHeight: 36px;
 	}
 
 	 ul{
+		box-sizing: border-box;
 		background-color: #fff;
 		max-height:0;
 		bottom: $heightSelector;
@@ -100,6 +101,7 @@ $lineHeight: 36px;
 			border-bottom: none;
 			width: 100%;
 			a{
+				font-size:14px;
 				display:inline-block;
 				text-decoration:none;
 				transition:background .3s;
