@@ -63,7 +63,7 @@ class Redirect_Service_Weglot {
 			in_array( $server_lang, $destination_languages, true ) &&
 			$server_lang !== $this->request_url_services->get_current_language()
 		) {
-			wp_safe_redirect( sprintf( '%s%s/', $this->request_url_services->get_weglot_url()->getBaseUrl(), $server_lang ) );
+			wp_safe_redirect( $this->request_url_services->get_weglot_url()->getForLanguage( $server_lang ) );
 			exit();
 		}
 	}
