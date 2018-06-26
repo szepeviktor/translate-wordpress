@@ -50,7 +50,7 @@ $heightSelector: 48px;
 			content:"";
 			position:absolute;
 			display:block;
-			top:50%;
+			top:42%;
 			right:0px;
 			width:0;
 			height:0;
@@ -79,6 +79,7 @@ $heightSelector: 48px;
 	}
 
 	 ul{
+		box-sizing: border-box;
 		background-color: #fff;
 		max-height:0;
 		bottom: $heightSelector;
@@ -88,7 +89,7 @@ $heightSelector: 48px;
 		list-style-type:none;
 		transition:max-height 0.5s ease-out;
 		position:absolute;
-		min-width:100%;
+		width:100%;
 		padding: 0 10px;
 		margin-left: -1px;
 		border:none;
@@ -97,6 +98,7 @@ $heightSelector: 48px;
 		li{
 			border-bottom: none;
 			a{
+				font-size:14px;
 				display:inline-block;
 				padding:12px;
 				padding-left: 2px;
