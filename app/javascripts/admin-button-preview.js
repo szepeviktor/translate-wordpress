@@ -6,8 +6,8 @@ const init_admin_button_preview = function () {
 		let old_type_flags = $("#type_flags").val()
 
 		let destination_languages = []
-		destination_languages.push($(".weglot-preview label").data("code-language"));
-		$(".weglot-preview li").each((key, itm) => {
+		destination_languages.push($(".country-selector label").data("code-language"));
+		$(".country-selector li").each((key, itm) => {
 			destination_languages.push($(itm).data("code-language"));
 		})
 
@@ -17,34 +17,36 @@ const init_admin_button_preview = function () {
 
 		// Change dropdown
 		$("#is_dropdown").on("change", function(){
-			$(".weglot-preview").toggleClass("weglot-inline");
+			$(".country-selector").toggleClass("weglot-inline");
+            $(".country-selector").toggleClass("weglot-dropdown");
 		})
 
 		// Change with flags
 		$("#with_flags").on("change", function() {
-			$(".weglot-preview label, .weglot-preview li").toggleClass("weglot-flags");
+			$(".country-selector label, .country-selector li").toggleClass("weglot-flags");
 		});
 
 		// Change type flags
 		$("#type_flags").on("change", function(e) {
-			$(".weglot-preview label, .weglot-preview li").removeClass(`flag-${old_type_flags}`);
+			$(".country-selector label, .country-selector li").removeClass(`flag-${old_type_flags}`);
 			const new_type_flags = e.target.value;
-			$(".weglot-preview label, .weglot-preview li").addClass(`flag-${new_type_flags}`);
+			$(".country-selector label, .country-selector li").addClass(`flag-${new_type_flags}`);
 			old_type_flags = new_type_flags;
 		});
 
 		const set_fullname_language = () => {
 			const label_language = weglot_desination_languages.find(
-				(itm) => itm.code === $(".weglot-preview label").data("code-language")
+				(itm) => itm.code === $(".country-selector label").data("code-language")
 			);
 
-			$(".weglot-preview label").text(label_language.local);
-				$(".weglot-preview li").each((key, itm) => {
-				const language = weglot_desination_languages.find(
+			$(".country-selector label a").text(label_language.local);
+
+			$(".country-selector li").each((key, itm) => {
+				const li_language = weglot_desination_languages.find(
 					(lang) => lang.code === $(itm).data("code-language")
 				);
 
-				$(itm).text(language.local);
+				$(itm).find("a").text(li_language.local);
 			})
 		}
 
@@ -54,8 +56,8 @@ const init_admin_button_preview = function () {
 				set_fullname_language()
 			}
 			else{
-				$(".weglot-preview label").text("");
-				$(".weglot-preview li").each((key, itm) => {
+				$(".country-selector label a").text("");
+				$(".country-selector li a").each((key, itm) => {
 					$(itm).text("");
 				});
 			}
@@ -69,13 +71,13 @@ const init_admin_button_preview = function () {
 
 			}
 			else {
-				const label_language = weglot_desination_languages.find(itm => itm.code === $(".weglot-preview label").data("code-language"));
+				const label_language = weglot_desination_languages.find(itm => itm.code === $(".country-selector label").data("code-language"));
 
-				$(".weglot-preview label").text(label_language.code.toUpperCase());
-				$(".weglot-preview li").each((key, itm) => {
+				$(".country-selector label a").text(label_language.code.toUpperCase());
+				$(".country-selector li").each((key, itm) => {
 					const language = weglot_desination_languages.find(lang => lang.code === $(itm).data("code-language"));
 
-					$(itm).text(language.code.toUpperCase());
+					$(itm).find("a").text(language.code.toUpperCase());
 				});
 			}
 		});

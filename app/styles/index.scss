@@ -18,6 +18,13 @@ $lineHeight: 36px;
 		white-space: nowrap;
 		font-weight : normal;
 		cursor: pointer;
+		color : black;
+		-webkit-touch-callout: none; /* iOS Safari */
+		-webkit-user-select: none; /* Safari */
+		-khtml-user-select: none; /* Konqueror HTML */
+		-moz-user-select: none; /* Firefox */
+		-ms-user-select: none; /* Internet Explorer/Edge */
+		user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
 		&:focus {
 			outline : none;
 		}
@@ -42,7 +49,6 @@ $lineHeight: 36px;
 			display: block;
 			height: $heightSelector;
 			line-height: $lineHeight;
-			color : black;
 			font-size: 13px;
 			padding : 0 10px;
 			width : 100%;
@@ -59,12 +65,34 @@ $lineHeight: 36px;
 			a{
 				padding-right: 60px;
 			}
+
+			&:after {
+				display: inline-block;
+				position: absolute;
+				top: 17px;
+				right: 8px;
+				width: 13px;
+				height: 7px;
+				image-rendering: pixelated;
+				background : url('../images/wgarrowdown.png')  no-repeat;
+				content: '';
+				-webkit-transition: all 200ms;
+				-moz-transition: all 200ms;
+				-ms-transition: all 200ms;
+				-o-transition: all 200ms;
+				transition: all 200ms;
+				-webkit-transform: rotate(-90deg);
+				-moz-transform: rotate(-90deg);
+				-ms-transform: rotate(-90deg);
+				-o-transform: rotate(-90deg);
+				transform: rotate(-90deg);
+			}
 		}
 
 		ul {
 			position: absolute;
 			min-width: 100%;
-			border: 1px solid #e0e0e0;
+			border: 1px solid #ebeef0;
 			background: white ;
 			left : 0;
 			top : initial;
@@ -72,12 +100,39 @@ $lineHeight: 36px;
 			-moz-box-sizing: border-box;
 			box-sizing: border-box;
 			display : none;
+			padding: 0;
 
+		}
+
+		input:checked ~ ul{
+			display : block;
+		}
+
+		input:checked ~ .wgcurrent:after {
+			-webkit-transform: rotate(0deg);
+			-moz-transform: rotate(0deg);
+			-ms-transform: rotate(0deg);
+			-o-transform: rotate(0deg);
+			transform: rotate(0deg);
 		}
 
 		li {
 			width : 100%;
 		}
+
+		&.weglot-invert{
+			ul{
+				bottom:38px;
+			}
+			input:checked ~ .wgcurrent:after {
+				-webkit-transform: rotate(-180deg);
+				-moz-transform: rotate(-180deg);
+				-ms-transform: rotate(-180deg);
+				-o-transform: rotate(-180deg);
+				transform: rotate(-180deg);
+			}
+		}
+
 	}
 
 	&.weglot-inline {
@@ -112,8 +167,8 @@ $lineHeight: 36px;
 		right : 40px;
 
 		&.weglot-dropdown {
-			ul {
-				bottom : 38px;
+			.wgcurrent {
+
 			}
 		}
 
@@ -124,9 +179,6 @@ $lineHeight: 36px;
 		display:none
 	}
 
-	input:checked ~ ul{
-		display : block;
-	}
 }
 
 .weglot-flags {

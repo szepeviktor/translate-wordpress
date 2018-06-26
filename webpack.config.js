@@ -6,6 +6,7 @@ const env = JSON.stringify(process.env.NODE_ENV) || "development";
 
 module.exports = {
 	entry: {
+        "front-js": "./app/javascripts/front.js",
 		"admin-js": "./app/javascripts/index.js",
 		"front-css": "./app/styles/index.scss",
 		"admin-css": "./app/styles/admin.scss"

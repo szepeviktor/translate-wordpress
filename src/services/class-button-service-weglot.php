@@ -82,7 +82,6 @@ class Button_Service_Weglot {
 		$flag_class                       = $with_flags ? 'weglot-flags ' : '';
 		$flag_class .= '0' === $type_flags ? '' : 'flag-' . $type_flags . ' ';
 
-		$tag                              = $is_dropdown ? 'div' : 'li';
 		$class_aside                      = $is_dropdown ? 'weglot-dropdown ' : 'weglot-inline ';
 
 		$languages = $this->language_services->get_languages_available();
@@ -96,7 +95,7 @@ class Button_Service_Weglot {
 		}
 
 
-		$button_html .= sprintf( '<input id="weglot_choice" type="checkbox" name="menu"/><label for="weglot_choice" class="wgcurrent wg-li %s" data-code-language="%s">%s</label>', $flag_class . $current_language, $languages[ $current_language ]->getIso639(), $name );
+		$button_html .= sprintf( '<input id="weglot_choice" type="checkbox" name="menu"/><label for="weglot_choice" class="wgcurrent wg-li %s" data-code-language="%s"><a>%s</a></label>', $flag_class . $current_language, $languages[ $current_language ]->getIso639(), $name );
 
 
 		$button_html .= '<ul>';
