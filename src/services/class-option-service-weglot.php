@@ -80,6 +80,15 @@ class Option_Service_Weglot {
 		return $exclude_blocks;
 	}
 
+	/**
+	 * @since 2.0
+	 *
+	 * @return string
+	 */
+	public function get_css_custom_inline() {
+		return $this->get_option( 'override_css' );
+	}
+
 
 	/**
 	 * @since 2.0

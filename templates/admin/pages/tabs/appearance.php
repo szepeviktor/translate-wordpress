@@ -50,7 +50,7 @@ $options_available = [
 				</label>
 			</th>
 			<td class="forminp forminp-text">
-				TODO: preview
+				<?php echo $this->button_services->get_html( 'weglot-preview weglot-invert' ); //phpcs:ignore ?>
 			</td>
 		</tr>
 		<tr valign="top">
