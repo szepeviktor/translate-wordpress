@@ -96,7 +96,7 @@ class Email_Translate_Weglot implements Hooks_Interface_Weglot {
 		}
 
 		$current_and_original_language   = weglot_get_current_and_original_language();
-		$exclude_blocks                  = $this->option_services->get_option( 'exclude_blocks' );
+		$exclude_blocks                  = $this->option_services->get_exclude_blocks();
 
 		$config             = new ServerConfigProvider();
 		$client             = new Client( $api_key );

@@ -68,6 +68,19 @@ class Option_Service_Weglot {
 		return $options[ $name ];
 	}
 
+	/**
+	 * @since 2.0
+	 * @return array
+	 */
+	public function get_exclude_blocks() {
+		$exclude_blocks     = $this->get_option( 'exclude_blocks' );
+		$exclude_blocks[]   = '#wpadminbar';
+		$exclude_blocks[]   = '#query-monitor';
+
+		return $exclude_blocks;
+		;
+	}
+
 
 	/**
 	 * @since 2.0

@@ -138,7 +138,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			return $this->weglot_render_dom( $content );
 		}
 
-		$exclude_blocks = $this->option_services->get_option( 'exclude_blocks' );
+		$exclude_blocks = $this->option_services->get_exclude_blocks();
 
 		$config             = new ServerConfigProvider();
 		$client             = new Client( $this->api_key );
