@@ -155,7 +155,6 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	 * @return string
 	 */
 	public function weglot_add_button_html( $dom ) {
-		$button_html        = $this->button_services->get_html();
 		$options            = $this->option_services->get_options();
 
 		// Place the button if we see markup
@@ -165,6 +164,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		}
 
 		if ( strpos( $dom, '[weglot_menu' ) !== false ) {
+			$button_html          = $this->button_services->get_html( );
 			$languages_configured = $this->language_services->get_languages_configured();
 			$protocol             = 'http://';
 			$is_ssl               = is_ssl();
@@ -193,7 +193,8 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 
 		// Place the button if not in the page
 		if ( strpos( $dom, sprintf( '<!--Weglot %s-->', WEGLOT_VERSION ) ) === false ) {
-			$dom         = ( strpos( $dom, '</body>' ) !== false) ? str_replace( '</body>', $button_html . ' </body>', $dom ) : str_replace( '</footer>', $button_html . ' </footer>', $dom );
+			$button_html  = $this->button_services->get_html( 'weglot-default' );
+			$dom          = ( strpos( $dom, '</body>' ) !== false) ? str_replace( '</body>', $button_html . ' </body>', $dom ) : str_replace( '</footer>', $button_html . ' </footer>', $dom );
 		}
 
 		return $dom;
