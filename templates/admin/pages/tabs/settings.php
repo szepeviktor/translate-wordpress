@@ -9,7 +9,7 @@ $options_available = [
 	'api_key' => [
 		'key'         => 'api_key',
 		'label'       => __( 'API Key', 'weglot' ),
-		'description' => __( 'Log in to <a target="_blank" href="https://weglot.com/register-wordpress">Weglot</a> to get your API key. <span class="wg-infobox">Why?<span class="wg-tooltip"><span class="arrow-up"></span>A Weglot account is needed to access and manage your translations. It takes nothing more than 20 seconds !</span></span>', 'weglot' ),
+		'description' => __( 'Log in to <a target="_blank" href="https://weglot.com/register-wordpress">Weglot</a> to get your API key. <span class="weglot-infobox">Why?<span class="wg-tooltip"><span class="arrow-up"></span>A Weglot account is needed to access and manage your translations. It takes nothing more than 20 seconds !</span></span>', 'weglot' ),
 	],
 	'original_language' => [
 		'key'         => 'original_language',
@@ -67,7 +67,7 @@ $languages = $this->language_services->get_languages_available();
 			</th>
 			<td class="forminp forminp-text">
 				<select
-					class="original-select"
+					class="weglot-select"
 					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['original_language']['key'] ) ); ?>"
 					id="<?php echo esc_attr( $options_available['original_language']['key'] ); ?>"
 				>
@@ -112,7 +112,7 @@ $languages = $this->language_services->get_languages_available();
 
 <h3><?php esc_html_e( 'Translation Exclusion (Optional)', 'weglot' ); ?> </h3>
 <hr>
-<p>By default, every page is translated. You can exclude parts of a page or a full page here.</p>
+<p><?php esc_html__( 'By default, every page is translated. You can exclude parts of a page or a full page here.', 'weglot' ); ?></p>
 <table class="form-table">
 	<tbody>
 		<tr valign="top">
@@ -181,6 +181,30 @@ $languages = $this->language_services->get_languages_available();
 		</tr>
 	</tbody>
 </table>
+
+<?php if ( ! $this->options['has_first_settings'] && $this->options['show_box_first_settings'] ) : ?>
+	<?php $this->option_services->set_option_by_key( 'show_box_first_settings', false ); // remove showbox ?>
+	<div id="weglot-box-first-settings" class="weglot-box-overlay">
+		<div class="weglot-box">
+			<a class="weglot-btn-close"><?php esc_html_e( 'Close', 'weglot' ); ?></a>
+			<h3 class="weglot-box--title"><?php esc_html_e( 'Well done! Your website is now multilingual.', 'weglot' ); ?></h3>
+			<p class="weglot-box--text"><?php esc_html_e( 'Go on your website, there is a language switcher. Try it :)', 'weglot' ); ?></p>
+			<a class="button button-primary" href="<?php echo esc_attr( home_url() ); ?>" target="_blank">
+				<?php esc_html_e( 'Go on my front page.', 'weglot' ); ?>
+			</a>
+			<p class="weglot-box--subtext"><?php esc_html_e( 'Next step, edit your translations directly in your Weglot account.', 'weglot' ); ?></p>
+		</div>
+	</div>
+	<?php
+	if ( $this->options[ $options_available['destination_language']['key'] ] && count( $this->options[ $options_available['destination_language']['key'] ] ) > 0 ) :
+		?>
+		<iframe
+			style="visibility:hidden;"
+			src="<?php echo esc_url( sprintf( '%s/%s', home_url(), $this->options[ $options_available['destination_language']['key'] ][0] ) ); ?>/" width="1" height="1">
+		</iframe>
+	<?php endif; ?>
+<?php endif; ?>
+
 
 <template id="tpl-exclusion-url">
 	<div class="item-exclude">

@@ -54,7 +54,7 @@ class Email_Translate_Weglot implements Hooks_Interface_Weglot {
 		if ( $current_and_original_language['current'] !== $current_and_original_language['original'] ) {
 			$message_and_subject_translated = $this->translate_email( $message_and_subject, $current_and_original_language['current'] );
 		} elseif ( isset( $_SERVER['HTTP_REFERER'] ) ) { //phpcs:ignore
-			$url                     = $this->request_url_service
+			$url                     = $this->request_url_services
 											->create_url_object( $_SERVER['HTTP_REFERER'] ); //phpcs:ignore
 
 			$choose_current_language = $url->detectCurrentLanguage();

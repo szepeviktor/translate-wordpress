@@ -192,8 +192,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		}
 
 		// Place the button if not in the page
-		if ( strpos( $dom, 'class="weglot-current' ) === false ) {
-			$button_html = str_replace( '<aside data-wg-notranslate class="', '<aside data-wg-notranslate class="wg-default ', $button_html );
+		if ( strpos( $dom, sprintf( '<!--Weglot %s-->', WEGLOT_VERSION ) ) === false ) {
 			$dom         = ( strpos( $dom, '</body>' ) !== false) ? str_replace( '</body>', $button_html . ' </body>', $dom ) : str_replace( '</footer>', $button_html . ' </footer>', $dom );
 		}
 

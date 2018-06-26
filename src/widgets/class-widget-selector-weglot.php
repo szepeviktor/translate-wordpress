@@ -35,7 +35,7 @@ class Widget_Selector_Weglot extends \WP_Widget {
 
 		$button = weglot_get_button_selector_html( 'weglot-widget' );
 
-		echo $args['before_widget'] . $tt . wp_kses( $button, weglot_get_button_allowed_tags() ) . $args['after_widget']; //phpcs:ignore
+		echo $args['before_widget'] . $tt . $button . $args['after_widget']; //phpcs:ignore
 	}
 
 	/**

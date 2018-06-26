@@ -39,7 +39,7 @@ class Multisite_Service_Weglot {
 				array_push( $paths, $path );
 			}
 		} else {
-			array_push( $paths, $this->request_url_service->get_home_wordpress_directory() );
+			array_push( $paths, $this->request_url_services->get_home_wordpress_directory() );
 		}
 
 		return $paths;

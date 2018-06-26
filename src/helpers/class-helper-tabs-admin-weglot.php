@@ -59,19 +59,19 @@ abstract class Helper_Tabs_Admin_Weglot {
 	public static function get_full_tabs() {
 		return [
 			self::SETTINGS => [
-				'title' => __( 'General', 'welot' ),
+				'title' => __( 'General', 'weglot' ),
 				'url'   => get_admin_url( null, sprintf( 'admin.php?page=%s&tab=%s', Helper_Pages_Weglot::SETTINGS, self::SETTINGS ) ),
 			],
 			self::APPEARANCE   => [
-				'title' => __( 'Button appearance', 'welot' ),
+				'title' => __( 'Button appearance', 'weglot' ),
 				'url'   => get_admin_url( null, sprintf( 'admin.php?page=%s&tab=%s', Helper_Pages_Weglot::SETTINGS, self::APPEARANCE ) ),
 			],
 			self::ADVANCED => [
-				'title' => __( 'Advanced', 'welot' ),
+				'title' => __( 'Advanced', 'weglot' ),
 				'url'   => get_admin_url( null, sprintf( 'admin.php?page=%s&tab=%s', Helper_Pages_Weglot::SETTINGS, self::ADVANCED ) ),
 			],
 			self::STATUS   => [
-				'title' => __( 'Status', 'welot' ),
+				'title' => __( 'Status', 'weglot' ),
 				'url'   => get_admin_url( null, sprintf( 'admin.php?page=%s&tab=%s', Helper_Pages_Weglot::SETTINGS, self::STATUS ) ),
 			],
 		];
