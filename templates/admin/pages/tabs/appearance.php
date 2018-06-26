@@ -40,7 +40,7 @@ $options_available = [
 
 
 ?>
-
+<style id="weglot-css-inline"></style>
 <table class="form-table">
 	<tbody>
 		<tr valign="top">
@@ -159,7 +159,7 @@ $options_available = [
 					type="text"
 					rows="10"
 					cols="30"
-					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['override_css']['key'] ) ); ?>" placeholder=".country-selector {
+					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['override_css']['key'] ) ); ?>" placeholder=".weglot-selector {
   margin-bottom: 20px;
 }"><?php echo $this->options[ $options_available['override_css']['key'] ]; //phpcs:ignore?></textarea>
 		</tr>

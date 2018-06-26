@@ -62,7 +62,9 @@ class Admin_Enqueue_Weglot implements Hooks_Interface_Weglot {
 
 		if ( isset( $_GET['tab'] ) && Helper_Tabs_Admin_Weglot::APPEARANCE === $_GET['tab'] ) { //phpcs:ignore
 			wp_enqueue_style( 'weglot-css', WEGLOT_URL_DIST . '/css/front-css.css' );
-			wp_add_inline_style( 'weglot-css', $this->option_services->get_css_custom_inline() );
+			wp_localize_script( 'weglot-admin', 'weglot_css', [
+				'inline' => $this->option_services->get_css_custom_inline(),
+			]);
 		}
 	}
 }
