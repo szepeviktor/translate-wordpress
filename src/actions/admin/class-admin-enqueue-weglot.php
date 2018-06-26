@@ -8,6 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use WeglotWP\Models\Hooks_Interface_Weglot;
 use WeglotWP\Helpers\Helper_Pages_Weglot;
+use WeglotWP\Helpers\Helper_Tabs_Admin_Weglot;
 
 /**
  * Enqueue CSS / JS on administration
@@ -22,6 +23,7 @@ class Admin_Enqueue_Weglot implements Hooks_Interface_Weglot {
 	 */
 	public function __construct() {
 		$this->language_services = weglot_get_service( 'Language_Service_Weglot' );
+		$this->option_services   = weglot_get_service( 'Option_Service_Weglot' );
 	}
 
 	/**
@@ -57,5 +59,10 @@ class Admin_Enqueue_Weglot implements Hooks_Interface_Weglot {
 		]);
 
 		wp_enqueue_style( 'weglot-admin-css', WEGLOT_URL_DIST . '/css/admin-css.css' );
+
+		if ( isset( $_GET['tab'] ) && Helper_Tabs_Admin_Weglot::APPEARANCE === $_GET['tab'] ) { //phpcs:ignore
+			wp_enqueue_style( 'weglot-css', WEGLOT_URL_DIST . '/css/front-css.css' );
+			wp_add_inline_style( 'weglot-css', $this->option_services->get_css_custom_inline() );
+		}
 	}
 }

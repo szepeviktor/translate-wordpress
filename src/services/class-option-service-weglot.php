@@ -78,7 +78,15 @@ class Option_Service_Weglot {
 		$exclude_blocks[]   = '#query-monitor';
 
 		return $exclude_blocks;
-		;
+	}
+
+	/**
+	 * @since 2.0
+	 *
+	 * @return string
+	 */
+	public function get_css_custom_inline() {
+		return $this->get_option( 'override_css' );
 	}
 
 

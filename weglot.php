@@ -33,7 +33,7 @@ define('WEGLOT_DIR', __DIR__);
 define('WEGLOT_BNAME', plugin_basename(__FILE__));
 define('WEGLOT_DIRURL', plugin_dir_url(__FILE__));
 define('WEGLOT_DIR_LANGUAGES', dirname(WEGLOT_BNAME) . '/languages');
-define('WEGLOT_URL_DIST', WEGLOT_DIRURL . '/dist');
+define('WEGLOT_URL_DIST', WEGLOT_DIRURL . 'dist');
 define('WEGLOT_LATEST_VERSION', '1.13.1');
 
 define('WEGLOT_TEMPLATES', WEGLOT_DIR . '/templates');
