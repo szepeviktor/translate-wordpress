@@ -15,6 +15,8 @@ const init_admin_button_preview = function () {
 			return destination_languages.indexOf(itm.code) >= 0;
 		})
 
+		$("#weglot-css-inline").text(weglot_css.inline);
+
 		// Change dropdown
 		$("#is_dropdown").on("change", function(){
 			$(".country-selector").toggleClass("weglot-inline");
@@ -81,9 +83,17 @@ const init_admin_button_preview = function () {
 				});
 			}
 		});
+
+		$("#override_css").on("keyup", function(e) {
+			$("#weglot-css-inline").text(e.target.value);
+		})
 	}
 
 	document.addEventListener('DOMContentLoaded', () => {
+		if ($(".weglot-preview").length === 0){
+			return
+		}
+
 		execute();
 	})
 }

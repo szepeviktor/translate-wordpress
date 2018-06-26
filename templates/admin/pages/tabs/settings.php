@@ -9,7 +9,7 @@ $options_available = [
 	'api_key' => [
 		'key'         => 'api_key',
 		'label'       => __( 'API Key', 'weglot' ),
-		'description' => __( 'Log in to <a target="_blank" href="https://weglot.com/register-wordpress">Weglot</a> to get your API key. <span class="weglot-infobox">Why?<span class="wg-tooltip"><span class="arrow-up"></span>A Weglot account is needed to access and manage your translations. It takes nothing more than 20 seconds !</span></span>', 'weglot' ),
+		'description' => __( 'Log in to <a target="_blank" href="https://weglot.com/register-wordpress">Weglot</a> to get your API key. <span class="weglot-info">Why?<span class="wg-tooltip"><span class="arrow-up"></span>A Weglot account is needed to access and manage your translations. It takes nothing more than 20 seconds !</span></span>', 'weglot' ),
 	],
 	'original_language' => [
 		'key'         => 'original_language',
