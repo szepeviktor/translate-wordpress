@@ -88,14 +88,14 @@ class Button_Service_Weglot {
 		$languages = $this->language_services->get_languages_available();
 
 		$button_html = sprintf( '<!--Weglot %s-->', WEGLOT_VERSION );
-		$button_html .= sprintf( "<aside class='weglot-selector %s'>", $class_aside . $add_class );
+		$button_html .= sprintf( "<aside class='country-selector %s'>", $class_aside . $add_class );
 
 		$name = '';
 		if ( $with_name ) {
 			$name = ( $is_fullname ) ? $languages[ $current_language ]->getEnglishName() : strtoupper( $languages[ $current_language ]->getIso639() );
 		}
 
-		$button_html .= sprintf( '<input id="weglot_choice" type="checkbox" name="menu"/><label for="weglot_choice" class="%s">%s</label>', $flag_class . $current_language, $name );
+		$button_html .= sprintf( '<input id="weglot_choice" type="checkbox" name="menu"/><label for="weglot_choice" class="wgcurrent wg-li %s"><a>%s</a></label>', $flag_class . $current_language, $name );
 
 		$button_html .= '<ul>';
 
@@ -111,7 +111,7 @@ class Button_Service_Weglot {
 				$name = ( $is_fullname ) ? $languages[ $key_code ]->getEnglishName() : strtoupper( $languages[ $key_code ]->getIso639() );
 			}
 
-			$button_html .= sprintf( '<li class="%s">', $flag_class . $key_code );
+			$button_html .= sprintf( '<li class="wg-li %s">', $flag_class . $key_code );
 
 			$button_html .= sprintf(
 				'<a data-wg-notranslate href="%s">%s</a>',
