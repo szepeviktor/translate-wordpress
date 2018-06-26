@@ -78,7 +78,6 @@ class Option_Service_Weglot {
 		$exclude_blocks[]   = '#query-monitor';
 
 		return $exclude_blocks;
-		;
 	}
 
 
