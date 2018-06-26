@@ -107,6 +107,24 @@ input[type="text"],.wg-input-textarea {
 
 
 #wrap-weglot{
+
+	.weglot-nokkey:before {
+		content:'\274C';
+		display:inline-block;
+		color:red;
+		padding:0 6px 0 0;
+		font-size: 15px;
+		padding:0 10px;
+	}
+	.weglot-okkey:before {
+		content: '\2713';
+		display: inline-block;
+		color: green;
+		padding: 0 10px;
+		font-size: 20px;
+		font-weight: bold;
+		padding:0 10px;
+	}
 	display:flex;
 	.wrap {
 		flex: 4;

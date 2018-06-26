@@ -88,6 +88,10 @@ const init_admin_button_preview = function () {
 	}
 
 	document.addEventListener('DOMContentLoaded', () => {
+		if ($(".weglot-preview").length === 0){
+			return
+		}
+
 		execute();
 	})
 }
