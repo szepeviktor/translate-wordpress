@@ -53,7 +53,9 @@ use WeglotWP\Helpers\Helper_Tabs_Admin_Weglot;
 			?>
 		</p>
 	</div>
-	<?php if ( ! $this->options['has_first_settings'] && ! $this->options['show_box_first_settings'] ) : ?>
+	<?php
+	if ( ! $this->options['has_first_settings'] ) :
+		?>
 		<div class="weglot-infobox">
 			<h3><?php esc_html_e( 'Where are my translations?', 'weglot' ); ?></h3>
 			<div>
@@ -65,6 +67,6 @@ use WeglotWP\Helpers\Helper_Tabs_Admin_Weglot;
 		</div>
 		<?php
 	endif;
-?>
+	?>
 </div>
 
