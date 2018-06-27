@@ -50,7 +50,7 @@ $options_available = [
 				</label>
 			</th>
 			<td class="forminp forminp-text">
-				<?php echo $this->button_services->get_html( ); //phpcs:ignore ?>
+				<?php echo $this->button_services->get_html( 'weglot-preview' ); //phpcs:ignore ?>
 			</td>
 		</tr>
 		<tr valign="top">
