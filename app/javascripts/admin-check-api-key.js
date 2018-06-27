@@ -12,7 +12,7 @@ const init_admin_button_preview = function () {
 					$("#api_key").after(
 						'<span class="weglot-keyres weglot-okkey"></span>'
 					);
-					$(".weglot-widget-option-form input[type=submit]").prop(
+					$("#wrap-weglot #submit").prop(
 						"disabled",
 						false
 					);
