@@ -164,7 +164,6 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		}
 
 		if ( strpos( $dom, '[weglot_menu' ) !== false ) {
-			$button_html          = $this->button_services->get_html( );
 			$languages_configured = $this->language_services->get_languages_configured();
 			$protocol             = 'http://';
 			$is_ssl               = is_ssl();
