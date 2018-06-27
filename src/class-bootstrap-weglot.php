@@ -126,6 +126,7 @@ class Bootstrap_Weglot {
 	 */
 	public function activate_plugin() {
 		foreach ( $this->actions as $action ) {
+			$action = new $action();
 			if ( ! method_exists( $action, 'activate' ) ) {
 				continue;
 			}
@@ -141,6 +142,7 @@ class Bootstrap_Weglot {
 	 */
 	public function deactivate_plugin() {
 		foreach ( $this->actions as $action ) {
+			$action = new $action();
 			if ( ! method_exists( $action, 'deactivate' ) ) {
 				continue;
 			}
