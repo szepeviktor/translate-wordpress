@@ -82,20 +82,19 @@ class Button_Service_Weglot {
 		$flag_class                       = $with_flags ? 'weglot-flags ' : '';
 		$flag_class .= '0' === $type_flags ? '' : 'flag-' . $type_flags . ' ';
 
-		$tag                              = $is_dropdown ? 'div' : 'li';
 		$class_aside                      = $is_dropdown ? 'weglot-dropdown ' : 'weglot-inline ';
 
 		$languages = $this->language_services->get_languages_available();
 
 		$button_html = sprintf( '<!--Weglot %s-->', WEGLOT_VERSION );
-		$button_html .= sprintf( "<aside class='weglot-selector %s'>", $class_aside . $add_class );
+		$button_html .= sprintf( "<aside class='country-selector %s'>", $class_aside . $add_class );
 
 		$name = '';
 		if ( $with_name ) {
 			$name = ( $is_fullname ) ? $languages[ $current_language ]->getEnglishName() : strtoupper( $languages[ $current_language ]->getIso639() );
 		}
 
-		$button_html .= sprintf( '<input id="weglot_choice" type="checkbox" name="menu"/><label for="weglot_choice" class="%s" data-code-language="%s">%s</label>', $flag_class . $current_language, $languages[ $current_language ]->getIso639(), $name );
+		$button_html .= sprintf( '<input id="weglot_choice" type="checkbox" name="menu"/><label for="weglot_choice" class="wgcurrent wg-li %s" data-code-language="%s"><a>%s</a></label>', $flag_class . $current_language, $languages[ $current_language ]->getIso639(), $name );
 
 		$button_html .= '<ul>';
 
@@ -111,7 +110,7 @@ class Button_Service_Weglot {
 				$name = ( $is_fullname ) ? $languages[ $key_code ]->getEnglishName() : strtoupper( $languages[ $key_code ]->getIso639() );
 			}
 
-			$button_html .= sprintf( '<li class="%s" data-code-language="%s">', $flag_class . $key_code, $key_code );
+			$button_html .= sprintf( '<li class="wg-li %s" data-code-language="%s">', $flag_class . $key_code, $key_code );
 
 			$button_html .= sprintf(
 				'<a data-wg-notranslate href="%s">%s</a>',

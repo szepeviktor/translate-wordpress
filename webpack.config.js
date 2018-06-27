@@ -6,6 +6,7 @@ const env = JSON.stringify(process.env.NODE_ENV) || "development";
 
 module.exports = {
 	entry: {
+		"front-js": "./app/javascripts/front.js",
 		"admin-js": "./app/javascripts/index.js",
 		"front-css": "./app/styles/index.scss",
 		"admin-css": "./app/styles/admin.scss"
@@ -14,7 +15,7 @@ module.exports = {
 		path: __dirname + "/dist",
 		publicPath: "/dist/"
 	},
-	mode: "development",
+	mode: env,
 	module: {
 		rules: [
 			{
@@ -34,16 +35,19 @@ module.exports = {
 			{
 				test: /\.scss$/,
 				use: ExtractTextPlugin.extract({
-								fallback: "style-loader",
-								use: [
-									{
-										loader: "css-loader?url=false"
-									},
-									{
-										loader: "sass-loader"
-									}
-								]
-						  })
+					fallback: "style-loader",
+					use: [
+						{
+							loader: "css-loader?url=false"
+						},
+						{
+							loader: "sass-loader"
+						},
+						{
+							loader: "postcss-loader"
+						}
+					]
+				})
 			}
 		]
 	},
