@@ -79,6 +79,7 @@ function weglot_plugin_activate() {
 
 	require_once __DIR__ . '/weglot-autoload.php';
 	require_once __DIR__ . '/vendor/autoload.php';
+	require_once __DIR__ . '/weglot-functions.php';
 	require_once __DIR__ . '/bootstrap.php';
 
 	Context_Weglot::weglot_get_context()->activate_plugin();
@@ -94,6 +95,7 @@ function weglot_plugin_deactivate() {
 
 	require_once __DIR__ . '/weglot-autoload.php';
 	require_once __DIR__ . '/vendor/autoload.php';
+	require_once __DIR__ . '/weglot-functions.php';
 	require_once __DIR__ . '/bootstrap.php';
 
 	Context_Weglot::weglot_get_context()->deactivate_plugin();
