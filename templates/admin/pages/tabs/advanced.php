@@ -22,7 +22,7 @@ $options_available = [
 	'translate_amp' => [
 		'key'         => 'translate_amp',
 		'label'       => __( 'Translate AMP', 'weglot' ),
-		'description' => __( 'Exclude translation on AMP page', 'weglot' ),
+		'description' => __( 'Translate AMP page', 'weglot' ),
 	],
 ];
 

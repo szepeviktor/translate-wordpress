@@ -177,7 +177,8 @@ class Request_Url_Service_Weglot {
 		}
 
 		$translate_amp = weglot_get_translate_amp_translation();
-		if ( $translate_amp ) {
+
+		if ( ! $translate_amp ) {
 			$list_regex[] = apply_filters( 'weglot_regex_amp', '([&\?/])amp(/)?$' );
 		}
 

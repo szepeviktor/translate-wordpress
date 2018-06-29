@@ -62,6 +62,7 @@ abstract class Context_Weglot {
 			'\WeglotWP\Actions\Front\Shortcode_Weglot',
 			'\WeglotWP\Actions\Front\Redirect_Log_User_Weglot',
 			'\WeglotWP\Third\Woocommerce\WC_Filter_Urls_Weglot',
+			'\WeglotWP\Third\Amp\Amp_Enqueue_Weglot',
 		];
 
 		self::$context->set_actions( $actions );

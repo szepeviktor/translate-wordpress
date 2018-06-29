@@ -29,10 +29,12 @@ define('WEGLOT_SLUG', 'weglot-translate');
 define('WEGLOT_OPTION_GROUP', 'group-weglot-translate');
 define('WEGLOT_VERSION', '2.0');
 define('WEGLOT_PHP_MIN', '5.4');
-define('WEGLOT_DIR', __DIR__);
 define('WEGLOT_BNAME', plugin_basename(__FILE__));
+define('WEGLOT_DIR', __DIR__ );
+define('WEGLOT_DIR_LANGUAGES', WEGLOT_DIR . '/languages');
+define('WEGLOT_DIR_DIST', WEGLOT_DIR . '/dist');
+
 define('WEGLOT_DIRURL', plugin_dir_url(__FILE__));
-define('WEGLOT_DIR_LANGUAGES', dirname(WEGLOT_BNAME) . '/languages');
 define('WEGLOT_URL_DIST', WEGLOT_DIRURL . 'dist');
 define('WEGLOT_LATEST_VERSION', '1.13.1');
 
