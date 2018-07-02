@@ -131,3 +131,12 @@ function weglot_get_exclude_urls() {
 function weglot_get_translate_amp_translation() {
 	return weglot_get_option( 'translate_amp' );
 }
+
+/**
+ * Get version save in BDD
+ * @since 2.0
+ * @return bool
+ */
+function weglot_get_version() {
+	return weglot_get_option( 'version' );
+}

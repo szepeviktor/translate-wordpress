@@ -44,6 +44,7 @@ abstract class Context_Weglot {
 			'\WeglotWP\Services\Replace_Url_Service_Weglot',
 			'\WeglotWP\Services\Multisite_Service_Weglot',
 			'\WeglotWP\Services\Replace_Link_Service_Weglot',
+			'\WeglotWP\Services\Migration_Service_Weglot',
 		];
 
 		self::$context->set_services( $services );
@@ -61,6 +62,7 @@ abstract class Context_Weglot {
 			'\WeglotWP\Actions\Front\Front_Enqueue_Weglot',
 			'\WeglotWP\Actions\Front\Shortcode_Weglot',
 			'\WeglotWP\Actions\Front\Redirect_Log_User_Weglot',
+			'\WeglotWP\Actions\Migration_Weglot',
 			'\WeglotWP\Third\Woocommerce\WC_Filter_Urls_Weglot',
 			'\WeglotWP\Third\Amp\Amp_Enqueue_Weglot',
 		];
