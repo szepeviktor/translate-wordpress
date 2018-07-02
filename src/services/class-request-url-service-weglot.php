@@ -160,6 +160,7 @@ class Request_Url_Service_Weglot {
 		$exclude_urls_option = weglot_get_exclude_urls();
 
 		if ( ! empty( $exclude_urls_option ) ) {
+			$exclude_urls_option    = implode( ',', $exclude_urls_option );
 			$exclude_urls_option    = preg_replace( '#\s+#', ',', trim( $exclude_urls_option ) );
 
 			$excluded_urls  = explode( ',', $exclude_urls_option );

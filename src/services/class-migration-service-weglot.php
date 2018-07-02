@@ -65,6 +65,7 @@ class Migration_Service_Weglot {
 			'override_css'               => $override_css,
 			'has_first_settings'         => false,
 			'show_box_first_settings'    => false,
+			'rtl_ltr_style'              => $rtl_ltr_style,
 		];
 
 		$this->option_services->set_options( $new_options );
