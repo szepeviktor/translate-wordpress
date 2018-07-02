@@ -4,7 +4,7 @@ Tags: translate,translation,language,multilingual,bilingual,international,locali
 Requires at least: 4.5
 Tested up to: 4.9
 Requires PHP: 5.3
-Stable tag: 1.12.2
+Stable tag: 1.13.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -151,6 +151,15 @@ Weglot Translate is easy to set up:
 See changelog for upgrade changes.
 
 == Changelog ==
+
+= 1.13.1 (01/06/2018) =
+* Bugfix: Error on the encoding of ignored nodes
+
+= 1.13 (31/05/2018) =
+* Bugfix : Improve filter words_translate to prevent matching part of words
+* BugFix : Bug in parser when ignored node had an attribute
+* BugFix : character limit on chinese paragraphs
+* Add : Update message for version 2.0
 
 = 1.12.2 (04/05/2018) =
 * Bugfix : Limitation on the number of characters translated at the same time

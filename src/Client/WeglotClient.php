@@ -13,8 +13,12 @@ class WeglotClient
     const API_BASE_OLD = 'https://weglot.com/api/';
     const NUMBER_MAX_CHARS = 500;
 
+    protected static $NODES_TO_IGNORE = null;
+
     public function __construct($key)
     {
+        self::$NODES_TO_IGNORE = array("strong","em","abbr","acronym","b","bdo","big","cite","kbd","q","small","sub","sup");
+
         $this->api_key = $key;
 
         if ($this->api_key == null || mb_strlen($this->api_key) == 0) {
@@ -183,30 +187,22 @@ class WeglotClient
 
     public function ignoreNodes($dom)
     {
-        $nodes_to_ignore = array(
-            array('<strong>','</strong>'),
-            array('<em>','</em>'),
-            array('<abbr>','</abbr>'),
-            array('<acronym>','</acronym>'),
-            array('<b>','</b>'),
-            array('<bdo>','</bdo>'),
-            array('<big>','</big>'),
-            array('<cite>','</cite>'),
-            array('<kbd>','</kbd>'),
-            array('<q>','</q>'),
-            array('<small>','</small>'),
-            array('<sub>','</sub>'),
-            array('<sup>','</sup>'),
-        );
+        foreach (self::$NODES_TO_IGNORE as $n) {
+            $openRegex = "#<$n( [^>]*)?>#";
+            $closeRegex = "</$n>";
 
-
-        foreach ($nodes_to_ignore as $ignore) {
-            $dom = str_replace($ignore[0], htmlentities($ignore[0]), $dom);
-            $dom = str_replace($ignore[1], htmlentities($ignore[1]), $dom);
+            $dom = preg_replace($openRegex, "&lt;$n$1&gt;", $dom);
+            $dom = str_replace($closeRegex, "&lt;/$n&gt;", $dom);
         }
 
         return $dom;
     }
+
+    public function decodeNode($dom)
+    {
+        return str_replace('&gt;', '>', str_replace('&lt;', '<', $dom));
+    }
+
 
     public function translateDomFromTo($dom, $l_from, $l_to)
     {
@@ -227,6 +223,8 @@ class WeglotClient
 
         $words = array();
         $nodes = array();
+        $prewords = array();
+        $endwords = array();
 
         $elements_to_check = array(
 
@@ -245,6 +243,15 @@ class WeglotClient
                 array(
                     'property' => 'content',
                     't' => 4,
+                    'type' => 'meta_desc',
+                ),
+            ),
+
+            'meta[name="twitter:image"],meta[name="og:image"]'
+            => array(
+                array(
+                    'property' => 'content',
+                    't' => 6,
                     'type' => 'meta_desc',
                 ),
             ),
@@ -409,13 +416,13 @@ class WeglotClient
                         $this->full_trim($row->$property) != '' &&
                         ! $this->hasAncestorAttribute($row, 'data-wg-notranslate') &&
                         $checkType &&
-                        (strlen($row->$property) <= self::NUMBER_MAX_CHARS || strpos($row->$property, ' ') !== false)
+                        (strlen($row->$property) <= self::NUMBER_MAX_CHARS || preg_match('/\s|。|｡|︒/u', $row->$property))
                     ) {
                         array_push(
                             $words,
                             array(
                                 't' => $t,
-                                'w' => $row->$property,
+                                'w' => $this->trim_inline($row->$property, $prewords, $endwords),
                             )
                         );
                         array_push(
@@ -426,11 +433,14 @@ class WeglotClient
                                 'property' => $property,
                             )
                         );
+                    } else {
+                        if (strpos($row->$property, '&gt;') !== false || strpos($row->$property, '&lt;') !== false) {
+                            $row->$property = $this->decodeNode($row->$property);
+                        }
                     }
                 }
             }
         }
-
 
 
         $microData     = array("description");
@@ -481,7 +491,7 @@ class WeglotClient
 
         if (!empty($otherWords) && is_array($otherWords)) {
             foreach ($otherWords as $otherWord) {
-                if (strlen($otherWord) > self::NUMBER_MAX_CHARS && strpos($otherWord, ' ') === false) {
+                if (strlen($otherWord) > self::NUMBER_MAX_CHARS && preg_match('/\s|。|｡|︒/u', $otherWord) == false) {
                     continue;
                 }
 
@@ -492,7 +502,7 @@ class WeglotClient
             }
         }
 
-        $bot        = $this->bot_detected();
+        $bot = $this->bot_detected();
         $parameters = array(
             'l_from' => $l_from,
             'l_to' => $l_to,
@@ -529,7 +539,7 @@ class WeglotClient
             if ($type == "meta_desc") {
                 $currentNode['node']->$property = htmlspecialchars($translated_words[$i]);
             } else {
-                $currentNode['node']->$property = $translated_words[$i];
+                $currentNode['node']->$property = $prewords[$i].$translated_words[$i].$endwords[$i];
             }
 
 
@@ -568,11 +578,13 @@ class WeglotClient
             return $dom;
         }
 
-        $fromWords = array_slice($from_words, $index);
-        $otherWordsTranslated = array_slice($translated_words, $index);
+        $fromWords = array_slice($from_words, $index+ $nbJsonStrings + $countWC18n);
+        $otherWordsTranslated = array_slice($translated_words, $index+ $nbJsonStrings + $countWC18n);
 
         foreach ($fromWords as $key => $fromWord) {
-            $dom = str_replace($fromWord, $otherWordsTranslated[$key], $dom);
+            if (!preg_match("#<[^>\"']*".$fromWord."[^>\"']*>#", $dom)) {
+                $dom = preg_replace("#\b$fromWord\b#", $otherWordsTranslated[$key], $dom);
+            }
         }
 
         return $dom;
@@ -765,5 +777,43 @@ class WeglotClient
     public function full_trim($word)
     {
         return trim($word, " \t\n\r\0\x0B\xA0�");
+    }
+
+    /* This function remove inline tag when they are wrapping the whole sentence */
+    public function trim_inline($word, &$prewords, &$endwords)
+    {
+        $word = $this->decodeNode($word);
+
+        $all_nodes = "";
+        foreach (self::$NODES_TO_IGNORE as $n) {
+            $all_nodes .= $n.'|';
+        }
+        $all_nodes = trim($all_nodes, '|');
+
+        $regex = "#^<($all_nodes)>.*</($all_nodes)>$#";
+
+        $pre = "";
+        $suf = "";
+
+        while (preg_match($regex, $word, $matches)) {
+            $b = $matches[1];
+            $prefix = "<$b>";
+            $suffix = "</$b>";
+
+            if (substr($word, 0, strlen($prefix)) == $prefix) {
+                $word = substr($word, strlen($prefix));
+                $pre .= $prefix;
+            }
+
+            if (substr($word, strlen($word)-strlen($suffix), strlen($suffix)) == $suffix) {
+                $word = substr($word, 0, strlen($word)-strlen($suffix));
+                $suf .=$suffix;
+            }
+        }
+
+        array_push($prewords, $pre);
+        array_push($endwords, $suf);
+
+        return $this->ignoreNodes($word);
     }
 }

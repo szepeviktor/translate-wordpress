@@ -1,7 +1,7 @@
 <?php
 /**
  * @package Weglot
- * @version 1.12.2
+ * @version 1.13.1
  */
 
 /*
@@ -12,7 +12,7 @@ Author: Weglot Translate team
 Author URI: https://weglot.com/
 Text Domain: weglot
 Domain Path: /languages/
-Version: 1.12.2
+Version: 1.13.1
 */
 
 /*
@@ -41,7 +41,7 @@ if (! defined('ABSPATH')) {
 }
 
 
-define('WEGLOT_VERSION', '1.12.2');
+define('WEGLOT_VERSION', '1.13.1');
 define('WEGLOT_DIR', dirname(__FILE__));
 define('WEGLOT_BNAME', plugin_basename(__FILE__));
 define('WEGLOT_DIRURL', plugin_dir_url(__FILE__));
@@ -124,8 +124,7 @@ class Weglot
 
         WeglotContext::setOriginalLanguage(get_option('original_l'));
         WeglotContext::setDestinationLanguage(get_option('destination_l'));
-        WeglotContext::setHomeDirectory(WeglotUrl::getHomeDirectory());
-
+        WeglotContext::setHomeDirectory($this->getHomeDirectory());
 
         $this->request_uri   = $this->getRequestUri(WeglotContext::getHomeDirectory());
         $this->network_paths =  $this->getListOfNetworkPath();
@@ -169,7 +168,7 @@ class Weglot
         add_filter('woocommerce_get_checkout_url', array( $this,'filter_woocommerce_get_cart_url'));
         add_filter('woocommerce_payment_successful_result', array( $this,'filter_woocommerce_payment_successful_result'));
         add_filter('woocommerce_get_checkout_order_received_url', array( $this, 'filter_woocommerce_get_checkout_order_received_url'));
-        add_action('woocommerce_reset_password_notification', array( $this, 'redirectUrlLostPassword'));
+        add_action('woocommerce_reset_password_notification', array( $this, 'redirectUrlLostPassword'), 100, 2);
 
         add_filter('woocommerce_login_redirect', array( $this,'wg_log_redirect'));
         add_filter('woocommerce_registration_redirect', array( $this,'wg_log_redirect'));
@@ -230,13 +229,175 @@ class Weglot
         } else {
             add_shortcode('weglot_switcher', array( $this, 'wg_switcher_creation_empty' ));
         }
+
+        add_action( 'in_plugin_update_message-weglot/weglot.php', array($this, 'weglot_updates_message'), 10, 2 );
+
+    }
+
+    public function weglot_updates_message_requirements(){
+        $php_version    = phpversion();
+        $wp_version     = get_bloginfo('version');
+
+
+        if (version_compare($php_version, '5.4', '<') || version_compare($wp_version, '4.5.0', '<')) {
+            ?>
+            <script>
+                var $ = jQuery
+                $(document).ready(function(){
+                    $("#weglot-update a.update-link").addClass('button-disabled')
+                })
+            </script>
+            <div class="weglot_plugin_upgrade-sub-title"><?php _e('Requirements : ','weglot'); ?></div>
+            <table class=" plugin-details-table" cellspacing="0">
+                <tbody>
+                <?php if (version_compare($wp_version, '4.5.0', '<')){
+                    ?>
+                    <tr>
+                        <th><?php esc_html_e('WordPress Version :', 'weglot'); ?></th>
+                        <td>4.5.0</td>
+                    </tr>
+                    <?php
+                } ?>
+                <?php if (version_compare($php_version, '5.4', '<')){ ?>
+                    <tr>
+                        <th><?php esc_html_e('PHP Version', 'weglot'); ?></th>
+                        <td>5.4</td>
+                    </tr>
+                     <?php
+                } ?>
+                </tbody>
+            </table>
+            <?php
+        }
+    }
+
+    public function get_messageJ14(){
+
+        ?>
+        <p>
+            <?php _e("<strong style='color:red;'>Warning!</strong> The new version 2.0 of Weglot involves many changes.", 'weglot'); ?>
+        </p>
+        <?php
+        _e("We are still in <span class='weglot-warning-beta'>beta</span> on this new version.", 'weglot');
+        ?><br /><?php
+        _e("Remember to <strong>take your precautions</strong> during this update and do not hesitate to <strong>make a backup</strong>. Otherwise you can wait for the 2.1 that will be more stable.", 'weglot');
+
+    }
+
+    public function get_messageJ30(){
+       ?>
+        <p>
+            <?php _e("<strong style='color:red;'>Warning!</strong> The new version 2 of Weglot involves many changes.", 'weglot'); ?>
+        </p>
+        <?php
+        _e("If you see a problem, please report to <strong>support@weglot.com</strong>", 'weglot');
+
+    }
+
+    public function get_messageJ60(){
+        _e("<strong>Heads up!</strong> The new version 2 of Weglot involves many changes.", 'weglot');
+    }
+
+    public function weglot_updates_message( $plugin_data, $new_plugin_data ) {
+        // Get next version.
+        if (isset($new_plugin_data->new_version)) {
+            $remote_version = $new_plugin_data->new_version;
+        }
+
+        if (! isset($remote_version)) {
+            return;
+        }
+
+        if(!preg_match('/^2\.(\d+)(\.(\d+))?/', $remote_version)){
+            return;
+        }
+
+        $date_v2 = "2018-07-17";
+        $date_new_version = new \DateTime($date_v2);
+        $date_j14  = new \DateTime($date_v2);
+        $date_j14->add(new \DateInterval('P14D'));
+        $date_j30  = new \DateTime($date_v2);
+        $date_j30->add(new \DateInterval('P1M'));
+        $date_j60  = new \DateTime($date_v2);
+        $date_j60->add(new \DateInterval('P2M'));
+
+        $date_now = new \DateTime('now');
+
+        if($date_now > $date_j60) {
+            return;
+        }
+
+        ?>
+        <style>
+            .weglot_plugin_upgrade {
+                font-weight: 400;
+                background: #fff8e5 !important;
+                border-left: 4px solid #ffb900;
+                border-top: 1px solid #ffb900;
+                padding: 9px 0 9px 12px !important;
+                margin: 0 -12px 0 -16px !important;
+            }
+
+            .weglot_plugin_upgrade .weglot_plugin_upgrade-sub-title {
+                margin-top: 10px;
+                font-weight: 700;
+                font-size: 1em;
+            }
+
+            .weglot_plugin_upgrade table.plugin-details-table td, .weglot_plugin_upgrade table.plugin-details-table th {
+                background: transparent none !important;
+                margin: 0;
+                padding: .75em 20px 0;
+                border: 0 !important;
+                font-size: 1em;
+                -webkit-box-shadow: none;
+                box-shadow: none;
+            }
+
+            .weglot_plugin_upgrade table.plugin-details-table tr {
+                background: transparent none !important;
+                border: 0 !important;
+            }
+
+            .weglot_plugin_upgrade table.plugin-details-table th {
+                font-weight: 700;
+            }
+
+            .weglot_plugin_upgrade + p {
+                display: none;
+            }
+
+            .weglot_plugin_upgrade-end {
+                margin-top: 10px;
+            }
+
+            .weglot-warning-beta {
+                background-color: red;
+                color: white;
+                display: inline-block;
+                padding: 0px 4px;
+            }
+        </style>
+        <div class="weglot_plugin_upgrade extensions_warning major">
+            <?php
+            if ($date_now <= $date_j14) {
+                $this->get_messageJ14();
+            } elseif ($date_now >= $date_j14 && $date_now <= $date_j30) {
+                $this->get_messageJ30();
+            } elseif ($date_now >= $date_j30 && $date_now <= $date_j60) {
+                $this->get_messageJ60();
+            }
+            ?>
+            <?php $this->weglot_updates_message_requirements(); ?>
+        </div>
+        <?php
     }
 
 
     /**
      * Redirect URL Lost password for WooCommerce
      */
-    public function redirectUrlLostPassword($url)
+    public function redirectUrlLostPassword( $user_login = '', $reset_key = '')
     {
         if (WeglotContext::getCurrentLanguage() === WeglotContext::getOriginalLanguage()) {
             return;
@@ -652,6 +813,7 @@ class Weglot
     public function treatPage($final)
     {
         $request_uri = $this->request_uri;
+
         if (! is_admin() && strpos($request_uri, 'jax') === false && WeglotContext::getOriginalLanguage() != '' && WeglotContext::getDestinationLanguage() != '') {
             // $final = file_get_contents(__DIR__.'/content.html'); //Testing purpose.
             // Get the original request
@@ -802,7 +964,8 @@ class Weglot
             $l,
             'OPTION'
         );
-        $this->modifyLink('/<link rel="canonical"(.*?)?href=(\"|\')([^\s\>]+?)(\"|\')/', $translatedPage, $l, 'LINK');
+        $this->modifyLink('/<link rel="canonical"(.*?)?href=(\"|\')([^\s\>]+?)(\"|\')/', $translatedPage, $l, 'CANONICAL');
+        $this->modifyLink('/<link rel="amphtml"(.*?)?href=(\"|\')([^\s\>]+?)(\"|\')/', $translatedPage, $l, 'AMP');
         $this->modifyLink('/<meta property="og:url"(.*?)?content=(\"|\')([^\s\>]+?)(\"|\')/', $translatedPage, $l, 'META');
 
 
@@ -941,7 +1104,7 @@ class Weglot
             ) . $quote2 . '$2>', $translatedPage);
     }
 
-    public function replaceLINK(
+    public function replaceCANONICAL(
         &$translatedPage,
         $current_url,
         $l,
@@ -955,6 +1118,22 @@ class Weglot
             '/'
         ) . 'href=' . preg_quote($quote1 . $current_url .
                 $quote2, '/') . '/', '<link rel="canonical"' . $sometags . 'href=' . $quote1 . $this->replaceUrl($current_url, $l) . $quote2, $translatedPage);
+    }
+
+    public function replaceAMP(
+        &$translatedPage,
+        $current_url,
+        $l,
+        $quote1,
+        $quote2,
+        $sometags = null,
+        $sometags2 = null
+    ) {
+        $translatedPage = preg_replace('/<link rel="amphtml"' . preg_quote(
+                $sometags,
+                '/'
+            ) . 'href=' . preg_quote($quote1 . $current_url .
+                $quote2, '/') . '/', '<link rel="amphtml"' . $sometags . 'href=' . $quote1 . $this->replaceUrl($current_url, $l) . $quote2, $translatedPage);
     }
 
     public function replaceMETA(
@@ -1104,12 +1283,21 @@ class Weglot
 
     public function getRequestUri($home_dir)
     {
-        if ($home_dir) {
-            return str_replace($home_dir, '', $_SERVER['REQUEST_URI']);
+        if ($home_dir ) {
+            return $this->str_replace_first($home_dir, '', $_SERVER['REQUEST_URI']);
         } else {
             return  $_SERVER['REQUEST_URI'];
         }
     }
+
+    public function str_replace_first($from, $to, $content)
+    {
+        $from = '/'.preg_quote($from, '/').'/';
+
+        return preg_replace($from, $to, $content, 1);
+    }
+
+
     public function getLangFromUrl($request_uri)
     {
         $l    = null;
@@ -1188,7 +1376,10 @@ class Weglot
 
         foreach ($destEx as $d) {
             if ($d != $current) {
-                $link = ($d != WeglotContext::getOriginalLanguage()) ? $this->replaceUrl(WeglotContext::getHomeDirectory().$this->request_uri_no_language, $d) : WeglotContext::getHomeDirectory().$this->request_uri_no_language;
+
+                $full_url = (WeglotContext::getCurrentLanguage() != WeglotContext::getOriginalLanguage()) ? str_replace('/' . WeglotContext::getCurrentLanguage() . '/', '/', $this->full_url($_SERVER)) : $this->full_url($_SERVER);
+
+                $link = ($d != WeglotContext::getOriginalLanguage()) ? $this->replaceUrl($full_url, $d) : WeglotContext::getHomeDirectory().$this->request_uri_no_language;
                 if ($link == WeglotContext::getHomeDirectory().'/' && get_option('wg_auto_switch') == 'on') {
                     $link = $link . '?no_lredirect=true';
                 }
