@@ -21,7 +21,6 @@ class Option_Service_Weglot {
 		'original_language'          => 'en',
 		'destination_language'       => [],
 		'translate_amp'              => false,
-		'version'                    => WEGLOT_VERSION,
 		'exclude_blocks'             => [],
 		'exclude_urls'               => [],
 		'auto_redirect'              => false,

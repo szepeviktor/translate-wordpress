@@ -28,8 +28,13 @@ class Migration_Weglot implements Hooks_Interface_Weglot {
 	 * @return void
 	 */
 	public function hooks() {
-		$version = weglot_get_version();
-		// var_dump($version); die;
-	}
+		if ( ! defined( 'WEGLOT_LATEST_VERSION' ) && ! defined( 'WEGLOT_VERSION' ) ) {
+			return;
+		}
 
+		$weglot_version = get_option( 'weglot_version' );
+		if ( ! $weglot_version && version_compare( WEGLOT_LATEST_VERSION, '2.0', '<' ) ) {
+			$this->migration_services->update_v200();
+		}
+	}
 }
