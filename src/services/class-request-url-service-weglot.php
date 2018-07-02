@@ -187,11 +187,11 @@ class Request_Url_Service_Weglot {
 			$str           = $this->escape_slash( $regex );
 			$prepare_regex = sprintf( '/%s/', $str );
 			if ( preg_match( $prepare_regex, $url ) === 1 ) {
-				return false;
+				return apply_filter( 'weglot_is_eligible_url', false, $url );
 			}
 		}
 
-		return true;
+		return apply_filter( 'weglot_is_eligible_url', true, $url );
 	}
 
 	/**

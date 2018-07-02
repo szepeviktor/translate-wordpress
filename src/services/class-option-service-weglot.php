@@ -77,7 +77,7 @@ class Option_Service_Weglot {
 		$exclude_blocks[]   = '#wpadminbar';
 		$exclude_blocks[]   = '#query-monitor';
 
-		return $exclude_blocks;
+		return apply_filters( 'weglot_exclude_blocks', $exclude_blocks );
 	}
 
 	/**
@@ -86,7 +86,7 @@ class Option_Service_Weglot {
 	 * @return string
 	 */
 	public function get_css_custom_inline() {
-		return $this->get_option( 'override_css' );
+		return apply_filters( 'weglot_css_custom_inline', $this->get_option( 'override_css' ) );
 	}
 
 

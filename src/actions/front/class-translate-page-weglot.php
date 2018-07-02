@@ -72,6 +72,8 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	 * @return void
 	 */
 	public function weglot_init() {
+		do_action( 'weglot_init_start' );
+
 		$this->noredirect         = false;
 		$this->original_language  = $this->option_services->get_option( 'original_language' );
 
@@ -80,10 +82,18 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			return;
 		}
 
+		$active_translation = apply_filters( 'weglot_active_translation', true );
+
+		if ( ! $active_translation ) {
+			return;
+		}
+
 		$this->redirect_services->verify_no_redirect();
 		$this->check_need_to_redirect();
 		$this->prepare_request_uri();
 		$this->prepare_rtl_language();
+
+		do_action( 'weglot_init_before_translate_page' );
 
 		ob_start( [ $this, 'weglot_treat_page' ] );
 	}
@@ -235,7 +245,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		$dom = preg_replace( '/<html (.*?)?lang=(\"|\')(\S*)(\"|\')/', '<html $1lang=$2' . $this->current_language . '$4', $dom );
 		$dom = preg_replace( '/property="og:locale" content=(\"|\')(\S*)(\"|\')/', 'property="og:locale" content=$1' . $this->current_language . '$3', $dom );
 
-		return $dom;
+		return apply_filters( 'weglot_render_dom', $dom );
 	}
 
 	/**
