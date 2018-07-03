@@ -61,7 +61,6 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			return;
 		}
 
-
 		add_action( 'init', [ $this, 'weglot_init' ] );
 		add_action( 'wp_head', [ $this, 'weglot_href_lang' ] );
 	}

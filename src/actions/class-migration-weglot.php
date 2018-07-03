@@ -19,7 +19,6 @@ class Migration_Weglot implements Hooks_Interface_Weglot {
 	 */
 	public function __construct() {
 		$this->migration_services   = weglot_get_service( 'Migration_Service_Weglot' );
-		return $this;
 	}
 
 
