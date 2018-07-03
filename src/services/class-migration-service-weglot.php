@@ -44,9 +44,9 @@ class Migration_Service_Weglot {
 		$exclude_blocks       = get_option( 'exclude_blocks' );
 		$rtl_ltr_style        = get_option( 'rtl_ltr_style' );
 
-		$destination_language = explode( ',', $destination_language );
-		$exclude_blocks       = explode( ',', $exclude_blocks );
-		$exclude_url          = explode( ',', $exclude_url );
+		$destination_language    = explode( ',', $destination_language );
+		$exclude_blocks          = empty( $exclude_blocks ) ? [] : explode( ',', $exclude_blocks );
+		$exclude_url             = empty( $exclude_url ) ? [] : explode( ',', $exclude_url );
 
 		$new_options = [
 			'api_key'                    => $api_key,
@@ -54,7 +54,7 @@ class Migration_Service_Weglot {
 			'destination_language'       => empty( $destination_language ) ? [] : $destination_language,
 			'translate_amp'              => ( 'on' === $wg_exclude_amp ) ? false : true,
 			'exclude_blocks'             => empty( $exclude_blocks ) ? [] : $exclude_blocks,
-			'exclude_urls'               => empty( $exclude_url ) ? [] : $exclude_url,
+			'exclude_urls'               => $exclude_url,
 			'auto_redirect'              => ( 'on' === $auto_switch ) ? true : false,
 			'email_translate'            => false,
 			'is_fullname'                => ( 'on' === $is_fullname ) ? true : false,
