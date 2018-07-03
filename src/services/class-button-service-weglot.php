@@ -25,41 +25,6 @@ class Button_Service_Weglot {
 
 
 	/**
-	 * Use for wp_ses
-	 * @since 2.0
-	 * @return array
-	 */
-	public function get_allowed_tags() {
-		return [
-			'a' => [
-				'href'                => [],
-				'title'               => [],
-				'onclick'             => [],
-				'target'              => [],
-				'data-wg-notranslate' => [],
-				'class'               => [],
-			],
-			'div' => [
-				'class'               => [],
-				'data-wg-notranslate' => [],
-			],
-			'aside' => [
-				'onclick'             => [],
-				'class'               => [],
-				'data-wg-notranslate' => [],
-			],
-			'ul'    => [
-				'class'               => [],
-				'data-wg-notranslate' => [],
-			],
-			'li'    => [
-				'class'               => [],
-				'data-wg-notranslate' => [],
-			],
-		];
-	}
-
-	/**
 	 * Get html button switcher
 	 *
 	 * @since 2.0

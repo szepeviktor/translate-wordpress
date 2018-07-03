@@ -106,13 +106,6 @@ function weglot_get_button_selector_html( $add_class ) {
 	return Context_Weglot::weglot_get_context()->get_service( 'Button_Service_Weglot' )->get_html( $add_class );
 }
 
-/**
- * @since 2.0
- * @return array
- */
-function weglot_get_button_allowed_tags() {
-	return Context_Weglot::weglot_get_context()->get_service( 'Button_Service_Weglot' )->get_allowed_tags();
-}
 
 /**
  * Get exclude urls
