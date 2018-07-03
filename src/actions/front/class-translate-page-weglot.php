@@ -27,12 +27,13 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	 * @since 2.0
 	 */
 	public function __construct() {
-		$this->option_services           = weglot_get_service( 'Option_Service_Weglot' );
-		$this->button_services           = weglot_get_service( 'Button_Service_Weglot' );
-		$this->request_url_services      = weglot_get_service( 'Request_Url_Service_Weglot' );
-		$this->redirect_services         = weglot_get_service( 'Redirect_Service_Weglot' );
-		$this->replace_url_services      = weglot_get_service( 'Replace_Url_Service_Weglot' );
-		$this->language_services         = weglot_get_service( 'Language_Service_Weglot' );
+		$this->option_services            = weglot_get_service( 'Option_Service_Weglot' );
+		$this->button_services            = weglot_get_service( 'Button_Service_Weglot' );
+		$this->request_url_services       = weglot_get_service( 'Request_Url_Service_Weglot' );
+		$this->redirect_services          = weglot_get_service( 'Redirect_Service_Weglot' );
+		$this->replace_url_services       = weglot_get_service( 'Replace_Url_Service_Weglot' );
+		$this->replace_link_services      = weglot_get_service( 'Replace_Link_Service_Weglot' );
+		$this->language_services          = weglot_get_service( 'Language_Service_Weglot' );
 	}
 
 
@@ -52,10 +53,8 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			return;
 		}
 
-		$this->current_language   = $this->request_url_services->get_current_language();
-
 		if (
-			null === $this->current_language ||
+			null === $this->request_url_services->get_current_language() ||
 			! $this->request_url_services->is_translatable_url()
 		) {
 			return;
@@ -76,14 +75,21 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 
 		$this->noredirect         = false;
 		$this->original_language  = $this->option_services->get_option( 'original_language' );
+		$this->current_language   = $this->request_url_services->get_current_language();
 
 		$full_url = $this->request_url_services->get_full_url();
+		// URL not eligible
 		if ( ! $this->request_url_services->is_eligible_url( $full_url ) ) {
 			return;
 		}
 
-		$active_translation = apply_filters( 'weglot_active_translation', true );
+		// No need to translate
+		if ( $this->current_language === $this->original_language ) {
+			return;
+		}
 
+		$active_translation = apply_filters( 'weglot_active_translation', true );
+		// Default : yes
 		if ( ! $active_translation ) {
 			return;
 		}
@@ -93,10 +99,61 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		$this->prepare_request_uri();
 		$this->prepare_rtl_language();
 
+		// $json = '{"fragments":{"div.widget_shopping_cart_content":"<div class=\"widget_shopping_cart_content\">\n\n\t<ul class=\"woocommerce-mini-cart cart_list product_list_widget \">\n\t\t\t\t\t\t\t<li class=\"woocommerce-mini-cart-item mini_cart_item\">\n\t\t\t\t\t\t<a href=\"http:\/\/weglotv2.local\/cart\/?remove_item=d3d9446802a44259755d38e6d163e820&#038;_wpnonce=21f493e390\" class=\"remove remove_from_cart_button\" aria-label=\"Remove this item\" data-product_id=\"10\" data-cart_item_key=\"d3d9446802a44259755d38e6d163e820\" data-product_sku=\"\">&times;<\/a>\t\t\t\t\t\t\t\t\t\t\t\t\t<a href=\"http:\/\/weglotv2.local\/product\/carotte\/\">\n\t\t\t\t\t\t\t\t<img src=\"http:\/\/weglotv2.local\/wp-content\/plugins\/woocommerce\/assets\/images\/placeholder.png\" alt=\"Placeholder\" width=\"324\" class=\"woocommerce-placeholder wp-post-image\" height=\"324\" \/>Carotte&nbsp;\t\t\t\t\t\t\t<\/a>\n\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t<span class=\"quantity\">32 &times; <span class=\"woocommerce-Price-amount amount\">5,00<span class=\"woocommerce-Price-currencySymbol\">&euro;<\/span><\/span><\/span>\t\t\t\t\t<\/li>\n\t\t\t\t\t\t<\/ul>\n\n\t<p class=\"woocommerce-mini-cart__total total\"><strong>Subtotal:<\/strong> <span class=\"woocommerce-Price-amount amount\">160,00<span class=\"woocommerce-Price-currencySymbol\">&euro;<\/span><\/span><\/p>\n\n\t\n\t<p class=\"woocommerce-mini-cart__buttons buttons\"><a href=\"http:\/\/weglotv2.local\/fr\/cart\/\" class=\"button wc-forward\">View cart<\/a><a href=\"http:\/\/weglotv2.local\/fr\/checkout\/\" class=\"button checkout wc-forward\">Checkout<\/a><\/p>\n\n\n<\/div>","a.cart-contents":"\t\t\t<a class=\"cart-contents\" href=\"http:\/\/weglotv2.local\/fr\/cart\/\" title=\"View your shopping cart\">\n\t\t\t\t<span class=\"woocommerce-Price-amount amount\">160,00<span class=\"woocommerce-Price-currencySymbol\">&euro;<\/span><\/span> <span class=\"count\">32 items<\/span>\n\t\t\t<\/a>\n\t\t","a.footer-cart-contents":"\t\t\t<a class=\"footer-cart-contents\" href=\"http:\/\/weglotv2.local\/fr\/cart\/\" title=\"View your shopping cart\">\n\t\t\t\t<span class=\"count\">32<\/span>\n\t\t\t<\/a>\n\t\t"},"cart_hash":"bfa0a9eb41c6b2bc5eec6328d0a99f50"}';
+
 		do_action( 'weglot_init_before_translate_page' );
 
 		ob_start( [ $this, 'weglot_treat_page' ] );
 	}
+
+
+
+	/**
+	 * @since 2.0
+	 *
+	 * @param array $array
+	 * @param string $to
+	 * @param Parser $parser
+	 * @return void
+	 */
+	public function translate_array( $parser, $array, $to ) {
+		// $config              = new ServerConfigProvider();
+		// $client              = new Client( $this->api_key );
+		// $parser              = new Parser( $client, $config );
+		$array_not_ajax_html = apply_filters( 'weglot_array_not_ajax_html', [ 'redirecturl', 'url' ] );
+		// var_dump($parser->translate( '<a class="footer-cart-contents" href="http://weglotv2.local/fr/cart/" title="View your shopping cart"><span class="count">32</span></a>', $this->original_language, $this->current_language ));
+		foreach ( $array as $key => $val ) {
+			if ( is_array( $val ) ) {
+				$array[ $key ] = $this->translate_array( $parser, $val, $to );
+			} else {
+				if ( $this->is_ajax_html( $val ) ) {
+					$array[ $key ] = $parser->translate( $val, $this->original_language, $to ); //phpcs:ignore
+				} elseif ( in_array( $key,  $array_not_ajax_html ) ) {
+					$array[ $key] = $this->replace_link_services->replace_url( $val, $to ); //phpcs:ignore
+				}
+			}
+		}
+
+		return $array;
+	}
+
+	/**
+	 * @since 2.0
+	 *
+	 * @param string $string
+	 * @return boolean
+	 */
+	public function is_ajax_html( $string ) {
+		$preg_match_ajax_html = apply_filters( 'weglot_is_ajax_html_regex',  '/<(a|div|span|p|i|aside|input|textarea|select|h1|h2|h3|h4|meta|button|form|li|strong|ul|option)/' );
+		$result               = preg_match_all( $preg_match_ajax_html, $string, $m, PREG_PATTERN_ORDER );
+
+		if ( isset( $string[0] ) && '{' !== $string[0] && $result && $result >= 1 ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 
 	/**
 	 * @since 2.0
@@ -149,8 +206,9 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	 * @return string
 	 */
 	public function weglot_treat_page( $content ) {
+		// No need to translate
 		if ( $this->current_language === $this->original_language ) {
-			return $this->weglot_render_dom( $content );
+			return;
 		}
 
 		$exclude_blocks = $this->option_services->get_exclude_blocks();
@@ -159,9 +217,37 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		$client             = new Client( $this->api_key );
 		$parser             = new Parser( $client, $config, $exclude_blocks );
 
-		$translated_content = $parser->translate( $content, $this->original_language, $this->current_language ); // phpcs:ignore
+		$full_url = $this->request_url_services->get_full_url();
 
-		return $this->weglot_render_dom( $translated_content );
+		$type = ( $this->is_json( $content ) ) ? 'json' : 'html';
+		$type = apply_filters( 'weglot_type_treat_page', $type );
+
+		switch ( $type ) {
+			case 'json':
+				$json       = json_decode( $content, true );
+				$content    = $this->translate_array( $parser, $json, $this->current_language );
+				return wp_json_encode( $content );
+				break;
+			case 'html':
+				$translated_content = $parser->translate( $content, $this->original_language, $this->current_language ); // phpcs:ignore
+				return $this->weglot_render_dom( $translated_content );
+				break;
+			default:
+				$name_filter = sprintf( 'weglot_%s_treat_page', $type );
+				return apply_filters( $name_filter, $content, $parser, $this->original_language, $this->current_language );
+				break;
+
+		}
+	}
+
+	/**
+	 * @since 2.0
+	 *
+	 * @param string $string
+	 * @return boolean
+	 */
+	public function is_json( $string ) {
+		return is_string( $string ) && is_array( json_decode( $string, true ) ) && ( JSON_ERROR_NONE === json_last_error() ) ? true : false;
 	}
 
 	/**

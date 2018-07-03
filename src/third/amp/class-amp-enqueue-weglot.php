@@ -29,13 +29,12 @@ class Amp_Enqueue_Weglot implements Hooks_Interface_Weglot {
 	 * @return void
 	 */
 	public function hooks() {
-
 		if ( ! defined( 'AMPFORWP_PLUGIN_DIR' ) && ! defined( 'AMP__VERSION' ) ) {
 			return;
 		}
 
-		add_action( 'amp_post_template_css', array( $this, 'weglot_amp_post_template_css' ) );
-		add_action( 'amp_post_template_head', array( $this, 'weglot_amp_post_template_head' ) );
+		add_action( 'amp_post_template_css', [ $this, 'weglot_amp_post_template_css' ] );
+		add_action( 'amp_post_template_head', [ $this, 'weglot_amp_post_template_head' ] );
 	}
 
 	/**
@@ -57,5 +56,4 @@ class Amp_Enqueue_Weglot implements Hooks_Interface_Weglot {
 	public function weglot_amp_post_template_css() {
 		echo $this->option_services->get_css_custom_inline(); //phpcs:ignore
 	}
-
 }

@@ -84,6 +84,10 @@ class Request_Url_Service_Weglot {
 	 * @return string
 	 */
 	public function get_current_language() {
+		if ( wp_doing_ajax() && isset( $_SERVER['HTTP_REFERER'] ) ) { //phpcs:ignore
+			return $this->create_url_object( $_SERVER['HTTP_REFERER'] )->detectCurrentLanguage(); //phpcs:ignore
+		}
+
 		return $this->get_weglot_url()->detectCurrentLanguage();
 	}
 
