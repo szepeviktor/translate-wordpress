@@ -124,3 +124,12 @@ function weglot_get_exclude_urls() {
 function weglot_get_translate_amp_translation() {
 	return weglot_get_option( 'translate_amp' );
 }
+
+/**
+ * Get current full url
+ * @since 2.0
+ * @return string
+ */
+function weglot_get_current_full_url() {
+	return Context_Weglot::weglot_get_context()->get_service( 'Request_Url_Service_Weglot' )->get_full_url();
+}

@@ -94,9 +94,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 
 		do_action( 'weglot_init_before_translate_page' );
 
-		$this->weglot_treat_page(file_get_contents(__DIR__ . '/../../../content.html'));
-		die;
-		// ob_start( [ $this, 'weglot_treat_page' ] );
+		ob_start( [ $this, 'weglot_treat_page' ] );
 	}
 
 
@@ -202,12 +200,9 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			return $this->weglot_render_dom( $content );
 		}
 
-		weglot_get_service( 'WC_Translate_Weglot' )->translate($content);
-
 		$parser = $this->parser_services->get_parser();
 
-		$full_url = $this->request_url_services->get_full_url();
-
+		// Choose type translate
 		$type = ( $this->is_json( $content ) ) ? 'json' : 'html';
 		$type = apply_filters( 'weglot_type_treat_page', $type );
 
@@ -219,6 +214,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 				break;
 			case 'html':
 				$translated_content = $parser->translate( $content, $this->original_language, $this->current_language ); // phpcs:ignore
+				$translated_content = weglot_get_service( 'WC_Translate_Weglot' )->translate_words( $content ); // @TODO : Improve this with multiple service
 				return $this->weglot_render_dom( $translated_content );
 				break;
 			default:
