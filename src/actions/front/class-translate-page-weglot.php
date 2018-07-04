@@ -8,13 +8,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use WeglotWP\Models\Hooks_Interface_Weglot;
 
-
 use Weglot\Client\Api\Enum\BotType;
 use Weglot\Client\Client;
-use Weglot\Parser\Parser;
-use Weglot\Util\Url;
 use Weglot\Util\Server;
-use Weglot\Parser\ConfigProvider\ServerConfigProvider;
 
 /**
  * Translate page
@@ -27,13 +23,15 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	 * @since 2.0
 	 */
 	public function __construct() {
-		$this->option_services            = weglot_get_service( 'Option_Service_Weglot' );
-		$this->button_services            = weglot_get_service( 'Button_Service_Weglot' );
-		$this->request_url_services       = weglot_get_service( 'Request_Url_Service_Weglot' );
-		$this->redirect_services          = weglot_get_service( 'Redirect_Service_Weglot' );
-		$this->replace_url_services       = weglot_get_service( 'Replace_Url_Service_Weglot' );
-		$this->replace_link_services      = weglot_get_service( 'Replace_Link_Service_Weglot' );
-		$this->language_services          = weglot_get_service( 'Language_Service_Weglot' );
+		$this->option_services              = weglot_get_service( 'Option_Service_Weglot' );
+		$this->button_services              = weglot_get_service( 'Button_Service_Weglot' );
+		$this->request_url_services         = weglot_get_service( 'Request_Url_Service_Weglot' );
+		$this->redirect_services            = weglot_get_service( 'Redirect_Service_Weglot' );
+		$this->replace_url_services         = weglot_get_service( 'Replace_Url_Service_Weglot' );
+		$this->replace_link_services        = weglot_get_service( 'Replace_Link_Service_Weglot' );
+		$this->language_services            = weglot_get_service( 'Language_Service_Weglot' );
+		$this->dom_checkers_services        = weglot_get_service( 'Dom_Checkers_Service_Weglot' );
+		$this->parser_services              = weglot_get_service( 'Parser_Service_Weglot' );
 	}
 
 
@@ -94,9 +92,6 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		$this->prepare_request_uri();
 		$this->prepare_rtl_language();
 
-		$this->config    = new ServerConfigProvider();
-		$this->client    = new Client( $this->api_key );
-
 		do_action( 'weglot_init_before_translate_page' );
 
 		ob_start( [ $this, 'weglot_treat_page' ] );
@@ -120,9 +115,9 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 				$array[ $key ] = $this->translate_array( $val );
 			} else {
 				if ( $this->is_ajax_html( $val ) ) {
-					$parser                   = new Parser( $this->client, $this->config );
+					$parser                   = $this->parser_services->get_parser();
 					$array[$key]              = $parser->translate( $val, $this->original_language, $this->current_language ); //phpcs:ignore
-				} elseif ( in_array( $key,  $array_not_ajax_html ) ) {
+				} elseif ( in_array( $key,  $array_not_ajax_html ) ) { //phpcs:ignore
 					$array[$key] = $this->replace_link_services->replace_url( $val ); //phpcs:ignore
 				}
 			}
@@ -205,9 +200,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			return $this->weglot_render_dom( $content );
 		}
 
-		$exclude_blocks = $this->option_services->get_exclude_blocks();
-
-		$parser             = new Parser( $this->client, $this->config, $exclude_blocks );
+		$parser = $this->parser_services->get_parser();
 
 		$full_url = $this->request_url_services->get_full_url();
 

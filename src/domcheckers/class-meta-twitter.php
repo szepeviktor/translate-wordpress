@@ -12,20 +12,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * @since 2.0
  */
-class Link_Data_Test extends AbstractDomChecker {
+class Meta_Twitter extends AbstractDomChecker {
 
 	/**
 	 * {@inheritdoc}
 	 */
-	const DOM = 'a';
+	const DOM = "meta[name='twitter:image'],meta[name='twitter:card'],meta[name='twitter:site'],meta[name='twitter:creator']";
 
 	/**
 	 * {@inheritdoc}
 	 */
-	const PROPERTY = 'data-test';
+	const PROPERTY = 'content';
 
 	/**
 	 * {@inheritdoc}
 	 */
-	const WORD_TYPE = WordType::TEXT;
+	const WORD_TYPE = WordType::META_CONTENT;
 }
