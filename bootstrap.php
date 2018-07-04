@@ -47,6 +47,7 @@ abstract class Context_Weglot {
 			'\WeglotWP\Services\Migration_Service_Weglot',
 			'\WeglotWP\Services\Dom_Checkers_Service_Weglot',
 			'\WeglotWP\Services\Parser_Service_Weglot',
+			'\WeglotWP\Third\Woocommerce\WC_Translate_Weglot',
 		];
 
 		self::$context->set_services( $services );

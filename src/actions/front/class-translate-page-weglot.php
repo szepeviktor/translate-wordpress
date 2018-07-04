@@ -94,7 +94,9 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 
 		do_action( 'weglot_init_before_translate_page' );
 
-		ob_start( [ $this, 'weglot_treat_page' ] );
+		$this->weglot_treat_page(file_get_contents(__DIR__ . '/../../../content.html'));
+		die;
+		// ob_start( [ $this, 'weglot_treat_page' ] );
 	}
 
 
@@ -199,6 +201,8 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		if ( $this->current_language === $this->original_language ) {
 			return $this->weglot_render_dom( $content );
 		}
+
+		weglot_get_service( 'WC_Translate_Weglot' )->translate($content);
 
 		$parser = $this->parser_services->get_parser();
 
