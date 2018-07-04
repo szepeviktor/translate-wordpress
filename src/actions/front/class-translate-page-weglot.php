@@ -83,11 +83,6 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			return;
 		}
 
-		// No need to translate
-		if ( $this->current_language === $this->original_language ) {
-			return;
-		}
-
 		$active_translation = apply_filters( 'weglot_active_translation', true );
 		// Default : yes
 		if ( ! $active_translation ) {
@@ -99,7 +94,8 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		$this->prepare_request_uri();
 		$this->prepare_rtl_language();
 
-		// $json = '{"fragments":{"div.widget_shopping_cart_content":"<div class=\"widget_shopping_cart_content\">\n\n\t<ul class=\"woocommerce-mini-cart cart_list product_list_widget \">\n\t\t\t\t\t\t\t<li class=\"woocommerce-mini-cart-item mini_cart_item\">\n\t\t\t\t\t\t<a href=\"http:\/\/weglotv2.local\/cart\/?remove_item=d3d9446802a44259755d38e6d163e820&#038;_wpnonce=21f493e390\" class=\"remove remove_from_cart_button\" aria-label=\"Remove this item\" data-product_id=\"10\" data-cart_item_key=\"d3d9446802a44259755d38e6d163e820\" data-product_sku=\"\">&times;<\/a>\t\t\t\t\t\t\t\t\t\t\t\t\t<a href=\"http:\/\/weglotv2.local\/product\/carotte\/\">\n\t\t\t\t\t\t\t\t<img src=\"http:\/\/weglotv2.local\/wp-content\/plugins\/woocommerce\/assets\/images\/placeholder.png\" alt=\"Placeholder\" width=\"324\" class=\"woocommerce-placeholder wp-post-image\" height=\"324\" \/>Carotte&nbsp;\t\t\t\t\t\t\t<\/a>\n\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t<span class=\"quantity\">32 &times; <span class=\"woocommerce-Price-amount amount\">5,00<span class=\"woocommerce-Price-currencySymbol\">&euro;<\/span><\/span><\/span>\t\t\t\t\t<\/li>\n\t\t\t\t\t\t<\/ul>\n\n\t<p class=\"woocommerce-mini-cart__total total\"><strong>Subtotal:<\/strong> <span class=\"woocommerce-Price-amount amount\">160,00<span class=\"woocommerce-Price-currencySymbol\">&euro;<\/span><\/span><\/p>\n\n\t\n\t<p class=\"woocommerce-mini-cart__buttons buttons\"><a href=\"http:\/\/weglotv2.local\/fr\/cart\/\" class=\"button wc-forward\">View cart<\/a><a href=\"http:\/\/weglotv2.local\/fr\/checkout\/\" class=\"button checkout wc-forward\">Checkout<\/a><\/p>\n\n\n<\/div>","a.cart-contents":"\t\t\t<a class=\"cart-contents\" href=\"http:\/\/weglotv2.local\/fr\/cart\/\" title=\"View your shopping cart\">\n\t\t\t\t<span class=\"woocommerce-Price-amount amount\">160,00<span class=\"woocommerce-Price-currencySymbol\">&euro;<\/span><\/span> <span class=\"count\">32 items<\/span>\n\t\t\t<\/a>\n\t\t","a.footer-cart-contents":"\t\t\t<a class=\"footer-cart-contents\" href=\"http:\/\/weglotv2.local\/fr\/cart\/\" title=\"View your shopping cart\">\n\t\t\t\t<span class=\"count\">32<\/span>\n\t\t\t<\/a>\n\t\t"},"cart_hash":"bfa0a9eb41c6b2bc5eec6328d0a99f50"}';
+		$this->config    = new ServerConfigProvider();
+		$this->client    = new Client( $this->api_key );
 
 		do_action( 'weglot_init_before_translate_page' );
 
@@ -116,20 +112,18 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	 * @param Parser $parser
 	 * @return void
 	 */
-	public function translate_array( $parser, $array, $to ) {
-		// $config              = new ServerConfigProvider();
-		// $client              = new Client( $this->api_key );
-		// $parser              = new Parser( $client, $config );
+	public function translate_array( $array ) {
 		$array_not_ajax_html = apply_filters( 'weglot_array_not_ajax_html', [ 'redirecturl', 'url' ] );
-		// var_dump($parser->translate( '<a class="footer-cart-contents" href="http://weglotv2.local/fr/cart/" title="View your shopping cart"><span class="count">32</span></a>', $this->original_language, $this->current_language ));
+
 		foreach ( $array as $key => $val ) {
 			if ( is_array( $val ) ) {
-				$array[ $key ] = $this->translate_array( $parser, $val, $to );
+				$array[ $key ] = $this->translate_array( $val );
 			} else {
 				if ( $this->is_ajax_html( $val ) ) {
-					$array[ $key ] = $parser->translate( $val, $this->original_language, $to ); //phpcs:ignore
+					$parser                   = new Parser( $this->client, $this->config );
+					$array[$key]              = $parser->translate( $val, $this->original_language, $this->current_language ); //phpcs:ignore
 				} elseif ( in_array( $key,  $array_not_ajax_html ) ) {
-					$array[ $key] = $this->replace_link_services->replace_url( $val, $to ); //phpcs:ignore
+					$array[$key] = $this->replace_link_services->replace_url( $val ); //phpcs:ignore
 				}
 			}
 		}
@@ -206,16 +200,14 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	 * @return string
 	 */
 	public function weglot_treat_page( $content ) {
-		// No need to translate
+		// No need to translate but prepare new dom with button
 		if ( $this->current_language === $this->original_language ) {
-			return;
+			return $this->weglot_render_dom( $content );
 		}
 
 		$exclude_blocks = $this->option_services->get_exclude_blocks();
 
-		$config             = new ServerConfigProvider();
-		$client             = new Client( $this->api_key );
-		$parser             = new Parser( $client, $config, $exclude_blocks );
+		$parser             = new Parser( $this->client, $this->config, $exclude_blocks );
 
 		$full_url = $this->request_url_services->get_full_url();
 
@@ -225,7 +217,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		switch ( $type ) {
 			case 'json':
 				$json       = json_decode( $content, true );
-				$content    = $this->translate_array( $parser, $json, $this->current_language );
+				$content    = $this->translate_array( $json );
 				return wp_json_encode( $content );
 				break;
 			case 'html':
