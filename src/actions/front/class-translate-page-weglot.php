@@ -32,6 +32,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		$this->language_services            = weglot_get_service( 'Language_Service_Weglot' );
 		$this->dom_checkers_services        = weglot_get_service( 'Dom_Checkers_Service_Weglot' );
 		$this->parser_services              = weglot_get_service( 'Parser_Service_Weglot' );
+		$this->wc_active_services           = weglot_get_service( 'WC_Active_Weglot' );
 	}
 
 
@@ -214,7 +215,11 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 				break;
 			case 'html':
 				$translated_content = $parser->translate( $content, $this->original_language, $this->current_language ); // phpcs:ignore
-				$translated_content = weglot_get_service( 'WC_Translate_Weglot' )->translate_words( $content ); // @TODO : Improve this with multiple service
+
+				if ( $this->wc_active_services->is_active() ) {
+					// @TODO : Improve this with multiple service
+					$translated_content = weglot_get_service( 'WC_Translate_Weglot' )->translate_words( $translated_content );
+				}
 				return $this->weglot_render_dom( $translated_content );
 				break;
 			default:

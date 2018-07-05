@@ -21,8 +21,9 @@ class WC_Filter_Urls_Weglot implements Hooks_Interface_Weglot {
 	 * @return void
 	 */
 	public function __construct() {
-		$this->request_url_services = weglot_get_service( 'Request_Url_Service_Weglot' );
-		$this->option_services      = weglot_get_service( 'Option_Service_Weglot' );
+		$this->request_url_services    = weglot_get_service( 'Request_Url_Service_Weglot' );
+		$this->option_services         = weglot_get_service( 'Option_Service_Weglot' );
+		$this->wc_active_services      = weglot_get_service( 'WC_Active_Weglot' );
 	}
 
 	/**
@@ -32,11 +33,7 @@ class WC_Filter_Urls_Weglot implements Hooks_Interface_Weglot {
 	 * @return void
 	 */
 	public function hooks() {
-		if ( ! function_exists( 'is_plugin_active' ) ) {
-			include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-		}
-
-		if ( ! is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
+		if ( ! $this->wc_active_services->is_active() ) {
 			return;
 		}
 
