@@ -29,18 +29,47 @@ class WC_Translate_Weglot {
 	 * @since 2.0
 	 *
 	 * @param string $content
-	 * @return WordCollection
+	 * @return array
 	 */
-	public function translate_words( $content ) {
+	protected function translate_adresse_i18n( $content ) {
 		preg_match( '#wc_address_i18n_params(.*?);#', $content, $match );
 
 		if ( ! isset( $match[1] ) ) {
-			return $content;
+			return [];
 		}
 
 		preg_match_all( '#(label|placeholder)\\\":\\\"(.*?)\\\"#', $match[1], $all );
 
-		$all_words = $all[2];
+		return $all[2];
+	}
+
+	/**
+	 * @since 2.0
+	 *
+	 * @param string $content
+	 * @return array
+	 */
+	protected function translate_add_to_cart_params( $content ) {
+		preg_match( '#wc_add_to_cart_params(.*?);#', $content, $match );
+
+		if ( ! isset( $match[1] ) ) {
+			return [];
+		}
+
+		preg_match_all( '#i18n_view_cart\":\"(.*?)\"#', $match[1], $all );
+
+		return $all[1];
+	}
+
+	/**
+	 * @since 2.0
+	 *
+	 * @param string $content
+	 * @return WordCollection
+	 */
+	public function translate_words( $content ) {
+		$all_words = $this->translate_adresse_i18n( $content );
+		$all_words = array_merge( $all_words, $this->translate_add_to_cart_params( $content ) );
 
 		// TranslateEntry
 		$params = [
