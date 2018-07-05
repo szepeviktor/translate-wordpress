@@ -43,7 +43,7 @@ class Parser_Service_Weglot {
 		$client    = new Client( $api_key );
 		$parser    = new Parser( $client, $config, $exclude_blocks );
 
-		$parser->getDomCheckerProvider()->addCheckers( $this->dom_checkers_services->get_dom_checkers() );
+		// $parser->getDomCheckerProvider()->addCheckers( $this->dom_checkers_services->get_dom_checkers() );
 
 		return $parser;
 	}
