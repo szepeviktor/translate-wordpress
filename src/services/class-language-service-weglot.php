@@ -55,14 +55,22 @@ class Language_Service_Weglot {
 	/**
 	 * @since 2.0
 	 * @return array
+	 * @param null|string $type
 	 */
-	public function get_languages_configured() {
+	public function get_languages_configured( $type = null ) {
 		$languages[]      = weglot_get_original_language();
 		$languages        = array_merge( $languages, weglot_get_destination_language() );
 		$languages_object = [];
 
 		foreach ( $languages as $language ) {
-			$languages_object[] = $this->get_language( $language );
+			switch ( $type ) {
+				case 'code':
+					$languages_object[] = $this->get_language( $language )->getIso639();
+					break;
+				default:
+					$languages_object[] = $this->get_language( $language );
+					break;
+			}
 		}
 
 		return $languages_object;

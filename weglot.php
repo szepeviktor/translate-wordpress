@@ -43,6 +43,34 @@ define('WEGLOT_TEMPLATES_ADMIN', WEGLOT_TEMPLATES . '/admin');
 define('WEGLOT_TEMPLATES_ADMIN_NOTICES', WEGLOT_TEMPLATES_ADMIN . '/notices');
 define('WEGLOT_TEMPLATES_ADMIN_PAGES', WEGLOT_TEMPLATES_ADMIN . '/pages');
 
+// Compatibility Yoast premium Redirection
+$dir_yoast_premium = plugin_dir_path(__DIR__) . 'wordpress-seo-premium';
+if ( file_exists( $dir_yoast_premium . '/wp-seo-premium.php' ) ) {
+	if ( ! function_exists( 'is_plugin_active' ) ) {
+		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+	}
+
+	$yoast_plugin_data        = get_plugin_data( $dir_yoast_premium . '/wp-seo-premium.php' );
+	$dir_yoast_premium_inside = $dir_yoast_premium . '/premium/';
+
+	// Override yoast redirect
+	if (
+		! is_admin() &&
+		version_compare( $yoast_plugin_data['Version'], '7.1.0', '>=' ) &&
+		is_plugin_active( 'wordpress-seo-premium/wp-seo-premium.php' ) &&
+		file_exists( $dir_yoast_premium_inside ) &&
+		file_exists( $dir_yoast_premium_inside . 'classes/redirect/redirect-handler.php' ) &&
+		file_exists( $dir_yoast_premium_inside . 'classes/redirect/redirect-util.php' )
+	) {
+		require_once __DIR__ . '/weglot-autoload.php';
+		require_once __DIR__ . '/vendor/autoload.php';
+		require_once __DIR__ . '/bootstrap.php';
+		require_once __DIR__ . '/weglot-functions.php';
+
+		include_once __DIR__ . '/src/third/yoast/redirect-premium.php';
+	}
+}
+
 /**
  * Check compatibility this Weglot with WordPress config.
  */

@@ -92,8 +92,14 @@ function weglot_get_languages_available() {
 	return Context_Weglot::weglot_get_context()->get_service( 'Language_Service_Weglot' )->get_languages_available();
 }
 
-function weglot_get_languages_configured() {
-	return Context_Weglot::weglot_get_context()->get_service( 'Language_Service_Weglot' )->get_languages_configured();
+/**
+ * @since 2.0
+ *
+ * @return array
+ * @param null|string $type
+ */
+function weglot_get_languages_configured( $type = null ) {
+	return Context_Weglot::weglot_get_context()->get_service( 'Language_Service_Weglot' )->get_languages_configured( $type );
 }
 
 /**
@@ -132,4 +138,14 @@ function weglot_get_translate_amp_translation() {
  */
 function weglot_get_current_full_url() {
 	return Context_Weglot::weglot_get_context()->get_service( 'Request_Url_Service_Weglot' )->get_full_url();
+}
+
+/**
+ * Is eligible url
+ *
+ * @param string $url
+ * @return boolean
+ */
+function weglot_is_eligible_url( $url ) {
+	return Context_Weglot::weglot_get_context()->get_service( 'Request_Url_Service_Weglot' )->is_eligible_url( $url );
 }
