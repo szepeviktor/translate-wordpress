@@ -28,6 +28,7 @@ class Request_Url_Service_Weglot {
 	 */
 	public function __construct() {
 		$this->option_services           = weglot_get_service( 'Option_Service_Weglot' );
+		$this->amp_services              = weglot_get_service( 'Amp_Service_Weglot' );
 	}
 
 	/**
@@ -184,7 +185,7 @@ class Request_Url_Service_Weglot {
 		$translate_amp = weglot_get_translate_amp_translation();
 
 		if ( ! $translate_amp ) {
-			$list_regex[] = apply_filters( 'weglot_regex_amp', '([&\?/])amp(/)?$' );
+			$list_regex[] = $this->amp_services->get_regex();
 		}
 
 		foreach ( $list_regex as $regex ) {

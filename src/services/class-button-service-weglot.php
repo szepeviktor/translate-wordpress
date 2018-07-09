@@ -21,6 +21,7 @@ class Button_Service_Weglot {
 		$this->option_services           = weglot_get_service( 'Option_Service_Weglot' );
 		$this->request_url_services      = weglot_get_service( 'Request_Url_Service_Weglot' );
 		$this->language_services         = weglot_get_service( 'Language_Service_Weglot' );
+		$this->amp_services              = weglot_get_service( 'Amp_Service_Weglot' );
 	}
 
 
@@ -39,6 +40,13 @@ class Button_Service_Weglot {
 		$with_flags                       = $options['with_flags'];
 		$type_flags                       = $options['type_flags'];
 		$weglot_url                       = $this->request_url_services->get_weglot_url();
+
+		$translate_amp = weglot_get_translate_amp_translation();
+		$amp_regex     = $this->amp_services->get_regex( true );
+
+		if ( $translate_amp && preg_match( '#' . $regex . '#', $weglot_url->getUrl() ) === 1 ) {
+			$add_class .= ' weglot-invert';
+		}
 
 		$destination_language             = $options['destination_language'];
 		$original_language                = $options['original_language'];

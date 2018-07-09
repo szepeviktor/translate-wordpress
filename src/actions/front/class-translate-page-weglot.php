@@ -73,6 +73,10 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 
 		$this->noredirect         = false;
 		$this->original_language  = $this->option_services->get_option( 'original_language' );
+		if ( empty( $this->original_language ) ) {
+			return;
+		}
+
 		$this->current_language   = $this->request_url_services->get_current_language();
 
 		$full_url = $this->request_url_services->get_full_url();

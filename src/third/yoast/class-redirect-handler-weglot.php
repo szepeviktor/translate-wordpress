@@ -31,6 +31,11 @@ class Redirect_Handler_Weglot extends \WPSEO_Redirect_Handler {
 	protected $request_url = '';
 
 	public function load() {
+		$original_destination = weglot_get_current_and_original_language();
+
+		if ( empty( $original_destination['original'] ) || empty( $original_destination['destination'] ) ) {
+			return;
+		}
 
 		// Only handle the redirect when the option for php redirects is enabled.
 		if ( ! $this->load_php_redirects() ) {
