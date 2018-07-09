@@ -3,8 +3,8 @@ Contributors: remyb92
 Tags: translate,translation,language,multilingual,bilingual,international,localization,multilanguage,multi language,translations,translator,multilangues,traduction,traducteur,ubersetzung,mehrsprachig,traduccion,traduzione,vertaling,vertaler,meertalig
 Requires at least: 4.5
 Tested up to: 4.9
-Requires PHP: 5.3
-Stable tag: 1.11
+Requires PHP: 5.4
+Stable tag: 2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -61,8 +61,8 @@ You can help translate Weglot Translate plugin on [__translate.wordpress.org__](
 == Installation ==
 
 = Minimum Requirements for Weglot Translate =
-* WordPress 3.0 or greater
-* PHP version 5.5 or greater
+* WordPress 4.5 or greater
+* PHP version 5.4 or greater
 * Rewrite rules activated
 
 = Installation steps for Weglot Translate =
@@ -152,11 +152,29 @@ See changelog for upgrade changes.
 
 == Changelog ==
 
-= 1.12 (**/**/2018) =
-* Add new filters
-* Add new actions
+= 2.0 (**/07/2018) =
+
+= 1.13.1 (01/06/2018) =
+* Bugfix: Error on the encoding of ignored nodes
+
+= 1.13 (31/05/2018) =
+* Bugfix : Improve filter words_translate to prevent matching part of words
+* BugFix : Bug in parser when ignored node had an attribute
+* BugFix : character limit on chinese paragraphs
+* Add : Update message for version 2.0
+
+= 1.12.2 (04/05/2018) =
+* Bugfix : Limitation on the number of characters translated at the same time
+
+= 1.12.1 (03/05/2018) =
+* Bugfix : error for users with a version lower than PHP 5.4 . [] => array()
+
+= 1.12 (03/05/2018) =
 * Bugfix : undefined index on ajax call
 * Bugfix : Redirection checkout payment on WooCommerce
+* Bugfix : Register widget
+* Add option for AMP compatibility
+* Add filter for dynamic string
 
 = 1.11 (05/04/2018) =
 * Add new languages
