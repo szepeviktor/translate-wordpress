@@ -45,7 +45,7 @@ abstract class Context_Weglot {
 			'\WeglotWP\Services\Multisite_Service_Weglot',
 			'\WeglotWP\Services\Replace_Link_Service_Weglot',
 			'\WeglotWP\Services\Migration_Service_Weglot',
-			'\WeglotWP\Services\Dom_Checkers_Service_Weglot',
+			'\WeglotWP\Services\Dom_Listeners_Service_Weglot',
 			'\WeglotWP\Services\Parser_Service_Weglot',
 			'\WeglotWP\Third\Woocommerce\WC_Translate_Weglot',
 			'\WeglotWP\Third\Woocommerce\WC_Active_Weglot',

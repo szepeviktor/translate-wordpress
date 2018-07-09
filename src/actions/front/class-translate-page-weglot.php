@@ -23,16 +23,15 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	 * @since 2.0
 	 */
 	public function __construct() {
-		$this->option_services              = weglot_get_service( 'Option_Service_Weglot' );
-		$this->button_services              = weglot_get_service( 'Button_Service_Weglot' );
-		$this->request_url_services         = weglot_get_service( 'Request_Url_Service_Weglot' );
-		$this->redirect_services            = weglot_get_service( 'Redirect_Service_Weglot' );
-		$this->replace_url_services         = weglot_get_service( 'Replace_Url_Service_Weglot' );
-		$this->replace_link_services        = weglot_get_service( 'Replace_Link_Service_Weglot' );
-		$this->language_services            = weglot_get_service( 'Language_Service_Weglot' );
-		$this->dom_checkers_services        = weglot_get_service( 'Dom_Checkers_Service_Weglot' );
-		$this->parser_services              = weglot_get_service( 'Parser_Service_Weglot' );
-		$this->wc_active_services           = weglot_get_service( 'WC_Active_Weglot' );
+		$this->option_services               = weglot_get_service( 'Option_Service_Weglot' );
+		$this->button_services               = weglot_get_service( 'Button_Service_Weglot' );
+		$this->request_url_services          = weglot_get_service( 'Request_Url_Service_Weglot' );
+		$this->redirect_services             = weglot_get_service( 'Redirect_Service_Weglot' );
+		$this->replace_url_services          = weglot_get_service( 'Replace_Url_Service_Weglot' );
+		$this->replace_link_services         = weglot_get_service( 'Replace_Link_Service_Weglot' );
+		$this->language_services             = weglot_get_service( 'Language_Service_Weglot' );
+		$this->parser_services               = weglot_get_service( 'Parser_Service_Weglot' );
+		$this->wc_active_services            = weglot_get_service( 'WC_Active_Weglot' );
 	}
 
 
