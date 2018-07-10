@@ -54,7 +54,10 @@ class Email_Translate_Weglot implements Hooks_Interface_Weglot {
 
 		$current_and_original_language   = weglot_get_current_and_original_language();
 
-		$message_and_subject = array('subject' => $args['subject'], 'message' => $args['message']);
+		$message_and_subject = [
+			'subject' => $args['subject'],
+			'message' => $args['message'],
+		];
 
 		if ( $current_and_original_language['current'] !== $current_and_original_language['original'] ) {
 			$message_and_subject_translated = $this->translate_email( $message_and_subject, $current_and_original_language['current'] );
@@ -111,6 +114,9 @@ class Email_Translate_Weglot implements Hooks_Interface_Weglot {
 		$translated_subject = $parser->translate( '<p>' . $args['subject'] . '</p>', $current_and_original_language['original'], $current_and_original_language['current'] ); //phpcs:ignore
 		$translated_message = $parser->translate( $args['message'], $current_and_original_language['original'], $current_and_original_language['current'] ); //phpcs:ignore
 
-		return array( 'subject' => $translated_subject, 'message' => $translated_message);
+		return [
+			'subject' => $translated_subject,
+			'message' => $translated_message,
+		];
 	}
 }
