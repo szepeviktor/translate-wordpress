@@ -68,6 +68,7 @@ $languages = $this->language_services->get_languages_available();
 			<td class="forminp forminp-text">
 				<select
 					class="weglot-select"
+					style="display:none"
 					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['original_language']['key'] ) ); ?>"
 					id="<?php echo esc_attr( $options_available['original_language']['key'] ); ?>"
 				>
@@ -92,6 +93,7 @@ $languages = $this->language_services->get_languages_available();
 			<td class="forminp forminp-text">
 				<select
 					class="weglot-select"
+					style="display:none"
 					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['destination_language']['key'] ) ); ?>[]"
 					id="<?php echo esc_attr( $options_available['destination_language']['key'] ); ?>"
 					multiple="true"
