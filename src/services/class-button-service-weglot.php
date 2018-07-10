@@ -60,7 +60,7 @@ class Button_Service_Weglot {
 		$languages = $this->language_services->get_languages_available();
 
 		$button_html = sprintf( '<!--Weglot %s-->', WEGLOT_VERSION );
-		$button_html .= sprintf( "<aside class='country-selector %s'>", $class_aside . $add_class );
+		$button_html .= sprintf( "<aside data-wg-notranslate class='country-selector %s'>", $class_aside . $add_class );
 
 		if ( ! empty( $original_language ) && ! empty( $destination_language ) ) {
 			$name = '';
@@ -87,7 +87,7 @@ class Button_Service_Weglot {
 				$button_html .= sprintf( '<li class="wg-li %s" data-code-language="%s">', $flag_class . $key_code, $key_code );
 
 				$button_html .= sprintf(
-					'<a data-wg-notranslate href="%s">%s</a>',
+					'<a href="%s">%s</a>',
 					$weglot_url->getForLanguage( $key_code ),
 					$name
 				);
