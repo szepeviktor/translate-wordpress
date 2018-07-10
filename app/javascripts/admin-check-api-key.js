@@ -5,6 +5,12 @@ const init_admin_button_preview = function () {
 
 		$("#api_key").blur(function() {
 			var key = $(this).val();
+			if( key.length === 0){
+                $(".weglot-keyres").remove();
+                $("#api_key").after('<span class="weglot-keyres weglot-nokkey"></span>');
+                $("#wrap-weglot #submit").prop("disabled", true);
+				return;
+			}
 			$.getJSON(
 				"https://weglot.com/api/user-info?api_key=" + key,
 				function(data) {
