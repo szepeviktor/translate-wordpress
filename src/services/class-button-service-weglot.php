@@ -65,7 +65,7 @@ class Button_Service_Weglot {
 		if ( ! empty( $original_language ) && ! empty( $destination_language ) ) {
 			$name = '';
 			if ( $with_name ) {
-				$name = ( $is_fullname ) ? $languages[ $current_language ]->getEnglishName() : strtoupper( $languages[ $current_language ]->getIso639() );
+				$name = ( $is_fullname ) ? $languages[ $current_language ]->getLocalName() : strtoupper( $languages[ $current_language ]->getIso639() );
 			}
 
 			$button_html .= sprintf( '<input id="weglot_choice" type="checkbox" name="menu"/><label for="weglot_choice" class="wgcurrent wg-li %s" data-code-language="%s"><a>%s</a></label>', $flag_class . $current_language, $languages[ $current_language ]->getIso639(), $name );
@@ -81,7 +81,7 @@ class Button_Service_Weglot {
 
 				$name = '';
 				if ( $with_name ) {
-					$name = ( $is_fullname ) ? $languages[ $key_code ]->getEnglishName() : strtoupper( $languages[ $key_code ]->getIso639() );
+					$name = ( $is_fullname ) ? $languages[ $key_code ]->getLocalName() : strtoupper( $languages[ $key_code ]->getIso639() );
 				}
 
 				$button_html .= sprintf( '<li class="wg-li %s" data-code-language="%s">', $flag_class . $key_code, $key_code );
