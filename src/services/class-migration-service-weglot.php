@@ -27,22 +27,22 @@ class Migration_Service_Weglot {
 	 * @return void
 	 */
 	public function update_v200() {
-		$api_key              = get_option( 'project_key' );
-		$original_language    = get_option( 'original_l' );
-		$destination_language = get_option( 'destination_l' );
-		$auto_switch          = get_option( 'wg_auto_switch' );
-		$translate_amp        = get_option( 'wg_exclude_amp' );
-		$override_css         = get_option( 'override_css' );
-		$flag_css             = get_option( 'flag_css' );
-		$with_flags           = get_option( 'with_flags' );
-		$type_flags           = get_option( 'type_flags' );
-		$with_name            = get_option( 'with_name' );
-		$is_dropdown          = get_option( 'is_dropdown' );
-		$is_fullname          = get_option( 'is_fullname' );
-		$is_menu              = get_option( 'is_menu' );
-		$exclude_url          = get_option( 'exclude_url' );
-		$exclude_blocks       = get_option( 'exclude_blocks' );
-		$rtl_ltr_style        = get_option( 'rtl_ltr_style' );
+		$api_key               = get_option( 'project_key' );
+		$original_language     = get_option( 'original_l' );
+		$destination_language  = get_option( 'destination_l' );
+		$auto_switch           = get_option( 'wg_auto_switch' );
+		$wg_exclude_amp        = get_option( 'wg_exclude_amp' );
+		$override_css          = get_option( 'override_css' );
+		$flag_css              = get_option( 'flag_css' );
+		$with_flags            = get_option( 'with_flags' );
+		$type_flags            = get_option( 'type_flags' );
+		$with_name             = get_option( 'with_name' );
+		$is_dropdown           = get_option( 'is_dropdown' );
+		$is_fullname           = get_option( 'is_fullname' );
+		$is_menu               = get_option( 'is_menu' );
+		$exclude_url           = get_option( 'exclude_url' );
+		$exclude_blocks        = get_option( 'exclude_blocks' );
+		$rtl_ltr_style         = get_option( 'rtl_ltr_style' );
 
 		$destination_language    = explode( ',', $destination_language );
 		$exclude_blocks          = empty( $exclude_blocks ) ? [] : explode( ',', $exclude_blocks );
