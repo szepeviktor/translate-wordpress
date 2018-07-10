@@ -40,11 +40,45 @@ class WC_Filter_Urls_Weglot implements Hooks_Interface_Weglot {
 		add_filter( 'woocommerce_get_cart_url', [ '\WeglotWP\Helpers\Helper_Filter_Url_Weglot', 'filter_url_without_ajax' ] );
 		add_filter( 'woocommerce_get_checkout_url', [ '\WeglotWP\Helpers\Helper_Filter_Url_Weglot', 'filter_url_without_ajax' ] );
 		add_filter( 'woocommerce_payment_successful_result', [ $this, 'woocommerce_filter_url_array' ] );
-		add_filter( 'woocommerce_get_checkout_order_received_url',  [ '\WeglotWP\Helpers\Helper_Filter_Url_Weglot', 'filter_url_with_ajax' ] );
+		add_filter( 'woocommerce_get_checkout_order_received_url',  [ $this, 'woocommerce_filter_order_received_url' ] );
 		add_action( 'woocommerce_reset_password_notification', [ $this, 'woocommerce_filter_reset_password' ] );
 
 		add_filter( 'woocommerce_login_redirect', [ '\WeglotWP\Helpers\Helper_Filter_Url_Weglot', 'filter_url_log_redirect' ] );
 		add_filter( 'woocommerce_registration_redirect', [ '\WeglotWP\Helpers\Helper_Filter_Url_Weglot', 'filter_url_log_redirect' ] );
+	}
+
+	/**
+	 * Filter woocommerce order received URL
+	 *
+	 * @since 2.0
+	 * @param string $url_filter
+	 * @return string
+	 */
+	public function woocommerce_filter_order_received_url( $url_filter ) {
+		$current_and_original_language   = weglot_get_current_and_original_language();
+		$choose_current_language         = $current_and_original_language['current'];
+		$url                             = $this->request_url_services->create_url_object( $url_filter );
+		if ( $current_and_original_language['current'] !== $current_and_original_language['original'] ) { // Not ajax
+
+			if (substr(get_option('permalink_structure'), -1) != '/') {
+				return str_replace('/?key', '?key',  $url->getForLanguage( $choose_current_language ));
+			} else {
+				return str_replace('//?key', '/?key', str_replace('?key', '/?key', $url->getForLanguage( $choose_current_language )));
+			}
+		} else {
+			if ( isset( $_SERVER['HTTP_REFERER'] ) ) { //phpcs:ignore
+				// Ajax
+				$choose_current_language = $url->detectCurrentLanguage();
+				if ($choose_current_language && $choose_current_language != $current_and_original_language['original']) {
+					if (substr(get_option('permalink_structure'), -1) != '/') {
+						return str_replace('/?key', '?key', $url->getForLanguage( $choose_current_language ));
+					} else {
+						return str_replace('//?key', '/?key', str_replace('?key', '/?key', $url->getForLanguage( $choose_current_language )));
+					}
+				}
+			}
+		}
+		return $url_filter;
 	}
 
 	/**
