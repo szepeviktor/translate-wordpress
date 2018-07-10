@@ -234,16 +234,16 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 
 			}
 		} catch ( ApiError $e ) {
-			$content .= '<!--Weglot error API : ' . $this->removeComments($e->getMessage()) . '-->';
+			$content .= '<!--Weglot error API : ' . $this->remove_comments( $e->getMessage() ) . '-->';
 			return $content;
 		} catch ( \Exception $e ) {
-			$content .= '<!--Weglot error : ' . $this->removeComments($e->getMessage()) . '-->';
+			$content .= '<!--Weglot error : ' . $this->remove_comments( $e->getMessage() ) . '-->';
 			return $content;
 		}
 	}
 
-	private function removeComments($html) {
-		return preg_replace('/<!--(.*)-->/Uis', '', $html);
+	private function remove_comments( $html ) {
+		return preg_replace( '/<!--(.*)-->/Uis', '', $html );
 	}
 
 	/**
