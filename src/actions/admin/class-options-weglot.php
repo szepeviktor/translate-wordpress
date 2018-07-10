@@ -32,6 +32,10 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 	 */
 	public function hooks() {
 		add_action( 'admin_init', [ $this, 'weglot_options_init' ] );
+		$api_key = $this->option_services->get_option( 'api_key' );
+		if ( empty( $api_key ) ) {
+			add_action( 'admin_notices', [ '\WeglotWP\Notices\No_Configuration_Weglot', 'admin_notice' ] );
+		}
 	}
 
 	/**
