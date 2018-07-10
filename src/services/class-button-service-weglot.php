@@ -44,7 +44,7 @@ class Button_Service_Weglot {
 		$translate_amp = weglot_get_translate_amp_translation();
 		$amp_regex     = $this->amp_services->get_regex( true );
 
-		if ( $translate_amp && preg_match( '#' . $regex . '#', $weglot_url->getUrl() ) === 1 ) {
+		if ( $translate_amp && preg_match( '#' . $amp_regex . '#', $weglot_url->getUrl() ) === 1 ) {
 			$add_class .= ' weglot-invert';
 		}
 
