@@ -156,25 +156,6 @@ class Replace_Link_Service_Weglot {
 	}
 
 	/**
-	 * Replace option attribute
-	 *
-	 * @since 2.0
-	 * @param string $translated_page
-	 * @param string $current_url
-	 * @param string $quote1
-	 * @param string $quote2
-	 * @param string $sometags
-	 * @param string $sometags2
-	 * @return string
-	 */
-	public function replace_option( $translated_page, $current_url, $quote1, $quote2, $sometags = null, $sometags2 = null ) {
-		$current_language   = weglot_get_current_language();
-		$translated_page    = preg_replace( '/<option ' . preg_quote( $sometags, '/' ) . preg_quote( $quote1 . $current_url . $quote2, '/' ) . '(.*?)?>/', '<option ' . $sometags . $quote1 . $this->replace_url( $current_url, $current_language ) . $quote2 . '$2>', $translated_page );
-
-		return $translated_page;
-	}
-
-	/**
 	 * Replace canonical attribute
 	 *
 	 * @since 2.0
