@@ -47,6 +47,11 @@ class Email_Translate_Weglot implements Hooks_Interface_Weglot {
 	 * @return array
 	 */
 	public function weglot_translate_emails( $args ) {
+		$translate_email = $this->option_services->get_option( 'email_translate' );
+		if ( ! $translate_email ) {
+			return $args;
+		}
+
 		$current_and_original_language   = weglot_get_current_and_original_language();
 
 		$message_and_subject = '<p>' . $args['subject'] . '</p>' . $args['message'];
