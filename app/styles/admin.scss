@@ -101,8 +101,11 @@ input[type='text'],textarea {
 	background-color : #eff0ff;
 }
 
-input[type="text"],.wg-input-textarea {
+input[type="text"], .wg-input-textarea {
 	padding:8px;
+}
+.wg-input-textarea::placeholder{
+	color:#ccc;
 }
 
 
