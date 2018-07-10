@@ -11,6 +11,7 @@ use WeglotWP\Models\Hooks_Interface_Weglot;
 use Weglot\Client\Api\Enum\BotType;
 use Weglot\Client\Client;
 use Weglot\Util\Server;
+use Weglot\Client\Api\Exception\ApiError;
 
 /**
  * Translate page
@@ -210,26 +211,34 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		$type = ( $this->is_json( $content ) ) ? 'json' : 'html';
 		$type = apply_filters( 'weglot_type_treat_page', $type );
 
-		switch ( $type ) {
-			case 'json':
-				$json       = json_decode( $content, true );
-				$content    = $this->translate_array( $json );
-				return wp_json_encode( $content );
-				break;
-			case 'html':
-				$translated_content = $parser->translate( $content, $this->original_language, $this->current_language ); // phpcs:ignore
+		try {
+			switch ( $type ) {
+				case 'json':
+					$json       = json_decode( $content, true );
+					$content    = $this->translate_array( $json );
+					return wp_json_encode( $content );
+					break;
+				case 'html':
+					$translated_content = $parser->translate( $content, $this->original_language, $this->current_language ); // phpcs:ignore
 
-				if ( $this->wc_active_services->is_active() ) {
-					// @TODO : Improve this with multiple service
-					$translated_content = weglot_get_service( 'WC_Translate_Weglot' )->translate_words( $translated_content );
-				}
-				return $this->weglot_render_dom( $translated_content );
-				break;
-			default:
-				$name_filter = sprintf( 'weglot_%s_treat_page', $type );
-				return apply_filters( $name_filter, $content, $parser, $this->original_language, $this->current_language );
-				break;
+					if ( $this->wc_active_services->is_active() ) {
+						// @TODO : Improve this with multiple service
+						$translated_content = weglot_get_service( 'WC_Translate_Weglot' )->translate_words( $translated_content );
+					}
+					return $this->weglot_render_dom( $translated_content );
+					break;
+				default:
+					$name_filter = sprintf( 'weglot_%s_treat_page', $type );
+					return apply_filters( $name_filter, $content, $parser, $this->original_language, $this->current_language );
+					break;
 
+			}
+		} catch ( ApiError $e ) {
+			$content .= '<!--Weglot error API : ' . $e->getMessage() . '-->';
+			return $content;
+		} catch ( \Exception $e ) {
+			$content .= '<!--Weglot error : ' . $e->getMessage() . '-->';
+			return $content;
 		}
 	}
 
