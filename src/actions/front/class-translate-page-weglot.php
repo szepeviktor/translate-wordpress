@@ -243,6 +243,9 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			}
 		} catch ( ApiError $e ) {
 			$content .= '<!--Weglot error API : ' . $this->remove_comments( $e->getMessage() ) . '-->';
+			if (strpos($e->getMessage(), 'NMC') !== false) {
+				$this->option_services->set_option_by_key( 'allowed', 0 );
+			}
 			return $content;
 		} catch ( \Exception $e ) {
 			$content .= '<!--Weglot error : ' . $this->remove_comments( $e->getMessage() ) . '-->';
