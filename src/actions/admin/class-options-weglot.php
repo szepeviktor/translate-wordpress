@@ -21,7 +21,8 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 	 * @since 2.0
 	 */
 	public function __construct() {
-		$this->option_services = weglot_get_service( 'Option_Service_Weglot' );
+		$this->option_services   = weglot_get_service( 'Option_Service_Weglot' );
+		$this->user_api_services = weglot_get_service( 'User_Api_Service_Weglot' );
 	}
 
 	/**
@@ -103,6 +104,22 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 	 * @return array
 	 */
 	public function sanitize_options_settings( $new_options, $options ) {
+		$user_info        = $this->user_api_services->get_user_info();
+		$plans            = $this->user_api_services->get_plans();
+
+		// Limit language
+		if (
+			$user_info['plan'] <= 0 ||
+			in_array( $user_info['plan'], $plans['starter_free']['ids'] ) // phpcs:ignore
+		) {
+			$new_options['destination_language'] = array_splice( $options['destination_language'], 0, $plans['starter_free']['limit_language'] );
+		} elseif (
+			$user_info['plan'] <= 0 ||
+			in_array( $user_info['plan'], $plans['business']['ids'] ) // phpcs:ignore
+		) {
+			$new_options['destination_language'] = array_splice( $options['destination_language'], 0, $plans['business']['limit_language'] );
+		}
+
 		if ( isset( $options['exclude_urls'] ) ) {
 			$new_options['exclude_urls'] = array_filter( $options['exclude_urls'], function( $value ) {
 				return '' !== $value;

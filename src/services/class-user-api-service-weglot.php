@@ -19,6 +19,23 @@ class User_Api_Service_Weglot {
 
 	/**
 	 * @since 2.0
+	 * @return array
+	 */
+	public function get_plans() {
+		return [
+			'starter_free' => [
+				'ids'            => [ 18, 19, 1001, 1002 ],
+				'limit_language' => 1,
+			],
+			'business' => [
+				'ids'            => [ 1, 4, 1003, 1004 ],
+				'limit_language' => 5,
+			],
+		];
+	}
+
+	/**
+	 * @since 2.0
 	 *
 	 * @return void
 	 */
