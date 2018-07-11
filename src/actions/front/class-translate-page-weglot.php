@@ -339,11 +339,16 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	 */
 	public function weglot_render_dom( $dom ) {
 		$dom = $this->weglot_add_button_html( $dom );
-		$dom = $this->weglot_replace_link( $dom );
 
-		$dom = preg_replace( '/<html (.*?)?lang=(\"|\')(\S*)(\"|\')/', '<html $1lang=$2' . $this->current_language . '$4', $dom );
-		$dom = preg_replace( '/property="og:locale" content=(\"|\')(\S*)(\"|\')/', 'property="og:locale" content=$1' . $this->current_language . '$3', $dom );
+		// We only need this on translated page
+		if ( $this->current_language !== $this->original_language ) {
+			$dom = $this->weglot_replace_link($dom);
 
+			$dom = preg_replace('/<html (.*?)?lang=(\"|\')(\S*)(\"|\')/',
+				'<html $1lang=$2' . $this->current_language . '$4', $dom);
+			$dom = preg_replace('/property="og:locale" content=(\"|\')(\S*)(\"|\')/',
+				'property="og:locale" content=$1' . $this->current_language . '$3', $dom);
+		}
 		return apply_filters( 'weglot_render_dom', $dom );
 	}
 
