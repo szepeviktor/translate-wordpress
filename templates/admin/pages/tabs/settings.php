@@ -235,7 +235,6 @@ $plans              = $this->user_api_services->get_plans();
 	<?php endif; ?>
 <?php endif; ?>
 
-
 <template id="tpl-exclusion-url">
 	<div class="item-exclude">
 		<input

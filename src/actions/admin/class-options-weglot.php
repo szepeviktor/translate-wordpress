@@ -72,14 +72,13 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 	 * @return array
 	 */
 	public function sanitize_options( $options ) {
-		$tab         = ( isset( $_POST['tab'] ) ) ? $_POST['tab'] : Helper_Tabs_Admin_Weglot::SETTINGS; //phpcs:ignore
+		$tab         = ( isset( $_POST['tab'] ) ) ? $_POST['tab'] : null; //phpcs:ignore
 		$options_bdd = $this->option_services->get_options();
 
 		$new_options = wp_parse_args( $options, $options_bdd );
 
 		switch ( $tab ) {
 			case Helper_Tabs_Admin_Weglot::SETTINGS:
-			default:
 				$new_options = $this->sanitize_options_settings( $new_options, $options );
 				if ( $options_bdd['has_first_settings'] ) {
 					$new_options['has_first_settings']      = false;
