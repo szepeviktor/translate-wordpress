@@ -34,8 +34,9 @@ $options_available = [
 ];
 
 
-$languages         = $this->language_services->get_languages_available();
-$user_info         = $this->user_api_services->get_user_info();
+$languages          = $this->language_services->get_languages_available();
+$user_info          = $this->user_api_services->get_user_info();
+$plans              = $this->user_api_services->get_plans();
 
 ?>
 
@@ -118,14 +119,14 @@ $user_info         = $this->user_api_services->get_user_info();
 							<?php echo sprintf( esc_html__( 'On the free plan, you can only choose one language and a maximum of 2000 words. If you want to use more than 1 language and 2000 words, please %1$supgrade your plan%2$s.', 'weglot' ), '<a target="_blank" href="https://weglot.com/change-plan">', '</a>' ); ?>
 						</p>
 					<?php
-				} elseif ( $user_info['plan'] >= 18 && $user_info['plan'] <= 19 ) {
+				} elseif ( in_array( $user_info['plan'], $plans['starter_free']['ids'] ) ) { //phpcs:ignore
 					?>
 						<p class="description">
 							<?php // translators: 1 HTML Tag, 2 HTML Tag ?>
 							<?php echo sprintf( esc_html__( 'On the Starter plan, you can only choose one language. If you want to use more than 1 language, please %1$supgrade your plan%2$s.', 'weglot' ), '<a target="_blank" href="https://weglot.com/change-plan">', '</a>' ); ?>
 						</p>
 					<?php
-				} elseif ( $user_info['plan'] >= 1003 && $user_info['plan'] <= 1004 ) {
+				} elseif ( in_array( $user_info['plan'], $plans['business']['ids'] ) ) { //phpcs:ignore
 					?>
 						<p class="description">
 							<?php // translators: 1 HTML Tag, 2 HTML Tag ?>
