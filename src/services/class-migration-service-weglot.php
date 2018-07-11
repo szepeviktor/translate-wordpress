@@ -43,6 +43,7 @@ class Migration_Service_Weglot {
 		$exclude_url           = get_option( 'exclude_url' );
 		$exclude_blocks        = get_option( 'exclude_blocks' );
 		$rtl_ltr_style         = get_option( 'rtl_ltr_style' );
+		$allowed               = get_option( 'wg_allowed' );
 
 		$destination_language    = explode( ',', $destination_language );
 		$exclude_blocks          = empty( $exclude_blocks ) ? [] : explode( ',', $exclude_blocks );
@@ -65,6 +66,7 @@ class Migration_Service_Weglot {
 			'override_css'               => $override_css,
 			'has_first_settings'         => false,
 			'show_box_first_settings'    => false,
+			'allowed'                    => $allowed,
 			'rtl_ltr_style'              => $rtl_ltr_style,
 		];
 

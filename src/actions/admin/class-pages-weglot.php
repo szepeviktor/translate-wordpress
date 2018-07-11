@@ -23,9 +23,10 @@ class Pages_Weglot implements Hooks_Interface_Weglot {
 	 * @since 2.0
 	 */
 	public function __construct() {
-		$this->option_services   = weglot_get_service( 'Option_Service_Weglot' );
-		$this->language_services = weglot_get_service( 'Language_Service_Weglot' );
-		$this->button_services   = weglot_get_service( 'Button_Service_Weglot' );
+		$this->option_services     = weglot_get_service( 'Option_Service_Weglot' );
+		$this->language_services   = weglot_get_service( 'Language_Service_Weglot' );
+		$this->button_services     = weglot_get_service( 'Button_Service_Weglot' );
+		$this->user_api_services   = weglot_get_service( 'User_Api_Service_Weglot' );
 		return $this;
 	}
 
@@ -67,6 +68,13 @@ class Pages_Weglot implements Hooks_Interface_Weglot {
 		}
 
 		$this->options = $this->option_services->get_options();
+
+		try {
+			$user_info = $this->user_api_services->get_user_info();
+			$this->option_services->set_option_by_key( 'allowed', $user_info['allowed'] );
+		} catch ( \Exception $e ) {
+			// If an exception occurs, do nothing, keep wg_allowed.
+		}
 
 		include_once WEGLOT_TEMPLATES_ADMIN_PAGES . '/settings.php';
 	}

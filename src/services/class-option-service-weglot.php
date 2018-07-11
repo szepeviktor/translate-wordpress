@@ -34,6 +34,7 @@ class Option_Service_Weglot {
 		'has_first_settings'         => true,
 		'show_box_first_settings'    => false,
 		'rtl_ltr_style'              => '',
+		'allowed'                    => true,
 	];
 
 	/**

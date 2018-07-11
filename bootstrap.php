@@ -50,6 +50,7 @@ abstract class Context_Weglot {
 			'\WeglotWP\Third\Woocommerce\WC_Translate_Weglot',
 			'\WeglotWP\Third\Woocommerce\WC_Active_Weglot',
 			'\WeglotWP\Third\Amp\Amp_Service_Weglot',
+			'\WeglotWP\Services\User_Api_Service_Weglot',
 		];
 
 		self::$context->set_services( $services );
@@ -85,7 +86,7 @@ abstract class Context_Weglot {
  * @return void
  */
 function weglot_init() {
-	if ( function_exists( 'apache_get_modules' ) && ! in_array( 'mod_rewrite', apache_get_modules(), true ) ) {
+	if ( function_exists( 'apache_get_modules' ) && ! in_array( 'mod_rewrite', apache_get_modules() ) ) { //phpcs:ignore
 		add_action( 'admin_notices', [ '\WeglotWP\Notices\Rewrite_Module_Weglot', 'admin_notice' ] );
 	}
 

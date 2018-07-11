@@ -46,6 +46,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		if ( is_admin() ) {
 			return;
 		}
+
 		$this->api_key            = $this->option_services->get_option( 'api_key' );
 
 		if ( ! $this->api_key ) {
@@ -200,6 +201,13 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	 * @return string
 	 */
 	public function weglot_treat_page( $content ) {
+		$allowed = $this->option_services->get_option( 'allowed' );
+
+		if ( ! $allowed ) {
+			$content = $this->weglot_render_dom( $content );
+			return $content . '<!--Not allowed-->';
+		}
+
 		// No need to translate but prepare new dom with button
 		if ( $this->current_language === $this->original_language ) {
 			return $this->weglot_render_dom( $content );

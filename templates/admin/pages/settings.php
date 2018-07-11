@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use WeglotWP\Helpers\Helper_Tabs_Admin_Weglot;
 
+
 ?>
 
 <div id="wrap-weglot">

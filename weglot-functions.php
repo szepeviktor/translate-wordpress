@@ -142,10 +142,19 @@ function weglot_get_current_full_url() {
 
 /**
  * Is eligible url
- *
+ * @since 2.0
  * @param string $url
  * @return boolean
  */
 function weglot_is_eligible_url( $url ) {
 	return Context_Weglot::weglot_get_context()->get_service( 'Request_Url_Service_Weglot' )->is_eligible_url( $url );
+}
+
+/**
+ * Get API KEY Weglot
+ * @since 2.0
+ * @return string
+ */
+function weglot_get_api_key() {
+	return weglot_get_option( 'api_key' );
 }
