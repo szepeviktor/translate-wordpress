@@ -22,8 +22,9 @@ class Admin_Enqueue_Weglot implements Hooks_Interface_Weglot {
 	 * @since 2.0
 	 */
 	public function __construct() {
-		$this->language_services = weglot_get_service( 'Language_Service_Weglot' );
-		$this->option_services   = weglot_get_service( 'Option_Service_Weglot' );
+		$this->language_services   = weglot_get_service( 'Language_Service_Weglot' );
+		$this->option_services     = weglot_get_service( 'Option_Service_Weglot' );
+		$this->user_api_services   = weglot_get_service( 'User_Api_Service_Weglot' );
 	}
 
 	/**
@@ -54,8 +55,23 @@ class Admin_Enqueue_Weglot implements Hooks_Interface_Weglot {
 
 		wp_enqueue_script( 'weglot-admin', WEGLOT_URL_DIST . '/admin-js.js', [ 'weglot-admin-selectize-js' ], [], WEGLOT_VERSION );
 
+		$user_info        = $this->user_api_services->get_user_info();
+		$plans            = $this->user_api_services->get_plans();
+		$limit            = 1000;
+		if (
+			$user_info['plan'] <= 0 ||
+			in_array( $user_info['plan'], $plans['starter_free']['ids'] ) // phpcs:ignore
+		) {
+			$limit = $plans['starter_free']['limit_language'];
+		} elseif (
+			in_array( $user_info['plan'], $plans['business']['ids'] ) // phpcs:ignore
+		) {
+			$limit = $plans['business']['limit_language'];
+		}
+
 		wp_localize_script( 'weglot-admin', 'weglot_languages', [
 			'available' => $this->language_services->get_languages_available(),
+			'limit'     => $limit,
 		]);
 
 		wp_enqueue_style( 'weglot-admin-css', WEGLOT_URL_DIST . '/css/admin-css.css', [], WEGLOT_VERSION );

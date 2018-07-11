@@ -12,6 +12,7 @@ const init_admin_select = function(){
 				{ field: 'code', direction: 'asc' },
 				{ field: 'english', direction: 'asc' }
 			],
+			maxItems: weglot_languages.limit,
 			plugins: ['remove_button'],
 			options: weglot_languages.available,
 			render: {
