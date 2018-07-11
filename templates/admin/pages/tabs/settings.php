@@ -123,14 +123,14 @@ $plans              = $this->user_api_services->get_plans();
 					?>
 						<p class="description">
 							<?php // translators: 1 HTML Tag, 2 HTML Tag ?>
-							<?php echo sprintf( esc_html__( 'On the Starter plan, you can only choose one language. If you want to use more than 1 language, please %1$supgrade your plan%2$s.', 'weglot' ), '<a target="_blank" href="https://weglot.com/change-plan">', '</a>' ); ?>
+							<?php echo sprintf( esc_html__( 'On the Starter plan, you can choose one language. If you want to use more than 1 language, please %1$supgrade your plan%2$s.', 'weglot' ), '<a target="_blank" href="https://weglot.com/change-plan">', '</a>' ); ?>
 						</p>
 					<?php
 				} elseif ( in_array( $user_info['plan'], $plans['business']['ids'] ) ) { //phpcs:ignore
 					?>
 						<p class="description">
 							<?php // translators: 1 HTML Tag, 2 HTML Tag ?>
-							<?php echo sprintf( esc_html__( 'On the Business plan, you can only choose five languages. If you want to use more than language, please %1$supgrade your plan%2$s.', 'weglot' ), '<a target="_blank" href="https://weglot.com/change-plan">', '</a>' ); ?>
+							<?php echo sprintf( esc_html__( 'On the Business plan, you can choose five languages. If you want to use more than language, please %1$supgrade your plan%2$s.', 'weglot' ), '<a target="_blank" href="https://weglot.com/change-plan">', '</a>' ); ?>
 						</p>
 					<?php
 				}

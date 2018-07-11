@@ -87,7 +87,7 @@ class Button_Service_Weglot {
 				$button_html .= sprintf( '<li class="wg-li %s" data-code-language="%s">', $flag_class . $key_code, $key_code );
 
 				$button_html .= sprintf(
-					'<a href="%s">%s</a>',
+					'<a data-wg-notranslate href="%s">%s</a>',
 					$weglot_url->getForLanguage( $key_code ),
 					$name
 				);
