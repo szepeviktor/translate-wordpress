@@ -72,6 +72,7 @@ class Admin_Enqueue_Weglot implements Hooks_Interface_Weglot {
 		wp_localize_script( 'weglot-admin', 'weglot_languages', [
 			'available' => $this->language_services->get_languages_available(),
 			'limit'     => $limit,
+			'original'  => weglot_get_original_language(),
 		]);
 
 		wp_enqueue_style( 'weglot-admin-css', WEGLOT_URL_DIST . '/css/admin-css.css', [], WEGLOT_VERSION );

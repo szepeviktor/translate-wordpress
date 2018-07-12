@@ -70,7 +70,7 @@ $plans              = $this->user_api_services->get_plans();
 			</th>
 			<td class="forminp forminp-text">
 				<select
-					class="weglot-select"
+					class="weglot-select weglot-select-original"
 					style="display:none"
 					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['original_language']['key'] ) ); ?>"
 					id="<?php echo esc_attr( $options_available['original_language']['key'] ); ?>"
@@ -95,11 +95,12 @@ $plans              = $this->user_api_services->get_plans();
 			</th>
 			<td class="forminp forminp-text">
 				<select
-					class="weglot-select"
+					class="weglot-select weglot-select-destination"
 					style="display:none"
 					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['destination_language']['key'] ) ); ?>[]"
 					id="<?php echo esc_attr( $options_available['destination_language']['key'] ); ?>"
 					multiple="true"
+					required
 				>
 					<?php foreach ( $languages as $language ) : ?>
 						<option
