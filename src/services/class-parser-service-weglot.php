@@ -29,6 +29,7 @@ class Parser_Service_Weglot {
 	public function __construct() {
 		$this->option_services               = weglot_get_service( 'Option_Service_Weglot' );
 		$this->dom_listeners_services        = weglot_get_service( 'Dom_Listeners_Service_Weglot' );
+		$this->request_url_services          = weglot_get_service( 'Request_Url_Service_Weglot' );
 	}
 
 	/**
@@ -37,6 +38,12 @@ class Parser_Service_Weglot {
 	 */
 	public function get_parser() {
 		$exclude_blocks = $this->option_services->get_exclude_blocks();
+		if ( ! empty( $exclude_blocks ) ) {
+			$exclude_blocks = array_map( function( $item ) {
+				return $this->request_url_services->url_to_relative( $item );
+			}, $exclude_blocks);
+		}
+
 		$api_key        = $this->option_services->get_option( 'api_key' );
 
 		$config    = new ServerConfigProvider();

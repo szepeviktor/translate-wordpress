@@ -54,6 +54,12 @@ class Request_Url_Service_Weglot {
 	public function init_weglot_url() {
 		$exclude_urls_option = $this->option_services->get_option( 'exclude_urls' );
 
+		if ( ! empty( $exclude_urls_option ) ) {
+			$exclude_urls_option = array_map( function( $item ) {
+				return $this->url_to_relative( $item );
+			}, $exclude_urls_option);
+		}
+
 		$this->weglot_url = new Url(
 			$this->get_full_url(),
 			$this->option_services->get_option( 'original_language' ),
@@ -169,8 +175,8 @@ class Request_Url_Service_Weglot {
 			$exclude_urls_option    = preg_replace( '#\s+#', ',', trim( $exclude_urls_option ) );
 
 			$excluded_urls  = explode( ',', $exclude_urls_option );
-			foreach ( $excluded_urls as $ex_url ) {
-				$ex_url = $this->url_to_relative( $ex_url );
+			foreach ( $excluded_urls as $key => $ex_url ) {
+				$excluded_urls[$key] = $this->url_to_relative( $ex_url ); //phpcs:ignore
 			}
 			$exclude_urls_option = implode( ',', $excluded_urls );
 		}
@@ -228,9 +234,9 @@ class Request_Url_Service_Weglot {
 				$relative = str_replace( $this->get_home_wordpress_directory(), '', $path );
 
 				return ( empty( $relative ) ) ? '/' : $relative;
-			} else {
-				return $path . $query . $fragment;
 			}
+
+			return $path . $query . $fragment;
 		}
 		return $url;
 	}
