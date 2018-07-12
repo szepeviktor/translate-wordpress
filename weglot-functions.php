@@ -158,3 +158,12 @@ function weglot_is_eligible_url( $url ) {
 function weglot_get_api_key() {
 	return weglot_get_option( 'api_key' );
 }
+
+/**
+ * Get auto redirect option
+ * @since 2.0
+ * @return boolean
+ */
+function weglot_has_auto_redirect() {
+	return weglot_get_option( 'auto_redirect' );
+}
