@@ -315,8 +315,14 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 
 				$dom                  = str_replace( $shortcode_title, $name, $dom );
 				$dom                  = str_replace( $shortcode_title_html, $name, $dom );
-				$dom                  = str_replace( $protocol . $shortcode_url, $url->getForLanguage( $language->getIso639() ), $dom );
-				$dom                  = str_replace( $protocol . $shortcode_url_html, $url->getForLanguage( $language->getIso639() ), $dom );
+
+				$link_menu = $url->getForLanguage( $language->getIso639() );
+				if ( weglot_has_auto_redirect() && strpos( $link_menu, 'no_lredirect' ) === false && ( is_home() || is_front_page() ) ) {
+					$link_menu .= '?no_lredirect=true';
+				}
+
+				$dom                  = str_replace( $protocol . $shortcode_url, $link_menu, $dom );
+				$dom                  = str_replace( $protocol . $shortcode_url_html, $link_menu, $dom );
 			}
 
 			$dom .= sprintf( '<!--Weglot %s-->', WEGLOT_VERSION );

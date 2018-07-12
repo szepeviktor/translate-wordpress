@@ -87,7 +87,8 @@ class Button_Service_Weglot {
 				$button_html .= sprintf( '<li class="wg-li %s" data-code-language="%s">', $flag_class . $key_code, $key_code );
 
 				$link_button = $weglot_url->getForLanguage( $key_code );
-				if ( weglot_has_auto_redirect() ) {
+
+				if ( weglot_has_auto_redirect() && strpos( $link_button, 'no_lredirect' ) === false && ( is_home() || is_front_page() ) ) {
 					$link_button .= '?no_lredirect=true';
 				}
 
