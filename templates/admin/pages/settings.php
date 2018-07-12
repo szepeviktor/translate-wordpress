@@ -47,7 +47,7 @@ use WeglotWP\Helpers\Helper_Tabs_Admin_Weglot;
 		<p class="weglot-five-stars">
 			<?php
 				// translators: 1 HTML Tag, 2 HTML Tag
-				echo sprintf( esc_html__( 'If you need any help, you can contact us via our live chat at %1$sweglot.com%2$s or email us at support@weglot.com.', 'weglot' ), '<a href="https://weglot.com/" target="_blank">', '</a>' );
+				echo sprintf( esc_html__( 'If you need any help, you can contact us via email us at support@weglot.com.', 'weglot' ), '<a href="https://weglot.com/" target="_blank">', '</a>' );
 				echo  '<br>';
 				// translators: 1 HTML Tag, 2 HTML Tag
 				echo sprintf( esc_html__( 'You can also check our %1$sFAQ%2$s', 'weglot' ), '<a href="http://support.weglot.com/" target="_blank">', '</a>' );

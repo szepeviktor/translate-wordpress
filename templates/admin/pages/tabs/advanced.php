@@ -87,7 +87,7 @@ $options_available = [
 	<p>
 		<?php
 			// translators: 1 HTML Tag, 2 HTML Tag
-			echo sprintf( esc_html__( 'If you need any help, you can contact us via our live chat at %1$sweglot.com%2$s or email us at support@weglot.com.', 'weglot' ), '<a href="https://weglot.com/" target="_blank">', '</a>' );
+			echo sprintf( esc_html__( 'If you need any help, you can contact us via email us at support@weglot.com.', 'weglot' ), '<a href="https://weglot.com/" target="_blank">', '</a>' );
 		?>
 	</p>
 	<p>
