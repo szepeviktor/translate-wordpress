@@ -149,9 +149,24 @@ $lineHeight: 36px;
 
 }
 
+.navbar {
+	.navbar-nav {
+		li.weglot-flags {
+			a.weglot-lang {
+				&:before{
+					position: static;
+					transform: none;
+					transition: none;
+				}
+			}
+		}
+	}
+}
+
 .weglot-flags {
 	a {
 		&:before {
+
 			background-image: url('../images/rect_mate.png');
 			background-size: auto 20px;
 			border-radius: 0px;

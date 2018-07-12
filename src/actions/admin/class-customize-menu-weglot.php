@@ -35,18 +35,19 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 	public function hooks() {
 		add_action( 'admin_head-nav-menus.php', [ $this, 'add_nav_menu_meta_boxes' ] );
 		add_filter( 'nav_menu_link_attributes', [ $this, 'add_nav_menu_link_attributes' ], 10, 2 );
+		add_filter( 'nav_menu_css_class', [ $this, 'add_nav_menu_css_class' ], 10, 3 );
 	}
 
 	/**
 	 * @since 2.0
 	 * @see nav_menu_link_attributes
 	 * @param array $attrs
+	 * @param array $classes
 	 * @param object $item
+	 * @param mixed $args
 	 * @return void
 	 */
-	public function add_nav_menu_link_attributes( $attrs, $item ) {
-		$current_language = $this->request_url_services->get_current_language();
-
+	public function add_nav_menu_css_class( $classes, $item, $args ) {
 		$str              = 'weglot_menu_title-';
 		if ( strpos( $item->post_name, $str ) !== false ) {
 			if ( ! $this->request_url_services->is_translatable_url() ) {
@@ -63,14 +64,34 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 
 			$lang                         = substr( $item->post_name, strlen( $str ) );
 
+			$classes[] = apply_filters( 'weglot_nav_menu_link_class', $flag_class . $lang );
+		}
+
+		return $classes;
+	}
+
+	/**
+	 * @since 2.0
+	 * @see nav_menu_link_attributes
+	 * @param array $attrs
+	 * @param object $item
+	 * @return void
+	 */
+	public function add_nav_menu_link_attributes( $attrs, $item ) {
+		$str              = 'weglot_menu_title-';
+		if ( strpos( $item->post_name, $str ) !== false ) {
+			$current_language = $this->request_url_services->get_current_language();
+
+			if ( ! $this->request_url_services->is_translatable_url() ) {
+				$attrs['style'] = 'display:none';
+				return $attrs;
+			}
+
 			if ( ! isset( $attrs['class'] ) ) {
 				$attrs['class'] = '';
 			}
 
-			if ( $lang === $current_language ) {
-				$attrs['class'] .= 'weglot-current ';
-			}
-			$attrs['class'] .= apply_filters( 'weglot_nav_menu_link_class', $flag_class . $lang );
+			$attrs['class'] .= ' weglot-lang';
 
 			$attrs['data-wg-notranslate'] = 'true';
 		}
