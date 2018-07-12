@@ -243,8 +243,8 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			}
 		} catch ( ApiError $e ) {
 			$content .= '<!--Weglot error API : ' . $this->remove_comments( $e->getMessage() ) . '-->';
-			if (strpos($e->getMessage(), 'NMC') !== false) {
-				$this->option_services->set_option_by_key( 'allowed', 0 );
+			if ( strpos( $e->getMessage(), 'NMC' ) !== false ) {
+				$this->option_services->set_option_by_key( 'allowed', false );
 			}
 			return $content;
 		} catch ( \Exception $e ) {
@@ -253,6 +253,12 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		}
 	}
 
+	/**
+	 * @since 2.0
+	 *
+	 * @param string $html
+	 * @return string
+	 */
 	private function remove_comments( $html ) {
 		return preg_replace( '/<!--(.*)-->/Uis', '', $html );
 	}
@@ -293,19 +299,27 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			$with_name    = $options['with_name'];
 
 			foreach ( $languages_configured as $language ) {
-				$shortcode_title      = sprintf( '[weglot_menu_title-%s]', $language->getIso639() );
-				$shortcode_url        = sprintf( '[weglot_menu_current_url-%s]', $language->getIso639() );
+				$shortcode_title        = sprintf( '[weglot_menu_title-%s]', $language->getIso639() );
+				$shortcode_title_html   = str_replace( '[', '%5B', $shortcode_title );
+				$shortcode_title_html   = str_replace( ']', '%5D', $shortcode_title_html );
+				$shortcode_url          = sprintf( '[weglot_menu_current_url-%s]', $language->getIso639() );
+				$shortcode_url_html     = str_replace( '[', '%5B', $shortcode_url );
+				$shortcode_url_html     = str_replace( ']', '%5D', $shortcode_url_html );
 
 				$url                  = $this->request_url_services->get_weglot_url();
 
 				$name = '';
 				if ( $with_name ) {
-					$name = ( $is_fullname ) ? $language->getEnglishName() : strtoupper( $language->getIso639() );
+					$name = ( $is_fullname ) ? $language->getLocalName() : strtoupper( $language->getIso639() );
 				}
 
 				$dom                  = str_replace( $shortcode_title, $name, $dom );
+				$dom                  = str_replace( $shortcode_title_html, $name, $dom );
 				$dom                  = str_replace( $protocol . $shortcode_url, $url->getForLanguage( $language->getIso639() ), $dom );
+				$dom                  = str_replace( $protocol . $shortcode_url_html, $url->getForLanguage( $language->getIso639() ), $dom );
 			}
+
+			$dom .= sprintf( '<!--Weglot %s-->', WEGLOT_VERSION );
 		}
 
 		// Place the button if not in the page
@@ -345,12 +359,10 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 
 		// We only need this on translated page
 		if ( $this->current_language !== $this->original_language ) {
-			$dom = $this->weglot_replace_link($dom);
+			$dom = $this->weglot_replace_link( $dom );
 
-			$dom = preg_replace('/<html (.*?)?lang=(\"|\')(\S*)(\"|\')/',
-				'<html $1lang=$2' . $this->current_language . '$4', $dom);
-			$dom = preg_replace('/property="og:locale" content=(\"|\')(\S*)(\"|\')/',
-				'property="og:locale" content=$1' . $this->current_language . '$3', $dom);
+			$dom = preg_replace( '/<html (.*?)?lang=(\"|\')(\S*)(\"|\')/', '<html $1lang=$2' . $this->current_language . '$4', $dom );
+			$dom = preg_replace( '/property="og:locale" content=(\"|\')(\S*)(\"|\')/', 'property="og:locale" content=$1' . $this->current_language . '$3', $dom );
 		}
 		return apply_filters( 'weglot_render_dom', $dom );
 	}
