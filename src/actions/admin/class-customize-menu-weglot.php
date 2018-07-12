@@ -46,8 +46,14 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 	 */
 	public function add_nav_menu_link_attributes( $attrs, $item ) {
 		$current_language = $this->request_url_services->get_current_language();
+
 		$str              = 'weglot_menu_title-';
 		if ( strpos( $item->post_name, $str ) !== false ) {
+			if ( ! $this->request_url_services->is_translatable_url() ) {
+				$attrs['style'] = 'display:none';
+				return $attrs;
+			}
+
 			$options                          = $this->option_services->get_options();
 			$with_flags                       = $options['with_flags'];
 			$type_flags                       = $options['type_flags'];
@@ -56,10 +62,15 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 			$flag_class .= '0' === $type_flags ? '' : 'flag-' . $type_flags . ' ';
 
 			$lang                         = substr( $item->post_name, strlen( $str ) );
-			if ( $lang === $current_language ) {
-				$attrs['class'] = 'weglot-current ';
+
+			if ( ! isset( $attrs['class'] ) ) {
+				$attrs['class'] = '';
 			}
-			$attrs['class'] .= $flag_class . $lang;
+
+			if ( $lang === $current_language ) {
+				$attrs['class'] .= 'weglot-current ';
+			}
+			$attrs['class'] .= apply_filters( 'weglot_nav_menu_link_class', $flag_class . $lang );
 
 			$attrs['data-wg-notranslate'] = 'true';
 		}
