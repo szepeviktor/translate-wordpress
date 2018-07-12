@@ -82,3 +82,21 @@ $options_available = [
 		</tr>
 	</tbody>
 </table>
+
+<div class="notice notice-info is-dismissible">
+	<p>
+		<?php
+			// translators: 1 HTML Tag, 2 HTML Tag
+			echo sprintf( esc_html__( 'If you need any help, you can contact us via our live chat at %1$sweglot.com%2$s or email us at support@weglot.com.', 'weglot' ), '<a href="https://weglot.com/" target="_blank">', '</a>' );
+		?>
+	</p>
+	<p>
+		<?php esc_html_e( 'You can also return to version 1.13.1 by clicking on the button below', 'weglot' ); ?>
+	</p>
+	<p>
+		<a href="<?php echo wp_nonce_url( admin_url( 'admin-post.php?action=weglot_rollback' ), 'weglot_rollback' ); //phpcs:ignore ?>" class="button">
+			<?php echo esc_html__( 'Re-install version 1.13.1', 'weglot' ); ?>
+		</a>
+	</p>
+</div>
+
