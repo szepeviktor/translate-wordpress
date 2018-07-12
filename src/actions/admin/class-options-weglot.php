@@ -105,6 +105,19 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 	public function sanitize_options_settings( $new_options, $options ) {
 		$user_info        = $this->user_api_services->get_user_info();
 		$plans            = $this->user_api_services->get_plans();
+		$options_bdd      = $this->option_services->get_options();
+
+		$old_destination_languages = array_diff( $options_bdd['destination_language'], $new_options['destination_language'] );
+
+		if ( ! empty( $old_destination_languages ) ) {
+			foreach ( $old_destination_languages as $destination_language ) {
+				$nav_menu = get_page_by_title( sprintf( '[weglot_menu_title-%s]', $destination_language ), 'OBJECT', 'nav_menu_item' ); //phpcs:ignore
+				if ( ! $nav_menu ) {
+					continue;
+				}
+				wp_delete_post( $nav_menu->ID, true );
+			}
+		}
 
 		// Limit language
 		if (
