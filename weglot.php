@@ -4,7 +4,7 @@
  */
 
 /*
-Plugin Name: Weglot Translate v2
+Plugin Name: Weglot Translate
 Plugin URI: http://wordpress.org/plugins/weglot/
 Description: Translate your website into multiple languages in minutes without doing any coding. Fully SEO compatible.
 Author: Weglot Translate team
