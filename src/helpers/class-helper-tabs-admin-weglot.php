@@ -63,7 +63,7 @@ abstract class Helper_Tabs_Admin_Weglot {
 				'url'   => get_admin_url( null, sprintf( 'admin.php?page=%s&tab=%s', Helper_Pages_Weglot::SETTINGS, self::SETTINGS ) ),
 			],
 			self::APPEARANCE   => [
-				'title' => __( 'Button appearance', 'weglot' ),
+				'title' => __( 'Language button', 'weglot' ),
 				'url'   => get_admin_url( null, sprintf( 'admin.php?page=%s&tab=%s', Helper_Pages_Weglot::SETTINGS, self::APPEARANCE ) ),
 			],
 			self::ADVANCED => [

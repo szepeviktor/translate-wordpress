@@ -28,8 +28,7 @@ $options_available = [
 
 ?>
 
-<h3><?php esc_html_e( 'Advanced', 'weglot' ); ?></h3>
-<hr>
+
 <table class="form-table">
 	<tbody>
 		<tr valign="top">

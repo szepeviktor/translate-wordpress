@@ -41,6 +41,10 @@ $options_available = [
 
 ?>
 <style id="weglot-css-inline"></style>
+<h3>
+	<?php echo esc_html__( 'Language button design', 'weglot' ) . ' ' . esc_html__( '(Optional)', 'weglot' ); ?>
+</h3>
+<hr />
 <table class="form-table">
 	<tbody>
 		<tr valign="top">
@@ -168,10 +172,10 @@ $options_available = [
 
 
 <h3>
-	<?php echo esc_html__( 'Language button position', 'weglot' ) . ' ' . esc_html__( '(Optional)', 'weglot' ); ?>
+	<?php echo esc_html_e( 'Language button position', 'weglot' ) . ' ' . esc_html__( '(Optional)', 'weglot' ); ?>
 </h3>
 <hr />
-<h4><?php esc_html_e( 'Where will the language button be on my website? By default, bottom right.', 'weglot' ); ?></h4>
+<p><?php esc_html_e( 'Where will the language button be on my website? By default, bottom right.', 'weglot' ); ?></p>
 <table class="form-table">
 	<tr valign="top">
 		<th scope="row"><?php esc_html_e( 'In menu?', 'weglot' ); ?></th>
@@ -198,3 +202,4 @@ $options_available = [
 		</td>
 	</tr>
 </table>
+
