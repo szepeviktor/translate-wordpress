@@ -41,6 +41,10 @@ $options_available = [
 
 ?>
 <style id="weglot-css-inline"></style>
+<h3>
+    <?php echo esc_html__( 'Language button design', 'weglot' ) . ' ' . esc_html__( '(Optional)', 'weglot' ); ?>
+</h3>
+<hr />
 <table class="form-table">
 	<tbody>
 		<tr valign="top">
@@ -165,3 +169,36 @@ $options_available = [
 		</tr>
 	</tbody>
 </table>
+
+<h3>
+    <?php echo esc_html__( 'Language button position', 'weglot' ) . ' ' . esc_html__( '(Optional)', 'weglot' ); ?>
+</h3>
+<hr />
+<p style="font-size:14px;line-height: 1.3;"><?php esc_html_e('Where will the language button be on my website? By default, bottom right.', 'weglot'); ?></p>
+<table class="form-table">
+    <tr valign="top">
+        <th scope="row"><?php esc_html_e( 'In menu?', 'weglot' ); ?></th>
+        <td>
+            <?php esc_html_e( 'You can place the button in a menu area. Go to Appearance -> Menus and drag and drop the Weglot Translate Custom link where you want.', 'weglot' ); ?>
+        </td>
+    </tr>
+    <tr valign="top">
+        <th scope="row"><?php esc_html_e( 'As a widget?', 'weglot' ); ?></th>
+        <td>
+            <?php esc_html_e( 'You can place the button in a widget area. Go to Appearance -> Widgets and drag and drop the Weglot Translate widget where you want.', 'weglot' ); ?>
+        </td>
+    </tr>
+    <tr valign="top">
+        <th scope="row"><?php esc_html_e( 'With a shortcode?', 'weglot' ); ?></th>
+        <td>
+            <?php esc_html_e( 'You can use the Weglot shortcode [weglot_switcher] wherever you want to place the button.', 'weglot' ); ?>
+        </td>
+    </tr>
+    <tr valign="top">
+        <th scope="row"><?php esc_html_e( 'In the source code?', 'weglot' ); ?></th>
+        <td>
+            <?php esc_html_e( 'You can add the code &lt;div id=&quot;weglot_here&quot;&gt;&lt;/div&gt; wherever you want in the source code of your HTML page. The button will appear at this place.', 'weglot' ); ?>
+        </td>
+    </tr>
+</table>
+
