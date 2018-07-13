@@ -289,11 +289,6 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 
 		if ( strpos( $dom, '[weglot_menu' ) !== false ) {
 			$languages_configured = $this->language_services->get_languages_configured();
-			$protocol             = 'http://';
-			$is_ssl               = is_ssl();
-			if ( $is_ssl ) {
-				$protocol = 'https://';
-			}
 
 			$is_fullname  = $options['is_fullname'];
 			$with_name    = $options['with_name'];
@@ -321,8 +316,10 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 					$link_menu .= '?no_lredirect=true';
 				}
 
-				$dom                  = str_replace( $protocol . $shortcode_url, $link_menu, $dom );
-				$dom                  = str_replace( $protocol . $shortcode_url_html, $link_menu, $dom );
+				$dom                  = str_replace( 'http://' . $shortcode_url, $link_menu, $dom );
+				$dom                  = str_replace( 'https://' . $shortcode_url, $link_menu, $dom );
+				$dom                  = str_replace( 'http://' . $shortcode_url_html, $link_menu, $dom );
+				$dom                  = str_replace( 'https://' . $shortcode_url_html, $link_menu, $dom );
 			}
 
 			$dom .= sprintf( '<!--Weglot %s-->', WEGLOT_VERSION );
