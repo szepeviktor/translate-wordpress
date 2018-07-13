@@ -173,6 +173,13 @@ $lineHeight: 36px;
 	}
 }
 
+html[dir="rtl"]{
+	.weglot-flags a:before, .weglot-flags span:before {
+		margin-right:0;
+		margin-left:10px;
+	}
+}
+
 .weglot-flags {
 	a, span {
 		&:before {
