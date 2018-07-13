@@ -7,10 +7,10 @@ const init_admin_select = function(){
 		});
 	}
 
-	let destination_selectize, original_selectize
+	let destination_selectize
 
 	const execute = () => {
-		original_selectize = $(".weglot-select-original").selectize({
+		$(".weglot-select-original").selectize({
 			delimiter: "|",
 			persist: false,
 			valueField: "code",
@@ -32,22 +32,6 @@ const init_admin_select = function(){
 						.addOption(weglot_languages.available.filter(itm => {
 							return itm.code !== value
 						}));
-				}
-			},
-			render: {
-				option: function(item, escape) {
-					return (
-						'<div class="weglot__choice__language">' +
-						'<span class="weglot__choice__language--local">' +
-						escape(item.local) +
-						"</span>" +
-						'<span class="weglot__choice__language--english">' +
-						escape(item.english) +
-						" [" +
-						escape(item.code) +
-						"]</span>" +
-						"</div>"
-					);
 				}
 			}
 		});
