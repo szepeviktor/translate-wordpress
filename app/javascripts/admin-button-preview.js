@@ -41,7 +41,7 @@ const init_admin_button_preview = function () {
 				(itm) => itm.code === $(".country-selector label").data("code-language")
 			);
 
-			$(".country-selector label a").text(label_language.local);
+			$(".country-selector label a, .country-selector label span").text(label_language.local);
 
 			$(".country-selector li").each((key, itm) => {
 				const li_language = weglot_desination_languages.find(
@@ -58,10 +58,12 @@ const init_admin_button_preview = function () {
 				set_fullname_language()
 			}
 			else{
-				$(".country-selector label a").text("");
-				$(".country-selector li a").each((key, itm) => {
-					$(itm).text("");
-				});
+				$(".country-selector label a, .country-selector label span").text("");
+				$(".country-selector li a, .country-selector li span").each(
+					(key, itm) => {
+						$(itm).text("");
+					}
+				);
 			}
 		});
 
@@ -75,11 +77,12 @@ const init_admin_button_preview = function () {
 			else {
 				const label_language = weglot_desination_languages.find(itm => itm.code === $(".country-selector label").data("code-language"));
 
-				$(".country-selector label a").text(label_language.code.toUpperCase());
+				$(".country-selector label a, .country-selector label span").text(label_language.code.toUpperCase());
 				$(".country-selector li").each((key, itm) => {
 					const language = weglot_desination_languages.find(lang => lang.code === $(itm).data("code-language"));
 
 					$(itm).find("a").text(language.code.toUpperCase());
+					$(itm).find("span").text(language.code.toUpperCase());
 				});
 			}
 		});
