@@ -68,6 +68,7 @@ class Migration_Service_Weglot {
 			'show_box_first_settings'    => false,
 			'allowed'                    => $allowed,
 			'rtl_ltr_style'              => $rtl_ltr_style,
+			'is_menu'                    => ( 'on' === $is_menu ) ? true : false,
 		];
 
 		$this->option_services->set_options( $new_options );

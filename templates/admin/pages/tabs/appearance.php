@@ -38,7 +38,6 @@ $options_available = [
 	],
 ];
 
-
 ?>
 <style id="weglot-css-inline"></style>
 <h3>
@@ -175,8 +174,36 @@ $options_available = [
 	<?php echo esc_html_e( 'Language button position', 'weglot' ) . ' ' . esc_html__( '(Optional)', 'weglot' ); ?>
 </h3>
 <hr />
+
 <p><?php esc_html_e( 'Where will the language button be on my website? By default, bottom right.', 'weglot' ); ?></p>
+
 <table class="form-table">
+	<?php if ( isset( $this->options['is_menu'] ) && $this->options['is_menu'] ) : ?>
+		<tr valign="top">
+			<th scope="row" class="titledesc">
+				<label for="is_menu>">
+					<?php echo esc_html__( 'In menu (Weglot translate V1) ?', 'weglot' ); ?>
+				</label>
+			</th>
+			<td class="forminp forminp-text">
+				<input
+					name="is_menu"
+					id="is_menu"
+					type="checkbox"
+					checked
+					style="display:inline-block;"
+				>
+				<div class="notice notice-error is-dismissible" style="display: inline-block; position: relative; width: 80%; vertical-align: middle;">
+					<p>
+						<?php
+							// translators: 1 HTML Tag, 2 HTML Tag
+							echo esc_html__( 'Warning, this feature will be depreciated. We strongly advise you to uncheck the option and use and use the functionality: "In menu".', 'weglot' );
+						?>
+					</p>
+				</div>
+			</td>
+		</tr>
+	<?php endif; ?>
 	<tr valign="top">
 		<th scope="row"><?php esc_html_e( 'In menu?', 'weglot' ); ?></th>
 		<td>

@@ -23,6 +23,7 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 		$this->language_services      = weglot_get_service( 'Language_Service_Weglot' );
 		$this->option_services        = weglot_get_service( 'Option_Service_Weglot' );
 		$this->request_url_services   = weglot_get_service( 'Request_Url_Service_Weglot' );
+		$this->button_services        = weglot_get_service( 'Button_Service_Weglot' );
 		return $this;
 	}
 
@@ -36,6 +37,22 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 		add_action( 'admin_head-nav-menus.php', [ $this, 'add_nav_menu_meta_boxes' ] );
 		add_filter( 'nav_menu_link_attributes', [ $this, 'add_nav_menu_link_attributes' ], 10, 2 );
 		add_filter( 'nav_menu_css_class', [ $this, 'add_nav_menu_css_class' ], 10, 3 );
+
+		if ( $this->option_services->get_option( 'is_menu' ) ) {
+			add_filter( 'wp_nav_menu_items', [ $this, 'weglot_fallback_menu' ] );
+		}
+	}
+
+	/**
+	 * @since 2.0
+	 * @param string $items
+	 * @return string
+	 */
+	public function weglot_fallback_menu( $items ) {
+		$button = $this->button_services->get_html();
+		$items .= $button;
+
+		return $items;
 	}
 
 	/**
