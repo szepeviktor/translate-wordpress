@@ -60,6 +60,8 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			return;
 		}
 
+		$this->prepare_rtl_language();
+
 		add_action( 'init', [ $this, 'weglot_init' ] );
 		add_action( 'wp_head', [ $this, 'weglot_href_lang' ] );
 	}
@@ -96,7 +98,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		$this->redirect_services->verify_no_redirect();
 		$this->check_need_to_redirect();
 		$this->prepare_request_uri();
-		$this->prepare_rtl_language();
+
 
 		do_action( 'weglot_init_before_translate_page' );
 
