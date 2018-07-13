@@ -60,6 +60,8 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			return;
 		}
 
+		$this->current_language   = $this->request_url_services->get_current_language();
+
 		$this->prepare_rtl_language();
 
 		add_action( 'init', [ $this, 'weglot_init' ] );
@@ -81,8 +83,6 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			return;
 		}
 
-		$this->current_language   = $this->request_url_services->get_current_language();
-
 		$full_url = $this->request_url_services->get_full_url();
 		// URL not eligible
 		if ( ! $this->request_url_services->is_eligible_url( $full_url ) ) {
@@ -98,7 +98,6 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		$this->redirect_services->verify_no_redirect();
 		$this->check_need_to_redirect();
 		$this->prepare_request_uri();
-
 
 		do_action( 'weglot_init_before_translate_page' );
 
