@@ -55,5 +55,6 @@ class Amp_Enqueue_Weglot implements Hooks_Interface_Weglot {
 	 */
 	public function weglot_amp_post_template_css() {
 		echo $this->option_services->get_css_custom_inline(); //phpcs:ignore
+		echo $this->option_services->get_flag_css(); //phpcs:ignore
 	}
 }

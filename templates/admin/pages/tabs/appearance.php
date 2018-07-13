@@ -36,10 +36,14 @@ $options_available = [
 		'label'       => __( 'Override CSS', 'weglot' ),
 		'description' => __( "Don't change it unless you want a specific style for your button.", 'weglot' ),
 	],
+	'flag_css' => [
+		'key'         => 'flag_css',
+	],
 ];
 
 ?>
 <style id="weglot-css-inline"></style>
+<style id="weglot-css-flag-css"></style>
 <h3>
 	<?php echo esc_html__( 'Language button design', 'weglot' ) . ' ' . esc_html__( '(Optional)', 'weglot' ); ?>
 </h3>
@@ -113,6 +117,75 @@ $options_available = [
 						<?php esc_html_e( 'Circle', 'weglot' ); ?>
 					</option>
 				</select>
+				<div class="flag-style-openclose"><?php esc_html_e( 'Change country flags', 'weglot' ); ?></div>
+				<div class="flag-style-wrapper" style="display:none;">
+					<select class="flag-en-type wg-input-select">
+						<option value=0><?php esc_html_e( 'Choose English flag:', 'weglot' ); ?></option>
+						<option value=0><?php esc_html_e( 'United Kingdom (default)', 'weglot' ); ?></option>
+						<option value=1><?php esc_html_e( 'United States', 'weglot' ); ?></option>
+						<option value=2><?php esc_html_e( 'Australia', 'weglot' ); ?></option>
+						<option value=3><?php esc_html_e( 'Canada', 'weglot' ); ?></option>
+						<option value=4><?php esc_html_e( 'New Zealand', 'weglot' ); ?></option>
+						<option value=5><?php esc_html_e( 'Jamaica', 'weglot' ); ?></option>
+						<option value=6><?php esc_html_e( 'Ireland', 'weglot' ); ?></option>
+					</select>
+					<select class="flag-es-type wg-input-select">
+						<option value=0><?php esc_html_e( 'Choose Spanish flag:', 'weglot' ); ?></option>
+						<option value=0><?php esc_html_e( 'Spain (default)', 'weglot' ); ?></option>
+						<option value=1><?php esc_html_e( 'Mexico', 'weglot' ); ?></option>
+						<option value=2><?php esc_html_e( 'Argentina', 'weglot' ); ?></option>
+						<option value=3><?php esc_html_e( 'Colombia', 'weglot' ); ?></option>
+						<option value=4><?php esc_html_e( 'Peru', 'weglot' ); ?></option>
+						<option value=5><?php esc_html_e( 'Bolivia', 'weglot' ); ?></option>
+						<option value=6><?php esc_html_e( 'Uruguay', 'weglot' ); ?></option>
+						<option value=7><?php esc_html_e( 'Venezuela', 'weglot' ); ?></option>
+						<option value=8><?php esc_html_e( 'Chile', 'weglot' ); ?></option>
+						<option value=9><?php esc_html_e( 'Ecuador', 'weglot' ); ?></option>
+						<option value=10><?php esc_html_e( 'Guatemala', 'weglot' ); ?></option>
+						<option value=11><?php esc_html_e( 'Cuba', 'weglot' ); ?></option>
+						<option value=12><?php esc_html_e( 'Dominican Republic', 'weglot' ); ?></option>
+						<option value=13><?php esc_html_e( 'Honduras', 'weglot' ); ?></option>
+						<option value=14><?php esc_html_e( 'Paraguay', 'weglot' ); ?></option>
+						<option value=15><?php esc_html_e( 'El Salvador', 'weglot' ); ?></option>
+						<option value=16><?php esc_html_e( 'Nicaragua', 'weglot' ); ?></option>
+						<option value=17><?php esc_html_e( 'Costa Rica', 'weglot' ); ?></option>
+						<option value=18><?php esc_html_e( 'Puerto Rico', 'weglot' ); ?></option>
+						<option value=19><?php esc_html_e( 'Panama', 'weglot' ); ?></option>
+					</select>
+					<select class="flag-pt-type wg-input-select">
+						<option value=0><?php esc_html_e( 'Choose Portuguese flag:', 'weglot' ); ?></option>
+						<option value=0><?php esc_html_e( 'Brazil (default)', 'weglot' ); ?></option>
+						<option value=1><?php esc_html_e( 'Portugal', 'weglot' ); ?></option>
+					</select>
+					<select class="flag-fr-type wg-input-select">
+						<option value=0><?php esc_html_e( 'Choose French flag:', 'weglot' ); ?></option>
+						<option value=0><?php esc_html_e( 'France (default)', 'weglot' ); ?></option>
+						<option value=1><?php esc_html_e( 'Belgium', 'weglot' ); ?></option>
+						<option value=2><?php esc_html_e( 'Canada', 'weglot' ); ?></option>
+						<option value=3><?php esc_html_e( 'Switzerland', 'weglot' ); ?></option>
+						<option value=4><?php esc_html_e( 'Luxemburg', 'weglot' ); ?></option>
+					</select>
+					<select class="flag-ar-type wg-input-select">
+						<option value=0><?php esc_html_e( 'Choose Arabic flag:', 'weglot' ); ?></option>
+						<option value=0><?php esc_html_e( 'Saudi Arabia (default)', 'weglot' ); ?></option>
+						<option value=1><?php esc_html_e( 'Algeria', 'weglot' ); ?></option>
+						<option value=2><?php esc_html_e( 'Egypt', 'weglot' ); ?></option>
+						<option value=3><?php esc_html_e( 'Iraq', 'weglot' ); ?></option>
+						<option value=4><?php esc_html_e( 'Jordan', 'weglot' ); ?></option>
+						<option value=5><?php esc_html_e( 'Kuwait', 'weglot' ); ?></option>
+						<option value=6><?php esc_html_e( 'Lebanon', 'weglot' ); ?></option>
+						<option value=7><?php esc_html_e( 'Libya', 'weglot' ); ?></option>
+						<option value=8><?php esc_html_e( 'Morocco', 'weglot' ); ?></option>
+						<option value=14><?php esc_html_e( 'Oman', 'weglot' ); ?></option>
+						<option value=9><?php esc_html_e( 'Qatar', 'weglot' ); ?></option>
+						<option value=10><?php esc_html_e( 'Syria', 'weglot' ); ?></option>
+						<option value=11><?php esc_html_e( 'Tunisia', 'weglot' ); ?></option>
+						<option value=12><?php esc_html_e( 'United Arab Emirates', 'weglot' ); ?></option>
+						<option value=13><?php esc_html_e( 'Yemen', 'weglot' ); ?></option>
+					</select>
+					<p><?php esc_html_e( 'If you want to use a different flag, just ask us.', 'weglot' ); ?></p>
+				</div>
+				<textarea id="flag_css" name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['flag_css']['key'] ) ); ?>" style="display:none;"><?php echo esc_attr( $this->options['flag_css'] ); ?></textarea>
 			</td>
 		</tr>
 		<tr valign="top">

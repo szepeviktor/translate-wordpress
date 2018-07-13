@@ -58,6 +58,7 @@ class Migration_Service_Weglot {
 			'exclude_urls'               => $exclude_url,
 			'auto_redirect'              => ( 'on' === $auto_switch ) ? true : false,
 			'email_translate'            => false,
+			'flag_css'                   => $flag_css,
 			'is_fullname'                => ( 'on' === $is_fullname ) ? true : false,
 			'with_name'                  => ( 'on' === $with_name ) ? true : false,
 			'is_dropdown'                => ( 'on' === $is_dropdown ) ? true : false,

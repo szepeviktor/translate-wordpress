@@ -90,6 +90,15 @@ class Option_Service_Weglot {
 		return apply_filters( 'weglot_css_custom_inline', $this->get_option( 'override_css' ) );
 	}
 
+	/**
+	 * @since 2.0
+	 *
+	 * @return string
+	 */
+	public function get_flag_css() {
+		return apply_filters( 'weglot_flag_css', $this->get_option( 'flag_css' ) );
+	}
+
 
 	/**
 	 * @since 2.0

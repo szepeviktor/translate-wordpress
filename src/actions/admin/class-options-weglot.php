@@ -178,6 +178,7 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 
 		$new_options['type_flags']      = isset( $options['type_flags'] ) ? $options['type_flags'] : '0';
 		$new_options['override_css']    = isset( $options['override_css'] ) ? $options['override_css'] : '';
+		$new_options['flag_css']        = isset( $options['flag_css'] ) ? $options['flag_css'] : '';
 
 		return $new_options;
 	}
