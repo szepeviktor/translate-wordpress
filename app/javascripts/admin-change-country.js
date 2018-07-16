@@ -1,7 +1,9 @@
 const init_admin_change_country = function() {
 	const $ = jQuery;
 
-	$("#weglot-css-flag-css").text(weglot_css.flag_css);
+	if(typeof weglot_css !== "undefined"){
+		$("#weglot-css-flag-css").text(weglot_css.flag_css);
+	}
 
 	function refresh_flag_css() {
 		var en_flags = new Array();

@@ -4,6 +4,7 @@ import InitAdminExclusion from './admin-exclusion'
 import InitAdminButtonPreview from './admin-button-preview'
 import InitAdminCheckApiKey from './admin-check-api-key'
 import InitAdminChangeCountry from './admin-change-country'
+import InitAdminPreventSaveForm from './admin-prevent-save-form'
 import './find-polyfill'
 import './filter-polyfill'
 
@@ -13,3 +14,4 @@ InitAdminWeglotBox();
 InitAdminButtonPreview();
 InitAdminCheckApiKey();
 InitAdminChangeCountry();
+InitAdminPreventSaveForm();
