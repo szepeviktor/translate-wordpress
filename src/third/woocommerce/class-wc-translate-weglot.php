@@ -106,7 +106,7 @@ class WC_Translate_Weglot {
 	 * @since 2.0
 	 *
 	 * @param string $content
-	 * @return WordCollection
+	 * @return string
 	 */
 	public function translate_words( $content ) {
 		$content = $this->translate_adresse_i18n( $content );

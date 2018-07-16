@@ -33,6 +33,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		$this->language_services             = weglot_get_service( 'Language_Service_Weglot' );
 		$this->parser_services               = weglot_get_service( 'Parser_Service_Weglot' );
 		$this->wc_active_services            = weglot_get_service( 'WC_Active_Weglot' );
+		$this->other_translate_services      = weglot_get_service( 'Other_Translate_Service_Weglot' );
 	}
 
 
@@ -225,6 +226,8 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 				case 'json':
 					$json       = json_decode( $content, true );
 					$content    = $this->translate_array( $json );
+					$content    = apply_filters( 'weglot_json_treat_page', $content );
+
 					return wp_json_encode( $content );
 					break;
 				case 'html':
@@ -234,6 +237,11 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 						// @TODO : Improve this with multiple service
 						$translated_content = weglot_get_service( 'WC_Translate_Weglot' )->translate_words( $translated_content );
 					}
+
+					$translated_content = $this->other_translate_services->translate_words( $translated_content );
+
+					$translated_content = apply_filters( 'weglot_html_treat_page', $translated_content );
+
 					return $this->weglot_render_dom( $translated_content );
 					break;
 				default:
