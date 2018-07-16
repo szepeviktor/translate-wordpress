@@ -5,10 +5,10 @@ const init_prevent_save_form = function () {
 	const execute = () => {
 
 		let warning = false;
-		$("input[type='text'], select, textarea, input[type='checkbox']").on({
+		$(document).on({
 			change: () => warning = true,
 			keyup: () => warning = true
-		})
+		}, "input[type='text'], select, textarea, input[type='checkbox']")
 
 		$("input[type='submit']").on("click", (e) => {
 			warning = false
