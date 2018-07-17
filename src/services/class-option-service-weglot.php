@@ -83,6 +83,17 @@ class Option_Service_Weglot {
 
 	/**
 	 * @since 2.0
+	 * @return array
+	 */
+	public function get_exclude_urls() {
+		$exclude_urls     = $this->get_option( 'exclude_urls' );
+		$exclude_urls[]   = '/wp-login.php';
+
+		return apply_filters( 'weglot_exclude_urls', $exclude_urls );
+	}
+
+	/**
+	 * @since 2.0
 	 *
 	 * @return string
 	 */

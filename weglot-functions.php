@@ -119,7 +119,7 @@ function weglot_get_button_selector_html( $add_class ) {
  * @return array
  */
 function weglot_get_exclude_urls() {
-	return weglot_get_option( 'exclude_urls' );
+	return Context_Weglot::weglot_get_context()->get_service( 'Option_Service_Weglot' )->get_exclude_urls();
 }
 
 /**

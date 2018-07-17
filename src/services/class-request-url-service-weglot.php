@@ -52,7 +52,7 @@ class Request_Url_Service_Weglot {
 	 * @return string
 	 */
 	public function init_weglot_url() {
-		$exclude_urls_option = $this->option_services->get_option( 'exclude_urls' );
+		$exclude_urls_option = $this->option_services->get_exclude_urls();
 
 		if ( ! empty( $exclude_urls_option ) ) {
 			$exclude_urls_option = array_map( function( $item ) {
@@ -66,6 +66,7 @@ class Request_Url_Service_Weglot {
 			$this->option_services->get_option( 'destination_language' ),
 			$this->get_home_wordpress_directory()
 		);
+
 
 		$this->weglot_url->setExcludedUrls( $exclude_urls_option );
 
