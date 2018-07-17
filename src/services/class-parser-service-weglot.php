@@ -28,7 +28,13 @@ class Parser_Service_Weglot {
 	 */
 	public function __construct() {
 		$this->option_services               = weglot_get_service( 'Option_Service_Weglot' );
-		$this->dom_listeners_services        = weglot_get_service( 'Dom_Listeners_Service_Weglot' );
+
+		if ( '2' === WEGLOT_LIB_PARSER ) {
+			$this->dom_listeners_services        = weglot_get_service( 'Dom_Listeners_Service_Weglot' );
+		} else {
+			$this->dom_checkers_services        = weglot_get_service( 'Dom_Checkers_Service_Weglot' );
+		}
+
 		$this->request_url_services          = weglot_get_service( 'Request_Url_Service_Weglot' );
 	}
 
@@ -48,8 +54,13 @@ class Parser_Service_Weglot {
 
 		$config    = new ServerConfigProvider();
 		$client    = new Client( $api_key );
-		$listeners = $this->dom_listeners_services->get_dom_listeners();
-		$parser    = new Parser( $client, $config, $exclude_blocks, $listeners );
+		if ( '2' === WEGLOT_LIB_PARSER ) {
+			$listeners = $this->dom_listeners_services->get_dom_listeners();
+			$parser    = new Parser( $client, $config, $exclude_blocks, $listeners );
+		} else {
+			$parser    = new Parser( $client, $config, $exclude_blocks );
+			$parser->getDomCheckerProvider()->addCheckers( $this->dom_checkers_services->get_dom_checkers() );
+		}
 
 		return $parser;
 	}

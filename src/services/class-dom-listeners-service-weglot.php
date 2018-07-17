@@ -20,6 +20,9 @@ class Dom_Listeners_Service_Weglot {
 	 * @since 2.0
 	 */
 	public function __construct() {
+		if ( '1' === WEGLOT_LIB_PARSER ) {
+			return;
+		}
 		$this->dom_listeners = [
 			'parser.crawler.after' => new \WeglotWP\Domlisteners\Meta_Listener_Weglot(),
 		];

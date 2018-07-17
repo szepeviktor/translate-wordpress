@@ -37,6 +37,7 @@ define('WEGLOT_DIR_DIST', WEGLOT_DIR . '/dist');
 define('WEGLOT_DIRURL', plugin_dir_url(__FILE__));
 define('WEGLOT_URL_DIST', WEGLOT_DIRURL . 'dist');
 define('WEGLOT_LATEST_VERSION', '1.13.1');
+define('WEGLOT_LIB_PARSER', '1');
 
 define('WEGLOT_TEMPLATES', WEGLOT_DIR . '/templates');
 define('WEGLOT_TEMPLATES_ADMIN', WEGLOT_TEMPLATES . '/admin');
