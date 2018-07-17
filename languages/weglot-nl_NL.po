@@ -685,8 +685,8 @@ msgid "You can find all your translations in your Weglot account:"
 msgstr "Je kunt al je vertalingen in je Weglot-account vinden:"
 
 #: includes/wg-settings-page.php:264
-msgid "https://weglot.com/dashboard"
-msgstr "https://weglot.com/dashboard"
+msgid "https://dashboard.weglot.com/translations/"
+msgstr "https://dashboard.weglot.com/translations/"
 
 #: includes/wg-settings-page.php:264
 msgid "Edit my translations"

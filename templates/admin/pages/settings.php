@@ -61,12 +61,12 @@ use WeglotWP\Helpers\Helper_Tabs_Admin_Weglot;
 			<h3><?php esc_html_e( 'Where are my translations?', 'weglot' ); ?></h3>
 			<div>
 				<p><?php esc_html_e( 'You can find all your translations in your Weglot account:', 'weglot' ); ?></p>
-				<a href="<?php esc_html_e( 'https://weglot.com/dashboard', 'weglot' ); ?>" target="_blank" class="weglot-editbtn">
+				<a href="<?php esc_html_e( 'https://dashboard.weglot.com/translations/', 'weglot' ); ?>" target="_blank" class="weglot-editbtn">
 					<?php esc_html_e( 'Edit my translations', 'weglot' ); ?>
 				</a>
 			</div>
 		</div>
-		<?php
+		<?php   
 	endif;
 	?>
 </div>

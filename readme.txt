@@ -76,7 +76,7 @@ Weglot Translate is easy to set up:
 6. Click on the Save button.
 7. (Optional) Go to Appearance -&gt; Widgets and drag and drop the "Weglot Translate" widget where you want it to appear.
 8. Refresh your web page, your website is now available in the selected translation languages. You can switch languages to see translated pages.
-9. If you want, you can edit your translations directly in [your account](https://weglot.com/dashboard)
+9. If you want, you can edit your translations directly in [your account](https://dashboard.weglot.com/translations/)
 
 
 == Frequently Asked Questions ==
@@ -85,7 +85,7 @@ Weglot Translate is a freemium plugin: it is free for small websites (under 2000
 
 In any case, you can try Weglot free for 10 days.
 = Edit my translations =
-With Weglot Translate, you can modify translations in "Translations" in your Weglot [account here](https://weglot.com/dashboard). If you change a translation, it's automatically saved and displayed on your website.
+With Weglot Translate, you can modify translations in "Translations" in your Weglot [account here](https://dashboard.weglot.com/translations/). If you change a translation, it's automatically saved and displayed on your website.
 = The translations I edited are not displayed on my website. =
 
 All translations edited in your dashboard are automatically displayed in real-time in the translated versions of your website. If you can not see your new translations:
@@ -137,7 +137,7 @@ Weglot Translate is easy to set up:
 6. Click on the Save button.
 7. (Optional) Go to Appearance -> Widgets and drag and drop the "Weglot Translate" widget where you want it to appear.
 8. Refresh your web page, your website is now available in the selected translation languages. You can switch languages to see translated pages.
-9. If you want, you can edit your translations directly in [your account](https://weglot.com/dashboard)
+9. If you want, you can edit your translations directly in [your account](https://dashboard.weglot.com/translations/)
 
 == Screenshots ==
 
