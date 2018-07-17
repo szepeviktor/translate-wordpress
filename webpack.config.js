@@ -2,7 +2,7 @@ const path = require("path");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const webpack = require("webpack");
-const env = JSON.stringify(process.env.NODE_ENV) || "development";
+const env = process.env.NODE_ENV || "development";
 
 module.exports = {
 	entry: {
