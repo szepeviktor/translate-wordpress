@@ -15,7 +15,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		};
 	}
 
-    const button = document.querySelector(".country-selector");
+	const button = document.querySelector(".country-selector");
+	if(!button){
+		return;
+	}
     const h = getOffset( button ).top;
     const body = document.body,html = document.documentElement;
     const page_height = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );
