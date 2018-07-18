@@ -152,7 +152,10 @@ See changelog for upgrade changes.
 
 == Changelog ==
 
-= 2.0 (**/07/2018) =
+= 2.0 (18/07/2018) =
+* Major changes on the plugin architecture
+* Adding developer functions & filters
+* Refactoring
 
 = 1.13.1 (01/06/2018) =
 * Bugfix: Error on the encoding of ignored nodes
