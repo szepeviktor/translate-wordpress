@@ -227,6 +227,21 @@ html[dir="rtl"]{
 			}
 		}
 	}
+
+
+	a {
+		span:before {
+			background-image: none !important;
+			display: none !important;
+		}
+	}
+	span {
+		a:before {
+			background-image: none !important;
+			display: none !important;
+		}
+	}
+
 	&.hw a:before, &.hw span:before { background-position: -3570px 0; }
 	&.af a:before, &.af span:before { background-position: -6570px 0; }
 	&.fl a:before, &.fl span:before { background-position: -3060px 0px; }
