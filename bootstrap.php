@@ -92,6 +92,10 @@ function weglot_init() {
 		add_action( 'admin_notices', [ '\WeglotWP\Notices\Rewrite_Module_Weglot', 'admin_notice' ] );
 	}
 
+	if ( ! function_exists( 'curl_version' )) {
+		add_action( 'admin_notices', [ '\WeglotWP\Notices\Curl_Weglot', 'admin_notice' ] );
+	}
+
 	load_plugin_textdomain( 'weglot', false, WEGLOT_DIR_LANGUAGES );
 
 	Context_Weglot::weglot_get_context()->init_plugin();

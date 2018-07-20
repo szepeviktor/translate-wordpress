@@ -181,8 +181,7 @@ function weglot_plugin_loaded() {
 
 	add_action( 'admin_post_weglot_rollback', 'weglot_rollback' );
 
-	if ( ! weglot_is_compatible() ) {
-	} else {
+	if ( weglot_is_compatible() ) {
 		require_once __DIR__ . '/vendor/autoload.php';
 		require_once __DIR__ . '/bootstrap.php';
 		require_once __DIR__ . '/weglot-functions.php';
