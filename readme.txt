@@ -152,6 +152,11 @@ See changelog for upgrade changes.
 
 == Changelog ==
 
+= 2.0.1 (19/07/2018) =
+* Improve flag style
+* Prevent cURL function
+* Solved nav_class warning
+
 = 2.0 (18/07/2018) =
 * Major changes on the plugin architecture
 * Adding developer functions & filters
