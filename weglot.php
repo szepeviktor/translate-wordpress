@@ -51,6 +51,10 @@ if ( file_exists( $dir_yoast_premium . '/wp-seo-premium.php' ) ) {
 		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 	}
 
+	if ( ! weglot_is_compatible() ) {
+		return;
+	}
+
 	$yoast_plugin_data        = get_plugin_data( $dir_yoast_premium . '/wp-seo-premium.php' );
 	$dir_yoast_premium_inside = $dir_yoast_premium . '/premium/';
 
