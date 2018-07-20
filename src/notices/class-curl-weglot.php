@@ -9,12 +9,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 use WeglotWP\Models\Abstract_Notices_Weglot;
 
 /**
- * @since 2.0
+ * @since 2.0.1
  */
 class Curl_Weglot extends Abstract_Notices_Weglot {
 
 	/**
-	 * @since 2.0
+	 * @since 2.0.1
 	 * @static
 	 * @return string
 	 */

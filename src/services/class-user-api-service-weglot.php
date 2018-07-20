@@ -36,8 +36,8 @@ class User_Api_Service_Weglot {
 
 	/**
 	 * @since 2.0
-	 *
-	 * @return void
+	 * @version 2.0.1
+	 * @return array
 	 */
 	public function get_user_info() {
 		if ( null !== $this->user_info ) {

@@ -85,6 +85,7 @@ abstract class Context_Weglot {
 /**
  * Init plugin
  * @since 2.0
+ * @version 2.0.1
  * @return void
  */
 function weglot_init() {
