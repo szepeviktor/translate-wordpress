@@ -44,27 +44,31 @@ class User_Api_Service_Weglot {
 			return $this->user_info;
 		}
 
-		$results = $this->do_request( self::API_BASE_OLD . 'user-info?api_key=' . weglot_get_api_key(), null );
-		$json    = json_decode( $results, true );
-		if ( json_last_error() !== JSON_ERROR_NONE ) {
-			throw new \Exception( 'Unknown error with Weglot Api (0001) : ' . json_last_error() );
-		}
-
-		if ( isset( $json['succeeded'] ) && ( 0 === $json['succeeded'] || 1 === $json['succeeded'] ) ) {
-			if ( 1 !== $json['succeeded'] ) {
-				$error = isset( $json['error'] ) ? $json['error'] : 'Unknown error with Weglot Api (0003)';
-				throw new \Exception( $error );
+		try {
+			$results   = $this->do_request( self::API_BASE_OLD . 'user-info?api_key=' . weglot_get_api_key(), null );
+			$json      = json_decode( $results, true );
+			if ( json_last_error() !== JSON_ERROR_NONE ) {
+				throw new \Exception( 'Unknown error with Weglot Api (0001) : ' . json_last_error() );
 			}
 
-			if ( ! isset( $json['answer'] ) ) {
-				throw new \Exception( 'Unknown error with Weglot Api (0004)' );
-			}
+			if ( isset( $json['succeeded'] ) && ( 0 === $json['succeeded'] || 1 === $json['succeeded'] ) ) {
+				if ( 1 !== $json['succeeded'] ) {
+					$error = isset( $json['error'] ) ? $json['error'] : 'Unknown error with Weglot Api (0003)';
+					throw new \Exception( $error );
+				}
 
-			$answer          = $json['answer'];
-			$this->user_info = $answer;
-			return $this->user_info;
-		} else {
-			throw new \Exception( 'Unknown error with Weglot Api (0002) : ' . $json );
+				if ( ! isset( $json['answer'] ) ) {
+					throw new \Exception( 'Unknown error with Weglot Api (0004)' );
+				}
+
+				$answer          = $json['answer'];
+				$this->user_info = $answer;
+				return $this->user_info;
+			} else {
+				throw new \Exception( 'Unknown error with Weglot Api (0002) : ' . $json );
+			}
+		} catch ( \Exception $e) {
+			return ['allowed' => true];
 		}
 	}
 
