@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 2.0
+ * @version 2.0.1
  */
 
 /*
@@ -11,7 +11,7 @@ Author: Weglot Translate team
 Author URI: https://weglot.com/
 Text Domain: weglot
 Domain Path: /languages/
-Version: 2.0
+Version: 2.0.1
 */
 
 /**
