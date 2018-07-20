@@ -85,11 +85,16 @@ abstract class Context_Weglot {
 /**
  * Init plugin
  * @since 2.0
+ * @version 2.0.1
  * @return void
  */
 function weglot_init() {
 	if ( function_exists( 'apache_get_modules' ) && ! in_array( 'mod_rewrite', apache_get_modules() ) ) { //phpcs:ignore
 		add_action( 'admin_notices', [ '\WeglotWP\Notices\Rewrite_Module_Weglot', 'admin_notice' ] );
+	}
+
+	if ( ! function_exists( 'curl_version' )) {
+		add_action( 'admin_notices', [ '\WeglotWP\Notices\Curl_Weglot', 'admin_notice' ] );
 	}
 
 	load_plugin_textdomain( 'weglot', false, WEGLOT_DIR_LANGUAGES );

@@ -95,8 +95,8 @@ function weglot_get_languages_available() {
 /**
  * @since 2.0
  *
- * @return array
  * @param null|string $type
+ * @return array
  */
 function weglot_get_languages_configured( $type = null ) {
 	return Context_Weglot::weglot_get_context()->get_service( 'Language_Service_Weglot' )->get_languages_configured( $type );
@@ -105,10 +105,10 @@ function weglot_get_languages_configured( $type = null ) {
 /**
  * Get button selector HTML
  * @since 2.0
+ * @param string $add_class
  * @return string
- * @param mixed $add_class
  */
-function weglot_get_button_selector_html( $add_class ) {
+function weglot_get_button_selector_html( $add_class = '' ) {
 	return Context_Weglot::weglot_get_context()->get_service( 'Button_Service_Weglot' )->get_html( $add_class );
 }
 

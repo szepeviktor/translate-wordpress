@@ -72,7 +72,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	/**
 	 * @see init
 	 * @since 2.0
-	 *
+	 * @version 2.0.1
 	 * @return void
 	 */
 	public function weglot_init() {
@@ -101,6 +101,10 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		$this->prepare_request_uri();
 
 		do_action( 'weglot_init_before_translate_page' );
+
+		if ( ! function_exists( 'curl_version' )) {
+			return;
+		}
 
 		ob_start( [ $this, 'weglot_treat_page' ] );
 	}
@@ -303,12 +307,13 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			$with_name    = $options['with_name'];
 
 			foreach ( $languages_configured as $language ) {
-				$shortcode_title        = sprintf( '[weglot_menu_title-%s]', $language->getIso639() );
-				$shortcode_title_html   = str_replace( '[', '%5B', $shortcode_title );
-				$shortcode_title_html   = str_replace( ']', '%5D', $shortcode_title_html );
-				$shortcode_url          = sprintf( '[weglot_menu_current_url-%s]', $language->getIso639() );
-				$shortcode_url_html     = str_replace( '[', '%5B', $shortcode_url );
-				$shortcode_url_html     = str_replace( ']', '%5D', $shortcode_url_html );
+				$shortcode_title                        = sprintf( '\[weglot_menu_title-%s\]', $language->getIso639() );
+				$shortcode_title_without_bracket        = sprintf( 'weglot_menu_title-%s', $language->getIso639() );
+				$shortcode_title_html                   = str_replace( '\[', '%5B', $shortcode_title );
+				$shortcode_title_html                   = str_replace( '\]', '%5D', $shortcode_title_html );
+				$shortcode_url                          = sprintf( '(http|https):\/\/\[weglot_menu_current_url-%s\]', $language->getIso639() );
+				$shortcode_url_html                     = str_replace( '\[', '%5B', $shortcode_url );
+				$shortcode_url_html                     = str_replace( '\]', '%5D', $shortcode_url_html );
 
 				$url                  = $this->request_url_services->get_weglot_url();
 
@@ -317,18 +322,17 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 					$name = ( $is_fullname ) ? $language->getLocalName() : strtoupper( $language->getIso639() );
 				}
 
-				$dom                  = str_replace( $shortcode_title, $name, $dom );
-				$dom                  = str_replace( $shortcode_title_html, $name, $dom );
+				$dom                  = preg_replace( '#' . $shortcode_title . '#i', $name, $dom );
+				$dom                  = preg_replace( '#' . $shortcode_title_html . '#i', $name, $dom );
+				$dom                  = preg_replace( '#' . $shortcode_title_without_bracket . '#i', $name, $dom );
 
 				$link_menu = $url->getForLanguage( $language->getIso639() );
 				if ( weglot_has_auto_redirect() && strpos( $link_menu, 'no_lredirect' ) === false && ( is_home() || is_front_page() ) ) {
 					$link_menu .= '?no_lredirect=true';
 				}
 
-				$dom                  = str_replace( 'http://' . $shortcode_url, $link_menu, $dom );
-				$dom                  = str_replace( 'https://' . $shortcode_url, $link_menu, $dom );
-				$dom                  = str_replace( 'http://' . $shortcode_url_html, $link_menu, $dom );
-				$dom                  = str_replace( 'https://' . $shortcode_url_html, $link_menu, $dom );
+				$dom                  = preg_replace( '#' . $shortcode_url . '#i', $link_menu, $dom );
+				$dom                  = preg_replace( '#' . $shortcode_url_html . '#i', $link_menu, $dom );
 			}
 
 			$dom .= sprintf( '<!--Weglot %s-->', WEGLOT_VERSION );

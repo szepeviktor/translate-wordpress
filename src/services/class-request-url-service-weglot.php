@@ -67,7 +67,6 @@ class Request_Url_Service_Weglot {
 			$this->get_home_wordpress_directory()
 		);
 
-
 		$this->weglot_url->setExcludedUrls( $exclude_urls_option );
 
 		return $this;
