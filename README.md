@@ -7,10 +7,10 @@
 [![Build Status][travis-image]][travis-url]
 
 
-## [WARNING] : this plugin must not be installed in production yet
-
-
 ## Requirements
+
+You can download plugin on [WordPress.org](https://wordpress.org/plugins/weglot)
+
 - PHP version 5.4 and later
 - Weglot API Key, starting at [free level](https://dashboard.weglot.com/register)
 
