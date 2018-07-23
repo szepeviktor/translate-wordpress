@@ -200,6 +200,19 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		}
 	}
 
+    /**
+     * @since 2.0.2
+     *
+     * Check if there are Weglot menu links and make sure there is the data-wg-notranslate
+     * @return string
+     */
+	public function fix_menu_link($content) {
+
+        $content = preg_replace('#<a([^\>]+?)?href="(http|https):\/\/\[weglot_#', "<a$1 data-wg-notranslate=\"true\" href=\"$2://[weglot_",$content);
+
+	    return $content;
+    }
+
 	/**
 	 * @see weglot_init / ob_start
 	 * @since 2.0
@@ -209,7 +222,8 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	public function weglot_treat_page( $content ) {
 		$allowed = $this->option_services->get_option( 'allowed' );
 
-        $content = $this->weglot_add_button_html( $content );
+        $content = $this->fix_menu_link($content);
+
 		if ( ! $allowed ) {
 			$content = $this->weglot_render_dom( $content );
 			return $content . '<!--Not allowed-->';
@@ -332,8 +346,8 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 					$link_menu .= '?no_lredirect=true';
 				}
 
-                $dom                  = preg_replace( '#href="' . $shortcode_url . '#i', "data-wg-notranslate=\"true\" href=\"" . $link_menu, $dom );
-                $dom                  = preg_replace( '#href="' . $shortcode_url_html . '#i', "data-wg-notranslate=\"true\" href=\"" . $link_menu, $dom );
+				$dom                  = preg_replace( '#' . $shortcode_url . '#i', $link_menu, $dom );
+				$dom                  = preg_replace( '#' . $shortcode_url_html . '#i', $link_menu, $dom );
 			}
 
 			$dom .= sprintf( '<!--Weglot %s-->', WEGLOT_VERSION );
@@ -372,6 +386,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	 * @return string
 	 */
 	public function weglot_render_dom( $dom ) {
+		$dom = $this->weglot_add_button_html( $dom );
 
 		// We only need this on translated page
 		if ( $this->current_language !== $this->original_language ) {
