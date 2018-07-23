@@ -222,7 +222,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	public function weglot_treat_page( $content ) {
 		$allowed = $this->option_services->get_option( 'allowed' );
 
-        $content = $this->fix_menu_link($content);
+
 
 		if ( ! $allowed ) {
 			$content = $this->weglot_render_dom( $content );
@@ -250,6 +250,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 					return wp_json_encode( $content );
 					break;
 				case 'html':
+                    $content = $this->fix_menu_link($content);
 					$translated_content = $parser->translate( $content, $this->original_language, $this->current_language ); // phpcs:ignore
 
 					if ( $this->wc_active_services->is_active() ) {
