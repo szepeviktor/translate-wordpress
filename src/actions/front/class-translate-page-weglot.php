@@ -102,7 +102,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 
 		do_action( 'weglot_init_before_translate_page' );
 
-		if ( ! function_exists( 'curl_version' )) {
+		if ( ! function_exists( 'curl_version' ) ) {
 			return;
 		}
 
