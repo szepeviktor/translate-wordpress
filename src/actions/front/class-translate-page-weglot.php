@@ -209,6 +209,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	public function weglot_treat_page( $content ) {
 		$allowed = $this->option_services->get_option( 'allowed' );
 
+        $content = $this->weglot_add_button_html( $content );
 		if ( ! $allowed ) {
 			$content = $this->weglot_render_dom( $content );
 			return $content . '<!--Not allowed-->';
@@ -331,8 +332,8 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 					$link_menu .= '?no_lredirect=true';
 				}
 
-				$dom                  = preg_replace( '#' . $shortcode_url . '#i', $link_menu, $dom );
-				$dom                  = preg_replace( '#' . $shortcode_url_html . '#i', $link_menu, $dom );
+                $dom                  = preg_replace( '#href="' . $shortcode_url . '#i', "data-wg-notranslate=\"true\" href=\"" . $link_menu, $dom );
+                $dom                  = preg_replace( '#href="' . $shortcode_url_html . '#i', "data-wg-notranslate=\"true\" href=\"" . $link_menu, $dom );
 			}
 
 			$dom .= sprintf( '<!--Weglot %s-->', WEGLOT_VERSION );
@@ -371,7 +372,6 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	 * @return string
 	 */
 	public function weglot_render_dom( $dom ) {
-		$dom = $this->weglot_add_button_html( $dom );
 
 		// We only need this on translated page
 		if ( $this->current_language !== $this->original_language ) {
