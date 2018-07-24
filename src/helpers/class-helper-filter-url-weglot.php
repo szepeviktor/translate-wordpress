@@ -19,25 +19,17 @@ abstract class Helper_Filter_Url_Weglot {
 	 * @return string
 	 */
 	protected static function get_clean_base_url( $url ) {
-		$current_language = weglot_get_current_language();
+		if ( strpos( $url,  'http' ) === false ) {
+			$url = sprintf( '%s%s', get_site_url(), $url );
+		}
 
-		$parsed_url = parse_url( $url ); //phpcs:ignore
-		$scheme     = isset( $parsed_url['scheme'] ) ? $parsed_url['scheme'] . '://' : '';
-		$host       = isset( $parsed_url['host'] ) ? $parsed_url['host'] : '';
-		$port       = isset( $parsed_url['port'] ) ? ':' . $parsed_url['port'] : '';
-		$user       = isset( $parsed_url['user'] ) ? $parsed_url['user'] : '';
-		$pass       = isset( $parsed_url['pass'] ) ? ':' . $parsed_url['pass'] : '';
-		$pass       = ($user || $pass) ? "$pass@" : '';
-		$path       = isset( $parsed_url['path'] ) ? $parsed_url['path'] : '/';
-		$query      = isset( $parsed_url['query'] ) ? '?' . $parsed_url['query'] : '';
-		$fragment   = isset( $parsed_url['fragment'] ) ? '#' . $parsed_url['fragment'] : '';
-
-		return ( strlen( $path ) > 2 && substr( $path, 0, 4 ) === "/$current_language/" ) ? "$scheme$user$pass$host$port$path$query$fragment" : "$scheme$user$pass$host$port/$l$path$query$fragment";
+		return apply_filters( 'weglot_get_clean_base_url', $url );
 	}
 
 	/**
 	 * Filter URL log redirection
-	 *
+	 * @since 2.0
+	 * @version 2.0.2
 	 * @param string $url_filter
 	 * @return string
 	 */
@@ -47,6 +39,7 @@ abstract class Helper_Filter_Url_Weglot {
 		$choose_current_language         = $current_and_original_language['current'];
 
 		$url_filter = self::get_clean_base_url( $url_filter );
+
 		$url        = $request_url_service->create_url_object( $url_filter );
 
 		if ( $current_and_original_language['current'] === $current_and_original_language['original']
