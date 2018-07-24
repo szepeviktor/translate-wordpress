@@ -207,8 +207,8 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	 * @param string $content
 	 * @return string
 	 */
-	public function fix_menu_link($content) {
-		$content = preg_replace('#<a([^\>]+?)?href="(http|https):\/\/\[weglot_#', '<a$1 data-wg-notranslate="true" href="$2://[weglot_', $content);
+	public function fix_menu_link( $content ) {
+		$content = preg_replace( '#<a([^\>]+?)?href="(http|https):\/\/\[weglot_#', '<a$1 data-wg-notranslate="true" href="$2://[weglot_', $content );
 
 		return $content;
 	}
@@ -249,7 +249,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 					return wp_json_encode( $content );
 					break;
 				case 'html':
-					$content            = $this->fix_menu_link($content);
+					$content            = $this->fix_menu_link( $content );
 					$translated_content = $parser->translate( $content, $this->original_language, $this->current_language ); // phpcs:ignore
 
 					if ( $this->wc_active_services->is_active() ) {
