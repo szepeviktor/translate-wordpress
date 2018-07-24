@@ -14,8 +14,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 abstract class Helper_Filter_Url_Weglot {
 
 	/**
+	 * @since 2.0.2
+	 * @param string $url
+	 * @return string
+	 */
+	protected static function get_clean_base_url( $url ) {
+		if ( strpos( $url,  'http' ) === false ) {
+			$url = sprintf( '%s%s', get_site_url(), $url );
+		}
+
+		return apply_filters( 'weglot_get_clean_base_url', $url );
+	}
+
+	/**
 	 * Filter URL log redirection
-	 *
+	 * @since 2.0
+	 * @version 2.0.2
 	 * @param string $url_filter
 	 * @return string
 	 */
@@ -23,13 +37,17 @@ abstract class Helper_Filter_Url_Weglot {
 		$current_and_original_language   = weglot_get_current_and_original_language();
 		$request_url_service             = weglot_get_request_url_service();
 		$choose_current_language         = $current_and_original_language['current'];
-		$url                             = $request_url_service->create_url_object( $url_filter );
+
+		$url_filter = self::get_clean_base_url( $url_filter );
+
+		$url        = $request_url_service->create_url_object( $url_filter );
 
 		if ( $current_and_original_language['current'] === $current_and_original_language['original']
 			&& isset( $_SERVER['HTTP_REFERER'] ) //phpcs:ignore
 		) {
 			$url                     = $request_url_service->create_url_object( $_SERVER['HTTP_REFERER'] ); //phpcs:ignore
 			$choose_current_language = $url->detectCurrentLanguage();
+
 			if ( $choose_current_language !== $current_and_original_language['original'] ) {
 				$url = $request_url_service->create_url_object( $url_filter );
 			}

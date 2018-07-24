@@ -160,7 +160,7 @@ class Request_Url_Service_Weglot {
 
 	/**
 	 * Is eligible URL
-	 *
+	 * @since 2.0
 	 * @param string $url
 	 * @return boolean
 	 */

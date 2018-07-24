@@ -167,3 +167,12 @@ function weglot_get_api_key() {
 function weglot_has_auto_redirect() {
 	return weglot_get_option( 'auto_redirect' );
 }
+
+/**
+ * @since 2.0.2
+ * @return boolean
+ */
+function weglot_current_url_is_eligible() {
+	$full_url = weglot_get_current_full_url();
+	return weglot_is_eligible_url( $full_url );
+}

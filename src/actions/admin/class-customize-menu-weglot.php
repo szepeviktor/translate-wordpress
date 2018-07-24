@@ -57,8 +57,8 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 
 	/**
 	 * @since 2.0
+	 * @version 2.0.2
 	 * @see nav_menu_link_attributes
-	 * @param array $attrs
 	 * @param array $classes
 	 * @param object $item
 	 * @return void
@@ -66,7 +66,7 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 	public function add_nav_menu_css_class( $classes, $item ) {
 		$str              = 'weglot_menu_title-';
 		if ( strpos( $item->post_name, $str ) !== false ) {
-			if ( ! $this->request_url_services->is_translatable_url() ) {
+			if ( ! $this->request_url_services->is_translatable_url() || ! weglot_current_url_is_eligible() ) {
 				$attrs['style'] = 'display:none';
 				return $attrs;
 			}
@@ -78,9 +78,9 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 			$flag_class                       = $with_flags ? 'weglot-flags ' : '';
 			$flag_class .= '0' === $type_flags ? '' : 'flag-' . $type_flags . ' ';
 
-			$lang                         = substr( $item->post_name, strlen( $str ) );
+			$lang                         = explode( '-', substr( $item->post_name, strlen( $str ) ) );
 
-			$classes[] = apply_filters( 'weglot_nav_menu_link_class', $flag_class . $lang );
+			$classes[] = apply_filters( 'weglot_nav_menu_link_class', $flag_class . $lang[0] );
 		}
 
 		return $classes;
@@ -98,7 +98,7 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 		if ( strpos( $item->post_name, $str ) !== false ) {
 			$current_language = $this->request_url_services->get_current_language();
 
-			if ( ! $this->request_url_services->is_translatable_url() ) {
+			if ( ! $this->request_url_services->is_translatable_url() || ! weglot_current_url_is_eligible() ) {
 				$attrs['style'] = 'display:none';
 				return $attrs;
 			}

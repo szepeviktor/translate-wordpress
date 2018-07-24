@@ -102,7 +102,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 
 		do_action( 'weglot_init_before_translate_page' );
 
-		if ( ! function_exists( 'curl_version' )) {
+		if ( ! function_exists( 'curl_version' ) ) {
 			return;
 		}
 
@@ -201,8 +201,22 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	}
 
 	/**
+	 * @since 2.0.2
+	 *
+	 * Check if there are Weglot menu links and make sure there is the data-wg-notranslate
+	 * @param string $content
+	 * @return string
+	 */
+	public function fix_menu_link( $content ) {
+		$content = preg_replace( '#<a([^\>]+?)?href="(http|https):\/\/\[weglot_#', '<a$1 data-wg-notranslate="true" href="$2://[weglot_', $content );
+
+		return $content;
+	}
+
+	/**
 	 * @see weglot_init / ob_start
 	 * @since 2.0
+	 * @version 2.0.2
 	 * @param string $content
 	 * @return string
 	 */
@@ -235,6 +249,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 					return wp_json_encode( $content );
 					break;
 				case 'html':
+					$content            = $this->fix_menu_link( $content );
 					$translated_content = $parser->translate( $content, $this->original_language, $this->current_language ); // phpcs:ignore
 
 					if ( $this->wc_active_services->is_active() ) {
