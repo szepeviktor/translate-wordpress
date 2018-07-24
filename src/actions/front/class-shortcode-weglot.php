@@ -31,7 +31,7 @@ class Shortcode_Weglot {
 	 * @return string
 	 */
 	public function weglot_switcher_callback() {
-		if ( ! $this->request_url_services->is_translatable_url() ) {
+		if ( ! $this->request_url_services->is_translatable_url() || ! weglot_current_url_is_eligible() ) {
 			return;
 		}
 
