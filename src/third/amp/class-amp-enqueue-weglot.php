@@ -34,18 +34,6 @@ class Amp_Enqueue_Weglot implements Hooks_Interface_Weglot {
 		}
 
 		add_action( 'amp_post_template_css', [ $this, 'weglot_amp_post_template_css' ] );
-		add_action( 'amp_post_template_head', [ $this, 'weglot_amp_post_template_head' ] );
-	}
-
-	/**
-	 * @since 2.0
-	 *
-	 * @return void
-	 */
-	public function weglot_amp_post_template_head() {
-		?>
-		<link rel="stylesheet" href="<?php echo esc_url( WEGLOT_URL_DIST . '/css/front-css.css' ); ?>" />
-		<?php
 	}
 
 	/**
@@ -54,7 +42,7 @@ class Amp_Enqueue_Weglot implements Hooks_Interface_Weglot {
 	 * @return void
 	 */
 	public function weglot_amp_post_template_css() {
-		echo $this->option_services->get_css_custom_inline(); //phpcs:ignore
+		echo file_get_contents(WEGLOT_DIR_DIST . '/css/front-amp-css.css');
 		echo $this->option_services->get_flag_css(); //phpcs:ignore
 	}
 }
