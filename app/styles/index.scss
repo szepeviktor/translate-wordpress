@@ -3,6 +3,11 @@
 $heightSelector: 37px;
 $lineHeight: 36px;
 
+li.weglot-hide, .weglot-hide{
+	display:none !important;
+}
+
+
 .country-selector {
 	z-Index : 9999;
 	text-align: left;
