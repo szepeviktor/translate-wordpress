@@ -185,6 +185,10 @@ li.weglot-hide, .weglot-hide{
 	}
 }
 
+.js .main-navigation .country-selector ul{
+	display:none;
+}
+
 html[dir="rtl"]{
 	.weglot-flags a:before, .weglot-flags span:before {
 		margin-right:0;
