@@ -235,7 +235,7 @@ $options_available = [
 					type="text"
 					rows="10"
 					cols="30"
-					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['override_css']['key'] ) ); ?>" placeholder=".weglot-selector {
+					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['override_css']['key'] ) ); ?>" placeholder=".country-selector {
   margin-bottom: 20px;
 }"><?php echo $this->options[ $options_available['override_css']['key'] ]; //phpcs:ignore?></textarea>
 		</tr>
