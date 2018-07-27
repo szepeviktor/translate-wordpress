@@ -4,7 +4,7 @@ Tags: translate,translation,language,multilingual,bilingual,international,locali
 Requires at least: 4.5
 Tested up to: 4.9
 Requires PHP: 5.4
-Stable tag: 2.0.2
+Stable tag: 2.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -151,6 +151,13 @@ Weglot Translate is easy to set up:
 See changelog for upgrade changes.
 
 == Changelog ==
+
+= 2.0.3 (27/07/2018) =
+* Bugfix : Hide shortcode on non translatable URL
+* Bugfix : filter nav_menu_css_class
+* Bugfix : Redirect URL on checkout WooCommerce
+* Bugfix : CSS Flag on dropdown menu
+* Improve AMP compatibility
 
 = 2.0.2 (24/07/2018) =
 * Bugfix : Hide menu on non translatable URL

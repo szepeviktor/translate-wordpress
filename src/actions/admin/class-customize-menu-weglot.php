@@ -67,8 +67,8 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 		$str              = 'weglot_menu_title-';
 		if ( strpos( $item->post_name, $str ) !== false ) {
 			if ( ! $this->request_url_services->is_translatable_url() || ! weglot_current_url_is_eligible() ) {
-				$attrs['style'] = 'display:none';
-				return $attrs;
+				$classes[] = apply_filters( 'weglot_nav_menu_link_class', 'weglot-hide' );
+				return $classes;
 			}
 
 			$options                          = $this->option_services->get_options();

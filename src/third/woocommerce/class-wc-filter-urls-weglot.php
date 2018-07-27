@@ -60,7 +60,7 @@ class WC_Filter_Urls_Weglot implements Hooks_Interface_Weglot {
 		$url                             = $this->request_url_services->create_url_object( $url_filter );
 		if ( $current_and_original_language['current'] !== $current_and_original_language['original'] ) { // Not ajax
 
-			if ( substr( get_option( 'permalink_structure' ), -1 ) ) {
+			if ( substr( get_option( 'permalink_structure' ), -1 ) !== '/' ) {
 				return str_replace( '/?key', '?key',  $url->getForLanguage( $choose_current_language ) );
 			} else {
 				return str_replace( '//?key', '/?key', str_replace( '?key', '/?key', $url->getForLanguage( $choose_current_language ) ) );
