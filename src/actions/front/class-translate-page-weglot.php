@@ -218,7 +218,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	/**
 	 * @see weglot_init / ob_start
 	 * @since 2.0
-	 * @version 2.0.4
+	 * @version 2.0.2
 	 * @param string $content
 	 * @return string
 	 */
@@ -248,7 +248,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 					$content    = $this->translate_array( $json );
 					$content    = apply_filters( 'weglot_json_treat_page', $content );
 
-					$translated_content = wp_json_encode( $content );
+					return wp_json_encode( $content );
 					break;
 				case 'html':
 					$content            = $this->fix_menu_link( $content );
@@ -259,19 +259,18 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 						$translated_content = weglot_get_service( 'WC_Translate_Weglot' )->translate_words( $translated_content );
 					}
 
+					$translated_content = $this->other_translate_services->translate_words( $translated_content );
+
 					$translated_content = apply_filters( 'weglot_html_treat_page', $translated_content );
-					$translated_content = $this->weglot_render_dom( $translated_content );
+
+					return $this->weglot_render_dom( $translated_content );
 					break;
 				default:
-					$name_filter        = sprintf( 'weglot_%s_treat_page', $type );
-					$translated_content =  apply_filters( $name_filter, $content, $parser, $this->original_language, $this->current_language );
+					$name_filter = sprintf( 'weglot_%s_treat_page', $type );
+					return apply_filters( $name_filter, $content, $parser, $this->original_language, $this->current_language );
 					break;
 
 			}
-
-			$translated_content = $this->other_translate_services->translate_words( $translated_content );
-
-			return $translated_content;
 		} catch ( ApiError $e ) {
 			$content .= '<!--Weglot error API : ' . $this->remove_comments( $e->getMessage() ) . '-->';
 			if ( strpos( $e->getMessage(), 'NMC' ) !== false ) {
