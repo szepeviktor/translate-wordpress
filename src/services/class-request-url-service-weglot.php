@@ -119,6 +119,16 @@ class Request_Url_Service_Weglot {
 		return Server::fullUrl($_SERVER, $use_forwarded_host); //phpcs:ignore
 	}
 
+	/**
+	 * @since 2.0.4
+	 *
+	 * @return string
+	 * @param mixed $use_forwarded_host
+	 */
+	public function get_full_url_no_language( $use_forwarded_host = false ) {
+		return $this->create_url_object( $this->get_full_url() )->getForLanguage( weglot_get_original_language() );
+	}
+
 
 	/**
 	 * @todo : Change this when weglot-php included
@@ -197,6 +207,7 @@ class Request_Url_Service_Weglot {
 		foreach ( $list_regex as $regex ) {
 			$str           = $this->escape_slash( $regex );
 			$prepare_regex = sprintf( '/%s/', $str );
+
 			if ( preg_match( $prepare_regex, $url ) === 1 ) {
 				return apply_filters( 'weglot_is_eligible_url', false, $url );
 			}
