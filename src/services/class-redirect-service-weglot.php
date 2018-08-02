@@ -60,7 +60,7 @@ class Redirect_Service_Weglot {
 		$destination_languages = $this->option_services->get_option( 'destination_language' );
 
 		if (
-			in_array( $server_lang, $destination_languages, true ) &&
+			in_array( $server_lang, $destination_languages ) && // phpcs;ignore
 			$server_lang !== $this->request_url_services->get_current_language()
 		) {
 			$url_auto_redirect = apply_filters( 'weglot_url_auto_redirect', $this->request_url_services->get_weglot_url()->getForLanguage( $server_lang ) );
