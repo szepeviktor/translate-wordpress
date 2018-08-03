@@ -92,7 +92,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		}
 
 
-		$active_translation = apply_filters( 'weglot_active_translation', true );
+		$active_translation = apply_filters( 'weglot_active_translation_before_process', true );
 		// Default : yes
 		if ( ! $active_translation ) {
 			return;
@@ -107,6 +107,13 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		if ( ! function_exists( 'curl_version' ) ) {
 			return;
 		}
+
+		$active_translation = apply_filters( 'weglot_active_translation_before_treat_page', true );
+		// Default : yes
+		if ( ! $active_translation ) {
+			return;
+		}
+
 
 		ob_start( [ $this, 'weglot_treat_page' ] );
 	}
@@ -218,7 +225,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	/**
 	 * @see weglot_init / ob_start
 	 * @since 2.0
-	 * @version 2.0.2
+	 * @version 2.0.4
 	 * @param string $content
 	 * @return string
 	 */
@@ -230,8 +237,10 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			return $content . '<!--Not allowed-->';
 		}
 
+		$active_translation = apply_filters( 'weglot_active_translation', true );
+
 		// No need to translate but prepare new dom with button
-		if ( $this->current_language === $this->original_language ) {
+		if ( $this->current_language === $this->original_language || ! $active_translation ) {
 			return $this->weglot_render_dom( $content );
 		}
 
