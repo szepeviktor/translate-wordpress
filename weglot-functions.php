@@ -58,8 +58,8 @@ function weglot_get_current_language() {
  * @since 2.0
  * @return string
  */
-function weglot_get_destination_language() {
-	return weglot_get_option( 'destination_language' );
+function weglot_get_destination_languages() {
+	return Context_Weglot::weglot_get_context()->get_service( 'Option_Service_Weglot' )->get_destination_languages();
 }
 
 /**

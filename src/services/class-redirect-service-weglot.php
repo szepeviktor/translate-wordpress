@@ -57,7 +57,7 @@ class Redirect_Service_Weglot {
 		}
 
 		$server_lang           = substr( $_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2 ); //phpcs:ignore
-		$destination_languages = $this->option_services->get_option( 'destination_language' );
+		$destination_languages = weglot_get_destination_languages();
 
 		if (
 			in_array( $server_lang, $destination_languages ) && // phpcs:ignore

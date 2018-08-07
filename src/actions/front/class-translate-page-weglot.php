@@ -119,10 +119,9 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 
 	/**
 	 * @since 2.0
+	 * @version 2.0.4
 	 *
 	 * @param array $array
-	 * @param string $to
-	 * @param Parser $parser
 	 * @return void
 	 */
 	public function translate_array( $array ) {
@@ -187,7 +186,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	public function prepare_request_uri() {
 		// Use for good process on URL
 		$_SERVER['REQUEST_URI'] = str_replace(
-			'/' . $this->current_language . '/',
+			'/' . $this->request_url_services->get_current_language( false ) . '/',
 			'/',
 			$_SERVER['REQUEST_URI'] //phpcs:ignore
 		);
@@ -391,6 +390,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 
 	/**
 	 * @since 2.0
+	 * @version 2.0.4
 	 * @param string $dom
 	 * @return string
 	 */
