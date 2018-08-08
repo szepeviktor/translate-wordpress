@@ -84,13 +84,12 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			return;
 		}
 
-
 		$full_url_no_language = $this->request_url_services->get_full_url_no_language();
+
 		// URL not eligible
 		if ( ! $this->request_url_services->is_eligible_url( $full_url_no_language ) ) {
 			return;
 		}
-
 
 		$active_translation = apply_filters( 'weglot_active_translation_before_process', true );
 		// Default : yes
@@ -113,7 +112,6 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		if ( ! $active_translation ) {
 			return;
 		}
-
 
 		ob_start( [ $this, 'weglot_treat_page' ] );
 	}
