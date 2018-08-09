@@ -43,9 +43,15 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	 * @return void
 	 */
 	public function hooks() {
-		if ( is_admin() && ! wp_doing_ajax() ) {
+		$no_translate = false;
+		if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add-menu-item' ) {
+			$no_translate = true;
+		}
+
+		if ( is_admin() && ( ! wp_doing_ajax() || $no_translate ) ) {
 			return;
 		}
+
 
 		$this->api_key            = $this->option_services->get_option( 'api_key' );
 

@@ -54,7 +54,7 @@ function weglot_get_current_language() {
 }
 
 /**
- * Get destination language
+ * Get destination language with filters
  * @since 2.0
  * @return string
  */
@@ -201,4 +201,14 @@ function weglot_create_url_object( $url ) {
  */
 function weglot_get_postid_from_url() {
 	return url_to_postid( weglot_get_full_url_no_language() );
+}
+
+/**
+ * Get option destination language
+ * @since 2.0
+ * @version 2.0.4
+ * @return array
+ */
+function weglot_get_destination_language() {
+	return weglot_get_option( 'destination_language' );
 }

@@ -59,7 +59,7 @@ class Language_Service_Weglot {
 	 */
 	public function get_languages_configured( $type = null ) {
 		$languages[]      = weglot_get_original_language();
-		$languages        = array_merge( $languages, weglot_get_destination_language() );
+		$languages        = array_merge( $languages, weglot_get_destination_languages() );
 
 		$languages_object = [];
 
