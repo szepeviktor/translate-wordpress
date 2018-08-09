@@ -152,7 +152,7 @@ See changelog for upgrade changes.
 
 == Changelog ==
 
-= 2.0.3 (09/08/2018) =
+= 2.0.4 (09/08/2018) =
 * Bugfix : lost password email on WooCommerce
 * Bugfix : translate custom login page
 * Bugfix : uniq id on each button selector
