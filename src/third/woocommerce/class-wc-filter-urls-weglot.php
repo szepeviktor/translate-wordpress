@@ -28,6 +28,7 @@ class WC_Filter_Urls_Weglot implements Hooks_Interface_Weglot {
 
 	/**
 	 * @since 2.0
+	 * @version 2.0.4
 	 * @see Hooks_Interface_Weglot
 	 *
 	 * @return void
@@ -108,6 +109,8 @@ class WC_Filter_Urls_Weglot implements Hooks_Interface_Weglot {
 
 	/**
 	 * Redirect URL Lost password for WooCommerce
+	 * @since 2.0
+	 * @version 2.0.4
 	 * @param mixed $url
 	 */
 	public function woocommerce_filter_reset_password( $url ) {
