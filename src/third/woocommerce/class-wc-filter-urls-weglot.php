@@ -28,6 +28,7 @@ class WC_Filter_Urls_Weglot implements Hooks_Interface_Weglot {
 
 	/**
 	 * @since 2.0
+	 * @version 2.0.4
 	 * @see Hooks_Interface_Weglot
 	 *
 	 * @return void
@@ -41,7 +42,7 @@ class WC_Filter_Urls_Weglot implements Hooks_Interface_Weglot {
 		add_filter( 'woocommerce_get_checkout_url', [ '\WeglotWP\Helpers\Helper_Filter_Url_Weglot', 'filter_url_without_ajax' ] );
 		add_filter( 'woocommerce_payment_successful_result', [ $this, 'woocommerce_filter_url_array' ] );
 		add_filter( 'woocommerce_get_checkout_order_received_url',  [ $this, 'woocommerce_filter_order_received_url' ] );
-		add_action( 'woocommerce_reset_password_notification', [ $this, 'woocommerce_filter_reset_password' ] );
+		add_action( 'woocommerce_reset_password_notification', [ $this, 'woocommerce_filter_reset_password' ], 999 );
 
 		add_filter( 'woocommerce_login_redirect', [ '\WeglotWP\Helpers\Helper_Filter_Url_Weglot', 'filter_url_log_redirect' ] );
 		add_filter( 'woocommerce_registration_redirect', [ '\WeglotWP\Helpers\Helper_Filter_Url_Weglot', 'filter_url_log_redirect' ] );
@@ -108,6 +109,8 @@ class WC_Filter_Urls_Weglot implements Hooks_Interface_Weglot {
 
 	/**
 	 * Redirect URL Lost password for WooCommerce
+	 * @since 2.0
+	 * @version 2.0.4
 	 * @param mixed $url
 	 */
 	public function woocommerce_filter_reset_password( $url ) {

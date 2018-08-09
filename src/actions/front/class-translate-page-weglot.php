@@ -36,7 +36,6 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		$this->other_translate_services      = weglot_get_service( 'Other_Translate_Service_Weglot' );
 	}
 
-
 	/**
 	 * @see Hooks_Interface_Weglot
 	 *
@@ -44,7 +43,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	 * @return void
 	 */
 	public function hooks() {
-		if ( is_admin() ) {
+		if ( is_admin() && ! wp_doing_ajax() ) {
 			return;
 		}
 
@@ -63,6 +62,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 
 		$this->current_language   = $this->request_url_services->get_current_language();
 
+		$this->prepare_request_uri();
 		$this->prepare_rtl_language();
 
 		add_action( 'init', [ $this, 'weglot_init' ] );
@@ -72,7 +72,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	/**
 	 * @see init
 	 * @since 2.0
-	 * @version 2.0.1
+	 * @version 2.0.4
 	 * @return void
 	 */
 	public function weglot_init() {
@@ -84,13 +84,14 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			return;
 		}
 
-		$full_url = $this->request_url_services->get_full_url();
+		$full_url_no_language = $this->request_url_services->get_full_url_no_language();
+
 		// URL not eligible
-		if ( ! $this->request_url_services->is_eligible_url( $full_url ) ) {
+		if ( ! $this->request_url_services->is_eligible_url( $full_url_no_language ) ) {
 			return;
 		}
 
-		$active_translation = apply_filters( 'weglot_active_translation', true );
+		$active_translation = apply_filters( 'weglot_active_translation_before_process', true );
 		// Default : yes
 		if ( ! $active_translation ) {
 			return;
@@ -98,11 +99,16 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 
 		$this->redirect_services->verify_no_redirect();
 		$this->check_need_to_redirect();
-		$this->prepare_request_uri();
 
 		do_action( 'weglot_init_before_translate_page' );
 
 		if ( ! function_exists( 'curl_version' ) ) {
+			return;
+		}
+
+		$active_translation = apply_filters( 'weglot_active_translation_before_treat_page', true );
+		// Default : yes
+		if ( ! $active_translation ) {
 			return;
 		}
 
@@ -113,10 +119,9 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 
 	/**
 	 * @since 2.0
+	 * @version 2.0.4
 	 *
 	 * @param array $array
-	 * @param string $to
-	 * @param Parser $parser
 	 * @return void
 	 */
 	public function translate_array( $array ) {
@@ -181,7 +186,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	public function prepare_request_uri() {
 		// Use for good process on URL
 		$_SERVER['REQUEST_URI'] = str_replace(
-			'/' . $this->current_language . '/',
+			'/' . $this->request_url_services->get_current_language( false ) . '/',
 			'/',
 			$_SERVER['REQUEST_URI'] //phpcs:ignore
 		);
@@ -216,28 +221,31 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	/**
 	 * @see weglot_init / ob_start
 	 * @since 2.0
-	 * @version 2.0.2
+	 * @version 2.0.4
 	 * @param string $content
 	 * @return string
 	 */
 	public function weglot_treat_page( $content ) {
-		$allowed = $this->option_services->get_option( 'allowed' );
+		$this->current_language   = $this->request_url_services->get_current_language(); // Need to reset
+		$allowed                  = $this->option_services->get_option( 'allowed' );
 
 		if ( ! $allowed ) {
 			$content = $this->weglot_render_dom( $content );
 			return $content . '<!--Not allowed-->';
 		}
 
+		$active_translation = apply_filters( 'weglot_active_translation', true );
+
 		// No need to translate but prepare new dom with button
-		if ( $this->current_language === $this->original_language ) {
+		if ( $this->current_language === $this->original_language || ! $active_translation ) {
 			return $this->weglot_render_dom( $content );
 		}
 
 		$parser = $this->parser_services->get_parser();
 
 		// Choose type translate
-		$type = ( $this->is_json( $content ) ) ? 'json' : 'html';
-		$type = apply_filters( 'weglot_type_treat_page', $type );
+		$type     = ( $this->is_json( $content ) ) ? 'json' : 'html';
+		$type     = apply_filters( 'weglot_type_treat_page', $type );
 
 		try {
 			switch ( $type ) {
@@ -382,6 +390,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 
 	/**
 	 * @since 2.0
+	 * @version 2.0.4
 	 * @param string $dom
 	 * @return string
 	 */
