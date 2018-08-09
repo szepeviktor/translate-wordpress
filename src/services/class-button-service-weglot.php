@@ -83,7 +83,7 @@ class Button_Service_Weglot {
 			$button_html .= '<ul>';
 
 			array_unshift( $destination_language, $original_language );
-			error_log(serialize($destination_language));
+
 			foreach ( $destination_language as $key => $key_code ) {
 				if ( $key_code === $current_language ) {
 					continue;
