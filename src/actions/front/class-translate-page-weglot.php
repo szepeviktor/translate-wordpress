@@ -36,7 +36,6 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		$this->other_translate_services      = weglot_get_service( 'Other_Translate_Service_Weglot' );
 	}
 
-
 	/**
 	 * @see Hooks_Interface_Weglot
 	 *
@@ -228,7 +227,8 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	 * @return string
 	 */
 	public function weglot_treat_page( $content ) {
-		$allowed = $this->option_services->get_option( 'allowed' );
+		$this->current_language   = $this->request_url_services->get_current_language(); // Need to reset
+		$allowed                  = $this->option_services->get_option( 'allowed' );
 
 		if ( ! $allowed ) {
 			$content = $this->weglot_render_dom( $content );
@@ -245,8 +245,8 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		$parser = $this->parser_services->get_parser();
 
 		// Choose type translate
-		$type = ( $this->is_json( $content ) ) ? 'json' : 'html';
-		$type = apply_filters( 'weglot_type_treat_page', $type );
+		$type     = ( $this->is_json( $content ) ) ? 'json' : 'html';
+		$type     = apply_filters( 'weglot_type_treat_page', $type );
 
 		try {
 			switch ( $type ) {

@@ -34,7 +34,7 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 	 * @return void
 	 */
 	public function hooks() {
-		if ( ! $this->option_services->get_option('allowed') ) {
+		if ( ! $this->option_services->get_option( 'allowed' ) ) {
 			return;
 		}
 
