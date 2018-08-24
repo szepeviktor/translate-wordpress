@@ -28,7 +28,8 @@ $options_available = [
 
 ?>
 
-
+<h3><?php esc_html_e( 'Other options (Optional)', 'weglot' ); ?></h3>
+<hr>
 <table class="form-table">
 	<tbody>
 		<tr valign="top">

@@ -30,7 +30,7 @@ class Language_Service_Weglot {
 	 * Get languages available from API
 	 * @since 2.0
 	 *
-	 * @return array
+	 * @return mixed
 	 */
 	public function get_languages_available() {
 		if ( null === $this->languages ) {
@@ -38,10 +38,10 @@ class Language_Service_Weglot {
 			$languages        = new Languages( $client );
 			$this->languages  = $languages->handle();
 		}
-
+		//TODO : reorder by alphabetical name
 		return $this->languages;
 	}
-
+	
 	/**
 	 * Get language entry
 	 * @since 2.0

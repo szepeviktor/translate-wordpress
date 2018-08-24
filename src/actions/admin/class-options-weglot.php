@@ -34,7 +34,7 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 	public function hooks() {
 		add_action( 'admin_init', [ $this, 'weglot_options_init' ] );
 		$api_key = $this->option_services->get_option( 'api_key' );
-		if ( empty( $api_key ) ) {
+		if ( empty( $api_key ) && ( ! isset($_GET['page']) || strpos($_GET['page'], 'weglot-settings') === false) ) { //We don't show the notice if we are on Weglot configuration
 			add_action( 'admin_notices', [ '\WeglotWP\Notices\No_Configuration_Weglot', 'admin_notice' ] );
 		}
 	}
@@ -84,12 +84,6 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 					$new_options['has_first_settings']      = false;
 					$new_options['show_box_first_settings'] = true;
 				}
-				break;
-			case Helper_Tabs_Admin_Weglot::APPEARANCE:
-				$new_options = $this->sanitize_options_appearance( $new_options, $options );
-				break;
-			case Helper_Tabs_Admin_Weglot::ADVANCED:
-				$new_options = $this->sanitize_options_advanced( $new_options, $options );
 				break;
 		}
 
