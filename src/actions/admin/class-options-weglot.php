@@ -80,6 +80,9 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 		switch ( $tab ) {
 			case Helper_Tabs_Admin_Weglot::SETTINGS:
 				$new_options = $this->sanitize_options_settings( $new_options, $options );
+				$new_options = $this->sanitize_options_appearance( $new_options, $options );
+				$new_options = $this->sanitize_options_advanced( $new_options, $options );
+
 				if ( $options_bdd['has_first_settings'] ) {
 					$new_options['has_first_settings']      = false;
 					$new_options['show_box_first_settings'] = true;
