@@ -8,33 +8,7 @@ const init_admin_select = function(){
     }
 
     let destination_selectize
-    const load_original_selectize = () => {
-        $(".weglot-select-original").selectize({
-            delimiter: "|",
-            persist: false,
-            valueField: "code",
-            labelField: "local",
-            searchField: ["code", "english", "local"],
-            sortField: [
-                { field: "code", direction: "asc" },
-                { field: "english", direction: "asc" }
-            ],
-            maxItems: 1,
-            plugins: ["remove_button"],
-            options: weglot_languages.available,
-            onChange: value => {
-                if (value.length > 0) {
-                    destination_selectize.data('selectize').clearOptions()
 
-                    destination_selectize
-                        .data("selectize")
-                        .addOption(weglot_languages.available.filter(itm => {
-                            return itm.code !== value
-                        }));
-                }
-            }
-        });
-    }
     const load_destination_selectize = () => {
         destination_selectize = $(".weglot-select-destination").selectize(
             {
@@ -71,8 +45,6 @@ const init_admin_select = function(){
     }
 
     const execute = () => {
-
-        load_original_selectize();
 
         load_destination_selectize();
 
