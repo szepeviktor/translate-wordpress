@@ -36,14 +36,19 @@ class User_Api_Service_Weglot {
 	 * @since 2.0
 	 * @version 2.0.1
 	 * @return array
+	 * @param null|string $api_key
 	 */
-	public function get_user_info() {
+	public function get_user_info( $api_key = null ) {
 		if ( null !== $this->user_info ) {
 			return $this->user_info;
 		}
 
+		if ( null === $api_key ) {
+			$api_key = weglot_get_api_key();
+		}
+
 		try {
-			$results   = $this->do_request( self::API_BASE_OLD . 'user-info?api_key=' . weglot_get_api_key(), null );
+			$results   = $this->do_request( self::API_BASE_OLD . 'user-info?api_key=' . $api_key, null );
 			$json      = json_decode( $results, true );
 			if ( json_last_error() !== JSON_ERROR_NONE ) {
 				throw new \Exception( 'Unknown error with Weglot Api (0001) : ' . json_last_error() );

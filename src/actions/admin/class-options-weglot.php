@@ -103,7 +103,7 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 	 * @return array
 	 */
 	public function sanitize_options_settings( $new_options, $options ) {
-		$user_info        = $this->user_api_services->get_user_info();
+		$user_info        = $this->user_api_services->get_user_info( $new_options['api_key'] );
 		$plans            = $this->user_api_services->get_plans();
 		$options_bdd      = $this->option_services->get_options();
 
