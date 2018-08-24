@@ -18,21 +18,20 @@ const init_admin_select = function(){
                 labelField: "local",
                 searchField: ["code", "english", "local"],
                 sortField: [
-                    { field: "code", direction: "asc" },
                     { field: "english", direction: "asc" }
                 ],
                 maxItems: weglot_languages.limit,
-                plugins: ["remove_button"],
+                plugins: ["remove_button","drag_drop"],
                 options: generate_destination_language(),
                 render: {
                     option: function (item, escape) {
                         return (
                             '<div class="weglot__choice__language">' +
-                            '<span class="weglot__choice__language--local">' +
-                            escape(item.local) +
-                            "</span>" +
                             '<span class="weglot__choice__language--english">' +
                             escape(item.english) +
+                            "</span>" +
+                            '<span class="weglot__choice__language--local">' +
+                            escape(item.local) +
                             " [" +
                             escape(item.code) +
                             "]</span>" +

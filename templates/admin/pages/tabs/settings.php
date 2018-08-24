@@ -9,7 +9,7 @@ $options_available = [
 	'api_key' => [
 		'key'         => 'api_key',
 		'label'       => __( 'API Key', 'weglot' ),
-		'description' => __( 'Log in to <a target="_blank" href="https://weglot.com/register-wordpress">Weglot</a> to get your API key. <span class="weglot-info">Why?<span class="wg-tooltip"><span class="arrow-up"></span>A Weglot account is needed to access and manage your translations. It takes nothing more than 20 seconds !</span></span>', 'weglot' ),
+		'description' => __( 'Log in to <a target="_blank" href="https://weglot.com/register-wordpress">Weglot</a> to get your API key.', 'weglot' ),
 	],
 	'original_language' => [
 		'key'         => 'original_language',
@@ -20,16 +20,6 @@ $options_available = [
 		'key'         => 'destination_language',
 		'label'       => __( 'Destination languages', 'weglot' ),
 		'description' => 'Choose languages you want to translate into. Supported languages can be found <a target="_blank" href="https://weglot.com/translation-api#languages_code">here</a>.',
-	],
-	'exclude_urls' => [
-		'key'         => 'exclude_urls',
-		'label'       => __( 'Exclusion URL', 'weglot' ),
-		'description' => __( 'Add URL that you want to exclude from translations. You can use regular expression to match multiple URLs. ', 'weglot' ),
-	],
-	'exclude_blocks' => [
-		'key'         => 'exclude_blocks',
-		'label'       => __( 'Exclusion Blocks', 'weglot' ),
-		'description' => __( 'Enter the CSS selector of blocks you don\'t want to translate (like a sidebar, a menu, a paragraph etc...', 'weglot' ),
 	],
 ];
 
@@ -60,6 +50,12 @@ $plans              = $this->user_api_services->get_plans();
 					placeholder="wg_XXXXXXXXXXXX"
 					value="<?php echo esc_attr( $this->options[ $options_available['api_key']['key'] ] ); ?>"
 				>
+                <br>
+                <?php if ( $this->options['has_first_settings']) {
+	?>
+                <p class="description"><?php echo esc_html_e( 'If you don\'t have an account, you can create one in 20 seconds !', 'weglot'); ?></p>
+                <?php
+}  ?>
 			</td>
 		</tr>
 		<tr valign="top">
@@ -103,6 +99,16 @@ $plans              = $this->user_api_services->get_plans();
 					multiple="true"
 					required
 				>
+                    <?php foreach (  $this->options[ $options_available['destination_language']['key'] ] as $language ) :
+						$languages[$language]; ?>
+                        <option
+                                value="<?php echo esc_attr( $language ); ?>"
+                                selected="selected"
+                        >
+                            <?php echo esc_html( $language ); ?>
+                        </option>
+                    <?php endforeach; ?>
+
 					<?php foreach ( $languages as $language ) : ?>
 						<option
 							value="<?php echo esc_attr( $language->getIso639() ); ?>"
@@ -141,79 +147,7 @@ $plans              = $this->user_api_services->get_plans();
 		</tr>
 	</tbody>
 </table>
-<?php if ( !  $this->options['has_first_settings']) {
-					?>
-<h3><?php esc_html_e( 'Translation Exclusion (Optional)', 'weglot' ); ?> </h3>
-<hr>
-<p><?php esc_html_e( 'By default, every page is translated. You can exclude parts of a page or a full page here.', 'weglot' ); ?></p>
-<table class="form-table">
-	<tbody>
-		<tr valign="top">
-			<th scope="row" class="titledesc">
-				<label for="<?php echo esc_attr( $options_available['exclude_urls']['key'] ); ?>">
-					<?php echo esc_html( $options_available['exclude_urls']['label'] ); ?>
-				</label>
-				<p class="sub-label"><?php echo esc_html( $options_available['exclude_urls']['description'] ); ?></p>
-			</th>
-			<td class="forminp forminp-text">
-				<div id="container-<?php echo esc_attr( $options_available['exclude_urls']['key'] ); ?>">
-					<?php
-					if ( ! empty( $this->options[ $options_available['exclude_urls']['key'] ] ) ) :
-						foreach ( $this->options[ $options_available['exclude_urls']['key'] ] as $option ) :
-							?>
-						<div class="item-exclude">
-							<input
-								type="text"
-								placeholder="/my-awesome-url"
-								name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['exclude_urls']['key'] ) ); ?>[]"
-								value="<?php echo esc_attr( $option ); ?>"
-							>
-							<button class="js-btn-remove js-btn-remove-exclude-url">
-								<span class="dashicons dashicons-minus"></span>
-							</button>
-						</div>
-							<?php
-						endforeach;
-					endif; ?>
-				</div>
-				<button id="js-add-exclude-url" class="btn btn-soft"><?php esc_html_e( 'Add an URL to exclude', 'weglot' ); ?></button>
-			</td>
-		</tr>
-		<tr valign="top">
-			<th scope="row" class="titledesc">
-				<label for="<?php echo esc_attr( $options_available['exclude_blocks']['key'] ); ?>">
-					<?php echo esc_html( $options_available['exclude_blocks']['label'] ); ?>
-				</label>
-				<p class="sub-label"><?php echo esc_html( $options_available['exclude_blocks']['description'] ); ?></p>
-			</th>
-			<td class="forminp forminp-text">
-				<div id="container-<?php echo esc_attr( $options_available['exclude_blocks']['key'] ); ?>">
-					<?php
-					if ( ! empty( $this->options[ $options_available['exclude_blocks']['key'] ] ) ) :
-						foreach ( $this->options[ $options_available['exclude_blocks']['key'] ] as $option ) :
-							?>
-						<div class="item-exclude">
-							<input
-								type="text"
-								placeholder=".my-class"
-								name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['exclude_blocks']['key'] ) ); ?>[]"
-								value="<?php echo esc_attr( $option ); ?>"
-							>
-							<button class="js-btn-remove js-btn-remove-exclude">
-								<span class="dashicons dashicons-minus"></span>
-							</button>
-						</div>
-							<?php
-						endforeach;
-					endif; ?>
-				</div>
-				<button id="js-add-exclude-block" class="btn btn-soft"><?php esc_html_e( 'Add a block to exclude', 'weglot' ); ?></button>
-			</td>
-		</tr>
-	</tbody>
-</table>
-<?php
-				} ?>
+
 
 <?php if ( ! $this->options['has_first_settings'] && $this->options['show_box_first_settings'] ) : ?>
 	<?php $this->option_services->set_option_by_key( 'show_box_first_settings', false ); // remove showbox ?>
