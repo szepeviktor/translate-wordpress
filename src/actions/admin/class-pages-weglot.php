@@ -62,7 +62,11 @@ class Pages_Weglot implements Hooks_Interface_Weglot {
 	public function weglot_plugin_settings_page() {
 		$this->tabs       = Helper_Tabs_Admin_Weglot::get_full_tabs();
 		$this->tab_active = Helper_Tabs_Admin_Weglot::SETTINGS;
-		
+
+		if ( isset( $_GET['tab'] ) ) { // phpcs:ignore
+			$this->tab_active = sanitize_text_field( wp_unslash( $_GET['tab'] ) ); // phpcs:ignore
+		}
+
 		$this->options = $this->option_services->get_options();
 
 		try {
