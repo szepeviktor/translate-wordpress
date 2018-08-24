@@ -359,6 +359,17 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 					$link_menu .= '?no_lredirect=true';
 				}
 
+				// Compatibility Menu HTTPS if not work. Since 2.0.6
+				if (
+					(
+						is_ssl() ||
+						isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && 'https' === $_SERVER['HTTP_X_FORWARDED_PROTO'] // phpcs:ignore
+					) &&
+					strpos( $link_menu, 'https://' ) === false
+				) {
+					$link_menu = str_replace( 'http', 'https', $link_menu );
+				}
+
 				$dom                  = preg_replace( '#' . $shortcode_url . '#i', $link_menu, $dom );
 				$dom                  = preg_replace( '#' . $shortcode_url_html . '#i', $link_menu, $dom );
 			}
