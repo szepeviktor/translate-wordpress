@@ -49,8 +49,8 @@ class Replace_Link_Service_Weglot {
 			foreach ( array_reverse( $this->multisite_service->get_list_of_network_path() ) as $np ) {
 				if ( strlen( $np ) > 2 && strpos( $url_translated, $np ) !== false ) {
 					$url_translated = str_replace(
-						str_replace( '//', '/', '/' . $current_language . $np . '/'),
-						str_replace( '//', '/', $np . '/' . $current_language . '/'),
+						str_replace( '//', '/', '/' . $current_language . $np . '/' ),
+						str_replace( '//', '/', $np . '/' . $current_language . '/' ),
 						$url_translated
 					);
 				}

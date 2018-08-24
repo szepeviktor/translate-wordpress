@@ -72,7 +72,7 @@ const init_admin_select = function(){
 
     const execute = () => {
 
-        //load_original_selectize();
+        load_original_selectize();
 
         load_destination_selectize();
 
