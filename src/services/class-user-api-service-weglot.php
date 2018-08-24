@@ -6,8 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
-
 /**
  * @since 2.0
  */
@@ -67,9 +65,34 @@ class User_Api_Service_Weglot {
 			} else {
 				throw new \Exception( 'Unknown error with Weglot Api (0002) : ' . $json );
 			}
-		} catch ( \Exception $e) {
-			return ['allowed' => true];
+		} catch ( \Exception $e ) {
+			return [
+				'allowed' => true,
+			];
 		}
+	}
+
+	/**
+	 * @since 2.0.6
+	 *
+	 * @return int
+	 */
+	public function get_limit_destination_language() {
+		$user_info        = $this->get_user_info();
+		$plans            = $this->get_plans();
+		$limit            = 1000;
+		if (
+			$user_info['plan'] <= 0 ||
+			in_array( $user_info['plan'], $plans['starter_free']['ids'] ) // phpcs:ignore
+		) {
+			$limit = $plans['starter_free']['limit_language'];
+		} elseif (
+			in_array( $user_info['plan'], $plans['business']['ids'] ) // phpcs:ignore
+		) {
+			$limit = $plans['business']['limit_language'];
+		}
+
+		return $limit;
 	}
 
 	/**
