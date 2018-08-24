@@ -8,8 +8,7 @@ const init_admin_select = function(){
 	}
 
 	let destination_selectize
-
-	const execute = () => {
+	const load_original_selectize = () => {
 		$(".weglot-select-original").selectize({
 			delimiter: "|",
 			persist: false,
@@ -24,7 +23,7 @@ const init_admin_select = function(){
 			plugins: ["remove_button"],
 			options: weglot_languages.available,
 			onChange: value => {
-				if(value.length > 0){
+				if (value.length > 0) {
 					destination_selectize.data('selectize').clearOptions()
 
 					destination_selectize
@@ -35,8 +34,8 @@ const init_admin_select = function(){
 				}
 			}
 		});
-
-
+	}
+	const load_destination_selectize = () => {
 		destination_selectize = $(".weglot-select-destination").selectize(
 			{
 				delimiter: "|",
@@ -52,7 +51,7 @@ const init_admin_select = function(){
 				plugins: ["remove_button"],
 				options: generate_destination_language(),
 				render: {
-					option: function(item, escape) {
+					option: function (item, escape) {
 						return (
 							'<div class="weglot__choice__language">' +
 							'<span class="weglot__choice__language--local">' +
@@ -69,6 +68,30 @@ const init_admin_select = function(){
 				}
 			}
 		);
+}
+
+	const execute = () => {
+
+		load_original_selectize();
+
+		load_destination_selectize();
+
+		window.addEventListener("weglotCheckApi", (data) => {
+
+			let limit = 1000
+			const plan = data.detail.answer.plan
+
+			if (
+				plan <= 0 ||
+				weglot_languages.plans.starter_free.ids.indexOf(plan) >= 0
+			) {
+				limit = weglot_languages.plans.starter_free.limit_language;
+			} else if( weglot_languages.plans.business.ids.indexOf(plan) >= 0 ) {
+				limit = weglot_languages.plans.business.limit_language;
+			}
+
+			destination_selectize[0].selectize.settings.maxItems = limit
+		});
 
 	}
 

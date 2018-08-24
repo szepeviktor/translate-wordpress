@@ -55,23 +55,12 @@ class Admin_Enqueue_Weglot implements Hooks_Interface_Weglot {
 
 		wp_enqueue_script( 'weglot-admin', WEGLOT_URL_DIST . '/admin-js.js', [ 'weglot-admin-selectize-js' ], [], WEGLOT_VERSION );
 
-		$user_info        = $this->user_api_services->get_user_info();
-		$plans            = $this->user_api_services->get_plans();
-		$limit            = 1000;
-		if (
-			$user_info['plan'] <= 0 ||
-			in_array( $user_info['plan'], $plans['starter_free']['ids'] ) // phpcs:ignore
-		) {
-			$limit = $plans['starter_free']['limit_language'];
-		} elseif (
-			in_array( $user_info['plan'], $plans['business']['ids'] ) // phpcs:ignore
-		) {
-			$limit = $plans['business']['limit_language'];
-		}
+		$limit            = $this->user_api_services->get_limit_destination_language();
 
 		wp_localize_script( 'weglot-admin', 'weglot_languages', [
 			'available' => $this->language_services->get_languages_available(),
 			'limit'     => $limit,
+			'plans'     => $this->user_api_services->get_plans(),
 			'original'  => weglot_get_original_language(),
 		]);
 
