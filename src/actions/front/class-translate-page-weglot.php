@@ -212,7 +212,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 
 	/**
 	 * @since 2.0
-	 *
+	 * @version 2.1.0
 	 * @return void
 	 */
 	public function prepare_request_uri() {
