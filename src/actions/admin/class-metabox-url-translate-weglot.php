@@ -54,7 +54,6 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 		$display_link          = str_replace( array( '%pagename%', '%postname%', home_url() ), '', $permalink );
 		$display_link          = implode( '/', array_filter( explode( '/', $display_link ), 'strlen' ) );
 
-
 		foreach ( $languages_available as $language ) {
 			$code                = $language->getIso639();
 			if ( $code === $original_language ) {

@@ -231,10 +231,12 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		$index_entries = count( $request_without_language ) - 1;
 
 		$search_meta_key = sprintf( '%s_%s', Helper_Post_Meta_Weglot::POST_NAME_WEGLOT, $current_language );
+
 		$args            = [
 			'meta_key'       => $search_meta_key,
 			'meta_value'     => $request_without_language[ $index_entries ],
 			'meta_compare'   => '=',
+			'post_type'      => get_post_types( [ 'public' => true ] ),
 		];
 
 		$query = new \WP_Query( $args );
