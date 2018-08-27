@@ -21,6 +21,7 @@ $options_available = [
 		'label'       => __( 'Destination languages', 'weglot' ),
 		'description' => 'Choose languages you want to translate into. Supported languages can be found <a target="_blank" href="https://weglot.com/translation-api#languages_code">here</a>.',
 	],
+	
 ];
 
 
@@ -124,21 +125,21 @@ $plans              = $this->user_api_services->get_plans();
 					?>
 						<p class="description">
 							<?php // translators: 1 HTML Tag, 2 HTML Tag ?>
-							<?php echo sprintf( esc_html__( 'On the free plan, you can only choose one language and a maximum of 2000 words. If you want to use more than 1 language and 2000 words, please %1$supgrade your plan%2$s.', 'weglot' ), '<a target="_blank" href="https://weglot.com/change-plan">', '</a>' ); ?>
+							<?php echo sprintf( esc_html__( 'On the free plan, you can choose one language and use a maximum of 2000 words. If you need more, please %1$supgrade your plan%2$s.', 'weglot' ), '<a target="_blank" href="https://dashboard.weglot.com/billing/upgrade">', '</a>' ); ?>
 						</p>
 					<?php
 				} elseif ( in_array( $user_info['plan'], $plans['starter_free']['ids'] ) ) { //phpcs:ignore
 					?>
 						<p class="description">
 							<?php // translators: 1 HTML Tag, 2 HTML Tag ?>
-							<?php echo sprintf( esc_html__( 'On the Starter plan, you can choose one language. If you want to use more than 1 language, please %1$supgrade your plan%2$s.', 'weglot' ), '<a target="_blank" href="https://weglot.com/change-plan">', '</a>' ); ?>
+							<?php echo sprintf( esc_html__( 'On the Starter plan, you can choose one language. If you need more, please %1$supgrade your plan%2$s.', 'weglot' ), '<a target="_blank" href="https://dashboard.weglot.com/billing/upgrade">', '</a>' ); ?>
 						</p>
 					<?php
 				} elseif ( in_array( $user_info['plan'], $plans['business']['ids'] ) ) { //phpcs:ignore
 					?>
 						<p class="description">
 							<?php // translators: 1 HTML Tag, 2 HTML Tag ?>
-							<?php echo sprintf( esc_html__( 'On the Business plan, you can choose five languages. If you want to use more than language, please %1$supgrade your plan%2$s.', 'weglot' ), '<a target="_blank" href="https://weglot.com/change-plan">', '</a>' ); ?>
+							<?php echo sprintf( esc_html__( 'On the Business plan, you can choose five languages. If you need more, please %1$supgrade your plan%2$s.', 'weglot' ), '<a target="_blank" href="https://dashboard.weglot.com/billing/upgrade">', '</a>' ); ?>
 						</p>
 					<?php
 				}
@@ -171,31 +172,3 @@ $plans              = $this->user_api_services->get_plans();
 		</iframe>
 	<?php endif; ?>
 <?php endif; ?>
-
-<template id="tpl-exclusion-url">
-	<div class="item-exclude">
-		<input
-			type="text"
-			placeholder="/my-awesome-url"
-			name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['exclude_urls']['key'] ) ); ?>[]"
-			value=""
-		>
-		<button class="js-btn-remove js-btn-remove-exclude">
-			<span class="dashicons dashicons-minus"></span>
-		</button>
-	</div>
-</template>
-
-<template id="tpl-exclusion-block">
-	<div class="item-exclude">
-		<input
-			type="text"
-			placeholder=".my-class"
-			name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['exclude_blocks']['key'] ) ); ?>[]"
-			value=""
-		>
-		<button class="js-btn-remove js-btn-remove-exclude">
-			<span class="dashicons dashicons-minus"></span>
-		</button>
-	</div>
-</template>

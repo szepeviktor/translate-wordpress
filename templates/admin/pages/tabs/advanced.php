@@ -180,3 +180,30 @@ $options_available = [
 	</p>
 </div>
 
+<template id="tpl-exclusion-url">
+    <div class="item-exclude">
+        <input
+                type="text"
+                placeholder="/my-awesome-url"
+                name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['exclude_urls']['key'] ) ); ?>[]"
+                value=""
+        >
+        <button class="js-btn-remove js-btn-remove-exclude">
+            <span class="dashicons dashicons-minus"></span>
+        </button>
+    </div>
+</template>
+
+<template id="tpl-exclusion-block">
+    <div class="item-exclude">
+        <input
+                type="text"
+                placeholder=".my-class"
+                name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['exclude_blocks']['key'] ) ); ?>[]"
+                value=""
+        >
+        <button class="js-btn-remove js-btn-remove-exclude">
+            <span class="dashicons dashicons-minus"></span>
+        </button>
+    </div>
+</template>
