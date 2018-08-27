@@ -49,14 +49,17 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 	 */
 	public function weglot_url_translate_box( $post ) {
 		$languages_available = $this->language_services->get_languages_configured();
-		$post_name_weglot    = maybe_unserialize( get_post_meta( $post->ID, Helper_Post_Meta_Weglot::POST_NAME_WEGLOT, true ) );
-
+		$original_language   = weglot_get_original_language();
 		foreach ( $languages_available as $language ) {
-			$post_name = ( empty( $post_name_weglot ) ) ? $post->post_name : $post_name_weglot[ $language->getIso639() ]; ?>
-			<label for="lang-<?php echo esc_attr( $language->getIso639() ); ?>">
+			$code                = $language->getIso639();
+			if ( $code === $original_language ) {
+				continue;
+			}
+			$post_name_weglot    = get_post_meta( $post->ID, sprintf( '%s_%s', Helper_Post_Meta_Weglot::POST_NAME_WEGLOT, $code ), true ); ?>
+			<label for="lang-<?php echo esc_attr( $code ); ?>">
 				<strong><?php echo esc_attr( $language->getLocalName() ); ?></strong>
 			</label>
-			<p><?php echo esc_url( home_url() ); ?>/<input type="text" id="lang-<?php echo esc_attr( $language->getIso639() ); ?>" name="post_name_weglot[<?php echo esc_attr( $language->getIso639() ); ?>]" value="<?php echo esc_attr( $post_name ); ?>" /></p>
+			<p><?php echo esc_url( home_url() ); ?>/<?php echo ($code !== $original_language ) ? esc_attr( $code . '/' ) : ''; ?><input type="text" id="lang-<?php echo esc_attr( $code ); ?>" name="post_name_weglot[<?php echo esc_attr( $code ); ?>]" value="<?php echo esc_attr( $post_name_weglot ); ?>" /></p>
 
 			<?php
 		}
@@ -91,6 +94,13 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 			return;
 		}
 
-		update_post_meta( $post_id, Helper_Post_Meta_Weglot::POST_NAME_WEGLOT, $post_name_weglot );
+		foreach ( $post_name_weglot as $key => $post_name ) {
+			$meta_key = sprintf( '%s_%s', Helper_Post_Meta_Weglot::POST_NAME_WEGLOT, $key );
+			if ( empty( $post_name ) ) {
+				delete_post_meta( $post_id, $meta_key );
+			} else {
+				update_post_meta( $post_id, sprintf( '%s_%s', Helper_Post_Meta_Weglot::POST_NAME_WEGLOT, $key ), $post_name );
+			}
+		}
 	}
 }

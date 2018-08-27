@@ -7,11 +7,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use WeglotWP\Models\Hooks_Interface_Weglot;
+use WeglotWP\Helpers\Helper_Post_Meta_Weglot;
 
 use Weglot\Client\Api\Enum\BotType;
 use Weglot\Client\Client;
 use Weglot\Util\Server;
 use Weglot\Client\Api\Exception\ApiError;
+
 
 /**
  * Translate page
@@ -214,12 +216,59 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	 * @return void
 	 */
 	public function prepare_request_uri() {
-		// Use for good process on URL
-		$_SERVER['REQUEST_URI'] = str_replace(
-			'/' . $this->request_url_services->get_current_language( false ) . '/',
-			'/',
+		$original_language = weglot_get_original_language();
+		$current_language  = $this->request_url_services->get_current_language( false );
+
+		if ( $original_language === $current_language ) {
+			return;
+		}
+
+		$request_without_language = explode( '/', str_replace(
+			'/' . $current_language . '/',
+			'',
 			$_SERVER['REQUEST_URI'] //phpcs:ignore
-		);
+		) );
+
+		$search_meta_key = sprintf( '%s_%s', Helper_Post_Meta_Weglot::POST_NAME_WEGLOT, $current_language );
+		$args            = [
+			'meta_key'       => $search_meta_key,
+			'meta_value'     => $request_without_language[0],
+			'meta_compare'   => 'LIKE',
+		];
+		$query = new \WP_Query( $args );
+
+
+		if ( 1 !== $query->post_count ) {
+			if ( ! function_exists( 'wp_rewrite_rules' ) ) {
+				include_once ABSPATH . WPINC . '/class-wp-rewrite.php';
+				$GLOBALS['wp_rewrite'] = new \WP_Rewrite();
+				$GLOBALS['wp']         = new \WP();
+			}
+
+			$post = get_post( weglot_get_postid_from_url() );
+		} else {
+			$post = $query->post;
+		}
+
+		$post_name_weglot = get_post_meta( $post->ID, $search_meta_key, true );
+
+		if ( ! empty( $post_name_weglot ) && $post_name_weglot === $request_without_language[0] ) { // Match request with custom post name
+			$_SERVER['REQUEST_URI'] = str_replace(
+				'/' . $this->request_url_services->get_current_language( false ) . '/',
+				'/',
+				str_replace( $post_name_weglot, $post->post_name, $_SERVER['REQUEST_URI'] ) //phpcs:ignore
+			);
+			return;
+		} else {
+			if ( empty( $post_name_weglot ) ) {
+				// Math request no custom post name
+				$_SERVER['REQUEST_URI'] = str_replace(
+					'/' . $this->request_url_services->get_current_language( false ) . '/',
+					'/',
+					$_SERVER['REQUEST_URI'] //phpcs:ignore
+				);
+			}
+		}
 	}
 
 	/**
