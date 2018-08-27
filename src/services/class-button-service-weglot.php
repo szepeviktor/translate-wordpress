@@ -111,12 +111,13 @@ class Button_Service_Weglot {
 				$post_name_weglot = get_post_meta( $post->ID, sprintf( '%s_%s', Helper_Post_Meta_Weglot::POST_NAME_WEGLOT, $key_code ), true );
 
 				$url_lang                 = $weglot_url->getForLanguage( $key_code );
-				$request_without_language = explode( '/', $weglot_url->getPath() );
+				$request_without_language = array_filter( explode( '/', $weglot_url->getPath() ), 'strlen' );
+				$index_entries            = count( $request_without_language );
 
 				if ( ! empty( $post_name_weglot ) && $key_code !== $original_language ) {
-					$url_lang = str_replace( $request_without_language[1], $post_name_weglot, $url_lang );
+					$url_lang = str_replace( $request_without_language[ $index_entries ], $post_name_weglot, $url_lang );
 				} else {
-					$url_lang = str_replace( $request_without_language[1], $post->post_name, $url_lang );
+					$url_lang = str_replace( $request_without_language[ $index_entries ], $post->post_name, $url_lang );
 				}
 
 				$link_button = apply_filters( 'weglot_link_language', $url_lang, $key_code );

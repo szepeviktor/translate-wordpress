@@ -223,20 +223,21 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			return;
 		}
 
-		$request_without_language = explode( '/', str_replace(
+		$request_without_language = array_filter( explode( '/', str_replace(
 			'/' . $current_language . '/',
 			'',
 			$_SERVER['REQUEST_URI'] //phpcs:ignore
-		) );
+		) ), 'strlen' );
+		$index_entries = count( $request_without_language ) - 1;
 
 		$search_meta_key = sprintf( '%s_%s', Helper_Post_Meta_Weglot::POST_NAME_WEGLOT, $current_language );
 		$args            = [
 			'meta_key'       => $search_meta_key,
-			'meta_value'     => $request_without_language[0],
-			'meta_compare'   => 'LIKE',
+			'meta_value'     => $request_without_language[ $index_entries ],
+			'meta_compare'   => '=',
 		];
-		$query = new \WP_Query( $args );
 
+		$query = new \WP_Query( $args );
 
 		if ( 1 !== $query->post_count ) {
 			if ( ! function_exists( 'wp_rewrite_rules' ) ) {
@@ -252,7 +253,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 
 		$post_name_weglot = get_post_meta( $post->ID, $search_meta_key, true );
 
-		if ( ! empty( $post_name_weglot ) && $post_name_weglot === $request_without_language[0] ) { // Match request with custom post name
+		if ( ! empty( $post_name_weglot ) && $post_name_weglot === $request_without_language[ $index_entries ] ) { // Match request with custom post name
 			$_SERVER['REQUEST_URI'] = str_replace(
 				'/' . $this->request_url_services->get_current_language( false ) . '/',
 				'/',
