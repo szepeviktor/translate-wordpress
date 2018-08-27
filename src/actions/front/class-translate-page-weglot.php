@@ -236,7 +236,9 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			'meta_key'       => $search_meta_key,
 			'meta_value'     => $request_without_language[ $index_entries ],
 			'meta_compare'   => '=',
-			'post_type'      => get_post_types( [ 'public' => true ] ),
+			'post_type'      => get_post_types( apply_filters( 'weglot_request_post_type_for_uri', [
+				'public' => true,
+			] ) ),
 		];
 
 		$query = new \WP_Query( $args );
