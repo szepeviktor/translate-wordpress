@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use WeglotWP\Helpers\Helper_Post_Meta_Weglot;
 
 /**
  * Button services
@@ -77,6 +78,8 @@ class Button_Service_Weglot {
 				$name = ( $is_fullname ) ? $current_language_entry->getLocalName() : strtoupper( $current_language_entry->getIso639() );
 			}
 
+			global $post;
+
 			$uniq_id = 'wg' . uniqid( strtotime( 'now' ) ) . rand( 1, 1000 );
 			$button_html .= sprintf( '<input id="%s" class="weglot_choice" type="checkbox" name="menu"/><label for="%s" class="wgcurrent wg-li %s" data-code-language="%s"><span>%s</span></label>', $uniq_id, $uniq_id, $flag_class . $current_language, $current_language_entry->getIso639(), $name );
 
@@ -105,7 +108,18 @@ class Button_Service_Weglot {
 
 				$button_html .= sprintf( '<li class="wg-li %s" data-code-language="%s">', $flag_class . $key_code, $key_code );
 
-				$link_button = apply_filters( 'weglot_link_language', $weglot_url->getForLanguage( $key_code ), $key_code );
+				$post_name_weglot = get_post_meta( $post->ID, sprintf( '%s_%s', Helper_Post_Meta_Weglot::POST_NAME_WEGLOT, $key_code ), true );
+
+				$url_lang                 = $weglot_url->getForLanguage( $key_code );
+				$request_without_language = explode( '/', $weglot_url->getPath() );
+
+				if ( ! empty( $post_name_weglot ) && $key_code !== $original_language ) {
+					$url_lang = str_replace( $request_without_language[1], $post_name_weglot, $url_lang );
+				} else {
+					$url_lang = str_replace( $request_without_language[1], $post->post_name, $url_lang );
+				}
+
+				$link_button = apply_filters( 'weglot_link_language', $url_lang, $key_code );
 
 				$link_button = preg_replace('#\?no_lredirect=true$#', '', $link_button); // Remove ending "?no_lredirect=true"
 				if ( weglot_has_auto_redirect() && strpos( $link_button, 'no_lredirect' ) === false && ( is_home() || is_front_page() ) && $key_code === $original_language) {
