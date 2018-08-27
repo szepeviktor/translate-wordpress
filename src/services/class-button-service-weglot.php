@@ -77,8 +77,8 @@ class Button_Service_Weglot {
 				$name = ( $is_fullname ) ? $current_language_entry->getLocalName() : strtoupper( $current_language_entry->getIso639() );
 			}
 
-			$uniqId = 'wg' . uniqid( strtotime( 'now' ) ) . rand( 1, 1000 );
-			$button_html .= sprintf( '<input id="%s" class="weglot_choice" type="checkbox" name="menu"/><label for="%s" class="wgcurrent wg-li %s" data-code-language="%s"><span>%s</span></label>', $uniqId, $uniqId, $flag_class . $current_language, $current_language_entry->getIso639(), $name );
+			$uniq_id = 'wg' . uniqid( strtotime( 'now' ) ) . rand( 1, 1000 );
+			$button_html .= sprintf( '<input id="%s" class="weglot_choice" type="checkbox" name="menu"/><label for="%s" class="wgcurrent wg-li %s" data-code-language="%s"><span>%s</span></label>', $uniq_id, $uniq_id, $flag_class . $current_language, $current_language_entry->getIso639(), $name );
 
 			$button_html .= '<ul>';
 
