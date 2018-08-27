@@ -48,8 +48,13 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 	 * @param mixed $post
 	 */
 	public function weglot_url_translate_box( $post ) {
-		$languages_available = $this->language_services->get_languages_configured();
-		$original_language   = weglot_get_original_language();
+		$languages_available   = $this->language_services->get_languages_configured();
+		$original_language     = weglot_get_original_language();
+		list( $permalink )     = get_sample_permalink( $post->ID );
+		$display_link          = str_replace( array( '%pagename%', '%postname%', home_url() ), '', $permalink );
+		$display_link          = implode( '/', array_filter( explode( '/', $display_link ), 'strlen' ) );
+
+
 		foreach ( $languages_available as $language ) {
 			$code                = $language->getIso639();
 			if ( $code === $original_language ) {
@@ -59,7 +64,7 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 			<label for="lang-<?php echo esc_attr( $code ); ?>">
 				<strong><?php echo esc_attr( $language->getLocalName() ); ?></strong>
 			</label>
-			<p><?php echo esc_url( home_url() ); ?>/<?php echo ($code !== $original_language ) ? esc_attr( $code . '/' ) : ''; ?><input type="text" id="lang-<?php echo esc_attr( $code ); ?>" name="post_name_weglot[<?php echo esc_attr( $code ); ?>]" value="<?php echo esc_attr( $post_name_weglot ); ?>" /></p>
+			<p><?php echo esc_url( home_url() ); ?>/<?php echo esc_attr( $code . '/' . $display_link . '/' ); ?><input type="text" id="lang-<?php echo esc_attr( $code ); ?>" name="post_name_weglot[<?php echo esc_attr( $code ); ?>]" value="<?php echo esc_attr( $post_name_weglot ); ?>" /></p>
 
 			<?php
 		}
