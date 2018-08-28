@@ -51,10 +51,9 @@ class Admin_Enqueue_Weglot implements Hooks_Interface_Weglot {
 			return;
 		}
 
-		wp_enqueue_script( 'weglot-admin-selectize-js', WEGLOT_URL_DIST . '/selectize.js', [ 'jquery' ] );
+		wp_enqueue_script( 'weglot-admin-selectize-js', WEGLOT_URL_DIST . '/selectize.js', [ 'jquery', 'jquery-ui-sortable' ] );
 
 		wp_enqueue_script( 'weglot-admin', WEGLOT_URL_DIST . '/admin-js.js', [ 'weglot-admin-selectize-js' ], [], WEGLOT_VERSION );
-		
 
 		$user_info        = $this->user_api_services->get_user_info();
 		$plans            = $this->user_api_services->get_plans();
@@ -69,8 +68,6 @@ class Admin_Enqueue_Weglot implements Hooks_Interface_Weglot {
 		) {
 			$limit = $plans['business']['limit_language'];
 		}
-		
-
 
 		wp_localize_script( 'weglot-admin', 'weglot_languages', [
 			'available' => $this->language_services->get_languages_available(),
@@ -81,12 +78,10 @@ class Admin_Enqueue_Weglot implements Hooks_Interface_Weglot {
 
 		wp_enqueue_style( 'weglot-admin-css', WEGLOT_URL_DIST . '/css/admin-css.css', [], WEGLOT_VERSION );
 
-
-
 		wp_enqueue_style( 'weglot-css', WEGLOT_URL_DIST . '/css/front-css.css', [], WEGLOT_VERSION );
 		wp_localize_script( 'weglot-admin', 'weglot_css', [
-				'inline'   => $this->option_services->get_css_custom_inline(),
-				'flag_css' => $this->option_services->get_option( 'flag_css' ),
-			]);
+			'inline'   => $this->option_services->get_css_custom_inline(),
+			'flag_css' => $this->option_services->get_option( 'flag_css' ),
+		]);
 	}
 }
