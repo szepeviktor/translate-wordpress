@@ -34,7 +34,7 @@ class Language_Service_Weglot {
 	 * @return bool
 	 */
 	protected function compare_language( $a, $b ) {
-		return strcmp( $a['local'], $b['local'] );
+		return strcmp( $a['english'], $b['english'] );
 	}
 
 	/**
