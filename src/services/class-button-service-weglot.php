@@ -107,7 +107,8 @@ class Button_Service_Weglot {
 
 				$link_button = apply_filters( 'weglot_link_language', $weglot_url->getForLanguage( $key_code ), $key_code );
 
-				if ( weglot_has_auto_redirect() && strpos( $link_button, 'no_lredirect' ) === false && ( is_home() || is_front_page() ) ) {
+				$link_button = preg_replace('#\?no_lredirect=true$#', '', $link_button); // Remove ending "?no_lredirect=true"
+				if ( weglot_has_auto_redirect() && strpos( $link_button, 'no_lredirect' ) === false && ( is_home() || is_front_page() ) && $key_code === $original_language) {
 					$link_button .= '?no_lredirect=true';
 				}
 
