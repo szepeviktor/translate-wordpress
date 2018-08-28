@@ -303,3 +303,7 @@ $options_available = [
 	</tr>
 </table>
 
+<template id="li-button-tpl">
+	<li class="wg-li {CLASSES} {CODE_LANGUAGE}" data-code-language="{CODE_LANGUAGE}">
+		<a href="#">{LABEL_LANGUAGE}</a></li>
+</template>

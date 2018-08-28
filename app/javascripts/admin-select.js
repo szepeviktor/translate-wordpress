@@ -10,37 +10,70 @@ const init_admin_select = function(){
     let destination_selectize
 
     const load_destination_selectize = () => {
-        destination_selectize = $(".weglot-select-destination").selectize(
-            {
-                delimiter: "|",
-                persist: false,
-                valueField: "code",
-                labelField: "local",
-                searchField: ["code", "english", "local"],
-                sortField: [
-                    { field: "english", direction: "asc" }
-                ],
-                maxItems: weglot_languages.limit,
-                plugins: ["remove_button","drag_drop"],
-                options: generate_destination_language(),
-                render: {
-                    option: function (item, escape) {
-                        return (
-                            '<div class="weglot__choice__language">' +
-                            '<span class="weglot__choice__language--english">' +
-                            escape(item.english) +
-                            "</span>" +
-                            '<span class="weglot__choice__language--local">' +
-                            escape(item.local) +
-                            " [" +
-                            escape(item.code) +
-                            "]</span>" +
-                            "</div>"
-                        );
-                    }
-                }
-            }
-        );
+        destination_selectize = $(".weglot-select-destination")
+			.selectize({
+				delimiter: "|",
+				persist: false,
+				valueField: "code",
+				labelField: "local",
+				searchField: ["code", "english", "local"],
+				sortField: [{ field: "english", direction: "asc" }],
+				maxItems: weglot_languages.limit,
+				plugins: ["remove_button", "drag_drop"],
+				options: generate_destination_language(),
+				render: {
+					option: function(item, escape) {
+						return (
+							'<div class="weglot__choice__language">' +
+							'<span class="weglot__choice__language--english">' +
+							escape(item.english) +
+							"</span>" +
+							'<span class="weglot__choice__language--local">' +
+							escape(item.local) +
+							" [" +
+							escape(item.code) +
+							"]</span>" +
+							"</div>"
+						);
+					}
+				}
+			})
+			.on("change", (value) => {
+				const code_languages = destination_selectize[0].selectize.getValue()
+				const template = $("#li-button-tpl");
+				const is_fullname = $("#is_fullname").is(":checked")
+				const with_name = $("#with_name").is(":checked")
+				const with_flags = $("#with_flags").is(":checked")
+
+				let classes = ''
+				if (with_flags) {
+					classes = "weglot-flags";
+				}
+
+				let new_dest_language = ''
+				code_languages.forEach(element => {
+					const language = weglot_languages.available.find(itm => itm.code === element);
+					let label = ''
+					if(with_name){
+						if (is_fullname){
+							label = language.local
+						}
+						else{
+							label = element.toUpperCase()
+						}
+					}
+
+
+					new_dest_language += template
+						.html()
+						.replace("{LABEL_LANGUAGE}", label)
+						.replace(new RegExp("{CODE_LANGUAGE}", "g"), element)
+						.replace("{CLASSES}", classes)
+
+
+				});
+				$(".country-selector ul").html(new_dest_language)
+			});
     }
 
     const execute = () => {
