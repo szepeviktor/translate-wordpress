@@ -27,6 +27,12 @@ class Language_Service_Weglot {
 		$this->option_services = weglot_get_service( 'Option_Service_Weglot' );
 	}
 
+	/**
+	 * @since 2.0.6
+	 * @param array $a
+	 * @param array $b
+	 * @return bool
+	 */
 	protected function compare_language( $a, $b ) {
 		return strcmp( $a['local'], $b['local'] );
 	}
