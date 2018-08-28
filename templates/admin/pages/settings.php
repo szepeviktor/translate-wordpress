@@ -19,11 +19,11 @@ use WeglotWP\Helpers\Helper_Tabs_Admin_Weglot;
 				case Helper_Tabs_Admin_Weglot::SETTINGS:
 				default:
 					include_once WEGLOT_TEMPLATES_ADMIN_PAGES . '/tabs/settings.php';
-					if ( !  $this->options['has_first_settings']) {
+					if ( ! $this->options['has_first_settings'] ) {
 						include_once WEGLOT_TEMPLATES_ADMIN_PAGES . '/tabs/appearance.php';
 						include_once WEGLOT_TEMPLATES_ADMIN_PAGES . '/tabs/advanced.php';
 					}
-					
+
 					break;
 				case Helper_Tabs_Admin_Weglot::STATUS:
 					include_once WEGLOT_TEMPLATES_ADMIN_PAGES . '/tabs/status.php';
@@ -37,7 +37,7 @@ use WeglotWP\Helpers\Helper_Tabs_Admin_Weglot;
 			?>
 			<input type="hidden" name="tab" value="<?php echo esc_attr( $this->tab_active ); ?>">
 		</form>
-        <?php if ( !  $this->options['has_first_settings']) {
+		<?php if ( ! $this->options['has_first_settings'] ) {
 				?>
 		<hr>
 		<a target="_blank" href="http://wordpress.org/support/view/plugin-reviews/weglot?rate=5#postform">
@@ -67,7 +67,7 @@ use WeglotWP\Helpers\Helper_Tabs_Admin_Weglot;
 				</a>
 			</div>
 		</div>
-		<?php   
+		<?php
 	endif;
 	?>
 </div>

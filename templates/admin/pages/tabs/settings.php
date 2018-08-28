@@ -21,11 +21,12 @@ $options_available = [
 		'label'       => __( 'Destination languages', 'weglot' ),
 		'description' => 'Choose languages you want to translate into. Supported languages can be found <a target="_blank" href="https://weglot.com/translation-api#languages_code">here</a>.',
 	],
-	
 ];
 
 
-$languages          = $this->language_services->get_languages_available();
+$languages          = $this->language_services->get_languages_available( [
+	'sort' => true,
+] );
 $user_info          = $this->user_api_services->get_user_info();
 $plans              = $this->user_api_services->get_plans();
 
@@ -47,15 +48,15 @@ $plans              = $this->user_api_services->get_plans();
 					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['api_key']['key'] ) ); ?>"
 					id="<?php echo esc_attr( $options_available['api_key']['key'] ); ?>"
 					type="text"
-                    required
+					required
 					placeholder="wg_XXXXXXXXXXXX"
 					value="<?php echo esc_attr( $this->options[ $options_available['api_key']['key'] ] ); ?>"
 				>
-                <br>
-                <?php if ( $this->options['has_first_settings']) {
+				<br>
+				<?php if ( $this->options['has_first_settings'] ) {
 	?>
-                <p class="description"><?php echo esc_html_e( 'If you don\'t have an account, you can create one in 20 seconds !', 'weglot'); ?></p>
-                <?php
+				<p class="description"><?php echo esc_html_e( 'If you don\'t have an account, you can create one in 20 seconds !', 'weglot' ); ?></p>
+				<?php
 }  ?>
 			</td>
 		</tr>
@@ -100,15 +101,15 @@ $plans              = $this->user_api_services->get_plans();
 					multiple="true"
 					required
 				>
-                    <?php foreach (  $this->options[ $options_available['destination_language']['key'] ] as $language ) :
-						$languages[$language]; ?>
-                        <option
-                                value="<?php echo esc_attr( $language ); ?>"
-                                selected="selected"
-                        >
-                            <?php echo esc_html( $language ); ?>
-                        </option>
-                    <?php endforeach; ?>
+					<?php foreach ( $this->options[ $options_available['destination_language']['key'] ] as $language ) :
+						$languages[ $language ]; ?>
+						<option
+							value="<?php echo esc_attr( $language ); ?>"
+							selected="selected"
+						>
+							<?php echo esc_html( $language ); ?>
+						</option>
+					<?php endforeach; ?>
 
 					<?php foreach ( $languages as $language ) : ?>
 						<option
