@@ -154,7 +154,7 @@ See changelog for upgrade changes.
 
 = 2.0.6 (29/08/2018) =
 * Add DOM checker for button value and data-value attribute
-* Update onboarding
+* Update setting page
 * Bugfix : email translation
 * Bugfix : external link with quickpay
 * Prevent auto redirect on homepage translate
