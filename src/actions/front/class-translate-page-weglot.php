@@ -355,7 +355,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 				$dom                  = preg_replace( '#' . $shortcode_title_without_bracket . '#i', $name, $dom );
 
 				$link_menu = $url->getForLanguage( $language->getIso639() );
-				if ( weglot_has_auto_redirect() && strpos( $link_menu, 'no_lredirect' ) === false && ( is_home() || is_front_page() ) ) {
+				if ( weglot_has_auto_redirect() && strpos( $link_menu, 'no_lredirect' ) === false && ( is_home() || is_front_page() ) && $language->getIso639() === weglot_get_original_language() ) {
 					$link_menu .= '?no_lredirect=true';
 				}
 
