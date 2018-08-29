@@ -43,8 +43,9 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	 * @return void
 	 */
 	public function hooks() {
-		$no_translate = false;
-		if ( 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['action'] ) && 'add-menu-item' === $_POST['action'] ) { //phpcs:ignore
+		$no_translate             = false;
+		$action_ajax_no_translate = apply_filters( 'weglot_action_ajax_no_translate', [ 'add-menu-item', 'query-attachments' ] );
+		if ( 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['action'] ) && in_array( $_POST['action'], $action_ajax_no_translate ) ) { //phpcs:ignore
 			$no_translate = true;
 		}
 
