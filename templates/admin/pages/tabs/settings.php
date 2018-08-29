@@ -157,11 +157,11 @@ $plans              = $this->user_api_services->get_plans();
 		<div class="weglot-box">
 			<a class="weglot-btn-close"><?php esc_html_e( 'Close', 'weglot' ); ?></a>
 			<h3 class="weglot-box--title"><?php esc_html_e( 'Well done! Your website is now multilingual.', 'weglot' ); ?></h3>
-			<p class="weglot-box--text"><?php esc_html_e( 'Go on your website, there is a language switcher. Try it :)', 'weglot' ); ?></p>
+			<p class="weglot-box--text"><?php esc_html_e( 'Go on your website, there is a language switcher bottom right. Try it :)', 'weglot' ); ?></p>
 			<a class="button button-primary" href="<?php echo esc_attr( home_url() ); ?>" target="_blank">
 				<?php esc_html_e( 'Go on my front page.', 'weglot' ); ?>
 			</a>
-			<p class="weglot-box--subtext"><?php esc_html_e( 'Next step, edit your translations directly in your Weglot account.', 'weglot' ); ?></p>
+			<p class="weglot-box--subtext"><?php esc_html_e( 'Next step, customize the language button as you want and manually edit your translations directly in your Weglot account.', 'weglot' ); ?></p>
 		</div>
 	</div>
 	<?php
