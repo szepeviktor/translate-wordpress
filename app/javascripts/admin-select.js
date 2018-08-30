@@ -7,6 +7,7 @@ const init_admin_select = function(){
         });
     }
 
+
     let destination_selectize
 
     const load_destination_selectize = () => {
@@ -41,6 +42,12 @@ const init_admin_select = function(){
 			.on("change", (value) => {
 				const code_languages = destination_selectize[0].selectize.getValue()
 				const template = $("#li-button-tpl");
+
+				if (template.length  === 0){
+					return;
+				}
+
+
 				const is_fullname = $("#is_fullname").is(":checked")
 				const with_name = $("#with_name").is(":checked")
 				const with_flags = $("#with_flags").is(":checked")
@@ -77,6 +84,22 @@ const init_admin_select = function(){
     }
 
     const execute = () => {
+		let work_original_language = $("#original_language").val()
+
+		$("#original_language").on("change", function (e) {
+			const new_destination_option = work_original_language;
+			work_original_language = e.target.value;
+
+			destination_selectize[0].selectize.removeOption(work_original_language);
+
+			const new_option = weglot_languages.available.find(itm => {
+				return itm.code === new_destination_option
+			});
+
+			destination_selectize[0].selectize.addOption(new_option);
+
+		});
+
 
         load_destination_selectize();
 
