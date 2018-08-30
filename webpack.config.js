@@ -8,7 +8,7 @@ module.exports = {
 	entry: {
 		"front-js": "./app/javascripts/front.js",
 		"admin-js": "./app/javascripts/index.js",
-		"metaboxes-url-translate-js": "./app/javascript/metaboxes/url-translate.js",
+		"metaboxes-js": "./app/javascripts/metaboxes.js",
 		"front-css": "./app/styles/index.scss",
 		"admin-css": "./app/styles/admin.scss",
 		"front-amp-css": "./app/styles/amp.scss"
