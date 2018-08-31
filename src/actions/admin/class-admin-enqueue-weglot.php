@@ -50,6 +50,7 @@ class Admin_Enqueue_Weglot implements Hooks_Interface_Weglot {
 		}
 
 		wp_enqueue_script( 'weglot-admin-metaboxes-js', WEGLOT_URL_DIST . '/metaboxes-js.js', [ 'jquery' ] );
+		wp_enqueue_style( 'weglot-admin-css', WEGLOT_URL_DIST . '/css/admin-css.css', [], WEGLOT_VERSION );
 	}
 
 
