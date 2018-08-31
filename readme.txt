@@ -44,7 +44,7 @@ Weglot Translate offers professional support to premium users to help them trans
 
 Can I migrate from WPML or Polylang to Weglot Translate?
 
-Yes, you can easily migrate to Weglot Translate. Simply deactivate WPML or Polylang to only have one multilingual plugin. Then start using Weglot normally. If you need to import some translations contact us directly at support@weglot.com
+Yes, you can easily migrate to Weglot Translate. Simply deactivate WPML or Polylang to only have one multilingual plugin. Then start using Weglot Translate normally. If you need to import some translations contact us directly at support@weglot.com
 
 Does Weglot Translate provide support?
 
@@ -83,7 +83,7 @@ Weglot Translate is easy to set up:
 = Is Weglot Translate free? =
 Weglot Translate is a freemium plugin: it is free for small websites (under 2000 words) with one translation language. If you need more, you can upgrade. Details of our pricing can be found [here](https://weglot.com/pricing)
 
-In any case, you can try Weglot free for 10 days.
+In any case, you can try Weglot Translate free for 10 days.
 = Edit my translations =
 With Weglot Translate, you can modify translations in "Translations" in your Weglot [account here](https://dashboard.weglot.com/translations/). If you change a translation, it's automatically saved and displayed on your website.
 = The translations I edited are not displayed on my website. =
@@ -157,8 +157,8 @@ See changelog for upgrade changes.
 * Improve choice original and destination language
 
 = 2.0.6 (29/08/2018) =
-* Add DOM checker for button value and data-value attribute
-* Update setting page
+* Add DOM checker to translate button value and data-value attribute
+* Update Weglot Translate setting page
 * Bugfix : email translation
 * Bugfix : external link with quickpay
 * Prevent auto redirect on homepage translate
