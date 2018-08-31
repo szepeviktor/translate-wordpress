@@ -122,7 +122,7 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 	 */
 	public function save_post_meta_boxes_url_translate( $post_id ) {
 		// Add nonce for security and authentication.
-		$post_name_weglot   = isset( $_POST[ Helper_Post_Meta_Weglot::POST_NAME_WEGLOT ] ) ? $_POST[ Helper_Post_Meta_Weglot::POST_NAME_WEGLOT ] : ''; //phpcs:ignore
+		$post_name_weglot   = isset( $_POST[ Helper_Post_Meta_Weglot::POST_NAME_WEGLOT ] ) ? $_POST[ Helper_Post_Meta_Weglot::POST_NAME_WEGLOT ] : []; //phpcs:ignore
 
 		if ( ! isset( $post_name_weglot ) ) {
 			return;
