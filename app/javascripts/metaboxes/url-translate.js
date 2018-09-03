@@ -23,14 +23,19 @@ const init_url_translate = () => {
 					id: $("#weglot_post_id").data('id'),
 					post_name: post_name
 				},
-				success: function(result) {
-					if(result.data.code && result.data.code === 'already_exist'){
+				success: function(res) {
+					if(res.data && res.data.code && res.data.code === 'same_post_name'){
 						$(`#text-edit-${code}`).text(old_text[code]);
-						$(`#weglot_permalink_exist_${code}`).show();
+						return
+					}
+					else if (res.data && res.data.code && res.data.code ==='not_available'){
+						$(`#weglot_permalink_not_available_${code}`).show();
 						setTimeout(() => {
-							$(`#weglot_permalink_exist_${code}`).hide();
+							$(`#weglot_permalink_not_available_${code}`).hide();
 						}, 5000);
 					}
+
+					$(`#text-edit-${code}`).text(res.data.result.slug);
 				}
 			});
 		}

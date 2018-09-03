@@ -33,7 +33,7 @@ foreach ( $languages_available as $language ) {
 
 		<button type="button" class="button button-small button-weglot-lang-submit" data-lang="<?php echo esc_attr( $code ); ?>" style="display:none;"><?php esc_html_e( 'Ok', 'weglot' ); ?></button>
 
-		<p id="weglot_permalink_exist_<?php echo esc_attr( $code ); ?>" class="weglot_text_error" style="display:none;"><?php esc_html_e( 'The permalink already exists.', 'weglot' ); ?></p>
+		<p id="weglot_permalink_not_available_<?php echo esc_attr( $code ); ?>" class="weglot_text_error" style="display:none;"><?php esc_html_e( 'The permalink is not available.', 'weglot' ); ?></p>
 	</p>
 
 	<?php

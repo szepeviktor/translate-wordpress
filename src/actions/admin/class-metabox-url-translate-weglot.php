@@ -95,9 +95,9 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 
 		$post             = get_post( $post_id );
 		if ( $post->post_name === $weglot_post_name ) {
-			wp_send_json_error( [
-				'success'  => true,
+			wp_send_json_success( [
 				'code'     => 'same_post_name',
+				'test'     => 'ho',
 			] );
 			return;
 		}
@@ -115,15 +115,38 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 		$query    = new \WP_Query( $args );
 
 		if ( 1 === $query->post_count ) {
-			wp_send_json_error( [
-				'success'  => true,
+			wp_send_json_success( [
 				'code'     => 'same_post_name',
+				'test'     => 'fock',
 			] );
 			return;
 		}
 
+		$args            = [
+			'meta_value'     => $weglot_post_name, //phpcs:ignore
+			'meta_compare'   => '=',
+			'post_type'      => get_post_types( apply_filters( 'weglot_request_post_type_for_uri', [
+				'public' => true,
+			] ) ),
+		];
 
-		$weglot_post_name = wp_unique_post_slug( $weglot_post_name, $post->ID, $post->post_status, $post->post_type, $post->post_parent );
+		$query    = new \WP_Query( $args );
+
+		remove_filter( 'wp_unique_post_slug', [ $this, 'weglot_wp_unique_post_slug' ], 10, 6 );
+		$check_unique_slug = wp_unique_post_slug( $weglot_post_name, $post->ID, $post->post_status, $post->post_type, $post->post_parent );
+		if ( apply_filters( 'weglot_wp_unique_post_slug', true ) ) {
+			add_filter( 'wp_unique_post_slug', [ $this, 'weglot_wp_unique_post_slug' ], 10, 6 );
+		}
+
+		if ( 1 === $query->post_count || ( $check_unique_slug !== $weglot_post_name ) ) {
+			wp_send_json_success( [
+				'code'     => 'not_available',
+				'result'   => [
+					'slug' => $post->post_name,
+				],
+			] );
+			return;
+		}
 
 		update_post_meta( $post_id, $meta_key, $weglot_post_name );
 
@@ -181,13 +204,20 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 			return;
 		}
 
+		$post = get_post( $post_id );
+
 		foreach ( $post_name_weglot as $key => $post_name ) {
 			$meta_key = sprintf( '%s_%s', Helper_Post_Meta_Weglot::POST_NAME_WEGLOT, $key );
 			if ( empty( $post_name ) ) {
 				delete_post_meta( $post_id, $meta_key );
-			} else {
-				update_post_meta( $post_id, sprintf( '%s_%s', Helper_Post_Meta_Weglot::POST_NAME_WEGLOT, $key ), $post_name );
+				continue;
 			}
+
+			if ( $post_name === $post->post_name ) {
+				continue;
+			}
+
+			update_post_meta( $post_id, sprintf( '%s_%s', Helper_Post_Meta_Weglot::POST_NAME_WEGLOT, $key ), $post_name );
 		}
 	}
 }
