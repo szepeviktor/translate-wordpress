@@ -108,16 +108,23 @@ class Button_Service_Weglot {
 
 				$button_html .= sprintf( '<li class="wg-li %s" data-code-language="%s">', $flag_class . $key_code, $key_code );
 
-				$post_name_weglot = get_post_meta( $post->ID, sprintf( '%s_%s', Helper_Post_Meta_Weglot::POST_NAME_WEGLOT, $key_code ), true );
+				$post_name_weglot = null;
+				if ( $post ) {
+					$post_name_weglot = get_post_meta( $post->ID, sprintf( '%s_%s', Helper_Post_Meta_Weglot::POST_NAME_WEGLOT, $key_code ), true );
+				}
 
 				$url_lang                 = $weglot_url->getForLanguage( $key_code );
 				$request_without_language = array_filter( explode( '/', $weglot_url->getPath() ), 'strlen' );
 				$index_entries            = count( $request_without_language );
 
-				if ( ! empty( $post_name_weglot ) && $key_code !== $original_language ) {
-					$url_lang = str_replace( $request_without_language[ $index_entries ], $post_name_weglot, $url_lang );
-				} else {
-					$url_lang = str_replace( $request_without_language[ $index_entries ], $post->post_name, $url_lang );
+				if ( ! is_admin() ) {
+					if ( ! empty( $post_name_weglot ) && $key_code !== $original_language ) {
+						$url_lang = str_replace( $request_without_language[ $index_entries ], $post_name_weglot, $url_lang );
+					} else {
+						if ( isset( $request_without_language[ $index_entries ] ) ) {
+							$url_lang = str_replace( $request_without_language[ $index_entries ], $post->post_name, $url_lang );
+						}
+					}
 				}
 
 				$link_button = apply_filters( 'weglot_link_language', $url_lang, $key_code );
