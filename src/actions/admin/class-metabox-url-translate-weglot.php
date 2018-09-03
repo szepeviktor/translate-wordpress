@@ -33,6 +33,47 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 		add_action( 'add_meta_boxes', [ $this, 'add_meta_boxes_url_translate' ] );
 		add_action( 'save_post', [ $this, 'save_post_meta_boxes_url_translate' ] );
 		add_action( 'wp_ajax_weglot_post_name', [ $this, 'weglot_post_name' ] );
+
+		if ( apply_filters( 'weglot_wp_unique_post_slug', true ) ) {
+			add_filter( 'wp_unique_post_slug', [ $this, 'weglot_wp_unique_post_slug' ], 10, 6 );
+		}
+	}
+
+	/**
+	 * Filters the unique post slug.
+	 *
+	 * @since 2.1.0
+	 *
+	 * @param string $slug          The post slug.
+	 * @param int    $post_ID       Post ID.
+	 * @param string $post_status   The post status.
+	 * @param string $post_type     Post type.
+	 * @param int    $post_parent   Post parent ID
+	 * @param string $original_slug The original post slug.
+	 * @param mixed $post_id
+	 */
+	public function weglot_wp_unique_post_slug( $slug, $post_id, $post_status, $post_type, $post_parent, $original_slug ) {
+		$args            = [
+			'meta_value'     => $slug, //phpcs:ignore
+			'meta_compare'   => '=',
+			'post_type'      => get_post_types( apply_filters( 'weglot_request_post_type_for_uri', [
+				'public' => true,
+			] ) ),
+		];
+
+		$query    = new \WP_Query( $args );
+		if ( 1 === $query->post_count ) {
+			$suffix   = 2;
+			do {
+				$alt_post_name      = _truncate_post_slug( $slug, 200 - ( strlen( $suffix ) + 1 ) ) . "-$suffix";
+				$args['meta_value'] = $alt_post_name; //phpcs:ignore
+				$query              = new \WP_Query( $args );
+				$suffix++;
+			} while ( 1 === $query->post_count );
+			$slug = $alt_post_name;
+		}
+
+		return $slug;
 	}
 
 	/**
@@ -52,7 +93,18 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 			return;
 		}
 
+		$post             = get_post( $post_id );
+		if ( $post->post_name === $weglot_post_name ) {
+			wp_send_json_error( [
+				'success'  => true,
+				'code'     => 'same_post_name',
+			] );
+			return;
+		}
+
+		$meta_key        = sprintf( '%s_%s', Helper_Post_Meta_Weglot::POST_NAME_WEGLOT, $code_language );
 		$args            = [
+			'meta_key'       => $meta_key, //phpcs:ignore
 			'meta_value'     => $weglot_post_name, //phpcs:ignore
 			'meta_compare'   => '=',
 			'post_type'      => get_post_types( apply_filters( 'weglot_request_post_type_for_uri', [
@@ -61,39 +113,25 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 		];
 
 		$query    = new \WP_Query( $args );
-		$meta_key = sprintf( '%s_%s', Helper_Post_Meta_Weglot::POST_NAME_WEGLOT, $code_language );
 
 		if ( 1 === $query->post_count ) {
-			$args            = [
-				'meta_key'       => $meta_key, //phpcs:ignore
-				'meta_value'     => $weglot_post_name, //phpcs:ignore
-				'meta_compare'   => '=',
-				'post_type'      => get_post_types( apply_filters( 'weglot_request_post_type_for_uri', [
-					'public' => true,
-				] ) ),
-			];
-
-			$query    = new \WP_Query( $args );
-
-			if ( 1 === $query->post_count ) {
-				wp_send_json_error( [
-					'success'  => false,
-					'code'     => 'same_post_name',
-				] );
-				return;
-			}
-
 			wp_send_json_error( [
-				'success'  => false,
-				'code'     => 'already_exist',
+				'success'  => true,
+				'code'     => 'same_post_name',
 			] );
 			return;
 		}
+
+
+		$weglot_post_name = wp_unique_post_slug( $weglot_post_name, $post->ID, $post->post_status, $post->post_type, $post->post_parent );
 
 		update_post_meta( $post_id, $meta_key, $weglot_post_name );
 
 		wp_send_json_success( [
 			'success' => true,
+			'result'  => [
+				'slug' => $weglot_post_name,
+			],
 		] );
 	}
 
