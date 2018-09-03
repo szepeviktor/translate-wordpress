@@ -1,3 +1,4 @@
+import slugify from 'slugify'
 
 const init_url_translate = () => {
 	const $ = jQuery;
@@ -7,7 +8,10 @@ const init_url_translate = () => {
 
 		const edit_weglot_post_name = function(e) {
 			const code = $(this).data('lang')
-			const post_name = $(`#lang-${code}`).val()
+			const post_name = slugify($(`#lang-${code}`).val(), {
+				lower: true
+			});
+
 			$(`#text-edit-${code}`).text( post_name );
 
 			$(`#lang-${code}`).hide();
