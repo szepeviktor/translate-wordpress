@@ -21,6 +21,7 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 	 */
 	public function __construct() {
 		$this->language_services   = weglot_get_service( 'Language_Service_Weglot' );
+		$this->option_services     = weglot_get_service( 'Option_Service_Weglot' );
 	}
 
 	/**
@@ -85,70 +86,69 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 		$code_language    = ( isset( $_POST['lang'] ) && ! empty( $_POST['lang'] ) ) ? sanitize_text_field( $_POST['lang'] ) : null ; //phpcs:ignore
 		$post_id          = ( isset( $_POST['id'] ) && ! empty( $_POST['id'] ) ) ? sanitize_text_field( $_POST['id'] ) : null ; //phpcs:ignore
 
-		if ( ! $weglot_post_name || ! $code_language || ! $post_id ) {
-			wp_send_json_error( [
-				'success' => false,
-				'code'    => 'missing_parameter',
-			] );
-			return;
-		}
+		// if ( ! $weglot_post_name || ! $code_language || ! $post_id ) {
+		// 	wp_send_json_error( [
+		// 		'success' => false,
+		// 		'code'    => 'missing_parameter',
+		// 	] );
+		// 	return;
+		// }
 
-		$post             = get_post( $post_id );
-		if ( $post->post_name === $weglot_post_name ) {
-			wp_send_json_success( [
-				'code'     => 'same_post_name',
-				'test'     => 'ho',
-			] );
-			return;
-		}
+		// $post             = get_post( $post_id );
+		// if ( $post->post_name === $weglot_post_name ) {
+		// 	wp_send_json_success( [
+		// 		'code'     => 'same_post_name'
+		// 	] );
+		// 	return;
+		// }
 
-		$meta_key        = sprintf( '%s_%s', Helper_Post_Meta_Weglot::POST_NAME_WEGLOT, $code_language );
-		$args            = [
-			'meta_key'       => $meta_key, //phpcs:ignore
-			'meta_value'     => $weglot_post_name, //phpcs:ignore
-			'meta_compare'   => '=',
-			'post_type'      => get_post_types( apply_filters( 'weglot_request_post_type_for_uri', [
-				'public' => true,
-			] ) ),
-		];
+		// $meta_key        = sprintf( '%s_%s', Helper_Post_Meta_Weglot::POST_NAME_WEGLOT, $code_language );
+		// $args            = [
+		// 	'meta_key'       => $meta_key, //phpcs:ignore
+		// 	'meta_value'     => $weglot_post_name, //phpcs:ignore
+		// 	'meta_compare'   => '=',
+		// 	'post_type'      => get_post_types( apply_filters( 'weglot_request_post_type_for_uri', [
+		// 		'public' => true,
+		// 	] ) ),
+		// ];
 
-		$query    = new \WP_Query( $args );
+		// $query    = new \WP_Query( $args );
 
-		if ( 1 === $query->post_count ) {
-			wp_send_json_success( [
-				'code'     => 'same_post_name',
-				'test'     => 'fock',
-			] );
-			return;
-		}
+		// if ( 1 === $query->post_count ) {
+		// 	wp_send_json_success( [
+		// 		'code'     => 'same_post_name',
+		// 		'test'     => 'fock',
+		// 	] );
+		// 	return;
+		// }
 
-		$args            = [
-			'meta_value'     => $weglot_post_name, //phpcs:ignore
-			'meta_compare'   => '=',
-			'post_type'      => get_post_types( apply_filters( 'weglot_request_post_type_for_uri', [
-				'public' => true,
-			] ) ),
-		];
+		// $args            = [
+		// 	'meta_value'     => $weglot_post_name, //phpcs:ignore
+		// 	'meta_compare'   => '=',
+		// 	'post_type'      => get_post_types( apply_filters( 'weglot_request_post_type_for_uri', [
+		// 		'public' => true,
+		// 	] ) ),
+		// ];
 
-		$query    = new \WP_Query( $args );
+		// $query    = new \WP_Query( $args );
 
-		remove_filter( 'wp_unique_post_slug', [ $this, 'weglot_wp_unique_post_slug' ], 10, 6 );
-		$check_unique_slug = wp_unique_post_slug( $weglot_post_name, $post->ID, $post->post_status, $post->post_type, $post->post_parent );
-		if ( apply_filters( 'weglot_wp_unique_post_slug', true ) ) {
-			add_filter( 'wp_unique_post_slug', [ $this, 'weglot_wp_unique_post_slug' ], 10, 6 );
-		}
+		// remove_filter( 'wp_unique_post_slug', [ $this, 'weglot_wp_unique_post_slug' ], 10, 6 );
+		// $check_unique_slug = wp_unique_post_slug( $weglot_post_name, $post->ID, $post->post_status, $post->post_type, $post->post_parent );
+		// if ( apply_filters( 'weglot_wp_unique_post_slug', true ) ) {
+		// 	add_filter( 'wp_unique_post_slug', [ $this, 'weglot_wp_unique_post_slug' ], 10, 6 );
+		// }
 
-		if ( 1 === $query->post_count || ( $check_unique_slug !== $weglot_post_name ) ) {
-			wp_send_json_success( [
-				'code'     => 'not_available',
-				'result'   => [
-					'slug' => $post->post_name,
-				],
-			] );
-			return;
-		}
+		// if ( 1 === $query->post_count || ( $check_unique_slug !== $weglot_post_name ) ) {
+		// 	wp_send_json_success( [
+		// 		'code'     => 'not_available',
+		// 		'result'   => [
+		// 			'slug' => $post->post_name,
+		// 		],
+		// 	] );
+		// 	return;
+		// }
 
-		update_post_meta( $post_id, $meta_key, $weglot_post_name );
+		// update_post_meta( $post_id, $meta_key, $weglot_post_name );
 
 		wp_send_json_success( [
 			'success' => true,
@@ -172,6 +172,7 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 	 * @param mixed $post
 	 */
 	public function weglot_url_translate_box( $post ) {
+		$this->custom_urls = $this->option_services->get_option( 'custom_urls' );
 		include_once WEGLOT_TEMPLATES_ADMIN_METABOXES . '/url-translate.php';
 	}
 
@@ -189,6 +190,7 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 			return;
 		}
 
+
 		// Check if user has permissions to save data.
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			return;
@@ -204,20 +206,16 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 			return;
 		}
 
-		$post = get_post( $post_id );
-
+		$post        = get_post( $post_id );
+		$custom_urls = $this->option_services->get_option( 'custom_urls' );
 		foreach ( $post_name_weglot as $key => $post_name ) {
-			$meta_key = sprintf( '%s_%s', Helper_Post_Meta_Weglot::POST_NAME_WEGLOT, $key );
-			if ( empty( $post_name ) ) {
-				delete_post_meta( $post_id, $meta_key );
-				continue;
-			}
-
 			if ( $post_name === $post->post_name ) {
 				continue;
 			}
 
-			update_post_meta( $post_id, sprintf( '%s_%s', Helper_Post_Meta_Weglot::POST_NAME_WEGLOT, $key ), $post_name );
+			$custom_urls[$key][$post_name] = $post->post_name;
 		}
+
+		$this->option_services->set_option_by_key( 'custom_urls', $custom_urls );
 	}
 }
