@@ -228,7 +228,18 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			'',
 			$_SERVER['REQUEST_URI'] //phpcs:ignore
 		) ), 'strlen' );
+
 		$index_entries = count( $request_without_language ) - 1;
+
+		if ( empty( $request_without_language ) || ! isset( $request_without_language[ $index_entries ] ) ) {
+			// Like is_home
+			$_SERVER['REQUEST_URI'] = str_replace(
+				'/' . $this->request_url_services->get_current_language( false ) . '/',
+				'/',
+				$_SERVER['REQUEST_URI'] //phpcs:ignore
+			);
+			return;
+		}
 
 		$search_meta_key = sprintf( '%s_%s', Helper_Post_Meta_Weglot::POST_NAME_WEGLOT, $current_language );
 
