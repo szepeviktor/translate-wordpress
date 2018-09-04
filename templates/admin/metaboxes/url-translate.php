@@ -11,7 +11,11 @@ $original_language       = weglot_get_original_language();
 list( $permalink )       = get_sample_permalink( $post->ID );
 $display_link            = str_replace( array( '%pagename%', '%postname%', home_url() ), '', $permalink );
 $display_link            = implode( '/', array_filter( explode( '/', $display_link ), 'strlen' ) );
-var_dump($this->custom_urls);
+
+if ( ! empty( $display_link ) && '/' !== $display_link[ strlen( $display_link ) - 1 ] ) {
+	$display_link .= '/';
+}
+
 ?>
 <input type="hidden" id="weglot_post_id" data-id="<?php echo esc_attr( $post->ID ); ?>" />
 <?php
@@ -32,7 +36,7 @@ foreach ( $languages_available as $language ) {
 		<strong><?php echo esc_attr( $language->getLocalName() ); ?></strong>
 	</label>
 	<p>
-		<?php echo esc_url( home_url() ); ?>/<?php echo esc_attr( $code ); ?>/<?php echo esc_attr( $display_link ); ?>/<span id="text-edit-<?php echo esc_attr( $code ); ?>"><?php echo esc_attr( $post_name_weglot ); ?></span>
+		<?php echo esc_url( home_url() ); ?>/<?php echo esc_attr( $code ); ?>/<?php echo esc_attr( $display_link ); ?><span id="text-edit-<?php echo esc_attr( $code ); ?>"><?php echo esc_attr( $post_name_weglot ); ?></span>
 		<input type="text" id="lang-<?php echo esc_attr( $code ); ?>" name="post_name_weglot[<?php echo esc_attr( $code ); ?>]" value="<?php echo esc_attr( $post_name_weglot ); ?>" style="display:none;"/>
 
 		<button type="button" class="button button-small button-weglot-lang" data-lang="<?php echo esc_attr( $code ); ?>" aria-label="Edit permalink weglot"><?php esc_html_e( 'Edit', 'weglot' ); ?></button>
