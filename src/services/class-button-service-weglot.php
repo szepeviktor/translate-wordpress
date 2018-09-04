@@ -115,11 +115,15 @@ class Button_Service_Weglot {
 				$index_entries            = count( $request_without_language );
 				$custom_urls              = $this->option_services->get_option( 'custom_urls' );
 
-				if ( isset( $request_without_language[ $index_entries ] ) && ! is_admin() && ! empty( $custom_urls ) && isset( $custom_urls[ $key_code ] ) ) {
+				if ( isset( $request_without_language[ $index_entries ] ) && ! is_admin() && ! empty( $custom_urls ) ) {
 					$slug_in_work             = $request_without_language[ $index_entries ];
 
 					// Search from original slug
-					$key_slug = array_search( $post->post_name, $custom_urls[ $key_code ] );
+					$key_slug = false;
+					if ( isset( $custom_urls[ $key_code ] ) ) {
+						$key_slug = array_search( $post->post_name, $custom_urls[ $key_code ] );
+					}
+
 					if ( false !== $key_slug ) {
 						$url_lang = str_replace( $slug_in_work, $key_slug, $url_lang );
 					} else {
