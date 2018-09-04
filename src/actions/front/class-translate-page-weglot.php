@@ -210,6 +210,15 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		}
 	}
 
+	protected function request_uri_defaul() {
+		$_SERVER['REQUEST_URI'] = str_replace(
+			'/' . $this->request_url_services->get_current_language( false ) . '/',
+			'/',
+			$_SERVER['REQUEST_URI'] //phpcs:ignore
+		);
+		return;
+	}
+
 	/**
 	 * @since 2.0
 	 * @version 2.1.0
@@ -230,61 +239,32 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		) ), 'strlen' );
 
 		$index_entries = count( $request_without_language ) - 1;
+		$slug_in_work  = $request_without_language[ $index_entries ];
 
-		if ( empty( $request_without_language ) || ! isset( $request_without_language[ $index_entries ] ) ) {
-			// Like is_home
-			$_SERVER['REQUEST_URI'] = str_replace(
-				'/' . $this->request_url_services->get_current_language( false ) . '/',
-				'/',
-				$_SERVER['REQUEST_URI'] //phpcs:ignore
-			);
+		// Like is_home
+		if ( empty( $request_without_language ) || ! isset( $slug_in_work ) ) {
+			$this->request_uri_defaul();
 			return;
 		}
 
-		$search_meta_key = sprintf( '%s_%s', Helper_Post_Meta_Weglot::POST_NAME_WEGLOT, $current_language );
+		$custom_urls = $this->option_services->get_option( 'custom_urls' );
 
-		$args            = [
-			'meta_key'       => $search_meta_key,
-			'meta_value'     => $request_without_language[ $index_entries ],
-			'meta_compare'   => '=',
-			'post_type'      => get_post_types( apply_filters( 'weglot_request_post_type_for_uri', [
-				'public' => true,
-			] ) ),
-		];
-
-		$query = new \WP_Query( $args );
-
-		if ( 1 !== $query->post_count ) {
-			if ( ! function_exists( 'wp_rewrite_rules' ) ) {
-				include_once ABSPATH . WPINC . '/class-wp-rewrite.php';
-				$GLOBALS['wp_rewrite'] = new \WP_Rewrite();
-				$GLOBALS['wp']         = new \WP();
-			}
-
-			$post = get_post( weglot_get_postid_from_url() );
-		} else {
-			$post = $query->post;
-		}
-
-		$post_name_weglot = get_post_meta( $post->ID, $search_meta_key, true );
-
-		if ( ! empty( $post_name_weglot ) && $post_name_weglot === $request_without_language[ $index_entries ] ) { // Match request with custom post name
-			$_SERVER['REQUEST_URI'] = str_replace(
-				'/' . $this->request_url_services->get_current_language( false ) . '/',
-				'/',
-				str_replace( $post_name_weglot, $post->post_name, $_SERVER['REQUEST_URI'] ) //phpcs:ignore
-			);
+		// No language configured
+		if ( ! isset( $custom_urls[ $current_language ] ) ) {
+			$this->request_uri_defaul();
 			return;
-		} else {
-			if ( empty( $post_name_weglot ) ) {
-				// Math request no custom post name
-				$_SERVER['REQUEST_URI'] = str_replace(
-					'/' . $this->request_url_services->get_current_language( false ) . '/',
-					'/',
-					$_SERVER['REQUEST_URI'] //phpcs:ignore
-				);
-			}
 		}
+
+		// No custom URL for this language with this slug
+		if ( ! isset( $custom_urls[ $current_language ][ $slug_in_work ] ) ) {
+			return;
+		}
+
+		$_SERVER['REQUEST_URI'] = str_replace(
+			'/' . $current_language . '/',
+			'/',
+			str_replace( $slug_in_work, $custom_urls[ $current_language ][ $slug_in_work ], $_SERVER['REQUEST_URI'] ) //phpcs:ignore
+		);
 	}
 
 	/**
