@@ -50,17 +50,14 @@ class Replace_Link_Service_Weglot {
 
 			if ( isset( $request_without_language[ $index_entries ] ) && ! is_admin() && ! empty( $custom_urls ) && isset( $custom_urls[ $current_language ] ) ) {
 				$slug_in_work             = $request_without_language[ $index_entries ];
-				$key_slug                 = array_search( $slug_in_work, $custom_urls[ $current_language ] );
+				$key_slug                 = array_search( $slug_in_work, $custom_urls[ $current_language ] ); //phpcs:ignore
 				if ( false !== $key_slug && ! empty( $key_slug ) ) {
-					error_log( 'SLUG in work : ' . $slug_in_work);
-					error_log( 'Key slug : ' . $key_slug);
 					$path = str_replace( $slug_in_work, $key_slug, $path );
 				}
 			}
 
 			$url_translated = ( strlen( $path ) > 2 && substr( $path, 0, 4 ) === "/$current_language/" ) ?
 				"$scheme$user$pass$host$port$path$query$fragment" : "$scheme$user$pass$host$port/$current_language$path$query$fragment";
-
 
 			foreach ( array_reverse( $this->multisite_service->get_list_of_network_path() ) as $np ) {
 				if ( strlen( $np ) > 2 && strpos( $url_translated, $np ) !== false ) {
