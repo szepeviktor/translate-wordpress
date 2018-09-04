@@ -14,7 +14,8 @@ use WeglotWP\Helpers\Helper_Post_Meta_Weglot;
  * @since 2.1.0
  */
 class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
-
+	protected $old_post_name = null;
+	protected $new_post_name = null;
 
 	/**
 	 * @since 2.1.0
@@ -110,8 +111,8 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 				return;
 			}
 
-			if ( in_array( $post->post_name, $custom_urls[ $code_language ] ) ) {
-				$key_post_name = array_search( $post->post_name, $custom_urls[ $code_language ] );
+			if ( in_array( $post->post_name, $custom_urls[ $code_language ] ) ) { // phpcs:ignore
+				$key_post_name = array_search( $post->post_name, $custom_urls[ $code_language ] );// phpcs:ignore
 				unset( $custom_urls[ $code_language ][ $key_post_name ] );
 			}
 		}
@@ -156,8 +157,10 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 	 */
 	public function weglot_wp_insert_post_data( $data, $postarr ) {
 		$post                = get_post( $postarr['ID'] );
-		$this->old_post_name = $post->post_name;
-		$this->new_post_name = $data['post_name'];
+		if ( $post ) {
+			$this->old_post_name = $post->post_name;
+			$this->new_post_name = $data['post_name'];
+		}
 		return $data;
 	}
 
@@ -202,11 +205,10 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 			$custom_urls[ $key ][ $post_name ] = $post->post_name;
 		}
 
-
 		// Update new post_name
 		if ( $this->old_post_name !== $this->new_post_name ) {
 			foreach ( $custom_urls as $key_code => $urls ) {
-				$key_search = array_search( $this->old_post_name, $custom_urls );
+				$key_search = array_search( $this->old_post_name, $custom_urls ); // phpcs:ignore
 				if ( false === $key_search ) {
 					continue;
 				}
