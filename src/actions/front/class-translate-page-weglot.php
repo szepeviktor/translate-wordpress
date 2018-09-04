@@ -210,7 +210,11 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		}
 	}
 
-	protected function request_uri_defaul() {
+	/**
+	 * @since 2.1.0
+	 * @return void
+	 */
+	protected function request_uri_default() {
 		$_SERVER['REQUEST_URI'] = str_replace(
 			'/' . $this->request_url_services->get_current_language( false ) . '/',
 			'/',
@@ -245,7 +249,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 
 		// Like is_home
 		if ( empty( $request_without_language ) || ! isset( $slug_in_work ) ) {
-			$this->request_uri_defaul();
+			$this->request_uri_default();
 			return;
 		}
 
@@ -253,11 +257,19 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 
 		// No language configured
 		if ( ! isset( $custom_urls[ $current_language ] ) ) {
-			$this->request_uri_defaul();
+			$this->request_uri_default();
 			return;
 		}
 
+		$key_slug = array_search( $slug_in_work, $custom_urls[ $current_language ] );
+
 		// No custom URL for this language with this slug
+		if ( ! isset( $custom_urls[ $current_language ][ $slug_in_work ] ) && false === $key_slug ) {
+			$this->request_uri_default();
+			return;
+		}
+
+		// Custom URL exist but not good slug
 		if ( ! isset( $custom_urls[ $current_language ][ $slug_in_work ] ) ) {
 			return;
 		}
