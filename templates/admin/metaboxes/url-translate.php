@@ -11,7 +11,7 @@ $original_language       = weglot_get_original_language();
 list( $permalink )       = get_sample_permalink( $post->ID );
 $display_link            = str_replace( array( '%pagename%', '%postname%', home_url() ), '', $permalink );
 $display_link            = implode( '/', array_filter( explode( '/', $display_link ), 'strlen' ) );
-
+var_dump($this->custom_urls);
 ?>
 <input type="hidden" id="weglot_post_id" data-id="<?php echo esc_attr( $post->ID ); ?>" />
 <?php
@@ -22,8 +22,11 @@ foreach ( $languages_available as $language ) {
 	}
 
 	$post_name_weglot = $post->post_name;
-	if ( isset( $this->custom_urls[$code] ) ) {
-		$post_name_weglot = array_search( $post_name_weglot, $this->custom_urls[$code] );
+	if ( isset( $this->custom_urls[ $code ] ) ) {
+		$post_name_weglot = array_search( $post_name_weglot, $this->custom_urls[ $code ] );
+		if ( false === $post_name_weglot ) {
+			$post_name_weglot = $post->post_name;
+		}
 	} ?>
 	<label for="lang-<?php echo esc_attr( $code ); ?>">
 		<strong><?php echo esc_attr( $language->getLocalName() ); ?></strong>

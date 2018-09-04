@@ -35,9 +35,18 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 		add_action( 'save_post', [ $this, 'save_post_meta_boxes_url_translate' ] );
 		add_action( 'wp_ajax_weglot_post_name', [ $this, 'weglot_post_name' ] );
 
+		add_filter( 'wp_insert_post_data', [ $this, 'weglot_wp_insert_post_data' ], 10, 2 );
 		add_filter( 'wp_unique_post_slug', [ $this, 'weglot_wp_unique_post_slug' ] );
 	}
 
+	/**
+	 * Improve wp_unique_post_slug with custom URLs weglot
+	 * @since 2.1.0
+	 * @param string $slug
+	 * @param array $custom_urls
+	 * @param integer $suffix
+	 * @return string
+	 */
 	protected function search_unique_key_post_name( $slug, $custom_urls, $suffix = 2 ) {
 		foreach ( $custom_urls as $key_code => $urls ) {
 			$key_post_name = array_key_exists( $slug, $urls );
@@ -50,17 +59,6 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 		return $slug;
 	}
 
-	protected function get_unique_key( $slug, $custom_urls, $code, $suffix = 2 ) {
-		foreach ( $custom_urls as $key_code => $urls ) {
-			$key_post_name = array_key_exists( $slug, $urls );
-			if ( false !== $key_post_name ) {
-				$alt_post_name      = _truncate_post_slug( $slug, 200 - ( strlen( $suffix ) + 1 ) ) . "-$suffix";
-				return $this->search_unique_key_post_name( $alt_post_name, $custom_urls, ++$suffix );
-			}
-		}
-
-		return $slug;
-	}
 
 	/**
 	 * Filters the unique post slug.
@@ -118,9 +116,7 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 			}
 		}
 
-		// remove_filter( 'wp_unique_post_slug', [ $this, 'weglot_wp_unique_post_slug' ] );
 		$weglot_unique_slug = wp_unique_post_slug( $weglot_post_name, $post->ID, $post->post_status, $post->post_type, $post->post_parent );
-		// add_filter( 'wp_unique_post_slug', [ $this, 'weglot_wp_unique_post_slug' ] );
 
 		$custom_urls[ $code_language ] [ $weglot_unique_slug ] = $post->post_name;
 		$this->option_services->set_option_by_key( 'custom_urls', $custom_urls );
@@ -128,7 +124,7 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 		wp_send_json_success( [
 			'success' => true,
 			'result'  => [
-				'slug' => $weglot_post_name,
+				'slug' => $weglot_unique_slug,
 			],
 		] );
 	}
@@ -152,12 +148,27 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 	}
 
 	/**
+	 * Prevent change post_name
+	 * @since 2.1.0
+	 * @param array $data
+	 * @param array $postarr
+	 * @return array
+	 */
+	public function weglot_wp_insert_post_data( $data, $postarr ) {
+		$post                = get_post( $postarr['ID'] );
+		$this->old_post_name = $post->post_name;
+		$this->new_post_name = $data['post_name'];
+		return $data;
+	}
+
+	/**
 	 * @since 2.1.0
 	 *
 	 * @param mixed $post_id
 	 * @return void
 	 */
 	public function save_post_meta_boxes_url_translate( $post_id ) {
+
 		// Add nonce for security and authentication.
 		$post_name_weglot   = isset( $_POST[ Helper_Post_Meta_Weglot::POST_NAME_WEGLOT ] ) ? $_POST[ Helper_Post_Meta_Weglot::POST_NAME_WEGLOT ] : []; //phpcs:ignore
 
@@ -180,14 +191,28 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 			return;
 		}
 
-		$post        = get_post( $post_id );
-		$custom_urls = $this->option_services->get_option( 'custom_urls' );
+		$post          = get_post( $post_id );
+		$custom_urls   = $this->option_services->get_option( 'custom_urls' );
+		// Update custom urls
 		foreach ( $post_name_weglot as $key => $post_name ) {
 			if ( $post_name === $post->post_name ) {
 				continue;
 			}
 
 			$custom_urls[ $key ][ $post_name ] = $post->post_name;
+		}
+
+
+		// Update new post_name
+		if ( $this->old_post_name !== $this->new_post_name ) {
+			foreach ( $custom_urls as $key_code => $urls ) {
+				$key_search = array_search( $this->old_post_name, $custom_urls );
+				if ( false === $key_search ) {
+					continue;
+				}
+
+				$custom_urls[ $key_code ][ $key_search ] = $this->new_post_name;
+			}
 		}
 
 		$this->option_services->set_option_by_key( 'custom_urls', $custom_urls );
