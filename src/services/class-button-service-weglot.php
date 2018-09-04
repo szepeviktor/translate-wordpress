@@ -115,20 +115,22 @@ class Button_Service_Weglot {
 				$index_entries            = count( $request_without_language );
 				$custom_urls              = $this->option_services->get_option( 'custom_urls' );
 
-				if ( isset( $request_without_language[ $index_entries ] ) ) {
+				if ( isset( $request_without_language[ $index_entries ] ) && ! is_admin() && ! empty( $custom_urls ) && isset( $custom_urls[ $key_code ] ) ) {
 					$slug_in_work             = $request_without_language[ $index_entries ];
-					if ( ! is_admin() && ! empty( $custom_urls ) && isset( $custom_urls[ $key_code ] ) ) {
-						$key_slug = array_search( $slug_in_work, $custom_urls[ $key_code ] );
-						if ( false !== $key_code ) {
-							$url_lang = str_replace( $slug_in_work, $key_slug, $url_lang );
-						}
+
+					// Search from original slug
+					$key_slug = array_search( $post->post_name, $custom_urls[ $key_code ] );
+					if ( false !== $key_slug ) {
+						$url_lang = str_replace( $slug_in_work, $key_slug, $url_lang );
+					} else {
+						$url_lang = str_replace( $slug_in_work, $post->post_name, $url_lang );
 					}
 				}
 
 				$link_button = apply_filters( 'weglot_link_language', $url_lang, $key_code );
 
 				$link_button = preg_replace( '#\?no_lredirect=true$#', '', $link_button ); // Remove ending "?no_lredirect=true"
-				if ( weglot_has_auto_redirect() && strpos( $link_button, 'no_lredirect' ) === false && ( is_home() || is_front_page() ) && $key_code === $original_language) {
+				if ( weglot_has_auto_redirect() && strpos( $link_button, 'no_lredirect' ) === false && ( is_home() || is_front_page() ) && $key_code === $original_language ) {
 					$link_button .= '?no_lredirect=true';
 				}
 
