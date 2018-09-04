@@ -238,8 +238,11 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			$_SERVER['REQUEST_URI'] //phpcs:ignore
 		) ), 'strlen' );
 
+
 		$index_entries = count( $request_without_language ) - 1;
-		$slug_in_work  = $request_without_language[ $index_entries ];
+		if ( isset( $request_without_language[ $index_entries ] ) ) {
+			$slug_in_work  = $request_without_language[ $index_entries ];
+		}
 
 		// Like is_home
 		if ( empty( $request_without_language ) || ! isset( $slug_in_work ) ) {

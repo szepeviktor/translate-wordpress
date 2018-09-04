@@ -24,7 +24,7 @@ foreach ( $languages_available as $language ) {
 	$post_name_weglot = $post->post_name;
 	if ( isset( $this->custom_urls[ $code ] ) ) {
 		$post_name_weglot = array_search( $post_name_weglot, $this->custom_urls[ $code ] );
-		if ( false === $post_name_weglot ) {
+		if ( false === $post_name_weglot || empty( $post_name_weglot ) ) {
 			$post_name_weglot = $post->post_name;
 		}
 	} ?>
@@ -32,7 +32,7 @@ foreach ( $languages_available as $language ) {
 		<strong><?php echo esc_attr( $language->getLocalName() ); ?></strong>
 	</label>
 	<p>
-		<?php echo esc_url( home_url() ); ?>/<?php echo esc_attr( $code ); ?>/<span id="text-edit-<?php echo esc_attr( $code ); ?>"><?php echo esc_attr( $post_name_weglot ); ?></span>
+		<?php echo esc_url( home_url() ); ?>/<?php echo esc_attr( $code ); ?>/<?php echo esc_attr( $display_link ); ?>/<span id="text-edit-<?php echo esc_attr( $code ); ?>"><?php echo esc_attr( $post_name_weglot ); ?></span>
 		<input type="text" id="lang-<?php echo esc_attr( $code ); ?>" name="post_name_weglot[<?php echo esc_attr( $code ); ?>]" value="<?php echo esc_attr( $post_name_weglot ); ?>" style="display:none;"/>
 
 		<button type="button" class="button button-small button-weglot-lang" data-lang="<?php echo esc_attr( $code ); ?>" aria-label="Edit permalink weglot"><?php esc_html_e( 'Edit', 'weglot' ); ?></button>
