@@ -30,10 +30,12 @@ const init_url_translate = () => {
 				success: function(res) {
 					if(res.data && res.data.code && res.data.code === 'same_post_name'){
 						$(`#text-edit-${code}`).text(old_text[code]);
+						$(`#lang-${code}`).val('');
 						return
 					}
 					else if (res.data && res.data.code && res.data.code ==='not_available'){
 						$(`#weglot_permalink_not_available_${code}`).show();
+						$(`#lang-${code}`).val("");
 						setTimeout(() => {
 							$(`#weglot_permalink_not_available_${code}`).hide();
 						}, 5000);
