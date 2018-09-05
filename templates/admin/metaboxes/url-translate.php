@@ -15,7 +15,7 @@ $display_link            = implode( '/', array_filter( explode( '/', $display_li
 if ( ! empty( $display_link ) && '/' !== $display_link[ strlen( $display_link ) - 1 ] ) {
 	$display_link .= '/';
 }
-
+var_dump($this->custom_urls);
 ?>
 <input type="hidden" id="weglot_post_id" data-id="<?php echo esc_attr( $post->ID ); ?>" />
 <?php
@@ -26,10 +26,13 @@ foreach ( $languages_available as $language ) {
 	}
 
 	$post_name_weglot = $post->post_name;
+	$post_name_input  = '';
 	if ( isset( $this->custom_urls[ $code ] ) ) {
 		$post_name_weglot = array_search( $post_name_weglot, $this->custom_urls[ $code ] );
 		if ( false === $post_name_weglot || empty( $post_name_weglot ) ) {
 			$post_name_weglot = $post->post_name;
+		} else {
+			$post_name_input = $post_name_weglot;
 		}
 	} ?>
 	<label for="lang-<?php echo esc_attr( $code ); ?>">
@@ -37,7 +40,7 @@ foreach ( $languages_available as $language ) {
 	</label>
 	<p>
 		<?php echo esc_url( home_url() ); ?>/<?php echo esc_attr( $code ); ?>/<?php echo esc_attr( $display_link ); ?><span id="text-edit-<?php echo esc_attr( $code ); ?>"><?php echo esc_attr( $post_name_weglot ); ?></span>
-		<input type="text" id="lang-<?php echo esc_attr( $code ); ?>" name="post_name_weglot[<?php echo esc_attr( $code ); ?>]" value="<?php echo esc_attr( $post_name_weglot ); ?>" style="display:none;"/>
+		<input type="text" id="lang-<?php echo esc_attr( $code ); ?>" name="post_name_weglot[<?php echo esc_attr( $code ); ?>]" value="<?php echo esc_attr( $post_name_input ); ?>" style="display:none;"/>
 
 		<button type="button" class="button button-small button-weglot-lang" data-lang="<?php echo esc_attr( $code ); ?>" aria-label="Edit permalink weglot"><?php esc_html_e( 'Edit', 'weglot' ); ?></button>
 
