@@ -38,16 +38,20 @@ foreach ( $languages_available as $language ) {
 	<label for="lang-<?php echo esc_attr( $code ); ?>">
 		<strong><?php echo esc_attr( $language->getLocalName() ); ?></strong>
 	</label>
-	<p>
-		<?php echo esc_url( home_url() ); ?>/<?php echo esc_attr( $code ); ?>/<?php echo esc_attr( $display_link ); ?><span id="text-edit-<?php echo esc_attr( $code ); ?>"><?php echo esc_attr( $post_name_weglot ); ?></span>
-		<input type="text" id="lang-<?php echo esc_attr( $code ); ?>" name="post_name_weglot[<?php echo esc_attr( $code ); ?>]" value="<?php echo esc_attr( $post_name_input ); ?>" style="display:none;"/>
+	<div class="weglot_custom_url">
+		<p class="weglot_custom_url--text_link">
+			<?php echo esc_url( home_url() ); ?>/<?php echo esc_attr( $code ); ?>/<?php echo esc_attr( $display_link ); ?><span id="text-edit-<?php echo esc_attr( $code ); ?>"><?php echo esc_attr( $post_name_weglot ); ?></span>
+			<input type="text" id="lang-<?php echo esc_attr( $code ); ?>" name="post_name_weglot[<?php echo esc_attr( $code ); ?>]" value="<?php echo esc_attr( $post_name_input ); ?>" style="display:none;"/>
 
-		<button type="button" class="button button-small button-weglot-lang" data-lang="<?php echo esc_attr( $code ); ?>" aria-label="Edit permalink weglot"><?php esc_html_e( 'Edit', 'weglot' ); ?></button>
+			<button type="button" class="button button-small button-weglot-lang" data-lang="<?php echo esc_attr( $code ); ?>" aria-label="Edit permalink weglot"><?php esc_html_e( 'Edit', 'weglot' ); ?></button>
 
-		<button type="button" class="button button-small button-weglot-lang-submit" data-lang="<?php echo esc_attr( $code ); ?>" style="display:none;"><?php esc_html_e( 'Ok', 'weglot' ); ?></button>
-
+			<button type="button" class="button button-small button-weglot-lang-submit" data-lang="<?php echo esc_attr( $code ); ?>" style="display:none;"><?php esc_html_e( 'Ok', 'weglot' ); ?></button>
+		</p>
 		<p id="weglot_permalink_not_available_<?php echo esc_attr( $code ); ?>" class="weglot_text_error" style="display:none;"><?php esc_html_e( 'The permalink is not available.', 'weglot' ); ?></p>
-	</p>
+		<a id="weglot_reset_custom_<?php echo esc_attr( $code ); ?>" data-lang="<?php echo esc_attr( $code ); ?>" data-id="<?php echo esc_attr( $post->ID ); ?>" href="<?php echo $post_name_weglot ; ?>" class="weglot_reset">
+			<?php esc_html_e( 'Reset custom url', 'weglot' ); ?>
+		</a>
+	</div>
 
 	<?php
 }

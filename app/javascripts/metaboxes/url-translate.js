@@ -65,6 +65,37 @@ const init_url_translate = () => {
 			$(`.button-weglot-lang-submit[data-lang=${code}]`)
 				.on("click", edit_weglot_post_name);
 		})
+
+		$(".weglot_reset").each((key, itm) => {
+			$(itm).on("click", function(e) {
+				e.preventDefault();
+
+				const code = $(this).data("lang");
+				const custom_url = $(this).attr('href')
+				const id = $(this).data('id')
+
+				$.ajax({
+					url: ajaxurl,
+					method: "POST",
+					data: {
+						action: "weglot_reset_custom_url",
+						code_lang: code,
+						id: id,
+						custom_url: custom_url
+					},
+					success: function(res) {
+						$(`#text-edit-${code}`).text(
+							res.data.result.slug
+						);
+					}
+				});
+
+			});
+
+			const code = $(itm).data("lang");
+
+			$(`.button-weglot-lang-submit[data-lang=${code}]`).on("click", edit_weglot_post_name);
+		});
 	};
 
 	document.addEventListener("DOMContentLoaded", () => {
