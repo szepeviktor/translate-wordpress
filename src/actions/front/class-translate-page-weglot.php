@@ -240,7 +240,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 
 		if ( ! $allowed ) {
 			$content = $this->weglot_render_dom( $content );
-			if ( 'json' === $type ) {
+			if ( 'json' === $type || wp_doing_ajax() ) {
 				return $content;
 			}
 
