@@ -237,6 +237,14 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 				continue;
 			}
 
+			if ( in_array( $post->post_name, $custom_urls[ $key ] ) ) { // phpcs:ignore
+				$key_post_name = array_search( $post->post_name, $custom_urls[ $key ] );// phpcs:ignore
+				unset( $custom_urls[ $key ][ $key_post_name ] );
+			}
+
+			$post_name = sanitize_title( $post_name );
+			$post_name = wp_unique_post_slug( $post_name, $post->ID, $post->post_status, $post->post_type, $post->post_parent );
+
 			$custom_urls[ $key ][ $post_name ] = $post->post_name;
 		}
 
@@ -248,7 +256,7 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 					continue;
 				}
 
-				$custom_urls[ $key_code ][ $key_search ] = $this->new_post_name;
+				$custom_urls[ $key_code ][ sanitize_title( $key_search ) ] = $this->new_post_name;
 			}
 		}
 
