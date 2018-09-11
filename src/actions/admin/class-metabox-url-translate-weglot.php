@@ -229,7 +229,7 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 			return;
 		}
 
-		$post          = get_post( $post_id );
+		// $post          = get_post( $post_id );
 		$custom_urls   = $this->option_services->get_option( 'custom_urls' );
 		// var_dump($post_name_weglot);
 		// Update custom urls
@@ -259,18 +259,15 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 		if ( $this->old_post_name !== $this->new_post_name ) {
 			foreach ( $custom_urls as $key_code => $urls ) {
 				$key_search = array_search( $this->old_post_name, $urls ); // phpcs:ignore
-				// var_dump($key_search);
 				if ( false === $key_search ) {
 					continue;
 				}
 
 				$custom_urls[ $key_code ][ $key_search ] = $this->new_post_name;
 			}
-			// var_dump($custom_urls);
 			$this->option_services->set_option_by_key( 'custom_urls', $custom_urls );
 		}
 
-		// die;
 
 
 	}
