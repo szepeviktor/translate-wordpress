@@ -120,7 +120,7 @@ class Button_Service_Weglot {
 
 					// Search from original slug
 					$key_slug = false;
-					if ( isset( $custom_urls[ $key_code ] ) ) {
+					if ( isset( $custom_urls[ $key_code ] ) && $post ) {
 						$key_slug = array_search( $post->post_name, $custom_urls[ $key_code ] );
 					}
 
