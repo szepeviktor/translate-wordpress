@@ -93,9 +93,6 @@ const init_url_translate = () => {
 
 			});
 
-			const code = $(itm).data("lang");
-
-			$(`.button-weglot-lang-submit[data-lang=${code}]`).on("click", edit_weglot_post_name);
 		});
 	};
 

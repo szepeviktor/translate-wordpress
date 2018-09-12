@@ -131,9 +131,25 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 
 		$post             = get_post( $post_id );
 		if ( $post->post_name === $weglot_post_name ) {
+			if ( in_array( $post->post_name, $custom_urls[ $code_language ] ) ) { // phpcs:ignore
+				$key_post_name = array_search( $post->post_name, $custom_urls[ $code_language ] );// phpcs:ignore
+				unset( $custom_urls[ $code_language ][ $key_post_name ] );
+
+				$this->option_services->set_option_by_key( 'custom_urls', $custom_urls );
+
+				wp_send_json_success( [
+					'success' => true,
+					'result'  => [
+						'slug' => $weglot_post_name,
+					],
+				] );
+				return;
+			}
+
 			wp_send_json_success( [
 				'code'     => 'same_post_name',
 			] );
+
 			return;
 		}
 
