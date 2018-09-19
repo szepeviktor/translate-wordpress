@@ -128,7 +128,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	 * @version 2.0.4
 	 *
 	 * @param array $array
-	 * @return void
+	 * @return array
 	 */
 	public function translate_array( $array ) {
 		$array_not_ajax_html = apply_filters( 'weglot_array_not_ajax_html', [ 'redirecturl', 'url' ] );
@@ -142,6 +142,30 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 					$array[$key]              = $parser->translate( $val, $this->original_language, $this->current_language ); //phpcs:ignore
 				} elseif ( in_array( $key,  $array_not_ajax_html ) ) { //phpcs:ignore
 					$array[$key] = $this->replace_link_services->replace_url( $val ); //phpcs:ignore
+				}
+			}
+		}
+
+		return $array;
+	}
+
+	/**
+	 * Replace links for JSON translate
+	 *
+	 * @since 2.1.0
+	 *
+	 * @param array $array
+	 * @return array
+	 */
+	public function replace_link_array( $array ){
+		$array_not_ajax_html = apply_filters( 'weglot_array_not_ajax_html', [ 'redirecturl', 'url' ] );
+
+		foreach ( $array as $key => $val ) {
+			if ( is_array( $val ) ) {
+				$array[ $key ] = $this->replace_link_array( $val );
+			} else {
+				if ( $this->is_ajax_html( $val ) ) {
+					$array[$key]              = $this->weglot_replace_link($val);
 				}
 			}
 		}
@@ -261,6 +285,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 				case 'json':
 					$json       = json_decode( $content, true );
 					$content    = $this->translate_array( $json );
+					$content    = $this->replace_link_array( $content );
 					$content    = apply_filters( 'weglot_json_treat_page', $content );
 
 					return wp_json_encode( $content );
