@@ -35,6 +35,8 @@ class Option_Service_Weglot {
 		'show_box_first_settings'    => false,
 		'rtl_ltr_style'              => '',
 		'allowed'                    => true,
+		'custom_urls'                => [],
+		'flag_css' =>  ''
 	];
 
 	/**

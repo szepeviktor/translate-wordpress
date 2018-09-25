@@ -47,7 +47,7 @@ class Replace_Url_Service_Weglot {
 				continue;
 			}
 
-			if ( self::check_link( $current_url, $sometags, $sometags2 ) ) {
+			if ( $this->check_link( $current_url, $sometags, $sometags2 ) ) {
 				$function_name = 'replace_' . $type;
 
 				$translated_page = $this->replace_link_service->$function_name(
