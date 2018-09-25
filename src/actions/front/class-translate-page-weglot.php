@@ -237,11 +237,11 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			return;
 		}
 
-		$request_without_language = array_values(array_filter( explode( '/', str_replace(
-			'/' . $current_language . '/',
-			'/',
-			$_SERVER['REQUEST_URI'] //phpcs:ignore
-		) ), 'strlen' ));
+        $request_without_language = array_values(array_filter( explode( '/', str_replace(
+            '/' . $current_language . '/',
+            '/',
+            $_SERVER['REQUEST_URI'] //phpcs:ignore
+        ) ), 'strlen' ));
 
 		$index_entries = count( $request_without_language ) - 1;
 		if ( isset( $request_without_language[ $index_entries ] ) ) {
