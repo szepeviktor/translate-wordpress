@@ -15,7 +15,7 @@ $display_link            = implode( '/', array_filter( explode( '/', $display_li
 if ( ! empty( $display_link ) && '/' !== $display_link[ strlen( $display_link ) - 1 ] ) {
 	$display_link .= '/';
 }
-var_dump($this->custom_urls);
+
 ?>
 <input type="hidden" id="weglot_post_id" data-id="<?php echo esc_attr( $post->ID ); ?>" />
 <?php
