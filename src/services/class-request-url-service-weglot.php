@@ -218,7 +218,7 @@ class Request_Url_Service_Weglot {
 		$current_language = $this->get_current_language();
 
 		$url_path_custom = null;
-		if( ! empty( $custom_urls ) && isset( $custom_urls[ $current_language ] ) && isset( $custom_urls[ $current_language ][ $path_without_language[$index_entries] ] ) ){
+		if( ! empty( $custom_urls ) && isset( $custom_urls[ $current_language ] ) && isset( $path_without_language[$index_entries] ) && isset( $custom_urls[ $current_language ][ $path_without_language[$index_entries] ] ) ){
 			$url_path_custom = '/' . $custom_urls[ $current_language ][ $path_without_language[$index_entries] ] . '/';
 		}
 

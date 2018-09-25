@@ -129,6 +129,23 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 			return;
 		}
 
+		// Check if not an autosave.
+		if ( wp_is_post_autosave( $post_id ) ) {
+			wp_send_json_error( [
+				'success' => false,
+			] );
+			return;
+		}
+
+		// Check if not a revision.
+		if ( wp_is_post_revision( $post_id ) ) {
+			wp_send_json_error( [
+				'success' => false,
+			] );
+			return;
+		}
+
+
 		$post             = get_post( $post_id );
 		if ( $post->post_name === $weglot_post_name ) {
 			if ( in_array( $post->post_name, $custom_urls[ $code_language ] ) ) { // phpcs:ignore
