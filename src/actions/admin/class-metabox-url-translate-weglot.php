@@ -247,30 +247,7 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 
 		// $post          = get_post( $post_id );
 		$custom_urls   = $this->option_services->get_option( 'custom_urls' );
-		// var_dump($post_name_weglot);
-		// Update custom urls
-		// foreach ( $post_name_weglot as $key => $post_name ) {
-		// 	if ( $post_name === $post->post_name || empty( $post_name ) ) {
-		// 		continue;
-		// 	}
 
-		// 	// var_dump( $post->post_name);
-		// 	// var_dump($this->old_post_name);
-		// 	// var_dump(in_array( $this->old_post_name, $custom_urls[ $key ] ));
-		// 	// if ( in_array( $this->old_post_name, $custom_urls[ $key ] ) ) { // phpcs:ignore
-		// 	// 	$key_post_name = array_search( $post->post_name, $custom_urls[ $key ] );// phpcs:ignore
-		// 	// 	unset( $custom_urls[ $key ][ $key_post_name ] );
-		// 	// }
-
-		// 	$post_name = sanitize_title( $post_name );
-		// 	$post_name = wp_unique_post_slug( $post_name, $post->ID, $post->post_status, $post->post_type, $post->post_parent );
-
-		// 	$custom_urls[ $key ][ $post_name ] = $post->post_name;
-		// }
-
-		// var_dump($custom_urls);
-		// var_dump($this->old_post_name);
-		// var_dump($this->new_post_name);
 		// Update new post_name
 		if ( $this->old_post_name !== $this->new_post_name ) {
 			foreach ( $custom_urls as $key_code => $urls ) {
