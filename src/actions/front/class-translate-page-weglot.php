@@ -344,7 +344,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	 * @return boolean
 	 */
 	public function is_json( $string ) {
-		return is_string( $string ) && is_array( json_decode( $string, true ) ) && ( JSON_ERROR_NONE === json_last_error() ) ? true : false;
+		return is_string( $string ) && is_array( \json_decode( $string, true ) ) && ( JSON_ERROR_NONE === \json_last_error() ) ? true : false;
 	}
 
 	/**
