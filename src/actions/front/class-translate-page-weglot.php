@@ -74,7 +74,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		$this->prepare_request_uri();
 		$this->prepare_rtl_language();
 
-		add_action( 'init', [ $this, 'weglot_init' ], 999 );
+		add_action( 'init', [ $this, 'weglot_init' ], 11 );
 		add_action( 'wp_head', [ $this, 'weglot_href_lang' ] );
 	}
 
