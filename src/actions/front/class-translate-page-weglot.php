@@ -427,6 +427,13 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			$is_fullname  = $options['is_fullname'];
 			$with_name    = $options['with_name'];
 
+			$url                  = $this->request_url_services->get_weglot_url();
+			// Custom URLS
+			$request_without_language = array_filter( explode( '/', $url->getPath() ), 'strlen' );
+			$index_entries            = count( $request_without_language );
+			$custom_urls              = $this->option_services->get_option( 'custom_urls' );
+			global $post;
+
 			foreach ( $languages_configured as $language ) {
 				$shortcode_title                        = sprintf( '\[weglot_menu_title-%s\]', $language->getIso639() );
 				$shortcode_title_without_bracket        = sprintf( 'weglot_menu_title-%s', $language->getIso639() );
@@ -436,7 +443,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 				$shortcode_url_html                     = str_replace( '\[', '%5B', $shortcode_url );
 				$shortcode_url_html                     = str_replace( '\]', '%5D', $shortcode_url_html );
 
-				$url                  = $this->request_url_services->get_weglot_url();
+
 
 				$name = '';
 				if ( $with_name ) {
@@ -452,6 +459,23 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 					$link_menu .= '?no_lredirect=true';
 				}
 
+				if ( isset( $request_without_language[ $index_entries ] ) && ! is_admin() && ! empty( $custom_urls ) ) {
+					$slug_in_work  = $request_without_language[ $index_entries ];
+					$key_code 	   = $language->getIso639();
+
+					// Search from original slug
+					$key_slug = false;
+					if ( isset( $custom_urls[ $key_code ] ) && $post ) {
+						$key_slug = array_search( $post->post_name, $custom_urls[ $key_code ] );
+					}
+
+					if ( false !== $key_slug ) {
+						$link_menu = str_replace( $slug_in_work, $key_slug, $link_menu );
+					} else {
+						$link_menu = str_replace( $slug_in_work, $post->post_name, $link_menu );
+					}
+				}
+
 				// Compatibility Menu HTTPS if not work. Since 2.0.6
 				if (
 					(
@@ -462,6 +486,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 				) {
 					$link_menu = str_replace( 'http', 'https', $link_menu );
 				}
+
 
 				$dom                  = preg_replace( '#' . $shortcode_url . '#i', $link_menu, $dom );
 				$dom                  = preg_replace( '#' . $shortcode_url_html . '#i', $link_menu, $dom );
