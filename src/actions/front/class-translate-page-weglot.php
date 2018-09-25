@@ -283,7 +283,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		try {
 			switch ( $type ) {
 				case 'json':
-					$json       = json_decode( $content, true );
+					$json       = \json_decode( $content, true );
 					$content    = $this->translate_array( $json );
 					$content    = $this->replace_link_array( $content );
 					$content    = apply_filters( 'weglot_json_treat_page', $content );
