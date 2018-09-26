@@ -49,6 +49,11 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			return;
 		}
 
+		$private_mode = $this->option_services->get_option( 'private_mode' );
+		if ( $private_mode && ! current_user_can( 'administrator' ) ) {
+			return;
+		}
+
 		$this->api_key            = $this->option_services->get_option( 'api_key' );
 
 		if ( ! $this->api_key ) {
