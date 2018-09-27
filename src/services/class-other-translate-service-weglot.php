@@ -67,7 +67,7 @@ class Other_Translate_Service_Weglot {
 		foreach ( $object->getInputWords() as $key => $input_word ) {
 			$from_input = Helper_Json_Inline_Weglot::unformat_from_api( $input_word->getWord() );
 
-			$output_unformat_from_api = apply_filters( 'weglot_other_words_unformat_form_api', true );
+			$output_unformat_from_api = apply_filters( 'weglot_other_words_unformat_from_api', true );
 			$to_output  = $object->getOutputWords()[ $key ]->getWord();
 			if( $output_unformat_from_api ){
 				$to_output  = Helper_Json_Inline_Weglot::unformat_from_api( $object->getOutputWords()[ $key ]->getWord() );
