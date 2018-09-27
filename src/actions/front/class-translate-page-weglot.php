@@ -45,16 +45,17 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	 * @return void
 	 */
 	public function hooks() {
-		$no_translate             = false;
-		$action_ajax_no_translate = [ 'add-menu-item', 'query-attachments' ];
 
-		if ( 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['action'] ) && in_array( $_POST['action'], $action_ajax_no_translate ) ) { //phpcs:ignore
-			$no_translate = true;
-		}
+		$action_ajax_no_translate = [
+			'add-menu-item', // WP Core
+			'query-attachments', // WP Core
+			'avia_ajax_switch_menu_walker', // Enfold theme
+		];
 
-		if ( is_admin() && ( ! wp_doing_ajax() || $no_translate ) ) {
+		if ( is_admin() && ( ! wp_doing_ajax() || $this->no_translate_action_ajax( $action_ajax_no_translate ) ) ) {
 			return;
 		}
+
 
 		$this->api_key            = $this->option_services->get_option( 'api_key' );
 
@@ -79,6 +80,21 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	}
 
 	/**
+	 * @since 2.1.1
+	 *
+	 * @return boolean
+	 */
+	protected function no_translate_action_ajax( $action_ajax_no_translate = [] ){
+		$action_ajax_no_translate = apply_filters( 'weglot_ajax_no_translate', $action_ajax_no_translate );
+
+		if ( 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['action'] ) && in_array( $_POST['action'], $action_ajax_no_translate ) ) { //phpcs:ignore
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * @see init
 	 * @since 2.0
 	 * @version 2.0.4
@@ -86,6 +102,10 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	 */
 	public function weglot_init() {
 		do_action( 'weglot_init_start' );
+
+		if( $this->no_translate_action_ajax() ){
+			return;
+		}
 
 		$this->noredirect         = false;
 		$this->original_language  = $this->option_services->get_option( 'original_language' );
@@ -105,6 +125,8 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		if ( ! $active_translation ) {
 			return;
 		}
+
+
 
 		$this->redirect_services->verify_no_redirect();
 		$this->check_need_to_redirect();
