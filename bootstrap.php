@@ -53,6 +53,7 @@ abstract class Context_Weglot {
 			'\WeglotWP\Services\User_Api_Service_Weglot',
 			'\WeglotWP\Services\Other_Translate_Service_Weglot',
 			'\WeglotWP\Services\Dom_Checkers_Service_Weglot',
+			'\WeglotWP\Third\Give\Give_Active_Weglot',
 		];
 
 		self::$context->set_services( $services );
@@ -74,6 +75,8 @@ abstract class Context_Weglot {
 			'\WeglotWP\Third\Woocommerce\WC_Filter_Urls_Weglot',
 			'\WeglotWP\Third\Amp\Amp_Enqueue_Weglot',
 			'\WeglotWP\Actions\Admin\Metabox_Url_Translate_Weglot',
+			'\WeglotWP\Third\Give\Give_Redirect_Form_Weglot',
+			'\WeglotWP\Third\Give\Give_Translate_Weglot',
 		];
 
 		self::$context->set_actions( $actions );
