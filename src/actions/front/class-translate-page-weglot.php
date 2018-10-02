@@ -91,6 +91,10 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			return true;
 		}
 
+		if ( 'GET' === $_SERVER['REQUEST_METHOD'] && isset( $_GET['action'] ) && in_array( $_GET['action'], $action_ajax_no_translate ) ) { //phpcs:ignore
+			return true;
+		}
+
 		return false;
 	}
 
@@ -336,7 +340,6 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	 * @return string
 	 */
 	public function weglot_treat_page( $content ) {
-
 		$content = apply_filters( 'weglot_begin_treat_page_content', $content );
 
 		$this->current_language   = $this->request_url_services->get_current_language(); // Need to reset
@@ -376,7 +379,6 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 				case 'html':
 					$content            = $this->fix_menu_link( $content );
 					$translated_content = $parser->translate( $content, $this->original_language, $this->current_language ); // phpcs:ignore
-
 					if ( $this->wc_active_services->is_active() ) {
 						// @TODO : Improve this with multiple service
 						$translated_content = weglot_get_service( 'WC_Translate_Weglot' )->translate_words( $translated_content );

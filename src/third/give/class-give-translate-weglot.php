@@ -34,8 +34,14 @@ class Give_Translate_Weglot implements Hooks_Interface_Weglot {
 			return;
 		}
 
-		add_filter( 'weglot_begin_treat_page_content', [ $this, 'weglot_begin_treat_page_content' ] );
-		add_filter( 'weglot_render_dom', [ $this, 'weglot_render_dom' ] );
+		add_filter( 'weglot_ajax_no_translate', [ $this, 'weglot_ajax_no_translate_give' ] );
+		// add_filter( 'weglot_begin_treat_page_content', [ $this, 'weglot_begin_treat_page_content' ] );
+		// add_filter( 'weglot_render_dom', [ $this, 'weglot_render_dom' ] );
+	}
+
+	public function weglot_ajax_no_translate_give( $array ){
+		$array[] = 'get_receipt';
+		return $array;
 	}
 
 	/**
@@ -60,7 +66,7 @@ class Give_Translate_Weglot implements Hooks_Interface_Weglot {
 	 */
 	public function weglot_render_dom( $content ){
 		if ( isset($_GET['action']) && $_GET['action'] === 'get_receipt') {
-			return json_encode( $content );
+			return substr( substr( json_encode( $content ), 2 ), 0, -3 ) . '"';
 		}
 
 		return $content;
