@@ -126,8 +126,6 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			return;
 		}
 
-
-
 		$this->redirect_services->verify_no_redirect();
 		$this->check_need_to_redirect();
 
