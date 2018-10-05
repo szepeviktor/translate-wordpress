@@ -46,13 +46,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	 */
 	public function hooks() {
 
-		$action_ajax_no_translate = [
-			'add-menu-item', // WP Core
-			'query-attachments', // WP Core
-			'avia_ajax_switch_menu_walker', // Enfold theme
-		];
-
-		if ( is_admin() && ( ! wp_doing_ajax() || $this->no_translate_action_ajax( $action_ajax_no_translate ) ) ) {
+		if ( is_admin() && ( ! wp_doing_ajax() || $this->no_translate_action_ajax() ) ) {
 			return;
 		}
 
@@ -84,8 +78,13 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	 *
 	 * @return boolean
 	 */
-	protected function no_translate_action_ajax( $action_ajax_no_translate = [] ){
-		$action_ajax_no_translate = apply_filters( 'weglot_ajax_no_translate', $action_ajax_no_translate );
+	protected function no_translate_action_ajax(){
+		$action_ajax_no_translate = apply_filters( 'weglot_ajax_no_translate', [
+			'add-menu-item', // WP Core
+			'query-attachments', // WP Core
+			'avia_ajax_switch_menu_walker', // Enfold theme
+			'query-themes', // WP Core
+		] );
 
 		if ( 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['action'] ) && in_array( $_POST['action'], $action_ajax_no_translate ) ) { //phpcs:ignore
 			return true;

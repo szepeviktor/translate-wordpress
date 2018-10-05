@@ -152,6 +152,6 @@ class Button_Service_Weglot {
 
 		$button_html .= '</aside>';
 
-		return apply_filters( 'weglot_button_html', $button_html );
+		return apply_filters( 'weglot_button_html', $button_html, $add_class );
 	}
 }
