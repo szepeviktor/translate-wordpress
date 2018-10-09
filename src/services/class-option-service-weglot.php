@@ -36,7 +36,7 @@ class Option_Service_Weglot {
 		'rtl_ltr_style'              => '',
 		'allowed'                    => true,
 		'custom_urls'                => [],
-		'flag_css' =>  ''
+		'flag_css'                   => '',
 	];
 
 	/**

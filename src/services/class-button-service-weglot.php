@@ -126,8 +126,10 @@ class Button_Service_Weglot {
 
 					if ( false !== $key_slug ) {
 						$url_lang = str_replace( $slug_in_work, $key_slug, $url_lang );
-					} else if( $post ){
-						$url_lang = str_replace( $slug_in_work, $post->post_name, $url_lang );
+					} else {
+						if ( $post ) {
+							$url_lang = str_replace( $slug_in_work, $post->post_name, $url_lang );
+						}
 					}
 				}
 

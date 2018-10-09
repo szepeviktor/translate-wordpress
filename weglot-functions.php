@@ -200,7 +200,7 @@ function weglot_create_url_object( $url ) {
  * @return int
  */
 function weglot_get_postid_from_url() {
-	return url_to_postid( weglot_get_full_url_no_language() );
+	return url_to_postid( weglot_get_full_url_no_language() ); //phpcs:ignore
 }
 
 /**

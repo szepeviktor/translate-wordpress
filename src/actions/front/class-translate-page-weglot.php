@@ -45,11 +45,9 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	 * @return void
 	 */
 	public function hooks() {
-
 		if ( is_admin() && ( ! wp_doing_ajax() || $this->no_translate_action_ajax() ) ) {
 			return;
 		}
-
 
 		$this->api_key            = $this->option_services->get_option( 'api_key' );
 
@@ -78,7 +76,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	 *
 	 * @return boolean
 	 */
-	protected function no_translate_action_ajax(){
+	protected function no_translate_action_ajax() {
 		$action_ajax_no_translate = apply_filters( 'weglot_ajax_no_translate', [
 			'add-menu-item', // WP Core
 			'query-attachments', // WP Core
@@ -102,7 +100,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	public function weglot_init() {
 		do_action( 'weglot_init_start' );
 
-		if( $this->no_translate_action_ajax() ){
+		if ( $this->no_translate_action_ajax() ) {
 			return;
 		}
 
@@ -179,7 +177,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	 * @param array $array
 	 * @return array
 	 */
-	public function replace_link_array( $array ){
+	public function replace_link_array( $array ) {
 		$array_not_ajax_html = apply_filters( 'weglot_array_not_ajax_html', [ 'redirecturl', 'url' ] );
 
 		foreach ( $array as $key => $val ) {
@@ -187,7 +185,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 				$array[ $key ] = $this->replace_link_array( $val );
 			} else {
 				if ( $this->is_ajax_html( $val ) ) {
-					$array[$key]              = $this->weglot_replace_link($val);
+					$array[ $key ] = $this->weglot_replace_link( $val );
 				}
 			}
 		}
@@ -256,11 +254,11 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			return;
 		}
 
-        $request_without_language = array_values(array_filter( explode( '/', str_replace(
-            '/' . $current_language . '/',
-            '/',
-            $_SERVER['REQUEST_URI'] //phpcs:ignore
-        ) ), 'strlen' ));
+		$request_without_language = array_values(array_filter( explode( '/', str_replace(
+			'/' . $current_language . '/',
+			'/',
+			$_SERVER['REQUEST_URI'] //phpcs:ignore
+		) ), 'strlen' ));
 
 		$index_entries = count( $request_without_language ) - 1;
 		if ( isset( $request_without_language[ $index_entries ] ) ) {
@@ -391,7 +389,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 
 			}
 		} catch ( ApiError $e ) {
-			if( $type !== 'json'){
+			if ( 'json' !== $type ) {
 				$content .= '<!--Weglot error API : ' . $this->remove_comments( $e->getMessage() ) . '-->';
 			}
 			if ( strpos( $e->getMessage(), 'NMC' ) !== false ) {
@@ -399,7 +397,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			}
 			return $content;
 		} catch ( \Exception $e ) {
-			if ( $type !== 'json') {
+			if ( 'json' !== $type ) {
 				$content .= '<!--Weglot error : ' . $this->remove_comments( $e->getMessage() ) . '-->';
 			}
 			return $content;
@@ -462,8 +460,6 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 				$shortcode_url_html                     = str_replace( '\[', '%5B', $shortcode_url );
 				$shortcode_url_html                     = str_replace( '\]', '%5D', $shortcode_url_html );
 
-
-
 				$name = '';
 				if ( $with_name ) {
 					$name = ( $is_fullname ) ? $language->getLocalName() : strtoupper( $language->getIso639() );
@@ -480,7 +476,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 
 				if ( isset( $request_without_language[ $index_entries ] ) && ! is_admin() && ! empty( $custom_urls ) ) {
 					$slug_in_work  = $request_without_language[ $index_entries ];
-					$key_code 	   = $language->getIso639();
+					$key_code      = $language->getIso639();
 
 					// Search from original slug
 					$key_slug = false;
@@ -505,7 +501,6 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 				) {
 					$link_menu = str_replace( 'http', 'https', $link_menu );
 				}
-
 
 				$dom                  = preg_replace( '#' . $shortcode_url . '#i', $link_menu, $dom );
 				$dom                  = preg_replace( '#' . $shortcode_url_html . '#i', $link_menu, $dom );

@@ -145,7 +145,6 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 			return;
 		}
 
-
 		$post             = get_post( $post_id );
 		if ( $post->post_name === $weglot_post_name ) {
 			if ( in_array( $post->post_name, $custom_urls[ $code_language ] ) ) { // phpcs:ignore
@@ -277,8 +276,5 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 			}
 			$this->option_services->set_option_by_key( 'custom_urls', $custom_urls );
 		}
-
-
-
 	}
 }
