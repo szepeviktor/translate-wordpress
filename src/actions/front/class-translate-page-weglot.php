@@ -100,6 +100,12 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	public function weglot_init() {
 		do_action( 'weglot_init_start' );
 
+		$role_private_mode = apply_filters( 'weglot_role_private_mode', 'administrator' );
+		$private_mode      = $this->option_services->get_option( 'private_mode' );
+		if ( $private_mode && ! current_user_can( $role_private_mode ) ) {
+			return;
+		}
+
 		if ( $this->no_translate_action_ajax() ) {
 			return;
 		}
