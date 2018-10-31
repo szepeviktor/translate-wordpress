@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 2.1.0
+ * @version 2.2.0
  */
 
 /*
@@ -11,7 +11,7 @@ Author: Weglot Translate team
 Author URI: https://weglot.com/
 Text Domain: weglot
 Domain Path: /languages/
-Version: 2.1.0
+Version: 2.2.0
 */
 
 /**
@@ -27,7 +27,7 @@ if ( ! defined('ABSPATH')) {
 define('WEGLOT_NAME', 'Weglot');
 define('WEGLOT_SLUG', 'weglot-translate');
 define('WEGLOT_OPTION_GROUP', 'group-weglot-translate');
-define('WEGLOT_VERSION', '2.1.0');
+define('WEGLOT_VERSION', '2.2.0');
 define('WEGLOT_PHP_MIN', '5.4');
 define('WEGLOT_BNAME', plugin_basename(__FILE__));
 define('WEGLOT_DIR', __DIR__ );
