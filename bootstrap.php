@@ -98,6 +98,10 @@ function weglot_init() {
 		add_action( 'admin_notices', [ '\WeglotWP\Notices\Curl_Weglot', 'admin_notice' ] );
 	}
 
+	if ( ! function_exists( 'json_last_error' )) {
+		add_action( 'admin_notices', [ '\WeglotWP\Notices\Json_Function_Weglot', 'admin_notice' ] );
+	}
+
 	load_plugin_textdomain( 'weglot', false, WEGLOT_DIR_LANGUAGES );
 
 	Context_Weglot::weglot_get_context()->init_plugin();
