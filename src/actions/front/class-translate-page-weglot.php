@@ -82,6 +82,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			'query-attachments', // WP Core
 			'avia_ajax_switch_menu_walker', // Enfold theme
 			'query-themes', // WP Core
+			'wpestate_ajax_check_booking_valability_internal', // WP Estate theme
 		] );
 
 		if ( 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['action'] ) && in_array( $_POST['action'], $action_ajax_no_translate ) ) { //phpcs:ignore
