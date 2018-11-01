@@ -99,6 +99,15 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	}
 
 	/**
+	 * @since 2.2.2
+	 * @param string $original_language
+	 */
+	public function set_original_language( $original_language ) {
+		$this->original_language = $original_language;
+		return $this;
+	}
+
+	/**
 	 * @see init
 	 * @since 2.0
 	 * @version 2.0.4
