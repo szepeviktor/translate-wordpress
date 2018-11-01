@@ -17,7 +17,8 @@
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "*",
-    "wp-coding-standards/wpcs": "^0.13.1"
+    "wp-coding-standards/wpcs": "^0.13.1",
+    "phpunit/phpunit": "^4"
 },
 "scripts": {
     "post-install-cmd": [
