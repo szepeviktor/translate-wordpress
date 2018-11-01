@@ -47,13 +47,13 @@ class Replace_Url_Service_Weglot {
 				continue;
 			}
 
-			if ( $this->check_link( $current_url, $sometags, $sometags2 ) ) {
+			if ( !$this->check_link( $current_url, $sometags, $sometags2 ) ) {
 				continue;
 			}
 
 			$function_name = apply_filters( 'weglot_modify_link_replace_function', 'replace_' . $type, $type );
 
-			if ( method_exists( $this, $function_name ) ) {
+			if ( method_exists( $this->replace_link_service, $function_name ) ) {
 				$translated_page = $this->replace_link_service->$function_name(
 					$translated_page,
 					$current_url,
