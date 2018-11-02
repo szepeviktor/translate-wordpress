@@ -94,11 +94,11 @@ function weglot_init() {
 		add_action( 'admin_notices', [ '\WeglotWP\Notices\Rewrite_Module_Weglot', 'admin_notice' ] );
 	}
 
-	if ( ! function_exists( 'curl_version' )) {
+	if ( ! function_exists( 'curl_version' ) ) {
 		add_action( 'admin_notices', [ '\WeglotWP\Notices\Curl_Weglot', 'admin_notice' ] );
 	}
 
-	if ( ! function_exists( 'json_last_error' )) {
+	if ( ! function_exists( 'json_last_error' ) ) {
 		add_action( 'admin_notices', [ '\WeglotWP\Notices\Json_Function_Weglot', 'admin_notice' ] );
 	}
 
