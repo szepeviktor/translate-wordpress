@@ -5,6 +5,14 @@
  * @package Weglot
  */
 
+use Symfony\Component\Dotenv\Dotenv;
+
+$file_env = __DIR__ . '/../.env';
+if ( file_exists( $file_env ) ) {
+	$dotenv = new Dotenv();
+	$dotenv->load( $file_env );
+}
+
 $_tests_dir = getenv( 'WP_TESTS_DIR' );
 
 if ( ! $_tests_dir ) {

@@ -23,7 +23,6 @@ if ( ! defined('ABSPATH')) {
 	exit;
 }
 
-
 define('WEGLOT_NAME', 'Weglot');
 define('WEGLOT_SLUG', 'weglot-translate');
 define('WEGLOT_OPTION_GROUP', 'group-weglot-translate');
