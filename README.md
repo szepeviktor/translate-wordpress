@@ -30,6 +30,34 @@ To install the development environment:
 
 ## Before each release : test the following
 
-- Switcher button ( functioning and links )
+### Switcher language
+
+_Functioning and links_
+
+- Default button 
+- In menu
+- Widget
+- Shortcode
+
+### Options
+
+- Exclude blocks
+- Exclude URLs
+- Auto switch
+
+### Admin settings 
+
+- Change country flag
+- Select language
+- Check success / error on api key
+
+### Links
+
 - Internal links must have the language prefix
-- Switch lang it with the items in the menu
+- External links not translating
+
+### WooCommerce
+
+- Checkout
+- Redirect Thank you page
+- Email transactional
