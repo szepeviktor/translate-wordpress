@@ -28,3 +28,8 @@ To install the development environment:
 [slack-image]: https://weglot-community.now.sh/badge.svg
 [slack-url]: https://weglot-community.now.sh/
 
+## Before each release : test the following
+
+- Switcher button ( functioning and links )
+- Internal links must have the language prefix
+- Switch lang it with the items in the menu
