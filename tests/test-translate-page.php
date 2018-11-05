@@ -25,5 +25,6 @@ class TranslatePageTest extends WP_UnitTestCase {
 		$translate_page_weglot = new Translate_Page_Weglot();
 		$translate_page_weglot->set_original_language( 'en' );
 		$content               = $translate_page_weglot->weglot_treat_page( file_get_contents( __DIR__ . '/templates/twentyseventeen.html' ) );
+		echo $content;
 	}
 }
