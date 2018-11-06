@@ -47,7 +47,7 @@ class Replace_Url_Service_Weglot {
 				continue;
 			}
 
-			if ( !$this->check_link( $current_url, $sometags, $sometags2 ) ) {
+			if ( ! $this->check_link( $current_url, $sometags, $sometags2 ) ) {
 				continue;
 			}
 
@@ -82,10 +82,10 @@ class Replace_Url_Service_Weglot {
 	public function check_link( $current_url, $sometags = null, $sometags2 = null ) {
 		$admin_url   = admin_url();
 		$parsed_url  = wp_parse_url( $current_url );
-
+		$server_host = apply_filters( 'weglot_check_link_server_host', $_SERVER['HTTP_HOST'] ); //phpcs:ignore
 		return (
 			(
-				( $current_url[0] === 'h' && $parsed_url['host'] === $_SERVER['HTTP_HOST'] ) || //phpcs:ignore
+				( 'h' === $current_url[0] && $parsed_url['host'] === $server_host ) ||
 				( isset( $current_url[0] ) && $current_url[0] === '/' && ( isset( $current_url[1] ) ) && '/' !== $current_url[1] ) //phpcs:ignore
 			) &&
 			strpos( $current_url, $admin_url ) === false
