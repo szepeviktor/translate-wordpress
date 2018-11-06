@@ -30,7 +30,7 @@ class Multisite_Service_Weglot {
 		$paths = [];
 
 		if ( is_multisite() ) {
-			$sites = get_sites( [
+			$sites = \get_sites( [
 				'number' => 0,
 			] );
 

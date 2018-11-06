@@ -39,7 +39,6 @@ abstract class Context_Weglot {
 			'\WeglotWP\Services\Request_Url_Service_Weglot',
 			'\WeglotWP\Services\Option_Service_Weglot',
 			'\WeglotWP\Services\Redirect_Service_Weglot',
-			'\WeglotWP\Services\Network_Service_Weglot',
 			'\WeglotWP\Services\Language_Service_Weglot',
 			'\WeglotWP\Services\Replace_Url_Service_Weglot',
 			'\WeglotWP\Services\Multisite_Service_Weglot',
