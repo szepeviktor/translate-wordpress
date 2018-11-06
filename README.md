@@ -22,8 +22,8 @@ To install the development environment:
 - `cd weglot && composer install && npm install`
 
 
-[travis-image]: https://api.travis-ci.com/weglot/weglot-wordpress.svg?branch=dev
-[travis-url]: https://travis-ci.com/weglot/weglot-wordpress
+[travis-image]: https://api.travis-ci.com/weglot/translate-wordpress.svg?branch=dev
+[travis-url]: https://travis-ci.com/weglot/translate-wordpress
 
 [slack-image]: https://weglot-community.now.sh/badge.svg
 [slack-url]: https://weglot-community.now.sh/
