@@ -52,6 +52,7 @@ abstract class Context_Weglot {
 			'\WeglotWP\Services\User_Api_Service_Weglot',
 			'\WeglotWP\Services\Other_Translate_Service_Weglot',
 			'\WeglotWP\Services\Dom_Checkers_Service_Weglot',
+			'\WeglotWP\Services\Custom_Url_Service_Weglot',
 		];
 
 		self::$context->set_services( $services );
