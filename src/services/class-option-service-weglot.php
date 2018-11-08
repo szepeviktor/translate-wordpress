@@ -52,10 +52,11 @@ class Option_Service_Weglot {
 
 	/**
 	 * @since 2.0
+	 * @version 2.2.2
 	 * @return array
 	 */
 	public function get_options() {
-		return wp_parse_args( get_option( WEGLOT_SLUG ), $this->get_options_default() );
+		return apply_filters( 'weglot_get_options', wp_parse_args( get_option( WEGLOT_SLUG ), $this->get_options_default() ) );
 	}
 
 	/**

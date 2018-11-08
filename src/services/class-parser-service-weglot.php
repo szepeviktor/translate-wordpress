@@ -10,6 +10,7 @@ use Weglot\Parser\Parser;
 use Weglot\Util\Url;
 use Weglot\Util\Server;
 use Weglot\Parser\ConfigProvider\ServerConfigProvider;
+use Weglot\Parser\ConfigProvider\ConfigProviderInterface;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -40,6 +41,7 @@ class Parser_Service_Weglot {
 
 	/**
 	 * @since 2.0
+	 * @version 2.2.2
 	 * @return array
 	 */
 	public function get_parser() {
@@ -51,9 +53,12 @@ class Parser_Service_Weglot {
 		}
 
 		$api_key        = $this->option_services->get_option( 'api_key' );
+		$config         = apply_filters( 'weglot_parser_config_provider', new ServerConfigProvider() );
+		if ( ! ( $config instanceof ConfigProviderInterface ) ) {
+			$config = new ServerConfigProvider();
+		}
+		$client         = new Client( $api_key );
 
-		$config    = new ServerConfigProvider();
-		$client    = new Client( $api_key );
 		if ( '2' === WEGLOT_LIB_PARSER ) {
 			$listeners = $this->dom_listeners_services->get_dom_listeners();
 			$parser    = new Parser( $client, $config, $exclude_blocks, $listeners );

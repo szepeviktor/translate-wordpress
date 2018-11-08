@@ -22,9 +22,42 @@ To install the development environment:
 - `cd weglot && composer install && npm install`
 
 
-[travis-image]: https://api.travis-ci.com/weglot/weglot-wordpress.svg?branch=dev
-[travis-url]: https://travis-ci.com/weglot/weglot-wordpress
+[travis-image]: https://api.travis-ci.com/weglot/translate-wordpress.svg?branch=dev
+[travis-url]: https://travis-ci.com/weglot/translate-wordpress
 
 [slack-image]: https://weglot-community.now.sh/badge.svg
 [slack-url]: https://weglot-community.now.sh/
 
+## Before each release : test the following
+
+### Switcher language
+
+_Functioning and links_
+
+- Default button 
+- In menu
+- Widget
+- Shortcode
+
+### Options
+
+- Exclude blocks
+- Exclude URLs
+- Auto switch
+
+### Admin settings 
+
+- Change country flag
+- Select language
+- Check success / error on api key
+
+### Links
+
+- Internal links must have the language prefix
+- External links not translating
+
+### WooCommerce
+
+- Checkout
+- Redirect Thank you page
+- Email transactional

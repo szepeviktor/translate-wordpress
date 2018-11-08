@@ -14,3 +14,5 @@ deploy.sh
 prepare-zip.php
 weglot.zip
 content.html
+
+.env

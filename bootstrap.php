@@ -39,7 +39,6 @@ abstract class Context_Weglot {
 			'\WeglotWP\Services\Request_Url_Service_Weglot',
 			'\WeglotWP\Services\Option_Service_Weglot',
 			'\WeglotWP\Services\Redirect_Service_Weglot',
-			'\WeglotWP\Services\Network_Service_Weglot',
 			'\WeglotWP\Services\Language_Service_Weglot',
 			'\WeglotWP\Services\Replace_Url_Service_Weglot',
 			'\WeglotWP\Services\Multisite_Service_Weglot',
@@ -94,11 +93,11 @@ function weglot_init() {
 		add_action( 'admin_notices', [ '\WeglotWP\Notices\Rewrite_Module_Weglot', 'admin_notice' ] );
 	}
 
-	if ( ! function_exists( 'curl_version' )) {
+	if ( ! function_exists( 'curl_version' ) ) {
 		add_action( 'admin_notices', [ '\WeglotWP\Notices\Curl_Weglot', 'admin_notice' ] );
 	}
 
-	if ( ! function_exists( 'json_last_error' )) {
+	if ( ! function_exists( 'json_last_error' ) ) {
 		add_action( 'admin_notices', [ '\WeglotWP\Notices\Json_Function_Weglot', 'admin_notice' ] );
 	}
 

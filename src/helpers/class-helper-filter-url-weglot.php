@@ -19,7 +19,7 @@ abstract class Helper_Filter_Url_Weglot {
 	 * @return string
 	 */
 	protected static function get_clean_base_url( $url ) {
-		if ( strpos( $url,  'http' ) === false ) {
+		if ( strpos( $url, 'http' ) === false ) {
 			$url = sprintf( '%s%s', get_site_url(), $url );
 		}
 

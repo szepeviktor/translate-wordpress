@@ -5,6 +5,14 @@
  * @package Weglot
  */
 
+use Symfony\Component\Dotenv\Dotenv;
+
+$file_env = __DIR__ . '/../.env.json';
+if ( file_exists( $file_env ) ) {
+	$config = json_decode( file_get_contents( $file_env ), true );
+	putenv( 'API_KEY=' . $config['API_KEY'] );
+}
+
 $_tests_dir = getenv( 'WP_TESTS_DIR' );
 
 if ( ! $_tests_dir ) {
