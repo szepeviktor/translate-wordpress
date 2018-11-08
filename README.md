@@ -5,6 +5,7 @@
 
 [![Weglot Slack][slack-image]][slack-url]
 [![Build Status][travis-image]][travis-url]
+[![CodeFactor][codefactor-image]][codefactor-url]
 
 
 ## Requirements
@@ -27,6 +28,9 @@ To install the development environment:
 
 [slack-image]: https://weglot-community.now.sh/badge.svg
 [slack-url]: https://weglot-community.now.sh/
+
+[codefactor-image]: https://www.codefactor.io/repository/github/weglot/translate-wordpress/badge/dev
+[codefactor-url]: https://www.codefactor.io/repository/github/weglot/translate-wordpress/overview/dev
 
 ## Before each release : test the following
 
