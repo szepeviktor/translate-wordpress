@@ -295,7 +295,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			return;
 		}
 
-		$key_slug = array_search( $slug_in_work, $custom_urls[ $current_language ] );
+		$key_slug = array_search( $slug_in_work, $custom_urls[ $current_language ] ); //phpcs:ignore
 
 		// No custom URL for this language with this slug
 		if ( ! isset( $custom_urls[ $current_language ][ $slug_in_work ] ) && false === $key_slug ) {
@@ -498,7 +498,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 					// Search from original slug
 					$key_slug = false;
 					if ( isset( $custom_urls[ $key_code ] ) && $post ) {
-						$key_slug = array_search( $post->post_name, $custom_urls[ $key_code ] );
+						$key_slug = array_search( $post->post_name, $custom_urls[ $key_code ] ); //phpcs:ignore
 					}
 
 					if ( false !== $key_slug ) {
