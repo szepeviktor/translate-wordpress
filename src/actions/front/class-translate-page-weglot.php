@@ -26,16 +26,17 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	 * @since 2.0
 	 */
 	public function __construct() {
-		$this->option_services               = weglot_get_service( 'Option_Service_Weglot' );
-		$this->button_services               = weglot_get_service( 'Button_Service_Weglot' );
-		$this->request_url_services          = weglot_get_service( 'Request_Url_Service_Weglot' );
-		$this->redirect_services             = weglot_get_service( 'Redirect_Service_Weglot' );
-		$this->replace_url_services          = weglot_get_service( 'Replace_Url_Service_Weglot' );
-		$this->replace_link_services         = weglot_get_service( 'Replace_Link_Service_Weglot' );
-		$this->language_services             = weglot_get_service( 'Language_Service_Weglot' );
-		$this->parser_services               = weglot_get_service( 'Parser_Service_Weglot' );
-		$this->wc_active_services            = weglot_get_service( 'WC_Active_Weglot' );
-		$this->other_translate_services      = weglot_get_service( 'Other_Translate_Service_Weglot' );
+		$this->option_services                = weglot_get_service( 'Option_Service_Weglot' );
+		$this->button_services                = weglot_get_service( 'Button_Service_Weglot' );
+		$this->request_url_services           = weglot_get_service( 'Request_Url_Service_Weglot' );
+		$this->redirect_services              = weglot_get_service( 'Redirect_Service_Weglot' );
+		$this->replace_url_services           = weglot_get_service( 'Replace_Url_Service_Weglot' );
+		$this->replace_link_services          = weglot_get_service( 'Replace_Link_Service_Weglot' );
+		$this->language_services              = weglot_get_service( 'Language_Service_Weglot' );
+		$this->parser_services                = weglot_get_service( 'Parser_Service_Weglot' );
+		$this->wc_active_services             = weglot_get_service( 'WC_Active_Weglot' );
+		$this->other_translate_services       = weglot_get_service( 'Other_Translate_Service_Weglot' );
+		$this->generate_switcher_service      = weglot_get_service( 'Generate_Switcher_Service_Weglot' );
 	}
 
 	/**
@@ -446,100 +447,6 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	 * @param string $dom
 	 * @return string
 	 */
-	public function weglot_add_button_html( $dom ) {
-		$options            = $this->option_services->get_options();
-
-		// Place the button if we see markup
-		if ( strpos( $dom, '<div id="weglot_here"></div>' ) !== false ) {
-			$button_html  = $this->button_services->get_html( 'weglot-shortcode' );
-			$dom          = str_replace( '<div id="weglot_here"></div>', $button_html, $dom );
-		}
-
-		if ( strpos( $dom, '[weglot_menu' ) !== false ) {
-			$languages_configured = $this->language_services->get_languages_configured();
-
-			$is_fullname  = $options['is_fullname'];
-			$with_name    = $options['with_name'];
-
-			$url                  = $this->request_url_services->get_weglot_url();
-			// Custom URLS
-			$request_without_language = array_filter( explode( '/', $url->getPath() ), 'strlen' );
-			$index_entries            = count( $request_without_language );
-			$custom_urls              = $this->option_services->get_option( 'custom_urls' );
-			global $post;
-
-			foreach ( $languages_configured as $language ) {
-				$shortcode_title                        = sprintf( '\[weglot_menu_title-%s\]', $language->getIso639() );
-				$shortcode_title_without_bracket        = sprintf( 'weglot_menu_title-%s', $language->getIso639() );
-				$shortcode_title_html                   = str_replace( '\[', '%5B', $shortcode_title );
-				$shortcode_title_html                   = str_replace( '\]', '%5D', $shortcode_title_html );
-				$shortcode_url                          = sprintf( '(http|https):\/\/\[weglot_menu_current_url-%s\]', $language->getIso639() );
-				$shortcode_url_html                     = str_replace( '\[', '%5B', $shortcode_url );
-				$shortcode_url_html                     = str_replace( '\]', '%5D', $shortcode_url_html );
-
-				$name = '';
-				if ( $with_name ) {
-					$name = ( $is_fullname ) ? $language->getLocalName() : strtoupper( $language->getIso639() );
-				}
-
-				$dom                  = preg_replace( '#' . $shortcode_title . '#i', $name, $dom );
-				$dom                  = preg_replace( '#' . $shortcode_title_html . '#i', $name, $dom );
-				$dom                  = preg_replace( '#' . $shortcode_title_without_bracket . '#i', $name, $dom );
-
-				$link_menu = $url->getForLanguage( $language->getIso639() );
-				if ( weglot_has_auto_redirect() && strpos( $link_menu, 'no_lredirect' ) === false && ( is_home() || is_front_page() ) && $language->getIso639() === weglot_get_original_language() ) {
-					$link_menu .= '?no_lredirect=true';
-				}
-
-				if ( isset( $request_without_language[ $index_entries ] ) && ! is_admin() && ! empty( $custom_urls ) ) {
-					$slug_in_work  = $request_without_language[ $index_entries ];
-					$key_code      = $language->getIso639();
-
-					// Search from original slug
-					$key_slug = false;
-					if ( isset( $custom_urls[ $key_code ] ) && $post ) {
-						$key_slug = array_search( $post->post_name, $custom_urls[ $key_code ] ); //phpcs:ignore
-					}
-
-					if ( false !== $key_slug ) {
-						$link_menu = str_replace( $slug_in_work, $key_slug, $link_menu );
-					} else {
-						$link_menu = str_replace( $slug_in_work, $post->post_name, $link_menu );
-					}
-				}
-
-				// Compatibility Menu HTTPS if not work. Since 2.0.6
-				if (
-					(
-						is_ssl() ||
-						isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && 'https' === $_SERVER['HTTP_X_FORWARDED_PROTO'] // phpcs:ignore
-					) &&
-					strpos( $link_menu, 'https://' ) === false
-				) {
-					$link_menu = str_replace( 'http', 'https', $link_menu );
-				}
-
-				$dom                  = preg_replace( '#' . $shortcode_url . '#i', $link_menu, $dom );
-				$dom                  = preg_replace( '#' . $shortcode_url_html . '#i', $link_menu, $dom );
-			}
-
-			$dom .= sprintf( '<!--Weglot %s-->', WEGLOT_VERSION );
-		}
-
-		// Place the button if not in the page
-		if ( strpos( $dom, sprintf( '<!--Weglot %s-->', WEGLOT_VERSION ) ) === false ) {
-			$button_html  = $this->button_services->get_html( 'weglot-default' );
-			$dom          = ( strpos( $dom, '</body>' ) !== false) ? str_replace( '</body>', $button_html . ' </body>', $dom ) : str_replace( '</footer>', $button_html . ' </footer>', $dom );
-		}
-
-		return $dom;
-	}
-
-	/**
-	 * @since 2.0
-	 * @param string $dom
-	 * @return string
-	 */
 	public function weglot_replace_link( $dom ) {
 		$dom = $this->replace_url_services->modify_link( '/<a([^\>]+?)?href=(\"|\')([^\s\>]+?)(\"|\')([^\>]+?)?>/', $dom, 'a' );
 		$dom = $this->replace_url_services->modify_link( '/<([^\>]+?)?data-link=(\"|\')([^\s\>]+?)(\"|\')([^\>]+?)?>/', $dom, 'datalink' );
@@ -560,7 +467,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	 * @return string
 	 */
 	public function weglot_render_dom( $dom ) {
-		$dom = $this->weglot_add_button_html( $dom );
+		$dom = $this->generate_switcher_service->generate_switcher_from_dom( $dom );
 
 		// We only need this on translated page
 		if ( $this->current_language !== $this->original_language ) {
