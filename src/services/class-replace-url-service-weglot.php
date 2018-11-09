@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use WeglotWP\Helpers\Helper_Replace_Url_Weglot;
 
 /**
  * Replace URL
@@ -20,6 +21,26 @@ class Replace_Url_Service_Weglot {
 	public function __construct() {
 		$this->request_url_services      = weglot_get_service( 'Request_Url_Service_Weglot' );
 		$this->replace_link_service      = weglot_get_service( 'Replace_Link_Service_Weglot' );
+	}
+
+	/**
+	 * @since 2.3.0
+	 *
+	 * @param string $dom
+	 * @return string
+	 */
+	public function replace_link_in_dom( $dom ) {
+		$data = Helper_Replace_Url_Weglot::get_replace_modify_link();
+
+		foreach ( $data as $key => $value ) {
+			$dom  = $this->modify_link( $value, $dom, $key );
+		}
+
+		$current_language = weglot_get_current_language();
+		$dom              = preg_replace( '/<html (.*?)?lang=(\"|\')(\S*)(\"|\')/', '<html $1lang=$2' . $current_language . '$4', $dom );
+		$dom              = preg_replace( '/property="og:locale" content=(\"|\')(\S*)(\"|\')/', 'property="og:locale" content=$1' . $current_language . '$3', $dom );
+
+		return apply_filters( 'weglot_replace_link', $dom );
 	}
 
 	/**

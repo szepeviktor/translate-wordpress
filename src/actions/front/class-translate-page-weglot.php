@@ -442,23 +442,6 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		return is_string( $string ) && is_array( \json_decode( $string, true ) ) && ( JSON_ERROR_NONE === \json_last_error() ) ? true : false;
 	}
 
-	/**
-	 * @since 2.0
-	 * @param string $dom
-	 * @return string
-	 */
-	public function weglot_replace_link( $dom ) {
-		$dom = $this->replace_url_services->modify_link( '/<a([^\>]+?)?href=(\"|\')([^\s\>]+?)(\"|\')([^\>]+?)?>/', $dom, 'a' );
-		$dom = $this->replace_url_services->modify_link( '/<([^\>]+?)?data-link=(\"|\')([^\s\>]+?)(\"|\')([^\>]+?)?>/', $dom, 'datalink' );
-		$dom = $this->replace_url_services->modify_link( '/<([^\>]+?)?data-url=(\"|\')([^\s\>]+?)(\"|\')([^\>]+?)?>/', $dom, 'dataurl' );
-		$dom = $this->replace_url_services->modify_link( '/<([^\>]+?)?data-cart-url=(\"|\')([^\s\>]+?)(\"|\')([^\>]+?)?>/', $dom, 'datacart' );
-		$dom = $this->replace_url_services->modify_link( '/<form([^\>]+?)?action=(\"|\')([^\s\>]+?)(\"|\')/', $dom, 'form' );
-		$dom = $this->replace_url_services->modify_link( '/<link rel="canonical"(.*?)?href=(\"|\')([^\s\>]+?)(\"|\')/', $dom, 'canonical' );
-		$dom = $this->replace_url_services->modify_link( '/<link rel="amphtml"(.*?)?href=(\"|\')([^\s\>]+?)(\"|\')/', $dom, 'amp' );
-		$dom = $this->replace_url_services->modify_link( '/<meta property="og:url"(.*?)?content=(\"|\')([^\s\>]+?)(\"|\')/', $dom, 'meta' );
-
-		return apply_filters( 'weglot_replace_link', $dom );
-	}
 
 	/**
 	 * @since 2.0
@@ -471,11 +454,9 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 
 		// We only need this on translated page
 		if ( $this->current_language !== $this->original_language ) {
-			$dom = $this->weglot_replace_link( $dom );
-
-			$dom = preg_replace( '/<html (.*?)?lang=(\"|\')(\S*)(\"|\')/', '<html $1lang=$2' . $this->current_language . '$4', $dom );
-			$dom = preg_replace( '/property="og:locale" content=(\"|\')(\S*)(\"|\')/', 'property="og:locale" content=$1' . $this->current_language . '$3', $dom );
+			$dom = $this->replace_url_services->replace_link_in_dom( $dom );
 		}
+
 		return apply_filters( 'weglot_render_dom', $dom );
 	}
 
