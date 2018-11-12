@@ -8,9 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use WeglotWP\Models\Hooks_Interface_Weglot;
 
-use Weglot\Client\Client;
-use Weglot\Parser\Parser;
-use Weglot\Parser\ConfigProvider\ServerConfigProvider;
 
 
 /**
@@ -25,8 +22,9 @@ class Email_Translate_Weglot implements Hooks_Interface_Weglot {
 	 * @since 2.0
 	 */
 	public function __construct() {
-		$this->option_services           = weglot_get_service( 'Option_Service_Weglot' );
-		$this->request_url_services      = weglot_get_service( 'Request_Url_Service_Weglot' );
+		$this->option_services               = weglot_get_service( 'Option_Service_Weglot' );
+		$this->request_url_services          = weglot_get_service( 'Request_Url_Service_Weglot' );
+		$this->email_translate_services      = weglot_get_service( 'Email_Translate_Service_Weglot' );
 	}
 
 	/**
@@ -62,14 +60,14 @@ class Email_Translate_Weglot implements Hooks_Interface_Weglot {
 		$message_and_subject_translated = false;
 
 		if ( $current_and_original_language['current'] !== $current_and_original_language['original'] ) {
-			$message_and_subject_translated = $this->translate_email( $message_and_subject, $current_and_original_language['current'] );
+			$message_and_subject_translated = $this->email_translate_services->translate_email( $message_and_subject, $current_and_original_language['current'] );
 		} elseif ( isset( $_SERVER['HTTP_REFERER'] ) ) { //phpcs:ignore
 			$url                     = $this->request_url_services
 											->create_url_object( $_SERVER['HTTP_REFERER'] ); //phpcs:ignore
 
 			$choose_current_language = $url->detectCurrentLanguage();
 			if ( $choose_current_language !== $current_and_original_language['original'] ) { //If language in referer
-				$message_and_subject_translated = $this->translate_email( $message_and_subject, $choose_current_language );
+				$message_and_subject_translated = $this->email_translate_services->translate_email( $message_and_subject, $choose_current_language );
 			} elseif ( strpos( $_SERVER['HTTP_REFERER'], 'wg_language=' ) !== false ) { //phpcs:ignore
 				//If language in parameter
 
@@ -77,7 +75,7 @@ class Email_Translate_Weglot implements Hooks_Interface_Weglot {
 				$start                       = $pos + strlen( 'wg_language=' );
 				$choose_current_language     = substr( $_SERVER['HTTP_REFERER'], $start, 2 ); //phpcs:ignore
 				if ( $choose_current_language && $choose_current_language !== $current_and_original_language['original'] ) {
-					$message_and_subject_translated = $this->translate_email( $message_and_subject, $choose_current_language );
+					$message_and_subject_translated = $this->email_translate_services->translate_email( $message_and_subject, $choose_current_language );
 				}
 			}
 		}
@@ -89,42 +87,5 @@ class Email_Translate_Weglot implements Hooks_Interface_Weglot {
 		}
 
 		return $args;
-	}
-
-	/**
-	 * Translate email with parser
-	 * @version 2.2.3
-	 * @param array $args
-	 * @param string $language
-	 * @return array
-	 */
-	protected function translate_email( $args, $language ) {
-		$api_key            = $this->option_services->get_option( 'api_key' );
-
-		if ( ! $api_key ) {
-			return $args;
-		}
-
-		try {
-			$current_and_original_language     = weglot_get_current_and_original_language();
-			$exclude_blocks                    = $this->option_services->get_exclude_blocks();
-
-			$config             = new ServerConfigProvider();
-			$client             = new Client( $api_key );
-			$parser             = new Parser( $client, $config, $exclude_blocks );
-			$translated_subject = $parser->translate( '<p>' . $args['subject'] . '</p>', $current_and_original_language['original'], $language ); //phpcs:ignore
-
-			$config             = new ServerConfigProvider();
-			$client             = new Client( $api_key );
-			$parser             = new Parser( $client, $config, $exclude_blocks );
-			$translated_message = $parser->translate( $args['message'], $current_and_original_language['original'], $language ); //phpcs:ignore
-
-			return [
-				'subject' => $translated_subject,
-				'message' => $translated_message,
-			];
-		} catch ( \Exception $e ) {
-			return $args;
-		}
 	}
 }
