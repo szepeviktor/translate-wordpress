@@ -1,6 +1,6 @@
 <?php
 
-use WeglotWP\Actions\Front\Translate_Page_Weglot;
+use WeglotWP\Services\Translate_Service_Weglot;
 use Weglot\Client\Api\Enum\BotType;
 use Weglot\Parser\ConfigProvider\ManualConfigProvider;
 
@@ -26,8 +26,9 @@ class TranslatePageTest extends WP_UnitTestCase {
 			return 'weglot-plugin.local';
 		});
 
-		$translate_page_weglot = new Translate_Page_Weglot();
+		$translate_page_weglot = new Translate_Service_Weglot();
 		$translate_page_weglot->set_original_language( 'en' );
+		$translate_page_weglot->set_current_language( 'fr' );
 		$content               = $translate_page_weglot->weglot_treat_page( file_get_contents( __DIR__ . '/templates/twentyseventeen.html' ) ); //phpcs:ignore
 
 		$dom = \SimpleHtmlDom\str_get_html(
