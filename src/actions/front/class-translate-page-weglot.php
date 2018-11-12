@@ -172,7 +172,6 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			'/',
 			$_SERVER['REQUEST_URI'] //phpcs:ignore
 		);
-		return;
 	}
 
 	/**
