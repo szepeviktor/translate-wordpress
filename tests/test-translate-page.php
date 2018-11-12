@@ -3,7 +3,6 @@
 use WeglotWP\Actions\Front\Translate_Page_Weglot;
 use Weglot\Client\Api\Enum\BotType;
 use Weglot\Parser\ConfigProvider\ManualConfigProvider;
-use SimpleHtmlDom\simple_html_dom;
 
 class TranslatePageTest extends WP_UnitTestCase {
 	public function test_translation_content_links_internal() {
