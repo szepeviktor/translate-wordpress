@@ -59,6 +59,8 @@ class Email_Translate_Weglot implements Hooks_Interface_Weglot {
 			'message' => $args['message'],
 		];
 
+		$message_and_subject_translated = false;
+
 		if ( $current_and_original_language['current'] !== $current_and_original_language['original'] ) {
 			$message_and_subject_translated = $this->translate_email( $message_and_subject, $current_and_original_language['current'] );
 		} elseif ( isset( $_SERVER['HTTP_REFERER'] ) ) { //phpcs:ignore
@@ -80,7 +82,7 @@ class Email_Translate_Weglot implements Hooks_Interface_Weglot {
 			}
 		}
 
-		if ( strpos( $message_and_subject_translated['subject'], '</p>' ) !== false ) {
+		if ( $message_and_subject_translated && strpos( $message_and_subject_translated['subject'], '</p>' ) !== false ) {
 			$pos             = strpos( $message_and_subject_translated['subject'], '</p>' ) + 4;
 			$args['subject'] = substr( $message_and_subject_translated['subject'], 3, $pos - 7 );
 			$args['message'] = $message_and_subject_translated['message'];
@@ -91,11 +93,10 @@ class Email_Translate_Weglot implements Hooks_Interface_Weglot {
 
 	/**
 	 * Translate email with parser
-	 *
-	 * @param string $body
+	 * @version 2.2.3
+	 * @param array $args
 	 * @param string $language
-	 * @param mixed $args
-	 * @return mixed
+	 * @return array
 	 */
 	protected function translate_email( $args, $language ) {
 		$api_key            = $this->option_services->get_option( 'api_key' );
@@ -104,22 +105,26 @@ class Email_Translate_Weglot implements Hooks_Interface_Weglot {
 			return $args;
 		}
 
-		$current_and_original_language   = weglot_get_current_and_original_language();
-		$exclude_blocks                  = $this->option_services->get_exclude_blocks();
+		try {
+			$current_and_original_language     = weglot_get_current_and_original_language();
+			$exclude_blocks                    = $this->option_services->get_exclude_blocks();
 
-		$config             = new ServerConfigProvider();
-		$client             = new Client( $api_key );
-		$parser             = new Parser( $client, $config, $exclude_blocks );
-		$translated_subject = $parser->translate( '<p>' . $args['subject'] . '</p>', $current_and_original_language['original'], $current_and_original_language['current'] ); //phpcs:ignore
+			$config             = new ServerConfigProvider();
+			$client             = new Client( $api_key );
+			$parser             = new Parser( $client, $config, $exclude_blocks );
+			$translated_subject = $parser->translate( '<p>' . $args['subject'] . '</p>', $current_and_original_language['original'], $language ); //phpcs:ignore
 
-		$config             = new ServerConfigProvider();
-		$client             = new Client( $api_key );
-		$parser             = new Parser( $client, $config, $exclude_blocks );
-		$translated_message = $parser->translate( $args['message'], $current_and_original_language['original'], $current_and_original_language['current'] ); //phpcs:ignore
+			$config             = new ServerConfigProvider();
+			$client             = new Client( $api_key );
+			$parser             = new Parser( $client, $config, $exclude_blocks );
+			$translated_message = $parser->translate( $args['message'], $current_and_original_language['original'], $language ); //phpcs:ignore
 
-		return [
-			'subject' => $translated_subject,
-			'message' => $translated_message,
-		];
+			return [
+				'subject' => $translated_subject,
+				'message' => $translated_message,
+			];
+		} catch ( \Exception $e ) {
+			return $args;
+		}
 	}
 }
