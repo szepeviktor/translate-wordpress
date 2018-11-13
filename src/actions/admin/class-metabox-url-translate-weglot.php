@@ -202,6 +202,10 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 	 * @return void
 	 */
 	public function add_meta_boxes_url_translate() {
+		global $post;
+		if ( ! $post ) {
+			return;
+		}
 		add_meta_box( 'weglot-url-translate', __( 'Weglot URL Translate', 'weglot' ), [ $this, 'weglot_url_translate_box' ] );
 	}
 
@@ -212,6 +216,9 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 	 */
 	public function weglot_url_translate_box( $post ) {
 		$this->custom_urls = $this->option_services->get_option( 'custom_urls' );
+		if ( ! $post ) {
+			return;
+		}
 		include_once WEGLOT_TEMPLATES_ADMIN_METABOXES . '/url-translate.php';
 	}
 
