@@ -4,7 +4,7 @@ use WeglotWP\Services\Translate_Service_Weglot;
 use Weglot\Client\Api\Enum\BotType;
 use Weglot\Parser\ConfigProvider\ManualConfigProvider;
 
-class TranslatePageTest extends WP_UnitTestCase {
+class TranslateJsonTest extends WP_UnitTestCase {
 	public function test_translation_content_links_internal() {
 		add_filter( 'weglot_get_options', function( $options ) {
 			$options['api_key'] = getenv( 'API_KEY' );
@@ -26,10 +26,10 @@ class TranslatePageTest extends WP_UnitTestCase {
 			return 'weglot-plugin.local';
 		});
 
-		$translate_page_weglot = new Translate_Service_Weglot();
-		$translate_page_weglot->set_original_language( 'en' );
-		$translate_page_weglot->set_current_language( 'fr' );
-		$content               = $translate_page_weglot->weglot_treat_page( file_get_contents( __DIR__ . '/templates/twentyseventeen.html' ) ); //phpcs:ignore
+		$translate_service = new Translate_Service_Weglot();
+		$translate_service->set_original_language( 'en' );
+		$translate_service->set_current_language( 'fr' );
+		$content               = $translate_service->weglot_treat_page( file_get_contents( __DIR__ . '/templates/wc-cart.json' ) ); //phpcs:ignore
 
 		$dom = \SimpleHtmlDom\str_get_html(
 			$content,
@@ -39,7 +39,7 @@ class TranslatePageTest extends WP_UnitTestCase {
 			false
 		);
 
-		$this->assertEquals( $dom->find( '.site-title a', 0 )->href, 'http://weglot-plugin.local/fr/' );
-		$this->assertEquals( $dom->find( '#post-1 .entry-title a', 0 )->href, 'http://weglot-plugin.local/fr/hello-world/' );
+		$this->assertContains( 'Voir le panier', $dom->__toString() );
+		$this->assertContains( 'http:\/\/weglot-plugin.local\/fr\/', $dom->__toString() );
 	}
 }

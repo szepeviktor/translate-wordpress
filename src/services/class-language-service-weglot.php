@@ -105,4 +105,25 @@ class Language_Service_Weglot {
 
 		return $languages_object;
 	}
+
+	/**
+	 * @since 2.3.0
+	 *
+	 * @param string $key_code
+	 * @return LanguageEntry
+	 */
+	public function get_current_language_entry_from_key( $key_code ) {
+		$languages = $this->get_languages_available();
+
+		if ( isset( $languages[ $key_code ] ) ) {
+			$current_language_entry = $languages[ $key_code ];
+		} else {
+			$current_language_entry = apply_filters( 'weglot_current_language_entry', $key_code );
+			if ( $current_language_entry === $key_code ) {
+				throw new \Exception( 'You need create a language entry' );
+			}
+		}
+
+		return $current_language_entry;
+	}
 }
