@@ -136,8 +136,6 @@ class Translate_Service_Weglot {
 		}
 	}
 
-
-
 	/**
 	 * @since 2.3.0
 	 *
@@ -151,8 +149,12 @@ class Translate_Service_Weglot {
 				$array[ $key ] = $this->translate_array( $val );
 			} else {
 				if ( $this->is_ajax_html( $val ) ) {
-					$parser                   = $this->parser_services->get_parser();
-					$array[$key]              = $parser->translate( $val, $this->original_language, $this->current_language ); //phpcs:ignore
+					try {
+						$parser         = $this->parser_services->get_parser();
+						$array[ $key ]  = $parser->translate( $val, $this->original_language, $this->current_language ); //phpcs:ignore
+					} catch ( \Exception $e) {
+						continue;
+					}
 				} elseif ( in_array( $key,  $array_not_ajax_html ) ) { //phpcs:ignore
 					$array[$key] = $this->replace_link_services->replace_url( $val ); //phpcs:ignore
 				}
