@@ -98,13 +98,12 @@ class Translate_Service_Weglot {
 					$content    = apply_filters( 'weglot_json_treat_page', $content );
 
 					return wp_json_encode( $content );
-					break;
 				case 'html':
 					$content            = $this->fix_menu_link( $content );
 					$translated_content = $parser->translate( $content, $this->original_language, $this->current_language ); // phpcs:ignore
 
 					if ( $this->wc_active_services->is_active() ) {
-						// @TODO : Improve this with multiple service
+						// Improve this with multiple service
 						$translated_content = weglot_get_service( 'WC_Translate_Weglot' )->translate_words( $translated_content );
 					}
 
@@ -113,11 +112,9 @@ class Translate_Service_Weglot {
 					$translated_content = apply_filters( 'weglot_html_treat_page', $translated_content );
 
 					return $this->weglot_render_dom( $translated_content );
-					break;
 				default:
 					$name_filter = sprintf( 'weglot_%s_treat_page', $type );
 					return apply_filters( $name_filter, $content, $parser, $this->original_language, $this->current_language );
-					break;
 
 			}
 		} catch ( ApiError $e ) {
