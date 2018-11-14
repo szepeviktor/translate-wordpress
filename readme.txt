@@ -152,6 +152,11 @@ See changelog for upgrade changes.
 
 == Changelog ==
 
+= 2.3.0 () =
+* Bugfix : Custom URL on archive page
+* Bugfix : Prevent error on translate AJAX
+* Improve code quality
+
 = 2.2.2 (05/11/2018) =
 * Fix bug on change country flag
 * Change load custom css inline
