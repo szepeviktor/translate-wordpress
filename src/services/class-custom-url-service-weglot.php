@@ -35,7 +35,9 @@ class Custom_Url_Service_Weglot {
 		$custom_urls              = $this->option_services->get_option( 'custom_urls' );
 		$url_lang                 = $weglot_url->getForLanguage( $key_code );
 
-		if ( isset( $request_without_language[ $index_entries ] ) && ! is_admin() && ! empty( $custom_urls ) ) {
+		$condition_test_custom_url = isset( $request_without_language[ $index_entries ] ) && ! is_admin() && ! empty( $custom_urls ) && ! is_post_type_archive() && ! is_category() && ! is_tax() && ! is_archive() ;
+
+		if ( apply_filters( 'weglot_condition_test_custom_url', $condition_test_custom_url ) ) {
 			$slug_in_work             = $request_without_language[ $index_entries ];
 
 			// Search from original slug
@@ -43,7 +45,6 @@ class Custom_Url_Service_Weglot {
 			if ( isset( $custom_urls[ $key_code ] ) && $post ) {
 				$key_slug = array_search( $post->post_name, $custom_urls[ $key_code ] ); //phpcs:ignore
 			}
-
 			if ( false !== $key_slug ) {
 				$url_lang = str_replace( $slug_in_work, $key_slug, $url_lang );
 			} else {

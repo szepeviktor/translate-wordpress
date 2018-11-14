@@ -48,6 +48,7 @@ class Replace_Link_Service_Weglot {
 			$request_without_language     = array_filter( explode( '/', $path ), 'strlen' );
 			$index_entries                = count( $request_without_language );
 
+
 			if ( isset( $request_without_language[ $index_entries ] ) && ! is_admin() && ! empty( $custom_urls ) && isset( $custom_urls[ $current_language ] ) ) {
 				$slug_in_work             = $request_without_language[ $index_entries ];
 				$key_slug                 = array_search( $slug_in_work, $custom_urls[ $current_language ] ); //phpcs:ignore
