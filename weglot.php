@@ -32,6 +32,7 @@ define('WEGLOT_BNAME', plugin_basename(__FILE__));
 define('WEGLOT_DIR', __DIR__ );
 define('WEGLOT_DIR_LANGUAGES', WEGLOT_DIR . '/languages');
 define('WEGLOT_DIR_DIST', WEGLOT_DIR . '/dist');
+define('WEGLOT_DEBUG', false);
 
 define('WEGLOT_DIRURL', plugin_dir_url(__FILE__));
 define('WEGLOT_URL_DIST', WEGLOT_DIRURL . 'dist');
