@@ -48,15 +48,22 @@ class Redirect_Service_Weglot {
 
 	/**
 	 * @since 2.0
-	 *
+	 * @version 2.3.0
 	 * @return string
 	 */
 	public function auto_redirect() {
-		if ( ! isset( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ) { //phpcs:ignore
+		if ( ! isset( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) && ! isset( $_SERVER['HTTP_CF_IPCOUNTRY'] ) ) { //phpcs:ignore
 			return;
 		}
 
-		$server_lang           = substr( $_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2 ); //phpcs:ignore
+		if ( isset( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ) {
+			$server_lang           = substr( $_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2 ); //phpcs:ignore
+		} else {
+			if ( isset( $_SERVER['HTTP_CF_IPCOUNTRY'] ) ) { // Compatibility Cloudfare
+				$server_lang = strtolower( $_SERVER['HTTP_CF_IPCOUNTRY'] );
+			}
+		}
+
 		$destination_languages = weglot_get_destination_languages();
 
 		if (
