@@ -24,6 +24,11 @@ abstract class Helper_Tabs_Admin_Weglot {
 	const STATUS = 'status';
 
 	/**
+	 * @var string
+	 */
+	const CUSTOM_URLS = 'custom-urls';
+
+	/**
 	 * Get tabs constant
 	 *
 	 * @since 2.0
@@ -34,6 +39,7 @@ abstract class Helper_Tabs_Admin_Weglot {
 		return [
 			self::SETTINGS,
 			self::STATUS,
+			self::CUSTOM_URLS
 		];
 	}
 
@@ -53,6 +59,10 @@ abstract class Helper_Tabs_Admin_Weglot {
 			self::STATUS   => [
 				'title' => __( 'Status', 'weglot' ),
 				'url'   => get_admin_url( null, sprintf( 'admin.php?page=%s&tab=%s', Helper_Pages_Weglot::SETTINGS, self::STATUS ) ),
+			],
+			self::CUSTOM_URLS   => [
+				'title' => __( 'Custom URLs', 'weglot' ),
+				'url'   => get_admin_url( null, sprintf( 'admin.php?page=%s&tab=%s', Helper_Pages_Weglot::SETTINGS, self::CUSTOM_URLS ) ),
 			],
 		];
 	}

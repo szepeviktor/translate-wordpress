@@ -90,7 +90,7 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 					$new_options = $this->sanitize_options_advanced( $new_options, $options );
 				}
 				break;
-			case Helper_Tabs_Admin_Weglot::STATUS:
+			case Helper_Tabs_Admin_Weglot::CUSTOM_URLS:
 				if (null === $options) {
 					$new_options['custom_urls'] = [];
 				}
