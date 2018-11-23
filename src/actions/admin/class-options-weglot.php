@@ -162,10 +162,17 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 	 * @return array
 	 */
 	public function sanitize_options_advanced( $new_options, $options ) {
-		$new_options['auto_redirect']     = isset( $options['auto_redirect'] ) ? 1 : 0;
-		$new_options['email_translate']   = isset( $options['email_translate'] ) ? 1 : 0;
-		$new_options['translate_amp']     = isset( $options['translate_amp'] ) ? 1 : 0;
-		$new_options['private_mode']      = isset( $options['private_mode'] ) ? 1 : 0;
+		$new_options['auto_redirect']               = isset( $options['auto_redirect'] ) ? 1 : 0;
+		$new_options['email_translate']             = isset( $options['email_translate'] ) ? 1 : 0;
+		$new_options['translate_amp']               = isset( $options['translate_amp'] ) ? 1 : 0;
+		$new_options['private_mode']['active']      = isset( $options['private_mode']['active'] ) ? 1 : 0;
+
+		$languages = weglot_get_languages_configured();
+
+		foreach ( $languages as $key => $lang) {
+			$new_options['private_mode'][ $lang->getIso639() ] = isset( $options['private_mode'][  $lang->getIso639() ] ) ? 1 : 0;
+		}
+
 		return $new_options;
 	}
 

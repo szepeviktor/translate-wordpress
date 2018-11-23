@@ -212,3 +212,12 @@ function weglot_get_postid_from_url() {
 function weglot_get_destination_language() {
 	return weglot_get_option( 'destination_language' );
 }
+
+/**
+ * @since 2.3.0
+ *
+ * @return string
+ */
+function weglot_get_private_languages() {
+	return weglot_get_option( 'private_mode' );
+}

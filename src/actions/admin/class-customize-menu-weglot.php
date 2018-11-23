@@ -20,10 +20,11 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 	 * @since 2.0
 	 */
 	public function __construct() {
-		$this->language_services      = weglot_get_service( 'Language_Service_Weglot' );
-		$this->option_services        = weglot_get_service( 'Option_Service_Weglot' );
-		$this->request_url_services   = weglot_get_service( 'Request_Url_Service_Weglot' );
-		$this->button_services        = weglot_get_service( 'Button_Service_Weglot' );
+		$this->language_services          = weglot_get_service( 'Language_Service_Weglot' );
+		$this->option_services            = weglot_get_service( 'Option_Service_Weglot' );
+		$this->request_url_services       = weglot_get_service( 'Request_Url_Service_Weglot' );
+		$this->button_services            = weglot_get_service( 'Button_Service_Weglot' );
+		$this->private_language_services  = weglot_get_service( 'Private_Language_Service_Weglot' );
 		return $this;
 	}
 
@@ -72,19 +73,21 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 	public function add_nav_menu_css_class( $classes, $item ) {
 		$str              = 'weglot_menu_title-';
 		if ( strpos( $item->post_name, $str ) !== false ) {
-			if ( ! $this->request_url_services->is_translatable_url() || ! weglot_current_url_is_eligible() ) {
+			$lang = explode( '-', substr( $item->post_name, strlen( $str ) ) );
+
+			if ( ! $this->request_url_services->is_translatable_url() || ! weglot_current_url_is_eligible() || $this->private_language_services->is_active_private_mode_for_lang( $lang[0] ) ) {
 				$classes[] = apply_filters( 'weglot_nav_menu_link_class', 'weglot-hide' );
 				return $classes;
 			}
 
-			$options                          = $this->option_services->get_options();
-			$with_flags                       = $options['with_flags'];
-			$type_flags                       = $options['type_flags'];
+			$options      = $this->option_services->get_options();
+			$with_flags   = $options['with_flags'];
+			$type_flags   = $options['type_flags'];
 
-			$flag_class                       = $with_flags ? 'weglot-flags ' : '';
+			$flag_class   = $with_flags ? 'weglot-flags ' : '';
 			$flag_class .= '0' === $type_flags ? '' : 'flag-' . $type_flags . ' ';
 
-			$lang                         = explode( '-', substr( $item->post_name, strlen( $str ) ) );
+
 
 			$classes[] = apply_filters( 'weglot_nav_menu_link_class', $flag_class . $lang[0] );
 		}

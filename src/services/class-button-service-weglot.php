@@ -17,11 +17,12 @@ class Button_Service_Weglot {
 	 * @since 2.0
 	 */
 	public function __construct() {
-		$this->option_services      = weglot_get_service( 'Option_Service_Weglot' );
-		$this->request_url_services = weglot_get_service( 'Request_Url_Service_Weglot' );
-		$this->language_services    = weglot_get_service( 'Language_Service_Weglot' );
-		$this->amp_services         = weglot_get_service( 'Amp_Service_Weglot' );
-		$this->custom_url_services  = weglot_get_service( 'Custom_Url_Service_Weglot' );
+		$this->option_services            = weglot_get_service( 'Option_Service_Weglot' );
+		$this->request_url_services       = weglot_get_service( 'Request_Url_Service_Weglot' );
+		$this->language_services          = weglot_get_service( 'Language_Service_Weglot' );
+		$this->amp_services               = weglot_get_service( 'Amp_Service_Weglot' );
+		$this->custom_url_services        = weglot_get_service( 'Custom_Url_Service_Weglot' );
+		$this->private_language_services  = weglot_get_service( 'Private_Language_Service_Weglot' );
 	}
 
 	/**
@@ -110,7 +111,7 @@ class Button_Service_Weglot {
 			array_unshift( $destination_language, $original_language );
 
 			foreach ( $destination_language as $key => $key_code ) {
-				if ( $key_code === $current_language ) {
+				if ( $key_code === $current_language || $this->private_language_services->is_active_private_mode_for_lang( $key_code ) ) {
 					continue;
 				}
 

@@ -335,3 +335,29 @@ input[type="text"], .wg-input-textarea {
 		font-size : 12px;
 	}
 }
+
+
+#private_mode {
+	+ p + div {
+		display: none;
+	}
+	&:checked + p + div {
+		display: block;
+	}
+}
+
+#private-mode-detail {
+	margin-top: 20px;
+	.private-mode-detail-lang{
+		display:flex;
+		align-items:center;
+		margin-top: 15px;
+		margin-bottom: 15px;
+		input,label{
+			line-height: 1.3;
+		}
+		input{
+			margin-right: 15px;
+		}
+	}
+}
