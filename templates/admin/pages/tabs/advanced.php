@@ -41,6 +41,8 @@ $options_available = [
 	],
 ];
 
+$languages = weglot_get_languages_configured();
+
 ?>
 
 <h3><?php esc_html_e( 'Translation Exclusion (Optional)', 'weglot' ); ?> </h3>
@@ -173,12 +175,25 @@ $options_available = [
 			</th>
 			<td class="forminp forminp-text">
 				<input
-					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['private_mode']['key'] ) ); ?>"
 					id="<?php echo esc_attr( $options_available['private_mode']['key'] ); ?>"
 					type="checkbox"
 					<?php checked( $this->options[ $options_available['private_mode']['key'] ], 1 ); ?>
 				>
 				<p class="description"><?php echo esc_html( $options_available['private_mode']['description'] ); ?></p>
+				<div id="private-mode-detail">
+					<?php foreach ( $languages as $key => $lang): ?>
+						<div class="private-mode-detail-lang">
+							<input
+								name="<?php echo esc_attr( sprintf( '%s[%s][%s]', WEGLOT_SLUG, $options_available['private_mode']['key'], $lang->getIso639() ) ); ?>"
+								id="<?php echo esc_attr( sprintf( '%s[%s][%s]', WEGLOT_SLUG, $options_available['private_mode']['key'], $lang->getIso639() ) ); ?>"
+								type="checkbox"
+							/>
+							<label for="<?php echo esc_attr( sprintf( '%s[%s][%s]', WEGLOT_SLUG, $options_available['private_mode']['key'], $lang->getIso639() ) ); ?>">
+								<?php echo $lang->getLocalName(); ?>
+							</label>
+						</div>
+					<?php endforeach; ?>
+				</div>
 			</td>
 		</tr>
 	</tbody>
