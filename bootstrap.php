@@ -56,6 +56,7 @@ abstract class Context_Weglot {
 			'\WeglotWP\Services\Generate_Switcher_Service_Weglot',
 			'\WeglotWP\Services\Email_Translate_Service_Weglot',
 			'\WeglotWP\Services\Translate_Service_Weglot',
+			'\WeglotWP\Services\Private_Language_Service_Weglot',
 		];
 
 		self::$context->set_services( $services );

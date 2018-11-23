@@ -30,6 +30,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		$this->request_url_services           = weglot_get_service( 'Request_Url_Service_Weglot' );
 		$this->redirect_services              = weglot_get_service( 'Redirect_Service_Weglot' );
 		$this->translate_services             = weglot_get_service( 'Translate_Service_Weglot' );
+		$this->private_language_services      = weglot_get_service( 'Private_Language_Service_Weglot' );
 	}
 
 	/**
@@ -58,9 +59,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 
 		$this->current_language   = $this->request_url_services->get_current_language();
 
-		$role_private_mode = 'administrator'; // apply_filters it not possible
-		$private_mode      = $this->option_services->get_option( 'private_mode' );
-		if ( $private_mode && ! current_user_can( $role_private_mode ) ) {
+		if ( $this->private_language_services->is_active_private_mode_for_lang( $this->current_language ) ) {
 			return;
 		}
 

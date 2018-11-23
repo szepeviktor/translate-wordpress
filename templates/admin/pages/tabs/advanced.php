@@ -42,6 +42,11 @@ $options_available = [
 ];
 
 $languages = weglot_get_languages_configured();
+foreach ($languages as $key => $value) {
+	if ($value->getIso639() === weglot_get_original_language() ) {
+		unset( $languages[$key] );
+	}
+}
 
 ?>
 

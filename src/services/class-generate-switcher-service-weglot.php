@@ -16,11 +16,11 @@ class Generate_Switcher_Service_Weglot {
 	 * @since 2.3.0
 	 */
 	public function __construct() {
-		$this->option_services      = weglot_get_service( 'Option_Service_Weglot' );
-		$this->request_url_services = weglot_get_service( 'Request_Url_Service_Weglot' );
-		$this->language_services    = weglot_get_service( 'Language_Service_Weglot' );
-		$this->custom_url_services  = weglot_get_service( 'Custom_Url_Service_Weglot' );
-		$this->button_services      = weglot_get_service( 'Button_Service_Weglot' );
+		$this->option_services            = weglot_get_service( 'Option_Service_Weglot' );
+		$this->request_url_services       = weglot_get_service( 'Request_Url_Service_Weglot' );
+		$this->language_services          = weglot_get_service( 'Language_Service_Weglot' );
+		$this->custom_url_services        = weglot_get_service( 'Custom_Url_Service_Weglot' );
+		$this->button_services            = weglot_get_service( 'Button_Service_Weglot' );
 	}
 
 	/**
