@@ -337,6 +337,15 @@ input[type="text"], .wg-input-textarea {
 }
 
 
+#private_mode {
+	+ p + div {
+		display: none;
+	}
+	&:checked + p + div {
+		display: block;
+	}
+}
+
 #private-mode-detail {
 	margin-top: 20px;
 	.private-mode-detail-lang{

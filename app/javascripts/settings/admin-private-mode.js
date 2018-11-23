@@ -3,7 +3,12 @@ const init_private_mode = function () {
 	const $ = jQuery
 
 	const execute = () => {
+		document.querySelector("#private_mode").addEventListener('change', function(e) {
 
+			document.querySelectorAll(".private-mode-lang--input").forEach((itm) => {
+				itm.checked = e.target.checked;
+			})
+		})
 	}
 
 	document.addEventListener('DOMContentLoaded', () => {
