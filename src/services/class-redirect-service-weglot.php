@@ -47,6 +47,20 @@ class Redirect_Service_Weglot {
 	}
 
 	/**
+	 * @since 2.3.0
+	 * @param string $server_lang
+	 * @return string
+	 */
+	protected function language_exception( $server_lang ) {
+		if ( in_array( $server_lang, ['nb', 'nn', ] ) ) { //phpcs:ignore
+			// Case Norwegian
+			$server_lang = 'no';
+		}
+
+		return apply_filters( 'weglot_redirection_language_exception', $server_lang );
+	}
+
+	/**
 	 * @since 2.0
 	 * @version 2.3.0
 	 * @return string
@@ -56,13 +70,16 @@ class Redirect_Service_Weglot {
 			return;
 		}
 
-		if ( isset( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ) {
+		if ( isset( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ) { //phpcs:ignore
 			$server_lang           = substr( $_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2 ); //phpcs:ignore
 		} else {
-			if ( isset( $_SERVER['HTTP_CF_IPCOUNTRY'] ) ) { // Compatibility Cloudfare
-				$server_lang = strtolower( $_SERVER['HTTP_CF_IPCOUNTRY'] );
+			if ( isset( $_SERVER['HTTP_CF_IPCOUNTRY'] ) ) { // phpcs:ignore
+				// Compatibility Cloudfare
+				$server_lang = strtolower( $_SERVER['HTTP_CF_IPCOUNTRY'] ); //phpcs:ignore
 			}
 		}
+
+		$server_lang = $this->language_exception( $server_lang );
 
 		$destination_languages = weglot_get_destination_languages();
 

@@ -189,7 +189,6 @@ foreach ($languages as $key => $value) {
 				<div id="private-mode-detail">
 					<?php foreach ( $languages as $key => $lang):
 						$checked_value = isset( $this->options[ $options_available['private_mode']['key'] ][ $lang->getIso639() ] ) ? $this->options[ $options_available['private_mode']['key'] ][ $lang->getIso639() ] : null;
-
 					?>
 						<div class="private-mode-detail-lang">
 							<input
