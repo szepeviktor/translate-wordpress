@@ -75,11 +75,14 @@ class Admin_Enqueue_Weglot implements Hooks_Interface_Weglot {
 		$plans            = $this->user_api_services->get_plans();
 		$limit            = 1000;
 		if (
+			isset( $user_info['plan'] ) &&
 			$user_info['plan'] <= 0 ||
+			isset( $user_info['plan'] ) &&
 			in_array( $user_info['plan'], $plans['starter_free']['ids'] ) // phpcs:ignore
 		) {
 			$limit = $plans['starter_free']['limit_language'];
 		} elseif (
+			isset( $user_info['plan'] ) &&
 			in_array( $user_info['plan'], $plans['business']['ids'] ) // phpcs:ignore
 		) {
 			$limit = $plans['business']['limit_language'];

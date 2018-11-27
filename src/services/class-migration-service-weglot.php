@@ -75,5 +75,27 @@ class Migration_Service_Weglot {
 		$this->option_services->set_options( $new_options );
 		update_option( 'weglot_version', WEGLOT_VERSION );
 	}
+
+	/**
+	 * Update 2.2.0 > 2.3.0
+	 * @since 2.3.0
+	 * @return void
+	 */
+	public function update_v230() {
+		$private_mode = weglot_get_option( 'private_mode' );
+
+		if ( $private_mode ) {
+			$destination_language                  = weglot_get_destination_language();
+			$new_options                           = weglot_get_options();
+			$new_options['private_mode']['active'] = true;
+
+			foreach ( $destination_language as $key => $lang ) {
+				$new_options['private_mode'][ $lang ] = true;
+			}
+
+			$this->option_services->set_options( $new_options );
+			update_option( 'weglot_version', WEGLOT_VERSION );
+		}
+	}
 }
 

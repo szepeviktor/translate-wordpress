@@ -122,21 +122,21 @@ $plans              = $this->user_api_services->get_plans();
 				</select>
 
 				<?php
-				if ( $user_info['plan'] <= 0 ) {
+				if ( $user_info && isset( $user_info['plan'] ) && $user_info['plan'] <= 0 ) {
 					?>
 						<p class="description">
 							<?php // translators: 1 HTML Tag, 2 HTML Tag ?>
 							<?php echo sprintf( esc_html__( 'On the free plan, you can choose one language and use a maximum of 2000 words. If you need more, please %1$supgrade your plan%2$s.', 'weglot' ), '<a target="_blank" href="https://dashboard.weglot.com/billing/upgrade">', '</a>' ); ?>
 						</p>
 					<?php
-				} elseif ( in_array( $user_info['plan'], $plans['starter_free']['ids'] ) ) { //phpcs:ignore
+				} elseif ( isset( $user_info['plan'] ) && in_array( $user_info['plan'], $plans['starter_free']['ids'] ) ) { //phpcs:ignore
 					?>
 						<p class="description">
 							<?php // translators: 1 HTML Tag, 2 HTML Tag ?>
 							<?php echo sprintf( esc_html__( 'On the Starter plan, you can choose one language. If you need more, please %1$supgrade your plan%2$s.', 'weglot' ), '<a target="_blank" href="https://dashboard.weglot.com/billing/upgrade">', '</a>' ); ?>
 						</p>
 					<?php
-				} elseif ( in_array( $user_info['plan'], $plans['business']['ids'] ) ) { //phpcs:ignore
+				} elseif ( isset( $user_info['plan'] ) && in_array( $user_info['plan'], $plans['business']['ids'] ) ) { //phpcs:ignore
 					?>
 						<p class="description">
 							<?php // translators: 1 HTML Tag, 2 HTML Tag ?>

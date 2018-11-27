@@ -187,14 +187,17 @@ foreach ($languages as $key => $value) {
 				>
 				<p class="description"><?php echo esc_html( $options_available['private_mode']['description'] ); ?></p>
 				<div id="private-mode-detail">
-					<?php foreach ( $languages as $key => $lang): ?>
+					<?php foreach ( $languages as $key => $lang):
+						$checked_value = isset( $this->options[ $options_available['private_mode']['key'] ][ $lang->getIso639() ] ) ? $this->options[ $options_available['private_mode']['key'] ][ $lang->getIso639() ] : null;
+
+					?>
 						<div class="private-mode-detail-lang">
 							<input
 								name="<?php echo esc_attr( sprintf( '%s[%s][%s]', WEGLOT_SLUG, $options_available['private_mode']['key'], $lang->getIso639() ) ); ?>"
 								id="<?php echo esc_attr( sprintf( '%s[%s][%s]', WEGLOT_SLUG, $options_available['private_mode']['key'], $lang->getIso639() ) ); ?>"
 								type="checkbox"
 								class="private-mode-lang--input"
-								<?php checked( $this->options[ $options_available['private_mode']['key'] ][ $lang->getIso639() ], 1 ); ?>
+								<?php checked( $checked_value, 1 ); ?>
 							/>
 							<label for="<?php echo esc_attr( sprintf( '%s[%s][%s]', WEGLOT_SLUG, $options_available['private_mode']['key'], $lang->getIso639() ) ); ?>">
 								<?php echo $lang->getLocalName(); ?>

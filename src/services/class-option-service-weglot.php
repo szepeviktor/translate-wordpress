@@ -37,7 +37,9 @@ class Option_Service_Weglot {
 		'allowed'                    => true,
 		'custom_urls'                => [],
 		'flag_css'                   => '',
-		'private_mode'               => false,
+		'private_mode'               => [
+			'active' => false,
+		],
 	];
 
 	/**
