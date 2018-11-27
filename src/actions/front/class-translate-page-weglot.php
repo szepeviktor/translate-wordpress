@@ -82,9 +82,14 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			'avia_ajax_switch_menu_walker', // Enfold theme
 			'query-themes', // WP Core
 			'wpestate_ajax_check_booking_valability_internal', // WP Estate theme
+			'mailster_get_template', // Mailster Pro
 		] );
 
 		if ( 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['action'] ) && in_array( $_POST['action'], $action_ajax_no_translate ) ) { //phpcs:ignore
+			return true;
+		}
+
+		if ( 'GET' === $_SERVER['REQUEST_METHOD'] && isset( $_GET['action'] ) && in_array( $_GET['action'], $action_ajax_no_translate ) ) { //phpcs:ignore
 			return true;
 		}
 
