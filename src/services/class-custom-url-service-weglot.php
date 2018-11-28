@@ -29,13 +29,14 @@ class Custom_Url_Service_Weglot {
 	 */
 	public function get_link_button_with_key_code( $key_code ) {
 		global $post;
-		$weglot_url               = $this->request_url_services->get_weglot_url();
-		$request_without_language = array_filter( explode( '/', $weglot_url->getPath() ), 'strlen' );
-		$index_entries            = count( $request_without_language );
-		$custom_urls              = $this->option_services->get_option( 'custom_urls' );
-		$url_lang                 = $weglot_url->getForLanguage( $key_code );
+		$weglot_url                = $this->request_url_services->get_weglot_url();
+		$request_without_language  = array_filter( explode( '/', $weglot_url->getPath() ), 'strlen' );
+		$index_entries             = count( $request_without_language );
+		$custom_urls               = $this->option_services->get_option( 'custom_urls' );
+		$url_lang                  = $weglot_url->getForLanguage( $key_code );
+		$original_language         = weglot_get_original_language();
 
-		$condition_test_custom_url = isset( $request_without_language[ $index_entries ] ) && ! is_admin() && ! empty( $custom_urls ) && ! is_post_type_archive() && ! is_category() && ! is_tax() && ! is_archive() ;
+		$condition_test_custom_url = isset( $request_without_language[ $index_entries ] ) && ! is_admin() && ! empty( $custom_urls ) && ! is_post_type_archive() && ! is_category() && ! is_tax() && ! is_archive();
 
 		if ( apply_filters( 'weglot_condition_test_custom_url', $condition_test_custom_url ) ) {
 			$slug_in_work             = $request_without_language[ $index_entries ];

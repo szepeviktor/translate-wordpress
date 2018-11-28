@@ -104,6 +104,8 @@ class Option_Service_Weglot {
 	public function get_exclude_urls() {
 		$exclude_urls     = $this->get_option( 'exclude_urls' );
 		$exclude_urls[]   = '/wp-login.php';
+		$exclude_urls[]   = '/sitemaps_xsl.xsl';
+		$exclude_urls[]   = '/sitemaps.xml';
 
 		return apply_filters( 'weglot_exclude_urls', $exclude_urls );
 	}
