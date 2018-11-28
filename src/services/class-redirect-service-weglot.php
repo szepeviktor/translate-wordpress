@@ -88,7 +88,7 @@ class Redirect_Service_Weglot {
 			weglot_get_original_language() === $this->request_url_services->get_current_language()
 		) {
 			$url_auto_redirect = apply_filters( 'weglot_url_auto_redirect', $this->request_url_services->get_weglot_url()->getForLanguage( $server_lang ) );
-			wp_safe_redirect( $url_auto_redirect );
+			header( "Location: $url_auto_redirect", true, 302 );
 			exit();
 		}
 	}
