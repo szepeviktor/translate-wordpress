@@ -63,6 +63,17 @@ function weglot_get_destination_languages() {
 }
 
 /**
+ * @since 2.3.0
+ * @return array
+ */
+function weglot_get_all_languages_configured() {
+	$destinations   = weglot_get_destination_language();
+	$original       = weglot_get_original_language();
+	array_unshift( $destinations, $original );
+	return $destinations;
+}
+
+/**
  * Get Request Url Service
  * @since 2.0
  * @return Request_Url_Service_Weglot

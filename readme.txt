@@ -155,7 +155,11 @@ See changelog for upgrade changes.
 = 2.3.0 () =
 * Bugfix : Custom URL on archive page
 * Bugfix : Prevent error on translate AJAX
+* Bugfix : Href lang on custom URLs
 * Improve code quality
+* Compatibility SEOPress : exclude sitemap
+* Improve private languages
+* Add two DOM checkers
 
 = 2.2.2 (05/11/2018) =
 * Fix bug on change country flag

@@ -31,6 +31,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		$this->redirect_services              = weglot_get_service( 'Redirect_Service_Weglot' );
 		$this->translate_services             = weglot_get_service( 'Translate_Service_Weglot' );
 		$this->private_language_services      = weglot_get_service( 'Private_Language_Service_Weglot' );
+		$this->href_lang_services             = weglot_get_service( 'Href_Lang_Service_Weglot' );
 	}
 
 	/**
@@ -261,11 +262,11 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 	/**
 	 * @see wp_head
 	 * @since 2.0
+	 * @version 2.3.0
 	 * @return void
 	 */
 	public function weglot_href_lang() {
-		$href_lang_tags = $this->request_url_services->get_weglot_url()->generateHrefLangsTags(); //phpcs:ignore
-		echo apply_filters( 'weglot_href_lang', $href_lang_tags ); //phpcs:ignore
+		echo $this->href_lang_services->generate_href_lang_tags(); //phpcs:ignore
 	}
 }
 
