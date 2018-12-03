@@ -65,6 +65,9 @@ class Parser_Service_Weglot {
 		} else {
 			$parser    = new Parser( $client, $config, $exclude_blocks );
 			$parser->getDomCheckerProvider()->addCheckers( $this->dom_checkers_services->get_dom_checkers() );
+			$ignored_nodes = apply_filters( 'weglot_get_parser_ignored_nodes', $parser->getIgnoredNodesFormatter()->getIgnoredNodes() );
+
+			$parser->getIgnoredNodesFormatter()->setIgnoredNodes( $ignored_nodes );
 		}
 
 		return $parser;
