@@ -16,8 +16,9 @@ class Href_Lang_Service_Weglot {
 	 * @since 2.3.0
 	 */
 	public function __construct() {
-		$this->custom_url_services      = weglot_get_service( 'Custom_Url_Service_Weglot' );
-		$this->request_url_services     = weglot_get_service( 'Request_Url_Service_Weglot' );
+		$this->custom_url_services          = weglot_get_service( 'Custom_Url_Service_Weglot' );
+		$this->request_url_services         = weglot_get_service( 'Request_Url_Service_Weglot' );
+		$this->private_language_service     = weglot_get_service( 'Private_Language_Service_Weglot' );
 	}
 
 	/**
@@ -28,6 +29,10 @@ class Href_Lang_Service_Weglot {
 		$render                = '';
 		try {
 			foreach ( $destination_languages as $language ) {
+				if ( $this->private_language_service->is_active_private_mode_for_lang( $language ) ) {
+					continue;
+				}
+
 				$url = $this->custom_url_services->get_link( $language );
 				$render .= '<link rel="alternate" href="' . $url . '" hreflang="' . $language . '"/>' . "\n";
 			}
