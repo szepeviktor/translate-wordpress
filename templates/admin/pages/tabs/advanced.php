@@ -199,7 +199,9 @@ foreach ($languages as $key => $value) {
 								<?php checked( $checked_value, 1 ); ?>
 							/>
 							<label for="<?php echo esc_attr( sprintf( '%s[%s][%s]', WEGLOT_SLUG, $options_available['private_mode']['key'], $lang->getIso639() ) ); ?>">
-								<?php echo $lang->getLocalName(); ?>
+								<?php
+								// translators: 1 Local name language
+								esc_html_e( sprintf( "Make '%s' a private langauge", $lang->getLocalName() ), 'weglot' ); ?>
 							</label>
 						</div>
 					<?php endforeach; ?>
@@ -211,10 +213,7 @@ foreach ($languages as $key => $value) {
 
 <div class="notice notice-info is-dismissible">
 	<p>
-		<?php
-			// translators: 1 HTML Tag, 2 HTML Tag
-			echo sprintf( esc_html__( 'If you need any help, you can contact us via email us at support@weglot.com.', 'weglot' ), '<a href="https://weglot.com/" target="_blank">', '</a>' );
-		?>
+		<?php esc_html_e( 'If you need any help, you can contact us via email us at support@weglot.com.', 'weglot' ); ?>
 	</p>
 	<p>
 		<?php esc_html_e( 'You can also return to version 1.13.1 by clicking on the button below', 'weglot' ); ?>

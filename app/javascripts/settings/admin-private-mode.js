@@ -9,6 +9,14 @@ const init_private_mode = function () {
 				itm.checked = e.target.checked;
 			})
 		})
+
+		document.querySelectorAll(".private-mode-lang--input").forEach((itm) => {
+			itm.addEventListener('change', function(e){
+				if (document.querySelectorAll(".private-mode-lang--input:checked").length === 0){
+					document.querySelector("#private_mode").checked = false
+				}
+			})
+		});
 	}
 
 	document.addEventListener('DOMContentLoaded', () => {
