@@ -149,7 +149,7 @@ class Translate_Service_Weglot {
 					try {
 						$parser         = $this->parser_services->get_parser();
 						$array[ $key ]  = $parser->translate( $val, $this->original_language, $this->current_language ); //phpcs:ignore
-					} catch ( \Exception $e) {
+					} catch ( \Exception $e ) {
 						continue;
 					}
 				} elseif ( in_array( $key,  $array_not_ajax_html ) ) { //phpcs:ignore

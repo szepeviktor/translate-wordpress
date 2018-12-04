@@ -32,6 +32,12 @@ To install the development environment:
 [codefactor-image]: https://www.codefactor.io/repository/github/weglot/translate-wordpress/badge/dev
 [codefactor-url]: https://www.codefactor.io/repository/github/weglot/translate-wordpress/overview/dev
 
+
+### Execute tests
+
+- `/bin/install-wp-tests.sh "wptest" "root" "" "127.0.0.1" "4.9.5"`
+- `./vendor/bin/phpunit`
+
 ## Before each release : test the following
 
 ### Switcher language
