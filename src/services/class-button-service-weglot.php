@@ -87,16 +87,21 @@ class Button_Service_Weglot {
 		$original_language    = weglot_get_original_language();
 
 		$view_button          = false;
-		foreach ($private_mode as $key_code => $value) {
-			if ( $key_code === $original_language || $key_code === 'active' ) {
-				continue;
-			}
+		if ( $private_mode['active'] && ! is_admin() ) {
+			foreach ($private_mode as $key_code => $value) {
+				if ( $key_code === $original_language || $key_code === 'active' ) {
+					continue;
+				}
 
-			if ( ! $this->private_language_services->is_active_private_mode_for_lang( $key_code ) ) {
-				$view_button = true;
+				if ( ! $this->private_language_services->is_active_private_mode_for_lang( $key_code ) ) {
+					$view_button = true;
+				}
 			}
+		} else {
+			$view_button = true;
 		}
-		if ( ! $view_button) {
+
+		if ( ! apply_filters( 'weglot_view_button_html', $view_button ) ) {
 			return '';
 		}
 
