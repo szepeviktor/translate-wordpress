@@ -147,7 +147,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 
 		$file = apply_filters( 'weglot_debug_file', WEGLOT_DIR . '/content.html' );
 
-		if ( defined( 'WEGLOT_DEBUG' ) && WEGLOT_DEBUG && apply_filters( 'weglot_mode_debug', true ) && file_exists( $file ) ) {
+		if ( defined( 'WEGLOT_DEBUG' ) && WEGLOT_DEBUG && file_exists( $file ) ) {
 			$this->translate_services->set_original_language( weglot_get_original_language() );
 			$this->translate_services->set_current_language( $this->request_url_services->get_current_language() );
 			echo $this->translate_services->weglot_treat_page( file_get_contents( $file ) ); //phpcs:ignore
