@@ -1,7 +1,7 @@
 <!-- logo -->
 <img src="https://cdn.weglot.com/logo/logo-hor.png" height="40" />
 
-# WordPress Plugin
+# Translate WP website – Weglot Translate
 
 [![Weglot Slack][slack-image]][slack-url]
 [![Build Status][travis-image]][travis-url]
