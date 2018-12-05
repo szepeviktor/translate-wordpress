@@ -78,7 +78,7 @@ class Button_Service_Weglot {
 	 * Get html button switcher
 	 *
 	 * @since 2.0
-	 * @version 2.3.0
+	 * @version 2.3.1
 	 * @return string
 	 * @param string $add_class
 	 */
