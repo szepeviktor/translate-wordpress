@@ -47,9 +47,7 @@ use Weglot\WeglotContext;
 		</div>
 
 		<?php
-	}
-
-	?>
+	} ?>
 
 	<script>
 		document.addEventListener('DOMContentLoaded', function(){
@@ -70,9 +68,5 @@ use Weglot\WeglotContext;
 		})
 	</script>
 
-	<?php endforeach;
-		settings_fields( WEGLOT_OPTION_GROUP );
-		submit_button();
-	?>
-
+	<?php endforeach; ?>
 </div>

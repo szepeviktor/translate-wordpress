@@ -206,6 +206,18 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 		if ( ! $post ) {
 			return;
 		}
+
+		$post_type = get_post_type();
+
+		$exclude_post_type_metabox = apply_filters( 'weglot_url_translate_metabox_post_type_exclude', [
+			'attachment',
+			'seopress_404',
+		] );
+
+		if ( in_array( $post_type, $exclude_post_type_metabox ) ) { //phpcs:ignore
+			return;
+		}
+
 		add_meta_box( 'weglot-url-translate', __( 'Weglot URL Translate', 'weglot' ), [ $this, 'weglot_url_translate_box' ] );
 	}
 
@@ -215,10 +227,12 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 	 * @param mixed $post
 	 */
 	public function weglot_url_translate_box( $post ) {
-		$this->custom_urls = $this->option_services->get_option( 'custom_urls' );
 		if ( ! $post ) {
 			return;
 		}
+
+		$this->custom_urls = $this->option_services->get_option( 'custom_urls' );
+
 		include_once WEGLOT_TEMPLATES_ADMIN_METABOXES . '/url-translate.php';
 	}
 
