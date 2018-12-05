@@ -1,10 +1,10 @@
 === Translate WP website - Weglot Translate ===
-Contributors: remyb92
+Contributors: remyb92, gmulti
 Tags: translate,translation,language,multilingual,bilingual,international,localization,multilanguage,multi language,translations,translator,multilangues,traduction,traducteur,ubersetzung,mehrsprachig,traduccion,traduzione,vertaling,vertaler,meertalig
 Requires at least: 4.5
 Tested up to: 5.0
 Requires PHP: 5.4
-Stable tag: 2.2.2
+Stable tag: 2.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -152,7 +152,7 @@ See changelog for upgrade changes.
 
 == Changelog ==
 
-= 2.3.0 () =
+= 2.3.0 (05/12/2018) =
 * Bugfix : Custom URL on archive page
 * Bugfix : Prevent error on translate AJAX
 * Bugfix : Href lang on custom URLs
