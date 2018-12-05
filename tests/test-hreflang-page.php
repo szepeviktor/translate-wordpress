@@ -5,7 +5,7 @@ use WeglotWP\Services\Href_Lang_Service_Weglot;
 use Weglot\Client\Api\Enum\BotType;
 use Weglot\Parser\ConfigProvider\ManualConfigProvider;
 
-class TranslateHreflangPage extends WP_UnitTestCase {
+class HreflangPageTest extends WP_UnitTestCase {
 	public function test_hreflang_page() {
 		add_filter( 'weglot_get_options', function( $options ) {
 			$options['api_key'] = getenv( 'API_KEY' );

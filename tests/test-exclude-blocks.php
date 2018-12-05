@@ -4,11 +4,13 @@ use WeglotWP\Services\Translate_Service_Weglot;
 use Weglot\Client\Api\Enum\BotType;
 use Weglot\Parser\ConfigProvider\ManualConfigProvider;
 
-class TranslatePageTest extends WP_UnitTestCase {
-	public function test_translation_content_links_internal() {
+class ExcludeBlocksTest extends WP_UnitTestCase {
+	public function test_exclude_blocks() {
 		add_filter( 'weglot_get_options', function( $options ) {
 			$options['api_key'] = getenv( 'API_KEY' );
-			$options['destination_language'] = [ 'fr' ];
+			$options['orignal_language'] = 'en';
+			$options['destination_language'] = [ 'fr', 'es' ];
+			$options['exclude_blocks'] = [ '.site-branding .site-description' ];
 			$options['allowed'] = true;
 			return $options;
 		});
@@ -39,8 +41,6 @@ class TranslatePageTest extends WP_UnitTestCase {
 			false
 		);
 
-		$this->assertEquals( $dom->find( '.site-title a', 0 )->href, 'http://weglot-plugin.local/fr/' );
-		$this->assertEquals( $dom->find( '#post-1 .entry-title a', 0 )->href, 'http://weglot-plugin.local/fr/hello-world/' );
-		$this->assertNotEquals( $dom->find( '.site-branding .site-description', 0 )->innertext, 'Just another WordPress site' );
+		$this->assertEquals( $dom->find( '.site-branding .site-description', 0 )->innertext, 'Just another WordPress site' );
 	}
 }

@@ -87,8 +87,6 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 			$flag_class   = $with_flags ? 'weglot-flags ' : '';
 			$flag_class .= '0' === $type_flags ? '' : 'flag-' . $type_flags . ' ';
 
-
-
 			$classes[] = apply_filters( 'weglot_nav_menu_link_class', $flag_class . $lang[0] );
 		}
 
