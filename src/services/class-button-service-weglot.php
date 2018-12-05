@@ -83,10 +83,27 @@ class Button_Service_Weglot {
 	 * @param string $add_class
 	 */
 	public function get_html( $add_class = '' ) {
+		$private_mode         = $this->option_services->get_option( 'private_mode' );
+		$original_language    = weglot_get_original_language();
+
+		$view_button          = false;
+		foreach ($private_mode as $key_code => $value) {
+			if ( $key_code === $original_language || $key_code === 'active' ) {
+				continue;
+			}
+
+			if ( ! $this->private_language_services->is_active_private_mode_for_lang( $key_code ) ) {
+				$view_button = true;
+			}
+		}
+		if ( ! $view_button) {
+			return '';
+		}
+
 		$weglot_url           = $this->request_url_services->get_weglot_url();
 		$amp_regex            = $this->amp_services->get_regex( true );
 		$destination_language = weglot_get_destination_languages();
-		$original_language    = weglot_get_original_language();
+
 		$current_language     = $this->request_url_services->get_current_language( false );
 
 		if ( weglot_get_translate_amp_translation() && preg_match( '#' . $amp_regex . '#', $weglot_url->getUrl() ) === 1 ) {
