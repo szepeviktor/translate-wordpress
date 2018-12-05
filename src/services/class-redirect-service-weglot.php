@@ -35,6 +35,7 @@ class Redirect_Service_Weglot {
 	public function __construct() {
 		$this->option_services           = weglot_get_service( 'Option_Service_Weglot' );
 		$this->request_url_services      = weglot_get_service( 'Request_Url_Service_Weglot' );
+		$this->private_services          = weglot_get_service( 'Private_Language_Service_Weglot' );
 	}
 
 	/**
@@ -85,7 +86,8 @@ class Redirect_Service_Weglot {
 
 		if (
 			in_array( $server_lang, $destination_languages ) && // phpcs:ignore
-			weglot_get_original_language() === $this->request_url_services->get_current_language()
+			weglot_get_original_language() === $this->request_url_services->get_current_language() &&
+			! $this->private_services->is_active_private_mode_for_lang( $server_lang )
 		) {
 			$url_auto_redirect = apply_filters( 'weglot_url_auto_redirect', $this->request_url_services->get_weglot_url()->getForLanguage( $server_lang ) );
 			header( "Location: $url_auto_redirect", true, 302 );
