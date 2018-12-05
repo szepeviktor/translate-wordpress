@@ -87,6 +87,7 @@ class Migration_Service_Weglot {
 		if ( $private_mode ) {
 			$destination_language                  = weglot_get_destination_language();
 			$new_options                           = weglot_get_options();
+			$new_options['private_mode']           = [];
 			$new_options['private_mode']['active'] = true;
 
 			foreach ( $destination_language as $key => $lang ) {

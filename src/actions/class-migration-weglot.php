@@ -36,7 +36,7 @@ class Migration_Weglot implements Hooks_Interface_Weglot {
 			$this->migration_services->update_v200();
 		}
 
-		if ( $weglot_version && version_compare( WEGLOT_VERSION, '2.2.0', '>=' ) && version_compare( WEGLOT_VERSION, '2.3.0', '<' ) ) {
+		if ( $weglot_version && version_compare( $weglot_version, '2.2.0', '>=' ) && version_compare( $weglot_version, '2.3.0', '<' ) ) {
 			$this->migration_services->update_v230();
 		}
 	}
