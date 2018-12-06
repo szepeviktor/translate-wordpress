@@ -125,6 +125,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		}
 
 		$active_translation = apply_filters( 'weglot_active_translation_before_process', true );
+
 		// Default : yes
 		if ( ! $active_translation ) {
 			return;

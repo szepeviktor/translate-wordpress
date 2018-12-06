@@ -152,7 +152,7 @@ class Translate_Service_Weglot {
 					} catch ( \Exception $e ) {
 						continue;
 					}
-				} elseif ( in_array( $key,  $array_not_ajax_html ) ) { //phpcs:ignore
+				} elseif ( in_array( $key,  $array_not_ajax_html, true ) ) {
 					$array[$key] = $this->replace_link_services->replace_url( $val ); //phpcs:ignore
 				}
 			}
