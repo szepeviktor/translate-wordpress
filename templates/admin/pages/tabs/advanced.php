@@ -37,14 +37,14 @@ $options_available = [
 	'private_mode' => [
 		'key'         => 'private_mode',
 		'label'       => __( 'Private mode', 'weglot' ),
-		'description' => __( 'Only admin users can be view translation', 'weglot' ),
+		'description' => __( 'Check if your only want admin users to see the translations', 'weglot' ),
 	],
 ];
 
 $languages = weglot_get_languages_configured();
-foreach ($languages as $key => $value) {
-	if ($value->getIso639() === weglot_get_original_language() ) {
-		unset( $languages[$key] );
+foreach ( $languages as $key => $value ) {
+	if ( $value->getIso639() === weglot_get_original_language() ) {
+		unset( $languages[ $key ] );
 	}
 }
 
