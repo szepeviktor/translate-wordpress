@@ -39,6 +39,7 @@ class Option_Service_Weglot {
 		'custom_urls'                => [],
 		'flag_css'                   => '',
 		'menu_switcher'              => [],
+		'active_search'              => false,
 		'private_mode'               => [
 			'active' => false,
 		],

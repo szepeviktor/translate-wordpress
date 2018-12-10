@@ -34,6 +34,11 @@ $options_available = [
 		'label'       => __( 'Translate AMP', 'weglot' ),
 		'description' => __( 'Translate AMP page', 'weglot' ),
 	],
+	'active_search' => [
+		'key'         => 'active_search',
+		'label'       => __( 'Search WordPress', 'weglot' ),
+		'description' => __( '', 'weglot' ),
+	],
 	'private_mode' => [
 		'key'         => 'private_mode',
 		'label'       => __( 'Private mode', 'weglot' ),
