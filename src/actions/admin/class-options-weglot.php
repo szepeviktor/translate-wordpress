@@ -91,7 +91,7 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 				}
 				break;
 			case Helper_Tabs_Admin_Weglot::CUSTOM_URLS:
-				if (null === $options) {
+				if ( null === $options ) {
 					$new_options['custom_urls'] = [];
 				}
 				break;
@@ -169,7 +169,7 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 
 		$languages = weglot_get_languages_configured();
 
-		foreach ( $languages as $key => $lang) {
+		foreach ( $languages as $key => $lang ) {
 			$new_options['private_mode'][ $lang->getIso639() ] = isset( $options['private_mode'][  $lang->getIso639() ] ) ? 1 : 0;
 		}
 

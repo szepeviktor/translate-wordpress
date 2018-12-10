@@ -88,8 +88,8 @@ class Button_Service_Weglot {
 
 		$view_button          = false;
 		if ( $private_mode['active'] && ! is_admin() ) {
-			foreach ($private_mode as $key_code => $value) {
-				if ( $key_code === $original_language || $key_code === 'active' ) {
+			foreach ( $private_mode as $key_code => $value ) {
+				if ( $key_code === $original_language || 'active' === $key_code ) {
 					continue;
 				}
 
