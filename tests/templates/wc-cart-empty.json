@@ -1,0 +1,12 @@
+{
+	"fragments": {
+		"div.widget_shopping_cart_content": "<div class=\"widget_shopping_cart_content\">\n\n\t<p class=\"woocommerce-mini-cart__empty-message\">No products in the cart.<\/p>\n\n\n<\/div>",
+		"li.woo-menu-icon a.wcmenucart, .oceanwp-mobile-menu-icon a.wcmenucart": "\n\t\t\t<a href=\"https:\/\/fyllde.com\/cart\/\" class=\"wcmenucart wcmenucart-hide\">\n\t\t\t\t<span class=\"wcmenucart-count\"><i class=\"icon-handbag\"><\/i><span class=\"wcmenucart-details count\">0<\/span><\/span>\n\t\t\t<\/a>\n\n\t\t",
+		"body:not(.elementor-editor-active) div.elementor-element.elementor-widget.elementor-widget-woocommerce-menu-cart div.elementor-menu-cart__wrapper": "\t\t<div class=\"elementor-menu-cart__wrapper\">\n\t\t\t\t\t\t<div class=\"elementor-menu-cart__container elementor-lightbox\">\n\t\t\t\t<form class=\"elementor-menu-cart__main woocommerce-cart-form\" action=\"https:\/\/fyllde.com\/cart\/\" method=\"post\">\n\t\t\t\t\t<div class=\"elementor-menu-cart__close-button\"><\/div>\n\t\t\t\t\t\t\t<div class=\"woocommerce-mini-cart__empty-message\">No products in the cart.<\/div>\n\t\t\t\t\t\t<\/form>\n\t\t\t<\/div>\n\t\t\t\n\t\t\t<div class=\"elementor-menu-cart__toggle elementor-button-wrapper\">\n\t\t\t\t<a href=\"#\" class=\"elementor-button elementor-size-sm\">\n\t\t\t\t\t<span class=\"elementor-button-text\"><span class=\"woocs_special_price_code\" ><span class=\"woocommerce-Price-amount amount\"><span class=\"woocommerce-Price-currencySymbol\">&pound;<\/span>&nbsp;0.00<\/span><\/span><\/span>\n\t\t\t\t\t<span class=\"elementor-button-icon\" data-counter=\"0\"><i class=\"eicon\" aria-hidden=\"true\"><\/i><\/span>\n\t\t\t\t<\/a>\n\t\t\t<\/div>\n\t\t<\/div>\n\t\t",
+		".wcmenucart-shortcode .wcmenucart-total": "<span class=\"wcmenucart-total\"><span class=\"woocommerce-Price-amount amount\"><span class=\"woocommerce-Price-currencySymbol\">&pound;<\/span>&nbsp;0.00<\/span><\/span>",
+		".wcmenucart-shortcode .wcmenucart-count": "<span class=\"wcmenucart-count\">0<\/span>",
+		".oceanwp-woo-total": "<span class=\"oceanwp-woo-total\"><span class=\"woocommerce-Price-amount amount\"><span class=\"woocommerce-Price-currencySymbol\">&pound;<\/span>&nbsp;0.00<\/span><\/span>",
+		".oceanwp-woo-cart-count": "<span class=\"oceanwp-woo-cart-count\">0<\/span>"
+	},
+	"cart_hash": ""
+}
