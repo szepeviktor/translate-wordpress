@@ -217,6 +217,7 @@ foreach ( $languages as $key => $value ) {
 						if ( ! $lang ) {
 							continue;
 						}
+
 						$checked_value = isset( $this->options[ $options_available['private_mode']['key'] ][ $lang->getIso639() ] ) ? $this->options[ $options_available['private_mode']['key'] ][ $lang->getIso639() ] : null;
 					?>
 						<div class="private-mode-detail-lang">
