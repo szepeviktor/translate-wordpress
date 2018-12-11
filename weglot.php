@@ -1,8 +1,4 @@
 <?php
-/**
- * @version 2.3.0
- */
-
 /*
 Plugin Name: Weglot Translate
 Plugin URI: http://wordpress.org/plugins/weglot/
