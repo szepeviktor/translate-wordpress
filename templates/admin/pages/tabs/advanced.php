@@ -37,7 +37,7 @@ $options_available = [
 	'active_search' => [
 		'key'         => 'active_search',
 		'label'       => __( 'Search WordPress', 'weglot' ),
-		'description' => __( '', 'weglot' ),
+		'description' => __( ' [BETA] : Allow your users to search in the language they use.', 'weglot' ),
 	],
 	'private_mode' => [
 		'key'         => 'private_mode',
@@ -180,6 +180,22 @@ foreach ( $languages as $key => $value ) {
 					<?php checked( $this->options[ $options_available['translate_amp']['key'] ], 1 ); ?>
 				>
 				<p class="description"><?php echo esc_html( $options_available['translate_amp']['description'] ); ?></p>
+			</td>
+		</tr>
+		<tr valign="top">
+			<th scope="row" class="titledesc">
+				<label for="<?php echo esc_attr( $options_available['active_search']['key'] ); ?>">
+					<?php echo esc_html( $options_available['active_search']['label'] ); ?>
+				</label>
+			</th>
+			<td class="forminp forminp-text">
+				<input
+					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['active_search']['key'] ) ); ?>"
+					id="<?php echo esc_attr( $options_available['active_search']['key'] ); ?>"
+					type="checkbox"
+					<?php checked( $this->options[ $options_available['active_search']['key'] ], 1 ); ?>
+				>
+				<p class="description"><?php echo esc_html( $options_available['active_search']['description'] ); ?></p>
 			</td>
 		</tr>
 		<tr valign="top">
