@@ -1,5 +1,5 @@
 === Translate WP website - Weglot Translate ===
-Contributors: remyb92, gmulti
+Contributors: remyb92, gmulti, wysija
 Tags: translate,translation,language,multilingual,bilingual,international,localization,multilanguage,multi language,translations,translator,multilangues,traduction,traducteur,ubersetzung,mehrsprachig,traduccion,traduzione,vertaling,vertaler,meertalig
 Requires at least: 4.5
 Tested up to: 5.0
