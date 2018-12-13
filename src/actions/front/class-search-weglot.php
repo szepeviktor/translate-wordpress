@@ -35,7 +35,7 @@ class Search_Weglot implements Hooks_Interface_Weglot {
 
 		if ( $search_active ) {
 			add_action( 'pre_get_posts', [ $this, 'pre_get_posts_translate' ] );
-			add_action( 'get_search_query', [ $this, 'get_search_query_translate' ] );
+			add_filter( 'get_search_query', [ $this, 'get_search_query_translate' ] );
 		}
 	}
 
