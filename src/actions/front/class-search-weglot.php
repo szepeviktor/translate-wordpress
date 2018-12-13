@@ -12,6 +12,9 @@ use WeglotWP\Models\Hooks_Interface_Weglot;
  * @since 2.4.0
  */
 class Search_Weglot implements Hooks_Interface_Weglot {
+	protected $old_search = null;
+
+	protected $new_search = null;
 
 	/**
 	 * @since 2.4.0
@@ -31,11 +34,17 @@ class Search_Weglot implements Hooks_Interface_Weglot {
 		$search_active = $this->option_services->get_option( 'active_search' );
 
 		if ( $search_active ) {
-			add_action( 'pre_get_posts', [ $this, 'only_search_for_full_phrase' ] );
+			add_action( 'pre_get_posts', [ $this, 'pre_get_posts_translate' ] );
+			add_action( 'get_search_query', [ $this, 'get_search_query_translate' ] );
 		}
 	}
 
-	public function only_search_for_full_phrase( $query ) {
+	/**
+	 * @since 2.4.0
+	 * @param WP_Query $query
+	 * @return void
+	 */
+	public function pre_get_posts_translate( $query ) {
 		if ( ! $query->is_search() || ! $query->is_main_query() ) {
 			return;
 		}
@@ -52,16 +61,26 @@ class Search_Weglot implements Hooks_Interface_Weglot {
 		}
 
 		try {
-			$parser   = $this->parser_services->get_parser();
-			$result   = $parser->translate( $query->query_vars[ 's' ], $current_language, $original_language ); //phpcs:ignore
+			$parser           = $this->parser_services->get_parser();
+			$this->old_search = $query->query_vars[ 's' ];
+			$this->new_search = $parser->translate( $query->query_vars[ 's' ], $current_language, $original_language ); //phpcs:ignore
 
-			if ( empty( $result ) ) {
+			if ( empty( $this->new_search ) ) {
 				return;
 			}
 
-			set_query_var( $query_vars_check, $result );
+			set_query_var( $query_vars_check, $this->new_search );
 		} catch ( \Exception $th ) {
 			return;
 		}
+	}
+
+	/**
+	 * @since 2.4.0
+	 * @param string $string
+	 * @return string
+	 */
+	public function get_search_query_translate( $string ) {
+		return ($this->old_search) ? $this->old_search : $string;
 	}
 }
