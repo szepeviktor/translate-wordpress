@@ -103,6 +103,7 @@ class Replace_Url_Service_Weglot {
 		$admin_url   = admin_url();
 		$parsed_url  = wp_parse_url( $current_url );
 		$server_host = apply_filters( 'weglot_check_link_server_host', $_SERVER['HTTP_HOST'] ); //phpcs:ignore
+
 		return (
 			(
 				( 'h' === $current_url[0] && $parsed_url['host'] === $server_host ) ||
@@ -157,11 +158,12 @@ class Replace_Url_Service_Weglot {
 	 * @return boolean
 	 */
 	public function ends_with( $haystack, $needle ) {
-		$temp = strlen( $haystack );
+		$temp       = strlen( $haystack );
+		$len_needle = strlen( $needle );
 
 		return '' === $needle ||
 		(
-			(  $temp - strlen( $needle ) ) >= 0 && strpos( $haystack, $needle, $temp ) !== false
+			(  $temp - $len_needle ) >= 0 && strpos( $haystack, $needle, $temp - $len_needle ) !== false
 		);
 	}
 }
