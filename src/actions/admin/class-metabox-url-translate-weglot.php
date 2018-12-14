@@ -212,6 +212,7 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 		$exclude_post_type_metabox = apply_filters( 'weglot_url_translate_metabox_post_type_exclude', [
 			'attachment',
 			'seopress_404',
+			'product',
 		] );
 
 		if ( in_array( $post_type, $exclude_post_type_metabox ) ) { //phpcs:ignore

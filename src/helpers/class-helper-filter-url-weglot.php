@@ -27,6 +27,23 @@ abstract class Helper_Filter_Url_Weglot {
 	}
 
 	/**
+	 * @since 2.4.0
+	 * @param string $url
+	 * @return string
+	 */
+	public static function filter_url_lambda( $url ) {
+		$current_and_original_language   = weglot_get_current_and_original_language();
+		$request_url_service             = weglot_get_request_url_service();
+		if ( $current_and_original_language['current'] === $current_and_original_language['original'] ) {
+			return $url;
+		}
+
+		$url = $request_url_service->create_url_object( $url );
+
+		return $url->getForLanguage( $current_and_original_language['current'] );
+	}
+
+	/**
 	 * Filter URL log redirection
 	 * @since 2.0
 	 * @version 2.0.2
