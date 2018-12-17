@@ -39,6 +39,11 @@ $options_available = [
 		'label'       => __( 'Private mode', 'weglot' ),
 		'description' => __( 'Check if your only want admin users to see the translations', 'weglot' ),
 	],
+	'active_wc_reload' => [
+		'key'         => 'active_wc_reload',
+		'label'       => __( '[WooCommerce] : Prevent reload cart', 'weglot' ),
+		'description' => __( 'You should only enable this option if you have translation errors on your cart widget.', 'weglot' ),
+	],
 ];
 
 $languages = weglot_get_languages_configured();
@@ -208,6 +213,24 @@ foreach ( $languages as $key => $value ) {
 				</div>
 			</td>
 		</tr>
+		<?php if ($this->wc_active_services->is_active()): ?>
+			<tr valign="top">
+				<th scope="row" class="titledesc">
+					<label for="<?php echo esc_attr( $options_available['active_wc_reload']['key'] ); ?>">
+						<?php echo esc_html( $options_available['active_wc_reload']['label'] ); ?>
+					</label>
+				</th>
+				<td class="forminp forminp-text">
+					<input
+						name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['active_wc_reload']['key'] ) ); ?>"
+						id="<?php echo esc_attr( $options_available['active_wc_reload']['key'] ); ?>"
+						type="checkbox"
+						<?php checked( $this->options[ $options_available['active_wc_reload']['key'] ], 1 ); ?>
+					>
+					<p class="description"><?php echo esc_html( $options_available['active_wc_reload']['description'] ); ?></p>
+				</td>
+			</tr>
+		<?php endif; ?>
 	</tbody>
 </table>
 

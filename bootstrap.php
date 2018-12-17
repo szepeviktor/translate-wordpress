@@ -77,6 +77,7 @@ abstract class Context_Weglot {
 			'\WeglotWP\Actions\Front\Redirect_Log_User_Weglot',
 			'\WeglotWP\Actions\Migration_Weglot',
 			'\WeglotWP\Third\Woocommerce\WC_Filter_Urls_Weglot',
+			'\WeglotWP\Third\Woocommerce\WC_Cart_Reload_Weglot',
 			'\WeglotWP\Third\Amp\Amp_Enqueue_Weglot',
 			'\WeglotWP\Actions\Admin\Metabox_Url_Translate_Weglot',
 		];
