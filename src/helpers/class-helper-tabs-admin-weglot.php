@@ -29,6 +29,12 @@ abstract class Helper_Tabs_Admin_Weglot {
 	const CUSTOM_URLS = 'custom-urls';
 
 	/**
+	 * @var string
+	 */
+	const SUPPORT = 'support';
+
+
+	/**
 	 * Get tabs constant
 	 *
 	 * @since 2.0
@@ -39,7 +45,8 @@ abstract class Helper_Tabs_Admin_Weglot {
 		return [
 			self::SETTINGS,
 			self::STATUS,
-			self::CUSTOM_URLS
+			self::CUSTOM_URLS,
+			self::SUPPORT
 		];
 	}
 

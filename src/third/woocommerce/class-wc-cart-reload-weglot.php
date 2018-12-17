@@ -41,11 +41,11 @@ class WC_Cart_Reload_Weglot implements Hooks_Interface_Weglot {
 		}
 
 
-		add_action('wp_ajax_weglot_wc_reload_cart', 'weglot_wc_reload_cart');
-		add_action('wp_ajax_nopriv_weglot_wc_reload_cart', 'weglot_wc_reload_cart');
+		add_action('wp_ajax_weglot_wc_reload_cart', [$this, 'weglot_wc_reload_cart']);
+		add_action('wp_ajax_nopriv_weglot_wc_reload_cart', [$this, 'weglot_wc_reload_cart']);
 
-		add_action('wp_enqueue_scripts', 'weglot_wc_wp_enqueue_scripts');
-		add_action('wp_footer', 'weglot_wc_footer');
+		add_action('wp_enqueue_scripts', [$this, 'weglot_wc_wp_enqueue_scripts']);
+		add_action('wp_footer', [$this, 'weglot_wc_footer']);
 	}
 
 	/**
@@ -81,11 +81,10 @@ class WC_Cart_Reload_Weglot implements Hooks_Interface_Weglot {
 							url: wc_add_to_cart_params.ajax_url,
 							data:{
 								action :'weglot_wc_reload_cart'
-							},
-							success: function(){
-								window.location.href = href
 							}
 						})
+
+						window.location.href = href
 
 					})
 				}

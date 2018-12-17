@@ -90,6 +90,9 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 					$new_options = $this->sanitize_options_advanced( $new_options, $options );
 				}
 				break;
+			case Helper_Tabs_Admin_Weglot::SUPPORT:
+				$new_options['active_wc_reload'] = isset( $options['active_wc_reload'] ) ? 1 : 0;
+				break;
 			case Helper_Tabs_Admin_Weglot::CUSTOM_URLS:
 				if ( null === $options ) {
 					$new_options['custom_urls'] = [];
@@ -166,7 +169,6 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 		$new_options['email_translate']             = isset( $options['email_translate'] ) ? 1 : 0;
 		$new_options['translate_amp']               = isset( $options['translate_amp'] ) ? 1 : 0;
 		$new_options['private_mode']['active']      = isset( $options['private_mode']['active'] ) ? 1 : 0;
-		$new_options['active_wc_reload']            = isset( $options['active_wc_reload'] ) ? 1 : 0;
 
 		$languages = weglot_get_languages_configured();
 
