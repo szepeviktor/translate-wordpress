@@ -73,12 +73,23 @@ class WC_Cart_Reload_Weglot implements Hooks_Interface_Weglot {
 		$click_selector = apply_filters( 'weglot_wc_reload_selector', '.country-selector a' ); ?>
 		<script>
 			document.addEventListener('DOMContentLoaded', function(){
-				if(wc_add_to_cart_params && wc_add_to_cart_params.ajax_url){
+				var load = false
+				var ajaxUrlCart = ''
+				if(typeof wc_add_to_cart_params !== 'undefined'){
+					load = true
+					ajaxUrlCart = wc_add_to_cart_params.ajax_url
+				}
+				else if(typeof ajaxurl !== 'undefined'){
+					load = true
+					ajaxUrlCart = ajaxurl
+				}
+
+				if(load){
 					jQuery('<?php echo $click_selector; ?>').on('click', function(e) {
 						e.preventDefault();
 						var href = jQuery(this).attr('href')
 						jQuery.ajax({
-							url: wc_add_to_cart_params.ajax_url,
+							url: ajaxUrlCart,
 							data:{
 								action :'weglot_wc_reload_cart'
 							}
