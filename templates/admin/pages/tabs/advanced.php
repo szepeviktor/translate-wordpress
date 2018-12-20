@@ -48,7 +48,7 @@ $options_available = [
 
 $languages = weglot_get_languages_configured();
 foreach ( $languages as $key => $value ) {
-	if ( $value->getIso639() === weglot_get_original_language() ) {
+	if ( $value && $value->getIso639() === weglot_get_original_language() ) {
 		unset( $languages[ $key ] );
 	}
 }
@@ -193,6 +193,9 @@ foreach ( $languages as $key => $value ) {
 				<p class="description"><?php echo esc_html( $options_available['private_mode']['description'] ); ?></p>
 				<div id="private-mode-detail">
 					<?php foreach ( $languages as $key => $lang):
+						if ( ! $lang ) {
+							continue;
+						}
 						$checked_value = isset( $this->options[ $options_available['private_mode']['key'] ][ $lang->getIso639() ] ) ? $this->options[ $options_available['private_mode']['key'] ][ $lang->getIso639() ] : null;
 					?>
 						<div class="private-mode-detail-lang">

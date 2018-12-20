@@ -160,6 +160,7 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 
 	/**
 	 * @since 2.0
+	 * @version 2.4.0
 	 * @param array $new_options
 	 * @param array $options
 	 * @return array
@@ -173,6 +174,9 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 		$languages = weglot_get_languages_configured();
 
 		foreach ( $languages as $key => $lang ) {
+			if ( ! $lang ) {
+				continue;
+			}
 			$new_options['private_mode'][ $lang->getIso639() ] = isset( $options['private_mode'][  $lang->getIso639() ] ) ? 1 : 0;
 		}
 
