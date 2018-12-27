@@ -8,18 +8,56 @@ jQuery(document).ready(function ($) {
 
 				$(this).append($('<input>').attr({
 					type: 'hidden',
-					id: 'edit-menu-item-title-' + item,
-					name: 'menu-item-title[' + item + ']',
+					id: 'edit-menu-item-title-' + id,
+					name: 'menu-item-title[' + id + ']',
 					value: weglot_data.title
 				}));
 
 				$(this).append($("<input>").attr({
 					type: "hidden",
-					id: "edit-menu-item-url-" + item,
-					name: "menu-item-url[" + item + "]",
+					id: "edit-menu-item-url-" + id,
+					name: "menu-item-url[" + id + "]",
 					value: "#weglot_switcher"
 				}));
 
+				// a hidden field which exits only if our jQuery code has been executed
+				h = $('<input>').attr({
+					type: 'hidden',
+					id: 'edit-menu-item-pll-detect-' + id,
+					name: 'menu-item-pll-detect[' + id + ']',
+					value: 1
+				});
+				$(this).append(h);
+
+
+				// add the fields
+				for (var i = 0; i < weglot_data.options.length; i++) {
+					p = $('<p>').attr('class', 'description');
+					$(this).prepend(p);
+					label = $('<label>').attr('for', `edit-menu-item-${weglot_data.options[i].key}-${id}`).text(' ' + weglot_data.options[i].title);
+					p.append(label);
+					cb = $('<input>').attr({
+						type: 'checkbox',
+						id: `edit-menu-item-${weglot_data.options[i].key}-${id}`,
+						name: `menu-item-${weglot_data.options[i].key}[${id}]`,
+						value: 1
+					});
+
+					label.prepend(cb);
+				}
+			});
+
+			// disallow unchecking both show names and show flags
+			$('.menu-item-data-object-id').each(function () {
+				// var id = $(this).val();
+				// var options = ['names-', 'flags-'];
+				// $.each(options, function (i, v) {
+				// 	$('#edit-menu-item-show_' + v + id).change(function () {
+				// 		if ('checked' != $(this).attr('checked')) {
+				// 			$('#edit-menu-item-show_' + options[1 - i] + id).prop('checked', true);
+				// 		}
+				// 	});
+				// });
 			});
 		}
 	});

@@ -77,6 +77,27 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 
 		$data['title']   = __( 'Weglot switcher', 'weglot' ); // The title
 		// $data['strings'] = PLL_Switcher::get_switcher_options( 'menu', 'string' ); // The strings for the options
+		$data['options'] = [
+			[
+				'key'   => 'hide_if_no_translation',
+				'title' => __('Hide if no translation', 'weglot')
+			], [
+				'key'   => 'hide_current',
+				'title' => __('Hide current', 'weglot')
+			], [
+				'key'   => 'force_home',
+				'title' => __('Force home', 'weglot')
+			], [
+				'key'   => 'show_flags',
+				'title' => __('Show flags', 'weglot')
+			], [
+				'key'   => 'show_names',
+				'title' => __('Show names', 'weglot')
+			], [
+				'key'   => 'dropdown',
+				'title' => __('Dropdown', 'weglot')
+			],
+		];
 
 		wp_localize_script( 'weglot_nav_menu', 'weglot_data', $data );
 	}
