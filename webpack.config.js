@@ -11,7 +11,8 @@ module.exports = {
 		"metaboxes-js": "./app/javascripts/metaboxes.js",
 		"front-css": "./app/styles/index.scss",
 		"admin-css": "./app/styles/admin.scss",
-		"front-amp-css": "./app/styles/amp.scss"
+		"front-amp-css": "./app/styles/amp.scss",
+		"nav-js" : "./app/javascripts/nav.js"
 	},
 	output: {
 		path: __dirname + "/dist",
