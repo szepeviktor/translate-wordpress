@@ -25,6 +25,7 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 		$this->request_url_services       = weglot_get_service( 'Request_Url_Service_Weglot' );
 		$this->button_services            = weglot_get_service( 'Button_Service_Weglot' );
 		$this->private_language_services  = weglot_get_service( 'Private_Language_Service_Weglot' );
+		$this->menu_options_services      = weglot_get_service( 'Menu_Options_Service_Weglot' );
 		return $this;
 	}
 
@@ -41,6 +42,7 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 
 		add_action( 'admin_head-nav-menus.php', [ $this, 'add_nav_menu_meta_boxes' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'nav_admin_enqueue_scripts' ] );
+		add_action( 'wp_update_nav_menu_item', [ $this, 'custom_wp_update_nav_menu_item' ], 10, 2 );
 		// add_filter( 'nav_menu_link_attributes', [ $this, 'add_nav_menu_link_attributes' ], 10, 2 );
 		// add_filter( 'nav_menu_css_class', [ $this, 'add_nav_menu_css_class' ], 10, 2 );
 
@@ -64,6 +66,43 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 	}
 
 	/**
+	 * @since 2.4.0
+	 * @param int $menu_id
+	 * @param int $menu_item_db_id
+	 * @return void
+	 */
+	public function custom_wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0 ) {
+		if ( empty( $_POST['menu-item-url'][ $menu_item_db_id ] ) || '#weglot_switcher' != $_POST['menu-item-url'][ $menu_item_db_id ] ) {
+			return;
+		}
+
+		var_dump($_POST);
+		var_dump($menu_id);
+		var_dump($menu_item_db_id);
+		die;
+
+		// Security check as 'wp_update_nav_menu_item' can be called from outside WP admin
+		if ( ! current_user_can( 'edit_theme_options' ) ) {
+			return;
+		}
+
+		check_admin_referer( 'update-nav_menu', 'update-nav-menu-nonce' );
+
+		$menu_options = array( 'hide_if_no_translation' => 0, 'hide_current' => 0, 'force_home' => 0, 'show_flags' => 0, 'show_names' => 1, 'dropdown' => 0 ); // Default values
+		// Our jQuery form has not been displayed
+		if ( empty( $_POST['menu-item-pll-detect'][ $menu_item_db_id ] ) ) {
+			if ( ! get_post_meta( $menu_item_db_id, '_pll_menu_item', true ) ) { // Our options were never saved
+				update_post_meta( $menu_item_db_id, '_pll_menu_item', $options );
+			}
+		} else {
+			foreach ( $options as $opt => $v ) {
+				$options[ $opt ] = empty( $_POST[ 'menu-item-' . $opt ][ $menu_item_db_id ] ) ? 0 : 1;
+			}
+			update_post_meta( $menu_item_db_id, '_pll_menu_item', $options ); // Allow us to easily identify our nav menu item
+		}
+	}
+
+	/**
 	 * @since 2.0
 	 * @return void
 	 */
@@ -75,29 +114,9 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 
 		wp_enqueue_script( 'weglot_nav_menu', WEGLOT_URL_DIST . '/nav-js.js', [ 'jquery' ], WEGLOT_VERSION );
 
-		$data['title']   = __( 'Weglot switcher', 'weglot' ); // The title
-		// $data['strings'] = PLL_Switcher::get_switcher_options( 'menu', 'string' ); // The strings for the options
-		$data['options'] = [
-			[
-				'key'   => 'hide_if_no_translation',
-				'title' => __('Hide if no translation', 'weglot')
-			], [
-				'key'   => 'hide_current',
-				'title' => __('Hide current', 'weglot')
-			], [
-				'key'   => 'force_home',
-				'title' => __('Force home', 'weglot')
-			], [
-				'key'   => 'show_flags',
-				'title' => __('Show flags', 'weglot')
-			], [
-				'key'   => 'show_names',
-				'title' => __('Show names', 'weglot')
-			], [
-				'key'   => 'dropdown',
-				'title' => __('Dropdown', 'weglot')
-			],
-		];
+		$data['title']             = __( 'Weglot switcher', 'weglot' ); // The title
+		$data['options']           = $this->option_services->get_option( 'menu_switcher');
+		$data['list_options']      = $this->menu_options_services->get_list_options_menu_switcher();
 
 		wp_localize_script( 'weglot_nav_menu', 'weglot_data', $data );
 	}

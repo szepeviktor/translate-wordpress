@@ -38,10 +38,12 @@ class Option_Service_Weglot {
 		'active_wc_reload'           => false,
 		'custom_urls'                => [],
 		'flag_css'                   => '',
+		'menu_switcher'              => [],
 		'private_mode'               => [
 			'active' => false,
 		],
 	];
+
 
 	/**
 	 * Get options default
@@ -55,11 +57,18 @@ class Option_Service_Weglot {
 
 	/**
 	 * @since 2.0
-	 * @version 2.2.2
+	 * @version 2.5.0
 	 * @return array
 	 */
 	public function get_options() {
-		return apply_filters( 'weglot_get_options', wp_parse_args( get_option( WEGLOT_SLUG ), $this->get_options_default() ) );
+		$options = wp_parse_args( get_option( WEGLOT_SLUG ), $this->get_options_default() );
+
+		if ( empty( $options['menu_switcher'] ) ) {
+			$menu_options_services     = weglot_get_service( 'Menu_Options_Service_Weglot' );
+			$options['menu_switcher']  = $menu_options_services->get_options_default();
+		}
+
+		return apply_filters( 'weglot_get_options', $options);
 	}
 
 	/**
@@ -69,6 +78,7 @@ class Option_Service_Weglot {
 	 */
 	public function get_option( $name ) {
 		$options = $this->get_options();
+
 		if ( ! array_key_exists( $name, $options ) ) {
 			return null; // @TODO : throw exception
 		}
