@@ -76,30 +76,18 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 			return;
 		}
 
-		var_dump($_POST);
-		var_dump($menu_id);
-		var_dump($menu_item_db_id);
-		die;
-
-		// Security check as 'wp_update_nav_menu_item' can be called from outside WP admin
 		if ( ! current_user_can( 'edit_theme_options' ) ) {
 			return;
 		}
 
 		check_admin_referer( 'update-nav_menu', 'update-nav-menu-nonce' );
 
-		$menu_options = array( 'hide_if_no_translation' => 0, 'hide_current' => 0, 'force_home' => 0, 'show_flags' => 0, 'show_names' => 1, 'dropdown' => 0 ); // Default values
-		// Our jQuery form has not been displayed
-		if ( empty( $_POST['menu-item-pll-detect'][ $menu_item_db_id ] ) ) {
-			if ( ! get_post_meta( $menu_item_db_id, '_pll_menu_item', true ) ) { // Our options were never saved
-				update_post_meta( $menu_item_db_id, '_pll_menu_item', $options );
-			}
-		} else {
-			foreach ( $options as $opt => $v ) {
-				$options[ $opt ] = empty( $_POST[ 'menu-item-' . $opt ][ $menu_item_db_id ] ) ? 0 : 1;
-			}
-			update_post_meta( $menu_item_db_id, '_pll_menu_item', $options ); // Allow us to easily identify our nav menu item
+		$options = $this->option_services->get_option( 'menu_switcher');
+		foreach ( $options as $key => $value ) {
+			$options[ $key ] = empty( $_POST[ 'menu-item-' . $key ][ $menu_item_db_id ] ) ? 0 : 1;
 		}
+
+		$this->option_services->set_option_by_key( 'menu_switcher', $options);
 	}
 
 	/**

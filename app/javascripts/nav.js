@@ -28,11 +28,11 @@ jQuery(document).ready(function ($) {
 				}));
 
 
-				for (var i = 0; i < weglot_data.list_options.length; i++) {
+				$.each(weglot_data.list_options, (key, option) => {
 					const paragraph = $("<p>").attr("class", "description");
 					const label = $("<label>")
-						.attr("for", `edit-menu-item-${weglot_data.list_options[i].key}-${id}`)
-						.text(` ${weglot_data.list_options[i].title}`);
+						.attr("for", `edit-menu-item-${option.key}-${id}`)
+						.text(` ${option.title}`);
 
 					$(this).prepend(paragraph);
 					paragraph.append(label);
@@ -40,30 +40,22 @@ jQuery(document).ready(function ($) {
 					const checkbox = $("<input>").attr({
 						type: "checkbox",
 						id: `edit-menu-item-${
-							weglot_data.list_options[i].key
+							option.key
 						}-${id}`,
 						name: `menu-item-${
-							weglot_data.list_options[i].key
+							option.key
 						}[${id}]`,
 						value: 1
 					});
 
+					if( weglot_data.options[ option.key ] === 1 ){
+						checkbox.prop("checked", true);
+					}
+
 					label.prepend(checkbox);
-				}
+				})
 			});
 
-			// disallow unchecking both show names and show flags
-			$('.menu-item-data-object-id').each(function () {
-				// var id = $(this).val();
-				// var options = ['names-', 'flags-'];
-				// $.each(options, function (i, v) {
-				// 	$('#edit-menu-item-show_' + v + id).change(function () {
-				// 		if ('checked' != $(this).attr('checked')) {
-				// 			$('#edit-menu-item-show_' + options[1 - i] + id).prop('checked', true);
-				// 		}
-				// 	});
-				// });
-			});
 		}
 	});
 });
