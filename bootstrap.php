@@ -81,6 +81,7 @@ abstract class Context_Weglot {
 			'\WeglotWP\Third\Woocommerce\WC_Cart_Reload_Weglot',
 			'\WeglotWP\Third\Amp\Amp_Enqueue_Weglot',
 			'\WeglotWP\Actions\Admin\Metabox_Url_Translate_Weglot',
+			'\WeglotWP\Actions\Front\Front_Menu_Weglot',
 		];
 
 		self::$context->set_actions( $actions );

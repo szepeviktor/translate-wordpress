@@ -56,18 +56,6 @@ abstract class Helper_Menu_Options_Weglot {
 				'title' => __('Hide current', 'weglot')
 			],
 			[
-				'key'   => self::SHOW_FLAGS,
-				'title' => __('Show flags', 'weglot')
-			],
-			[
-				'key'   => self::SHOW_FULL_NAME,
-				'title' => __('Show full name', 'weglot')
-			],
-			[
-				'key'   => self::SHOW_SHORT_NAME,
-				'title' => __('Show short name', 'weglot')
-			],
-			[
 				'key'   => self::DROPDOWN,
 				'title' => __('Dropdown', 'weglot')
 			],

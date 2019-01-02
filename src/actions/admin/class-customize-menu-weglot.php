@@ -45,25 +45,9 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 		add_action( 'wp_update_nav_menu_item', [ $this, 'custom_wp_update_nav_menu_item' ], 10, 2 );
 		// add_filter( 'nav_menu_link_attributes', [ $this, 'add_nav_menu_link_attributes' ], 10, 2 );
 		// add_filter( 'nav_menu_css_class', [ $this, 'add_nav_menu_css_class' ], 10, 2 );
-
-		add_filter( 'megamenu_nav_menu_css_class', [ $this, 'add_nav_menu_css_class' ], 10, 2 );
-
-		if ( $this->option_services->get_option( 'is_menu' ) ) {
-			add_filter( 'wp_nav_menu_items', [ $this, 'weglot_fallback_menu' ] );
-		}
 	}
 
-	/**
-	 * @since 2.0
-	 * @param string $items
-	 * @return string
-	 */
-	public function weglot_fallback_menu( $items ) {
-		$button = $this->button_services->get_html();
-		$items .= $button;
 
-		return $items;
-	}
 
 	/**
 	 * @since 2.4.0

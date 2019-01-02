@@ -120,7 +120,7 @@ class Generate_Switcher_Service_Weglot {
 	 */
 	public function generate_switcher_from_dom( $dom ) {
 		$dom = $this->replace_div_id( $dom );
-		$dom = $this->replace_weglot_menu( $dom );
+		// $dom = $this->replace_weglot_menu( $dom );
 		$dom = $this->render_default_button( $dom );
 
 		return apply_filters( 'weglot_generate_switcher_from_dom', $dom );
