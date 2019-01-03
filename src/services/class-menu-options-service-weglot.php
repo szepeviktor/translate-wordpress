@@ -10,19 +10,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 use WeglotWP\Helpers\Helper_Menu_Options_Weglot;
 
 /**
- * @since 2.5.0
+ * @since 2.4.0
  */
 class Menu_Options_Service_Weglot {
 
 	/**
-	 * @since 2.5.0
+	 * @since 2.4.0
 	 */
 	public function __construct() {
 		$this->option_services = weglot_get_service( 'Option_Service_Weglot' );
 	}
 
 	/**
-	 * @since 2.5.0
+	 * @since 2.4.0
 	 * @return array
 	 */
 	public function get_options_default() {
@@ -34,7 +34,7 @@ class Menu_Options_Service_Weglot {
 	}
 
 	/**
-	 * @since 2.5.0
+	 * @since 2.4.0
 	 * @return array
 	 */
 	public function get_list_options_menu_switcher() {

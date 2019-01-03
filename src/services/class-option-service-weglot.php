@@ -68,7 +68,7 @@ class Option_Service_Weglot {
 			$options['menu_switcher']  = $menu_options_services->get_options_default();
 		}
 
-		return apply_filters( 'weglot_get_options', $options);
+		return apply_filters( 'weglot_get_options', $options );
 	}
 
 	/**
@@ -94,6 +94,7 @@ class Option_Service_Weglot {
 		$exclude_blocks     = $this->get_option( 'exclude_blocks' );
 		$exclude_blocks[]   = '#wpadminbar';
 		$exclude_blocks[]   = '#query-monitor';
+		$exclude_blocks[]   = '.menu-item-weglot';
 
 		return apply_filters( 'weglot_exclude_blocks', $exclude_blocks );
 	}

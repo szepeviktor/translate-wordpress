@@ -20,9 +20,10 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 	 * @since 2.5.0
 	 */
 	public function __construct() {
-		$this->option_services      = weglot_get_service( 'Option_Service_Weglot' );
-		$this->button_services      = weglot_get_service( 'Button_Service_Weglot' );
-		$this->custom_url_services  = weglot_get_service( 'Custom_Url_Service_Weglot' );
+		$this->option_services       = weglot_get_service( 'Option_Service_Weglot' );
+		$this->button_services       = weglot_get_service( 'Button_Service_Weglot' );
+		$this->custom_url_services   = weglot_get_service( 'Custom_Url_Service_Weglot' );
+		$this->request_url_services  = weglot_get_service( 'Request_Url_Service_Weglot' );
 	}
 
 	/**
@@ -32,12 +33,16 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 	 * @return void
 	 */
 	public function hooks() {
+		if ( is_admin() ) {
+			return;
+		}
+
 		if ( ! $this->option_services->get_option( 'allowed' ) ) {
 			return;
 		}
 
-		// add_filter( 'wp_get_nav_menu_items', [ $this, 'weglot_wp_get_nav_menu_items' ], 20 );
-		// add_filter( 'wp_nav_menu_objects', [ $this, 'weglot_wp_nav_menu_objects' ] );
+		add_filter( 'wp_get_nav_menu_items', [ $this, 'weglot_wp_get_nav_menu_items' ], 20 );
+		add_filter( 'nav_menu_link_attributes', [ $this, 'add_nav_menu_link_attributes' ], 10, 2 );
 
 		if ( $this->option_services->get_option( 'is_menu' ) ) {
 			add_filter( 'wp_nav_menu_items', [ $this, 'weglot_fallback_menu' ] );
@@ -67,7 +72,6 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 			return $items;
 		}
 
-
 		$new_items = [];
 		$offset    = 0;
 
@@ -80,36 +84,53 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 
 			$i = 0;
 
-			$options   = $this->option_services->get_option('menu_switcher');
-			$languages = weglot_get_languages_configured();
-			// var_dump($languages);
-			// die;
-			// $args          = array_merge( array( 'raw' => 1 ), $options );
-			// $the_languages = $switcher->the_languages( PLL()->links, $args );
+			$classes    = [ 'weglot-lang', 'menu-item-weglot' ];
+			$with_flags = $this->option_services->get_option( 'with_flags' );
+			if ( $with_flags ) {
+				$classes   = array_merge( $classes, explode( ' ', $this->button_services->get_flag_class() ) );
+			}
 
-			// // parent item for dropdown
-			// if ( ! empty( $options['dropdown'] ) ) {
-			// 	$item->title      = $this->get_item_title( $this->curlang->flag, $this->curlang->name, $options );
-			// 	$item->attr_title = '';
-			// 	$item->classes    = array( 'pll-parent-menu-item' );
-			// 	$new_items[]      = $item;
-			// 	$offset++;
-			// }
+			$options          = $this->option_services->get_option( 'menu_switcher' );
+			$languages        = weglot_get_languages_configured();
+			$current_language = $this->request_url_services->get_current_language_entry();
+
+			if ( $options['dropdown'] ) {
+				$title = __( 'Choose your language', 'weglot' );
+				if ( ! $options['hide_current'] ) {
+					$title      = $this->button_services->get_name_with_language_entry( $current_language );
+				}
+				$item->title      = apply_filters( 'weglot_menu_parent_menu_item_title', $title );
+				$item->attr_title = $current_language->getLocalName();
+				$item->classes    = array_merge( [ 'weglot-parent-menu-item' ], $classes, [ $current_language->getIso639() ] );
+				$new_items[]      = $item;
+				$offset++;
+			}
 
 			foreach ( $languages as $language ) {
+				if (
+					( $options['dropdown'] && $current_language->getIso639() === $language->getIso639() ) ||
+					( $options['hide_current'] && $current_language->getIso639() === $language->getIso639() ) ) {
+					continue;
+				}
+
+				$add_classes = [];
+				if ( $with_flags ) {
+					$add_classes[] = $language->getIso639();
+				}
+
 				$language_item             = clone $item;
 				$language_item->ID         = 'weglot-' . $item->ID . '-' . $language->getIso639();
 				$language_item->title      = $this->button_services->get_name_with_language_entry( $language );
-				$language_item->attr_title = '';
+				$language_item->attr_title = $language->getLocalName();
 				$language_item->url        = $this->custom_url_services->get_link_button_with_key_code( $language->getIso639() );
 				;
-				$language_item->lang       = $language->getIso639(); // Save this for use in nav_menu_link_attributes
-				// $language_item->classes    = $lang['classes'];
+				$language_item->lang       = $language->getIso639();
+				$language_item->classes    = array_merge( $classes, $add_classes );
 				$language_item->menu_order += $offset + $i++;
-				// if ( ! empty( $options['dropdown'] ) ) {
-				// 	$language_item->menu_item_parent = $item->db_id;
-				// 	$language_item->db_id            = 0; // to avoid recursion
-				// }
+				if ( $options['dropdown'] ) {
+					$language_item->menu_item_parent = $item->db_id;
+					$language_item->db_id            = 0;
+				}
 
 				$new_items[] = $language_item;
 			}
@@ -119,34 +140,26 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 	}
 
 	/**
-	 * @since 2.5.0
-	 * @param array $items
+	 * @since 2.0
+	 * @version 2.4.0
+	 * @see nav_menu_link_attributes
+	 * @param array $attrs
+	 * @param object $item
 	 * @return array
 	 */
-	public function weglot_wp_nav_menu_objects( $items ) {
-		$r_ids = $k_ids = array();
-		var_dump($items);
-		foreach ( $items as $item ) {
-			// 	if ( ! empty( $item->classes ) && is_array( $item->classes ) ) {
-		// 		if ( in_array( 'current-lang', $item->classes ) ) {
-		// 			$item->current = false;
-		// 			$item->classes = array_diff( $item->classes, array( 'current-menu-item' ) );
-		// 			$r_ids         = array_merge( $r_ids, $this->get_ancestors( $item ) ); // Remove the classes for these ancestors
-		// 		} elseif ( in_array( 'current-menu-item', $item->classes ) ) {
-		// 			$k_ids = array_merge( $k_ids, $this->get_ancestors( $item ) ); // Keep the classes for these ancestors
-		// 		}
-		// 	}
-		// }
+	public function add_nav_menu_link_attributes( $attrs, $item ) {
+		$str              = 'weglot-switcher';
+		if ( strpos( $item->post_name, $str ) !== false ) {
+			$current_language = $this->request_url_services->get_current_language();
+			if ( ! $this->request_url_services->is_translatable_url() || ! weglot_current_url_is_eligible() ) {
+				$attrs['style'] = 'display:none';
+				return $attrs;
+			}
 
-		// $r_ids = array_diff( $r_ids, $k_ids );
-
-		// foreach ( $items as $item ) {
-		// 	if ( ! empty( $item->db_id ) && in_array( $item->db_id, $r_ids ) ) {
-		// 		$item->classes = array_diff( $item->classes, array( 'current-menu-ancestor', 'current-menu-parent', 'current_page_parent', 'current_page_ancestor' ) );
-		// 	}
+			$attrs['data-wg-notranslate'] = 'true';
 		}
 
-		return $items;
+		return $attrs;
 	}
 }
 

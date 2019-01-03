@@ -7,14 +7,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * @since 2.5.0
+ * @since 2.4.0
  */
 abstract class Helper_Menu_Options_Weglot {
-
-	/**
-	 * @var string
-	 */
-	const HIDE_NO_TRANSLATION = 'hide_if_no_translation';
 
 	/**
 	 * @var string
@@ -24,56 +19,34 @@ abstract class Helper_Menu_Options_Weglot {
 	/**
 	 * @var string
 	 */
-	const SHOW_FLAGS = 'show_flags';
-
-	/**
-	 * @var string
-	 */
-	const SHOW_FULL_NAME = 'show_full_name';
-
-	/**
-	 * @var string
-	 */
-	const SHOW_SHORT_NAME = 'show_short_name';
-	/**
-	 * @var string
-	 */
 	const DROPDOWN = 'dropdown';
 
 	/**
-	 * @since 2.5.0
+	 * @since 2.4.0
 	 * @static
 	 * @return array
 	 */
 	public static function get_menu_switcher_list_options() {
 		return apply_filters( 'weglot_menu_switcher_options', [
 			[
-				'key'   => self::HIDE_NO_TRANSLATION,
-				'title' => __('Hide if no translation', 'weglot')
-			],
-			[
 				'key'   => self::HIDE_CURRENT,
-				'title' => __('Hide current', 'weglot')
+				'title' => __( 'Hide current language', 'weglot' ),
 			],
 			[
 				'key'   => self::DROPDOWN,
-				'title' => __('Dropdown', 'weglot')
+				'title' => __( 'Dropdown', 'weglot' ),
 			],
 		]);
 	}
 
 	/**
-	 * @since 2.5.0
+	 * @since 2.4.0
 	 * @static
 	 * @return array
 	 */
 	public static function get_keys() {
 		return apply_filters( 'weglot_menu_switcher_options_keys', [
-			self::HIDE_NO_TRANSLATION,
 			self::HIDE_CURRENT,
-			self::SHOW_FLAGS,
-			self::SHOW_FULL_NAME,
-			self::SHOW_SHORT_NAME,
 			self::DROPDOWN,
 		]);
 	}

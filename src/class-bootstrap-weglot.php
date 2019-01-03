@@ -94,7 +94,7 @@ class Bootstrap_Weglot {
 	 */
 	public function get_service( $name ) {
 		if ( ! array_key_exists( $name, $this->services ) ) {
-			throw new \Exception('Service : ' . $name . ' not exist');
+			throw new \Exception( 'Service : ' . $name . ' not exist' );
 		}
 
 		if ( is_string( $this->services[ $name ] ) ) {
