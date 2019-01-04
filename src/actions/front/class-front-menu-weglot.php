@@ -84,13 +84,14 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 
 			$i = 0;
 
-			$classes    = [ 'weglot-lang', 'menu-item-weglot' ];
-			$with_flags = $this->option_services->get_option( 'with_flags' );
-			if ( $with_flags ) {
+			$classes          = [ 'weglot-lang', 'menu-item-weglot' ];
+			$with_flags       = $this->option_services->get_option( 'with_flags' );
+			$options          = $this->option_services->get_option( 'menu_switcher' );
+
+			if ( ! $options['hide_current'] && $with_flags ) {
 				$classes   = array_merge( $classes, explode( ' ', $this->button_services->get_flag_class() ) );
 			}
 
-			$options          = $this->option_services->get_option( 'menu_switcher' );
 			$languages        = weglot_get_languages_configured();
 			$current_language = $this->request_url_services->get_current_language_entry();
 
@@ -114,6 +115,10 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 				}
 
 				$add_classes = [];
+				if ( $options['hide_current'] && $with_flags ) { // Just for children without flag classes
+					$classes   = array_merge( $classes, explode( ' ', $this->button_services->get_flag_class() ) );
+				}
+
 				if ( $with_flags ) {
 					$add_classes[] = $language->getIso639();
 				}

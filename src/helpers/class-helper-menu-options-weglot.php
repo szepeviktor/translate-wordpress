@@ -30,11 +30,11 @@ abstract class Helper_Menu_Options_Weglot {
 		return apply_filters( 'weglot_menu_switcher_options', [
 			[
 				'key'   => self::HIDE_CURRENT,
-				'title' => __( 'Hide current language', 'weglot' ),
+				'title' => __( 'Hide the current language', 'weglot' ),
 			],
 			[
 				'key'   => self::DROPDOWN,
-				'title' => __( 'Dropdown', 'weglot' ),
+				'title' => __( 'Display as dropdown', 'weglot' ),
 			],
 		]);
 	}
