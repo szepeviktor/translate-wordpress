@@ -70,35 +70,28 @@ class WC_Cart_Reload_Weglot implements Hooks_Interface_Weglot {
 	 * @return void
 	 */
 	public  function weglot_wc_footer() {
-		$click_selector = apply_filters( 'weglot_wc_reload_selector', '.country-selector a' ); ?>
+		$click_selector = apply_filters( 'weglot_wc_reload_selector', '.weglot-flags a' );
+		$ajaxurl        = admin_url('admin-ajax.php');
+		$load           = apply_filters( 'weglot_load_script_reload_selector', true);
+		if ( ! $load ) {
+			return;
+		} ?>
 		<script>
 			document.addEventListener('DOMContentLoaded', function(){
-				var load = false
-				var ajaxUrlCart = ''
-				if(typeof wc_add_to_cart_params !== 'undefined'){
-					load = true
-					ajaxUrlCart = wc_add_to_cart_params.ajax_url
-				}
-				else if(typeof ajaxurl !== 'undefined'){
-					load = true
-					ajaxUrlCart = ajaxurl
-				}
 
-				if(load){
-					jQuery('<?php echo $click_selector; ?>').on('click', function(e) {
-						e.preventDefault();
-						var href = jQuery(this).attr('href')
-						jQuery.ajax({
-							url: ajaxUrlCart,
-							data:{
-								action :'weglot_wc_reload_cart'
-							}
-						})
-
-						window.location.href = href
-
+				jQuery('<?php echo $click_selector; ?>').on('click', function(e) {
+					e.preventDefault();
+					var href = jQuery(this).attr('href')
+					jQuery.ajax({
+						url: '<?php echo $ajaxurl; ?>',
+						data:{
+							action :'weglot_wc_reload_cart'
+						}
 					})
-				}
+
+					window.location.href = href
+
+				})
 			})
 		</script>
      	<?php

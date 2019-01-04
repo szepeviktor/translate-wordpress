@@ -232,3 +232,14 @@ function weglot_get_destination_language() {
 function weglot_get_private_languages() {
 	return weglot_get_option( 'private_mode' );
 }
+
+
+/**
+ * @since 2.4.0
+ * @return string
+ */
+function weglot_get_rest_current_url_path() {
+	$prefix      = rest_get_url_prefix( );
+	$current_url = wp_parse_url( add_query_arg( array( ) ) );
+	return $current_url['path'];
+}

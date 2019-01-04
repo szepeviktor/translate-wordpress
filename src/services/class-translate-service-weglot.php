@@ -7,12 +7,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use WeglotWP\Helpers\Helper_Json_Inline_Weglot;
+use WeglotWP\Helpers\Helper_Keys_Json_Weglot;
 
 
 /**
  * @since 2.3.0
  */
 class Translate_Service_Weglot {
+
 
 	/**
 	 * @since 2.3.0
@@ -135,7 +137,7 @@ class Translate_Service_Weglot {
 
 	/**
 	 * @since 2.3.0
-	 *
+	 * @version 2.4.0
 	 * @param array $array
 	 * @return array
 	 */
@@ -154,6 +156,15 @@ class Translate_Service_Weglot {
 					}
 				} elseif ( in_array( $key,  $array_not_ajax_html, true ) ) {
 					$array[$key] = $this->replace_link_services->replace_url( $val ); //phpcs:ignore
+				} else {
+					if ( Helper_Keys_Json_Weglot::translate_key_for_path( $key ) ) {
+						try {
+							$parser         = $this->parser_services->get_parser();
+							$array[ $key ]  = $parser->translate( $val, $this->original_language, $this->current_language ); //phpcs:ignore
+						} catch ( \Exception $e ) {
+							continue;
+						}
+					}
 				}
 			}
 		}
