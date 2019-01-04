@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 2.3.0
  */
 class Generate_Switcher_Service_Weglot {
-
+	protected $string_version = '<!--Weglot %s-->';
 	/**
 	 * @since 2.3.0
 	 */
@@ -42,14 +42,21 @@ class Generate_Switcher_Service_Weglot {
 
 	/**
 	 * @since 2.3.0
-	 *
+	 * @version 2.4.0
 	 * @param string $dom
 	 * @return string
 	 */
-	public function replace_weglot_menu( $dom ) {
+	public function check_weglot_menu( $dom ) {
+		if ( strpos( $dom, 'menu-item-weglot' ) !== false ) {
+			$dom .= sprintf( $this->string_version, WEGLOT_VERSION );
+			return $dom;
+		}
+
 		if ( strpos( $dom, '[weglot_menu' ) === false ) {
 			return $dom;
 		}
+
+
 
 		$languages_configured = $this->language_services->get_languages_configured();
 		$options              = $this->option_services->get_options();
@@ -90,7 +97,7 @@ class Generate_Switcher_Service_Weglot {
 			$dom                  = preg_replace( '#' . $shortcode_url_html . '#i', $link_menu, $dom );
 		}
 
-		$dom .= sprintf( '<!--Weglot %s-->', WEGLOT_VERSION );
+		$dom .= sprintf( $this->string_version, WEGLOT_VERSION );
 
 		return apply_filters( 'weglot_replace_weglot_menu', $dom );
 	}
@@ -102,7 +109,7 @@ class Generate_Switcher_Service_Weglot {
 	 * @return string
 	 */
 	public function render_default_button( $dom ) {
-		if ( strpos( $dom, sprintf( '<!--Weglot %s-->', WEGLOT_VERSION ) ) !== false ) {
+		if ( strpos( $dom, sprintf( $this->string_version, WEGLOT_VERSION ) ) !== false ) {
 			return $dom;
 		}
 
@@ -120,7 +127,7 @@ class Generate_Switcher_Service_Weglot {
 	 */
 	public function generate_switcher_from_dom( $dom ) {
 		$dom = $this->replace_div_id( $dom );
-		// $dom = $this->replace_weglot_menu( $dom );
+		$dom = $this->check_weglot_menu( $dom );
 		$dom = $this->render_default_button( $dom );
 
 		return apply_filters( 'weglot_generate_switcher_from_dom', $dom );
