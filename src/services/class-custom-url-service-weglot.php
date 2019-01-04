@@ -62,7 +62,6 @@ class Custom_Url_Service_Weglot {
 			$link_button = preg_replace( '#\?no_lredirect=true$#', '', $link_button ); // Remove ending "?no_lredirect=true"
 		}
 
-
 		return apply_filters( 'weglot_get_link_with_key_code', $link_button );
 	}
 

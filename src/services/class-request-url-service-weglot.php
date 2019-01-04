@@ -27,8 +27,9 @@ class Request_Url_Service_Weglot {
 	 * @since 2.0
 	 */
 	public function __construct() {
-		$this->option_services           = weglot_get_service( 'Option_Service_Weglot' );
-		$this->amp_services              = weglot_get_service( 'Amp_Service_Weglot' );
+		$this->option_services       = weglot_get_service( 'Option_Service_Weglot' );
+		$this->amp_services          = weglot_get_service( 'Amp_Service_Weglot' );
+		$this->language_services     = weglot_get_service( 'Language_Service_Weglot' );
 	}
 
 	/**
@@ -104,6 +105,14 @@ class Request_Url_Service_Weglot {
 		}
 
 		return $current_language;
+	}
+
+	/**
+	 * @since 2.4.0
+	 * @return LanguageEntry
+	 */
+	public function get_current_language_entry() {
+		return $this->language_services->get_current_language_entry_from_key( $this->get_current_language() );
 	}
 
 	/**

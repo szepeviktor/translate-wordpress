@@ -25,6 +25,7 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 		$this->request_url_services       = weglot_get_service( 'Request_Url_Service_Weglot' );
 		$this->button_services            = weglot_get_service( 'Button_Service_Weglot' );
 		$this->private_language_services  = weglot_get_service( 'Private_Language_Service_Weglot' );
+		$this->menu_options_services      = weglot_get_service( 'Menu_Options_Service_Weglot' );
 		return $this;
 	}
 
@@ -40,27 +41,57 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 		}
 
 		add_action( 'admin_head-nav-menus.php', [ $this, 'add_nav_menu_meta_boxes' ] );
-		add_filter( 'nav_menu_link_attributes', [ $this, 'add_nav_menu_link_attributes' ], 10, 2 );
-		add_filter( 'nav_menu_css_class', [ $this, 'add_nav_menu_css_class' ], 10, 2 );
+		add_action( 'admin_enqueue_scripts', [ $this, 'nav_admin_enqueue_scripts' ] );
+		add_action( 'wp_update_nav_menu_item', [ $this, 'custom_wp_update_nav_menu_item' ], 10, 2 );
+		// add_filter( 'nav_menu_css_class', [ $this, 'add_nav_menu_css_class' ], 10, 2 );
+	}
 
-		add_filter( 'megamenu_nav_menu_css_class', [ $this, 'add_nav_menu_css_class' ], 10, 2 );
 
-		if ( $this->option_services->get_option( 'is_menu' ) ) {
-			add_filter( 'wp_nav_menu_items', [ $this, 'weglot_fallback_menu' ] );
+
+	/**
+	 * @since 2.4.0
+	 * @param int $menu_id
+	 * @param int $menu_item_db_id
+	 * @return void
+	 */
+	public function custom_wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0 ) {
+		if ( empty( $_POST['menu-item-url'][ $menu_item_db_id ] ) || '#weglot_switcher' !== $_POST[ 'menu-item-url' ][ $menu_item_db_id ] ) { //phpcs:ignore
+			return;
 		}
+
+		if ( ! current_user_can( 'edit_theme_options' ) ) {
+			return;
+		}
+
+		check_admin_referer( 'update-nav_menu', 'update-nav-menu-nonce' );
+
+		$options = $this->option_services->get_option( 'menu_switcher' );
+		foreach ( $options as $key => $value ) {
+			$options[ $key ] = empty( $_POST[ 'menu-item-' . $key ][ $menu_item_db_id ] ) ? 0 : 1;
+		}
+
+		$this->option_services->set_option_by_key( 'menu_switcher', $options );
 	}
 
 	/**
 	 * @since 2.0
-	 * @param string $items
-	 * @return string
+	 * @return void
 	 */
-	public function weglot_fallback_menu( $items ) {
-		$button = $this->button_services->get_html();
-		$items .= $button;
+	public function nav_admin_enqueue_scripts() {
+		$screen = get_current_screen();
+		if ( 'nav-menus' !== $screen->base ) {
+			return;
+		}
 
-		return $items;
+		wp_enqueue_script( 'weglot_nav_menu', WEGLOT_URL_DIST . '/nav-js.js', [ 'jquery' ], WEGLOT_VERSION );
+
+		$data['title']             = __( 'Weglot switcher', 'weglot' );
+		$data['options']           = $this->option_services->get_option( 'menu_switcher' );
+		$data['list_options']      = $this->menu_options_services->get_list_options_menu_switcher();
+
+		wp_localize_script( 'weglot_nav_menu', 'weglot_data', $data );
 	}
+
 
 	/**
 	 * @since 2.0
@@ -71,56 +102,28 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 	 * @return void
 	 */
 	public function add_nav_menu_css_class( $classes, $item ) {
-		$str              = 'weglot_menu_title-';
-		if ( strpos( $item->post_name, $str ) !== false ) {
-			$lang = explode( '-', substr( $item->post_name, strlen( $str ) ) );
+		// $str              = 'weglot_menu_title-';
+		// if ( strpos( $item->post_name, $str ) !== false ) {
+		// 	$lang = explode( '-', substr( $item->post_name, strlen( $str ) ) );
 
-			if ( ! $this->request_url_services->is_translatable_url() || ! weglot_current_url_is_eligible() || $this->private_language_services->is_active_private_mode_for_lang( $lang[0] ) ) {
-				$classes[] = apply_filters( 'weglot_nav_menu_link_class', 'weglot-hide' );
-				return $classes;
-			}
+		// 	if ( ! $this->request_url_services->is_translatable_url() || ! weglot_current_url_is_eligible() || $this->private_language_services->is_active_private_mode_for_lang( $lang[0] ) ) {
+		// 		$classes[] = apply_filters( 'weglot_nav_menu_link_class', 'weglot-hide' );
+		// 		return $classes;
+		// 	}
 
-			$options      = $this->option_services->get_options();
-			$with_flags   = $options['with_flags'];
-			$type_flags   = $options['type_flags'];
+		// 	$options      = $this->option_services->get_options();
+		// 	$with_flags   = $options['with_flags'];
+		// 	$type_flags   = $options['type_flags'];
 
-			$flag_class   = $with_flags ? 'weglot-flags ' : '';
-			$flag_class .= '0' === $type_flags ? '' : 'flag-' . $type_flags . ' ';
+		// 	$flag_class   = $with_flags ? 'weglot-flags ' : '';
+		// 	$flag_class .= '0' === $type_flags ? '' : 'flag-' . $type_flags . ' ';
 
-			$classes[] = apply_filters( 'weglot_nav_menu_link_class', $flag_class . $lang[0] );
-		}
+		// 	$classes[] = apply_filters( 'weglot_nav_menu_link_class', $flag_class . $lang[0] );
+		// }
 
 		return $classes;
 	}
 
-	/**
-	 * @since 2.0
-	 * @see nav_menu_link_attributes
-	 * @param array $attrs
-	 * @param object $item
-	 * @return void
-	 */
-	public function add_nav_menu_link_attributes( $attrs, $item ) {
-		$str              = 'weglot_menu_title-';
-		if ( strpos( $item->post_name, $str ) !== false ) {
-			$current_language = $this->request_url_services->get_current_language();
-
-			if ( ! $this->request_url_services->is_translatable_url() || ! weglot_current_url_is_eligible() ) {
-				$attrs['style'] = 'display:none';
-				return $attrs;
-			}
-
-			if ( ! isset( $attrs['class'] ) ) {
-				$attrs['class'] = '';
-			}
-
-			$attrs['class'] .= ' weglot-lang';
-
-			$attrs['data-wg-notranslate'] = 'true';
-		}
-
-		return $attrs;
-	}
 
 	/**
 	 * @since 2.0
@@ -137,36 +140,24 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 	 * @see add_meta_box weglot_nav_link
 	 */
 	public function nav_menu_links() {
-		$languages_configured = $this->language_services->get_languages_configured();
-
-		$languages_configured = apply_filters( 'weglot_custom_nav_menu_items', $languages_configured ); ?>
+		global $_nav_menu_placeholder, $nav_menu_selected_id; ?>
 		<div id="posttype-weglot-languages" class="posttypediv">
 			<div id="tabs-panel-weglot-endpoints" class="tabs-panel tabs-panel-active">
 				<ul id="weglot-endpoints-checklist" class="categorychecklist form-no-clear">
-					<?php
-					$i = 1;
-		foreach ( $languages_configured as $key => $language ) : //phpcs:ignore
-						?>
-						<li>
-							<label class="menu-item-title">
-								<input type="checkbox" class="menu-item-checkbox" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-object-id]" value="<?php echo esc_attr( $i ); ?>" /> <?php echo esc_html( $language->getEnglishName() ); ?>
-							</label>
-							<input type="hidden" class="menu-item-type" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-type]" value="custom" />
-							<input type="hidden" class="menu-item-title" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-title]" value="[weglot_menu_title-<?php echo esc_attr( $language->getIso639() ); ?>]" />
-							<input type="hidden" class="menu-item-url" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-url]" value="[weglot_menu_current_url-<?php echo esc_attr( $language->getIso639() ); ?>]" />
-							<input type="hidden" class="menu-item-classes" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-classes]" />
-						</li>
-						<?php
-						$i++;
-		endforeach; //phpcs:ignore ?>
+					<li>
+						<label class="menu-item-title">
+							<input type="checkbox" class="menu-item-checkbox" name="menu-item[<?php echo esc_attr( $_nav_menu_placeholder ); ?>][menu-item-object-id]" value="<?php echo esc_attr( $_nav_menu_placeholder ); ?>" /> <?php esc_html_e( 'Weglot Switcher', 'weglot' ); ?>
+						</label>
+						<input type="hidden" class="menu-item-type" name="menu-item[<?php echo esc_attr( $_nav_menu_placeholder ); ?>][menu-item-type]" value="custom" />
+						<input type="hidden" class="menu-item-title" name="menu-item[<?php echo esc_attr( $_nav_menu_placeholder ); ?>][menu-item-title]" value="<?php esc_html_e( 'Weglot Switcher', 'weglot' ); ?>" />
+						<input type="hidden" class="menu-item-url" name="menu-item[<?php echo esc_attr( $_nav_menu_placeholder ); ?>][menu-item-url]" value="#weglot_switcher" />
+						<input type="hidden" class="menu-item-classes" name="menu-item[<?php echo esc_attr( $_nav_menu_placeholder ); ?>][menu-item-classes]" />
+					</li>
 				</ul>
 			</div>
 			<p class="button-controls">
-				<span class="list-controls">
-					<a href="<?php echo esc_url( admin_url( 'nav-menus.php?page-tab=all&selectall=1#posttype-weglot-languages' ) ); ?>" class="select-all"><?php esc_html_e( 'Select all', 'weglot' ); ?></a>
-				</span>
 				<span class="add-to-menu">
-					<button type="submit" class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e( 'Add to menu', 'weglot' ); ?>" name="add-post-type-menu-item" id="submit-posttype-weglot-languages"><?php esc_html_e( 'Add to menu', 'weglot' ); ?></button>
+					<button type="submit" class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e( 'Add to menu', 'weglot' ); ?>" name="add-post-type-menu-item" id="submit-posttype-weglot-languages"><?php esc_attr_e( 'Add to Menu' ); ?></button>
 					<span class="spinner"></span>
 				</span>
 			</p>
