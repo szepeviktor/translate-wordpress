@@ -34,6 +34,11 @@ $options_available = [
 		'label'       => __( 'Translate AMP', 'weglot' ),
 		'description' => __( 'Translate AMP page', 'weglot' ),
 	],
+	'active_search' => [
+		'key'         => 'active_search',
+		'label'       => __( 'Search WordPress', 'weglot' ),
+		'description' => __( ' [BETA] : Allow your users to search in the language they use.', 'weglot' ),
+	],
 	'private_mode' => [
 		'key'         => 'private_mode',
 		'label'       => __( 'Private mode', 'weglot' ),
@@ -179,6 +184,22 @@ foreach ( $languages as $key => $value ) {
 		</tr>
 		<tr valign="top">
 			<th scope="row" class="titledesc">
+				<label for="<?php echo esc_attr( $options_available['active_search']['key'] ); ?>">
+					<?php echo esc_html( $options_available['active_search']['label'] ); ?>
+				</label>
+			</th>
+			<td class="forminp forminp-text">
+				<input
+					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['active_search']['key'] ) ); ?>"
+					id="<?php echo esc_attr( $options_available['active_search']['key'] ); ?>"
+					type="checkbox"
+					<?php checked( $this->options[ $options_available['active_search']['key'] ], 1 ); ?>
+				>
+				<p class="description"><?php echo esc_html( $options_available['active_search']['description'] ); ?></p>
+			</td>
+		</tr>
+		<tr valign="top">
+			<th scope="row" class="titledesc">
 				<label for="<?php echo esc_attr( $options_available['private_mode']['key'] ); ?>">
 					<?php echo esc_html( $options_available['private_mode']['label'] ); ?>
 				</label>
@@ -196,6 +217,7 @@ foreach ( $languages as $key => $value ) {
 						if ( ! $lang ) {
 							continue;
 						}
+
 						$checked_value = isset( $this->options[ $options_available['private_mode']['key'] ][ $lang->getIso639() ] ) ? $this->options[ $options_available['private_mode']['key'] ][ $lang->getIso639() ] : null;
 					?>
 						<div class="private-mode-detail-lang">
