@@ -34,7 +34,7 @@ abstract class Helper_Menu_Options_Weglot {
 			],
 			[
 				'key'   => self::DROPDOWN,
-				'title' => __( 'Display as dropdown', 'weglot' ),
+				'title' => __( "Show as dropdown (By default it's a list)", 'weglot' ),
 			],
 		]);
 	}
