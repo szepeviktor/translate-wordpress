@@ -37,7 +37,7 @@ class ExcludeBlocksTest extends WP_UnitTestCase {
 			$content,
 			true,
 			true,
-			DEFAULT_TARGET_CHARSET,
+			WG_DEFAULT_TARGET_CHARSET,
 			false
 		);
 
