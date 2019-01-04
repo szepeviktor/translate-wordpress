@@ -31,7 +31,7 @@ class TranslateJsonTest extends WP_UnitTestCase {
 		$translate_service->set_current_language( 'fr' );
 		$content               = $translate_service->weglot_treat_page( file_get_contents( __DIR__ . '/templates/wc-cart.json' ) ); //phpcs:ignore
 
-		$dom = \SimpleHtmlDom\str_get_html(
+		$dom = \WGSimpleHtmlDom\str_get_html(
 			$content,
 			true,
 			true,
