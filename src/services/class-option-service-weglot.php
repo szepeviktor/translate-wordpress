@@ -58,7 +58,7 @@ class Option_Service_Weglot {
 
 	/**
 	 * @since 2.0
-	 * @version 2.5.0
+	 * @version 2.4.0
 	 * @return array
 	 */
 	public function get_options() {

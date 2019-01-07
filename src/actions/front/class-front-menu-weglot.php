@@ -17,7 +17,7 @@ use WeglotWP\Helpers\Helper_Pages_Weglot;
 class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 
 	/**
-	 * @since 2.5.0
+	 * @since 2.4.0
 	 */
 	public function __construct() {
 		$this->option_services       = weglot_get_service( 'Option_Service_Weglot' );
@@ -29,7 +29,7 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 	/**
 	 * @see Hooks_Interface_Weglot
 	 *
-	 * @since 2.5.0
+	 * @since 2.4.0
 	 * @return void
 	 */
 	public function hooks() {
@@ -50,7 +50,7 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 	}
 
 	/**
-	 * @since 2.5.0
+	 * @since 2.4.0
 	 * @param string $items
 	 * @return string
 	 */
@@ -62,7 +62,7 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 	}
 
 	/**
-	 * @since 2.5.0
+	 * @since 2.4.0
 	 * @param array $items
 	 * @return array
 	 */
