@@ -33,6 +33,7 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 	 * @see Hooks_Interface_Weglot
 	 *
 	 * @since 2.0
+	 * @version 2.4.0
 	 * @return void
 	 */
 	public function hooks() {
@@ -43,7 +44,6 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 		add_action( 'admin_head-nav-menus.php', [ $this, 'add_nav_menu_meta_boxes' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'nav_admin_enqueue_scripts' ] );
 		add_action( 'wp_update_nav_menu_item', [ $this, 'custom_wp_update_nav_menu_item' ], 10, 2 );
-		// add_filter( 'nav_menu_css_class', [ $this, 'add_nav_menu_css_class' ], 10, 2 );
 	}
 
 
@@ -92,37 +92,6 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 		wp_localize_script( 'weglot_nav_menu', 'weglot_data', $data );
 	}
 
-
-	/**
-	 * @since 2.0
-	 * @version 2.0.2
-	 * @see nav_menu_link_attributes
-	 * @param array $classes
-	 * @param object $item
-	 * @return void
-	 */
-	public function add_nav_menu_css_class( $classes, $item ) {
-		// $str              = 'weglot_menu_title-';
-		// if ( strpos( $item->post_name, $str ) !== false ) {
-		// 	$lang = explode( '-', substr( $item->post_name, strlen( $str ) ) );
-
-		// 	if ( ! $this->request_url_services->is_translatable_url() || ! weglot_current_url_is_eligible() || $this->private_language_services->is_active_private_mode_for_lang( $lang[0] ) ) {
-		// 		$classes[] = apply_filters( 'weglot_nav_menu_link_class', 'weglot-hide' );
-		// 		return $classes;
-		// 	}
-
-		// 	$options      = $this->option_services->get_options();
-		// 	$with_flags   = $options['with_flags'];
-		// 	$type_flags   = $options['type_flags'];
-
-		// 	$flag_class   = $with_flags ? 'weglot-flags ' : '';
-		// 	$flag_class .= '0' === $type_flags ? '' : 'flag-' . $type_flags . ' ';
-
-		// 	$classes[] = apply_filters( 'weglot_nav_menu_link_class', $flag_class . $lang[0] );
-		// }
-
-		return $classes;
-	}
 
 
 	/**
