@@ -231,7 +231,7 @@ foreach ( $languages as $key => $value ) {
 							<label for="<?php echo esc_attr( sprintf( '%s[%s][%s]', WEGLOT_SLUG, $options_available['private_mode']['key'], $lang->getIso639() ) ); ?>">
 								<?php
 								// translators: 1 Local name language
-								esc_html_e( sprintf( "Make '%s' a private langauge", $lang->getLocalName() ), 'weglot' ); ?>
+								esc_html_e( sprintf( "Make '%s' a private language", $lang->getLocalName() ), 'weglot' ); ?>
 							</label>
 						</div>
 					<?php endforeach; ?>
