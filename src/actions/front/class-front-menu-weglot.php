@@ -20,10 +20,11 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 	 * @since 2.4.0
 	 */
 	public function __construct() {
-		$this->option_services       = weglot_get_service( 'Option_Service_Weglot' );
-		$this->button_services       = weglot_get_service( 'Button_Service_Weglot' );
-		$this->custom_url_services   = weglot_get_service( 'Custom_Url_Service_Weglot' );
-		$this->request_url_services  = weglot_get_service( 'Request_Url_Service_Weglot' );
+		$this->option_services            = weglot_get_service( 'Option_Service_Weglot' );
+		$this->button_services            = weglot_get_service( 'Button_Service_Weglot' );
+		$this->custom_url_services        = weglot_get_service( 'Custom_Url_Service_Weglot' );
+		$this->request_url_services       = weglot_get_service( 'Request_Url_Service_Weglot' );
+		$this->private_language_services  = weglot_get_service( 'Private_Language_Service_Weglot' );
 	}
 
 	/**
@@ -67,6 +68,17 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 	 * @return array
 	 */
 	public function weglot_wp_get_nav_menu_items( $items ) {
+		if ( ! $this->request_url_services->is_translatable_url() || ! weglot_current_url_is_eligible() || $this->private_language_services->private_mode_for_all_languages()) {
+			foreach ( $items as $key => $item ) {
+				if ( 'weglot-switcher' !== $item->post_name ) {
+					continue;
+				}
+				unset($items[$key]);
+			}
+
+			return $items;
+		}
+
 		// Prevent customizer
 		if ( doing_action( 'customize_register' ) ) {
 			return $items;
@@ -108,6 +120,10 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 			}
 
 			foreach ( $languages as $language ) {
+				if ( $this->private_language_services->is_active_private_mode_for_lang( $language->getIso639() ) ) {
+					continue;
+				}
+
 				if (
 					( $options['dropdown'] && $current_language->getIso639() === $language->getIso639() ) ||
 					( $options['hide_current'] && $current_language->getIso639() === $language->getIso639() ) ) {

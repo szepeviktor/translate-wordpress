@@ -46,6 +46,30 @@ class Private_Language_Service_Weglot {
 
 		return false;
 	}
+
+	/**
+	 * @since 2.4.0
+	 * @return bool
+	 */
+	public function private_mode_for_all_languages() {
+		$private_mode_languages    = $this->option_services->get_option( 'private_mode' );
+		if ( current_user_can( $this->role_private_mode )) { // No check if admin
+			return false;
+		}
+
+		if ( ! $private_mode_languages['active'] ) {
+			return false;
+		}
+
+		unset( $private_mode_languages['active'] );
+		foreach ( $private_mode_languages as $lang => $lang_active ) {
+			if ( $key_lang === $lang && $lang_active ) {
+				return false;
+			}
+		}
+
+		return true;
+	}
 }
 
 
