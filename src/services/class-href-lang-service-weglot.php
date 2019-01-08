@@ -27,6 +27,10 @@ class Href_Lang_Service_Weglot {
 	public function generate_href_lang_tags() {
 		$destination_languages = weglot_get_all_languages_configured();
 		$render                = '';
+		if ( $this->private_language_service->private_mode_for_all_languages() ) {
+			return apply_filters( 'weglot_href_lang', $render );
+		}
+
 		try {
 			foreach ( $destination_languages as $language ) {
 				if ( $this->private_language_service->is_active_private_mode_for_lang( $language ) ) {

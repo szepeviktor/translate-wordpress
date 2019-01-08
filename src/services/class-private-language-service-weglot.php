@@ -61,9 +61,12 @@ class Private_Language_Service_Weglot {
 			return false;
 		}
 
+		$original_language = weglot_get_original_language();
 		unset( $private_mode_languages['active'] );
+		unset( $private_mode_languages[ $original_language ] );
+
 		foreach ( $private_mode_languages as $lang => $lang_active ) {
-			if ( $key_lang === $lang && $lang_active ) {
+			if ( ! $lang_active ) {
 				return false;
 			}
 		}
