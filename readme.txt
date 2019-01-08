@@ -22,7 +22,7 @@ Weglot Translate, a WP multi language plugin, is trusted by companies in e-comme
 
 Check Weglot Translate in video:
 
-[youtube http://www.youtube.com/watch?v=cdoBED8p3HQ]
+[youtube https://www.youtube.com/watch?v=wmZLvhWX29k]
 
 Weglot Translate benefits:
 
@@ -128,6 +128,8 @@ If you have any questions about Weglot Translate, please post a topic on the [su
 
  == Instructions ==
 Weglot Translate is easy to set up:
+
+[youtube http://www.youtube.com/watch?v=cdoBED8p3HQ]
 
 1. Go to [https://weglot.com/register-wordpress](https://weglot.com/register-wordpress) to set up an account
 2. Grab your api_key from your dashboard, it looks like "wg_XXXXXXX"
