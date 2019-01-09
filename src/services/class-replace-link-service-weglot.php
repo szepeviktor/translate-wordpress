@@ -26,8 +26,14 @@ class Replace_Link_Service_Weglot {
 	 * @return string
 	 */
 	public function replace_url( $url ) {
-		$current_and_original = weglot_get_current_and_original_language();
-		$custom_urls          = $this->option_service->get_option( 'custom_urls' );
+		$no_replace_condition = apply_filters( 'weglot_no_replace_url_condition', 'wp-content/uploads' );
+
+		if ( strpos( $url, $no_replace_condition ) !== false ) {
+			return $url;
+		}
+
+		$current_and_original  = weglot_get_current_and_original_language();
+		$custom_urls           = $this->option_service->get_option( 'custom_urls' );
 
 		$parsed_url = wp_parse_url( $url );
 		$scheme     = isset( $parsed_url['scheme'] ) ? $parsed_url['scheme'] . '://' : '';
@@ -47,7 +53,6 @@ class Replace_Link_Service_Weglot {
 		} else {
 			$request_without_language     = array_filter( explode( '/', $path ), 'strlen' );
 			$index_entries                = count( $request_without_language );
-
 
 			if ( isset( $request_without_language[ $index_entries ] ) && ! is_admin() && ! empty( $custom_urls ) && isset( $custom_urls[ $current_language ] ) ) {
 				$slug_in_work             = $request_without_language[ $index_entries ];

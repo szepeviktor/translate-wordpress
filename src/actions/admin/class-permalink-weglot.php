@@ -15,7 +15,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Permalink_Weglot {
 
 	/**
-	 *
 	 * @since 2.0
 	 * @return void
 	 */

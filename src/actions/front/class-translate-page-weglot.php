@@ -83,7 +83,9 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			'avia_ajax_switch_menu_walker', // Enfold theme
 			'query-themes', // WP Core
 			'wpestate_ajax_check_booking_valability_internal', // WP Estate theme
-			'mailster_get_template', // Mailster Pro
+			'wpestate_ajax_add_booking', // WP Estate theme
+			'wpestate_ajax_check_booking_valability', // WP Estate theme
+			'mailster_get_template', // Mailster Pro,
 		] );
 
 		if ( 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['action'] ) && in_array( $_POST['action'], $action_ajax_no_translate ) ) { //phpcs:ignore
@@ -125,6 +127,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 		}
 
 		$active_translation = apply_filters( 'weglot_active_translation_before_process', true );
+
 		// Default : yes
 		if ( ! $active_translation ) {
 			return;
@@ -151,7 +154,6 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			$this->translate_services->set_original_language( weglot_get_original_language() );
 			$this->translate_services->set_current_language( $this->request_url_services->get_current_language() );
 			echo $this->translate_services->weglot_treat_page( file_get_contents( $file ) ); //phpcs:ignore
-			die;
 		} else {
 			$this->translate_services->weglot_translate();
 		}

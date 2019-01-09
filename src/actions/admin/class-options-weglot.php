@@ -90,8 +90,11 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 					$new_options = $this->sanitize_options_advanced( $new_options, $options );
 				}
 				break;
+			case Helper_Tabs_Admin_Weglot::SUPPORT:
+				$new_options['active_wc_reload'] = isset( $options['active_wc_reload'] ) ? 1 : 0;
+				break;
 			case Helper_Tabs_Admin_Weglot::CUSTOM_URLS:
-				if (null === $options) {
+				if ( null === $options ) {
 					$new_options['custom_urls'] = [];
 				}
 				break;
@@ -157,6 +160,7 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 
 	/**
 	 * @since 2.0
+	 * @version 2.4.0
 	 * @param array $new_options
 	 * @param array $options
 	 * @return array
@@ -165,11 +169,15 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 		$new_options['auto_redirect']               = isset( $options['auto_redirect'] ) ? 1 : 0;
 		$new_options['email_translate']             = isset( $options['email_translate'] ) ? 1 : 0;
 		$new_options['translate_amp']               = isset( $options['translate_amp'] ) ? 1 : 0;
+		$new_options['active_search']               = isset( $options['active_search'] ) ? 1 : 0;
 		$new_options['private_mode']['active']      = isset( $options['private_mode']['active'] ) ? 1 : 0;
 
 		$languages = weglot_get_languages_configured();
 
-		foreach ( $languages as $key => $lang) {
+		foreach ( $languages as $key => $lang ) {
+			if ( ! $lang ) {
+				continue;
+			}
 			$new_options['private_mode'][ $lang->getIso639() ] = isset( $options['private_mode'][  $lang->getIso639() ] ) ? 1 : 0;
 		}
 

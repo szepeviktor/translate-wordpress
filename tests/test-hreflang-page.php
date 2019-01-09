@@ -65,6 +65,6 @@ class HreflangPageTest extends WP_UnitTestCase {
 		$out               = $href_lang_service->generate_href_lang_tags(); //phpcs:ignore
 
 		$this->assertFalse( strpos( $out, 'hreflang="fr"' ) );
-		$this->assertNotFalse( strpos( $out, 'hreflang="es"' ) );
+		$this->assertFalse( strpos( $out, 'hreflang="es"' ) );
 	}
 }

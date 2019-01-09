@@ -56,7 +56,11 @@ class Custom_Url_Service_Weglot {
 
 		$link_button = apply_filters( 'weglot_link_language', $url_lang, $key_code );
 
-		$link_button = preg_replace( '#\?no_lredirect=true$#', '', $link_button ); // Remove ending "?no_lredirect=true"
+		if ( weglot_has_auto_redirect() && strpos( $link_button, 'no_lredirect' ) === false && ( is_home() || is_front_page() ) && $key_code === $original_language ) {
+			$link_button .= '?no_lredirect=true';
+		} else {
+			$link_button = preg_replace( '#\?no_lredirect=true$#', '', $link_button ); // Remove ending "?no_lredirect=true"
+		}
 
 		return apply_filters( 'weglot_get_link_with_key_code', $link_button );
 	}
@@ -69,10 +73,6 @@ class Custom_Url_Service_Weglot {
 	 */
 	public function get_link_button_with_key_code( $key_code ) {
 		$link_button = $this->get_link( $key_code );
-
-		if ( weglot_has_auto_redirect() && strpos( $link_button, 'no_lredirect' ) === false && ( is_home() || is_front_page() ) && $key_code === $original_language ) {
-			$link_button .= '?no_lredirect=true';
-		}
 
 		return apply_filters( 'weglot_get_link_button_with_key_code', $link_button );
 	}

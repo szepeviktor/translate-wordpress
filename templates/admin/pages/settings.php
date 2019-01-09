@@ -28,6 +28,9 @@ use WeglotWP\Helpers\Helper_Tabs_Admin_Weglot;
 				case Helper_Tabs_Admin_Weglot::STATUS:
 					include_once WEGLOT_TEMPLATES_ADMIN_PAGES . '/tabs/status.php';
 					break;
+				case Helper_Tabs_Admin_Weglot::SUPPORT:
+					include_once WEGLOT_TEMPLATES_ADMIN_PAGES . '/tabs/support.php';
+					break;
 				case Helper_Tabs_Admin_Weglot::CUSTOM_URLS:
 					include_once WEGLOT_TEMPLATES_ADMIN_PAGES . '/tabs/custom-urls.php';
 					break;

@@ -27,8 +27,9 @@ class Request_Url_Service_Weglot {
 	 * @since 2.0
 	 */
 	public function __construct() {
-		$this->option_services           = weglot_get_service( 'Option_Service_Weglot' );
-		$this->amp_services              = weglot_get_service( 'Amp_Service_Weglot' );
+		$this->option_services       = weglot_get_service( 'Option_Service_Weglot' );
+		$this->amp_services          = weglot_get_service( 'Amp_Service_Weglot' );
+		$this->language_services     = weglot_get_service( 'Language_Service_Weglot' );
 	}
 
 	/**
@@ -89,11 +90,12 @@ class Request_Url_Service_Weglot {
 	/**
 	 * Abstraction of \Weglot\Util\Url
 	 * @since 2.0
+	 * @version 2.4.0
 	 * @param boolean $with_filter
 	 * @return string
 	 */
 	public function get_current_language( $with_filter = true ) {
-		if ( wp_doing_ajax() && isset( $_SERVER['HTTP_REFERER'] ) ) { //phpcs:ignore
+		if ( ( wp_doing_ajax() || is_rest() ) && isset( $_SERVER['HTTP_REFERER'] ) ) { //phpcs:ignore
 			$current_language = $this->create_url_object( $_SERVER['HTTP_REFERER'] )->detectCurrentLanguage(); //phpcs:ignore
 		} else {
 			$current_language = $this->get_weglot_url()->detectCurrentLanguage();
@@ -104,6 +106,14 @@ class Request_Url_Service_Weglot {
 		}
 
 		return $current_language;
+	}
+
+	/**
+	 * @since 2.4.0
+	 * @return LanguageEntry
+	 */
+	public function get_current_language_entry() {
+		return $this->language_services->get_current_language_entry_from_key( $this->get_current_language() );
 	}
 
 	/**

@@ -34,17 +34,27 @@ $options_available = [
 		'label'       => __( 'Translate AMP', 'weglot' ),
 		'description' => __( 'Translate AMP page', 'weglot' ),
 	],
+	'active_search' => [
+		'key'         => 'active_search',
+		'label'       => __( 'Search WordPress', 'weglot' ),
+		'description' => __( ' [BETA] : Allow your users to search in the language they use.', 'weglot' ),
+	],
 	'private_mode' => [
 		'key'         => 'private_mode',
 		'label'       => __( 'Private mode', 'weglot' ),
-		'description' => __( 'Only admin users can be view translation', 'weglot' ),
+		'description' => __( 'Check if your only want admin users to see the translations', 'weglot' ),
+	],
+	'active_wc_reload' => [
+		'key'         => 'active_wc_reload',
+		'label'       => __( '[WooCommerce] : Prevent reload cart', 'weglot' ),
+		'description' => __( 'You should only enable this option if you have translation errors on your cart widget.', 'weglot' ),
 	],
 ];
 
 $languages = weglot_get_languages_configured();
-foreach ($languages as $key => $value) {
-	if ($value->getIso639() === weglot_get_original_language() ) {
-		unset( $languages[$key] );
+foreach ( $languages as $key => $value ) {
+	if ( $value && $value->getIso639() === weglot_get_original_language() ) {
+		unset( $languages[ $key ] );
 	}
 }
 
@@ -174,6 +184,22 @@ foreach ($languages as $key => $value) {
 		</tr>
 		<tr valign="top">
 			<th scope="row" class="titledesc">
+				<label for="<?php echo esc_attr( $options_available['active_search']['key'] ); ?>">
+					<?php echo esc_html( $options_available['active_search']['label'] ); ?>
+				</label>
+			</th>
+			<td class="forminp forminp-text">
+				<input
+					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['active_search']['key'] ) ); ?>"
+					id="<?php echo esc_attr( $options_available['active_search']['key'] ); ?>"
+					type="checkbox"
+					<?php checked( $this->options[ $options_available['active_search']['key'] ], 1 ); ?>
+				>
+				<p class="description"><?php echo esc_html( $options_available['active_search']['description'] ); ?></p>
+			</td>
+		</tr>
+		<tr valign="top">
+			<th scope="row" class="titledesc">
 				<label for="<?php echo esc_attr( $options_available['private_mode']['key'] ); ?>">
 					<?php echo esc_html( $options_available['private_mode']['label'] ); ?>
 				</label>
@@ -188,6 +214,10 @@ foreach ($languages as $key => $value) {
 				<p class="description"><?php echo esc_html( $options_available['private_mode']['description'] ); ?></p>
 				<div id="private-mode-detail">
 					<?php foreach ( $languages as $key => $lang):
+						if ( ! $lang ) {
+							continue;
+						}
+
 						$checked_value = isset( $this->options[ $options_available['private_mode']['key'] ][ $lang->getIso639() ] ) ? $this->options[ $options_available['private_mode']['key'] ][ $lang->getIso639() ] : null;
 					?>
 						<div class="private-mode-detail-lang">
@@ -201,7 +231,7 @@ foreach ($languages as $key => $value) {
 							<label for="<?php echo esc_attr( sprintf( '%s[%s][%s]', WEGLOT_SLUG, $options_available['private_mode']['key'], $lang->getIso639() ) ); ?>">
 								<?php
 								// translators: 1 Local name language
-								esc_html_e( sprintf( "Make '%s' a private langauge", $lang->getLocalName() ), 'weglot' ); ?>
+								esc_html_e( sprintf( "Make '%s' a private language", $lang->getLocalName() ), 'weglot' ); ?>
 							</label>
 						</div>
 					<?php endforeach; ?>

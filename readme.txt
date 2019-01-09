@@ -4,7 +4,7 @@ Tags: translate,translation,language,multilingual,bilingual,international,locali
 Requires at least: 4.5
 Tested up to: 5.0
 Requires PHP: 5.4
-Stable tag: 2.3.1
+Stable tag: 2.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,7 +22,7 @@ Weglot Translate, a WP multi language plugin, is trusted by companies in e-comme
 
 Check Weglot Translate in video:
 
-[youtube http://www.youtube.com/watch?v=cdoBED8p3HQ]
+[youtube https://www.youtube.com/watch?v=wmZLvhWX29k]
 
 Weglot Translate benefits:
 
@@ -129,6 +129,8 @@ If you have any questions about Weglot Translate, please post a topic on the [su
  == Instructions ==
 Weglot Translate is easy to set up:
 
+[youtube http://www.youtube.com/watch?v=cdoBED8p3HQ]
+
 1. Go to [https://weglot.com/register-wordpress](https://weglot.com/register-wordpress) to set up an account
 2. Grab your api_key from your dashboard, it looks like "wg_XXXXXXX"
 3. Find the Weglot Translate settings page on the bottom left of your WordPress admin dashboard.
@@ -142,15 +144,23 @@ Weglot Translate is easy to set up:
 == Screenshots ==
 
 1. Example on front end: language switch button on page
-2. Weglot Translate dashboard, translation edition
-3. Weglot Translate settings page
-4. Weglot Translate switch button
-4. Weglot Translate button: a lot of designs are possible
+2. Weglot Translate settings page
+3. Weglot Translate dashboard, translation edition
+4. Weglot Translate visual editor
 
 == Upgrade Notice ==
 See changelog for upgrade changes.
 
 == Changelog ==
+
+= 2.4.0 (09/01/2019) =
+* Compatibility PHP 7.3
+* Changed : the language selector for menus
+* Add : Compatibility with the REST API of Contact Form 7
+* Add [BETA] : Be able to translate the keywords of a search
+* Bugfix : translation of the empty cart on WooCommerce
+* Bugfix: correction of options on a multisite
+
 
 = 2.3.1 (05/12/2018) =
 * Bugfix : Button preview fail on migration for private mode
