@@ -53,7 +53,7 @@ class Private_Language_Service_Weglot {
 	 */
 	public function private_mode_for_all_languages() {
 		$private_mode_languages    = $this->option_services->get_option( 'private_mode' );
-		if ( current_user_can( $this->role_private_mode )) { // No check if admin
+		if ( current_user_can( $this->role_private_mode ) ) { // No check if admin
 			return false;
 		}
 
