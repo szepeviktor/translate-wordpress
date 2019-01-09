@@ -144,10 +144,9 @@ Weglot Translate is easy to set up:
 == Screenshots ==
 
 1. Example on front end: language switch button on page
-2. Weglot Translate dashboard, translation edition
-3. Weglot Translate settings page
-4. Weglot Translate switch button
-4. Weglot Translate button: a lot of designs are possible
+2. Weglot Translate settings page
+3. Weglot Translate dashboard, translation edition
+4. Weglot Translate visual editor
 
 == Upgrade Notice ==
 See changelog for upgrade changes.
