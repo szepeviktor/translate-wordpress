@@ -87,6 +87,19 @@ class Request_Url_Service_Weglot {
 		return $this->weglot_url;
 	}
 
+	public function is_rest() {
+		$prefix = rest_get_url_prefix( );
+		if (defined('REST_REQUEST') && REST_REQUEST // (#1)
+				|| isset($_GET['rest_route']) // (#2)
+					&& strpos( trim( $_GET['rest_route'], '\\/' ), $prefix, 0 ) === 0) {
+			return true;
+		}
+		// (#3)
+		$rest_url    = wp_parse_url( site_url( $prefix ) );
+		$current_url = wp_parse_url( add_query_arg( array( ) ) );
+		return strpos( $current_url['path'], $rest_url['path'], 0 ) === 0;
+	}
+
 	/**
 	 * Abstraction of \Weglot\Util\Url
 	 * @since 2.0
@@ -95,7 +108,7 @@ class Request_Url_Service_Weglot {
 	 * @return string
 	 */
 	public function get_current_language( $with_filter = true ) {
-		if ( ( wp_doing_ajax() || \is_rest() ) && isset( $_SERVER['HTTP_REFERER'] ) ) { //phpcs:ignore
+		if ( ( wp_doing_ajax() || $this->is_rest() ) && isset( $_SERVER['HTTP_REFERER'] ) ) { //phpcs:ignore
 			$current_language = $this->create_url_object( $_SERVER['HTTP_REFERER'] )->detectCurrentLanguage(); //phpcs:ignore
 		} else {
 			$current_language = $this->get_weglot_url()->detectCurrentLanguage();
