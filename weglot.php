@@ -7,7 +7,7 @@ Author: Weglot Translate team
 Author URI: https://weglot.com/
 Text Domain: weglot
 Domain Path: /languages/
-Version: 2.4.0
+Version: 2.4.1
 */
 
 /**
@@ -22,7 +22,7 @@ if ( ! defined('ABSPATH')) {
 define('WEGLOT_NAME', 'Weglot');
 define('WEGLOT_SLUG', 'weglot-translate');
 define('WEGLOT_OPTION_GROUP', 'group-weglot-translate');
-define('WEGLOT_VERSION', '2.4.0');
+define('WEGLOT_VERSION', '2.4.1');
 define('WEGLOT_PHP_MIN', '5.4');
 define('WEGLOT_BNAME', plugin_basename(__FILE__));
 define('WEGLOT_DIR', __DIR__ );
@@ -111,6 +111,7 @@ function weglot_plugin_activate() {
 
 	require_once __DIR__ . '/weglot-autoload.php';
 	require_once __DIR__ . '/vendor/autoload.php';
+	require_once __DIR__ . '/weglot-compatibility.php';
 	require_once __DIR__ . '/weglot-functions.php';
 	require_once __DIR__ . '/bootstrap.php';
 
@@ -127,6 +128,7 @@ function weglot_plugin_deactivate() {
 
 	require_once __DIR__ . '/weglot-autoload.php';
 	require_once __DIR__ . '/vendor/autoload.php';
+	require_once __DIR__ . '/weglot-compatibility.php';
 	require_once __DIR__ . '/weglot-functions.php';
 	require_once __DIR__ . '/bootstrap.php';
 
