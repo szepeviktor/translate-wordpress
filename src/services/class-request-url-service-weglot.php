@@ -95,7 +95,7 @@ class Request_Url_Service_Weglot {
 	 * @return string
 	 */
 	public function get_current_language( $with_filter = true ) {
-		if ( ( wp_doing_ajax() || is_rest() ) && isset( $_SERVER['HTTP_REFERER'] ) ) { //phpcs:ignore
+		if ( ( wp_doing_ajax() || \is_rest() ) && isset( $_SERVER['HTTP_REFERER'] ) ) { //phpcs:ignore
 			$current_language = $this->create_url_object( $_SERVER['HTTP_REFERER'] )->detectCurrentLanguage(); //phpcs:ignore
 		} else {
 			$current_language = $this->get_weglot_url()->detectCurrentLanguage();
