@@ -4,7 +4,7 @@ Tags: translate,translation,language,multilingual,bilingual,international,locali
 Requires at least: 4.5
 Tested up to: 5.0
 Requires PHP: 5.4
-Stable tag: 2.3.1
+Stable tag: 2.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -154,12 +154,12 @@ See changelog for upgrade changes.
 
 == Changelog ==
 
-= 2.4.0 (DD/MM/2019) =
+= 2.4.0 (09/01/2019) =
 * Compatibility PHP 7.3
 * Changed : the language selector for menus
 * Add : Compatibility with the REST API of Contact Form 7
 * Add [BETA] : Be able to translate the keywords of a search
-* Bugfix : translation of the empty basket on WooCommerce
+* Bugfix : translation of the empty cart on WooCommerce
 * Bugfix: correction of options on a multisite
 
 
