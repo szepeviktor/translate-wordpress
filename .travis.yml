@@ -18,7 +18,7 @@ cache:
 
 matrix:
   include:
-    - php: 7.
+    - php: 7.3
       env: WP_VERSION=latest
     - php: 7.2
       env: WP_VERSION=latest
@@ -53,7 +53,7 @@ before_script:
       if [[ ${TRAVIS_PHP_VERSION:0:2} == "5." ]]; then
         composer global require "phpunit/phpunit=4.8.*"
       else
-        composer global require "phpunit/phpunit=^7"
+        composer global require "phpunit/phpunit=^6"
       fi
     fi
   - |
