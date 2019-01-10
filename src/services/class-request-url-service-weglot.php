@@ -87,14 +87,17 @@ class Request_Url_Service_Weglot {
 		return $this->weglot_url;
 	}
 
+	/**
+	 * @since 2.4.1
+	 * @return boolean
+	 */
 	public function is_rest() {
-		$prefix = rest_get_url_prefix( );
-		if (defined('REST_REQUEST') && REST_REQUEST // (#1)
-				|| isset($_GET['rest_route']) // (#2)
-					&& strpos( trim( $_GET['rest_route'], '\\/' ), $prefix, 0 ) === 0) {
+		$prefix = rest_get_url_prefix();
+		if (
+			defined( 'REST_REQUEST' ) && REST_REQUEST || isset( $_GET['rest_route'] ) && // phpcs:ignore
+			strpos( trim( $_GET['rest_route'], '\\/' ), $prefix, 0 ) === 0 ) { // phpcs:ignore
 			return true;
 		}
-		// (#3)
 		$rest_url    = wp_parse_url( site_url( $prefix ) );
 		$current_url = wp_parse_url( add_query_arg( array( ) ) );
 		return strpos( $current_url['path'], $rest_url['path'], 0 ) === 0;
