@@ -88,7 +88,7 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 		$offset    = 0;
 
 		foreach ( $items as $key => $item ) {
-			if ( 'weglot-switcher' !== $item->post_name ) {
+			if ( strpos( $item->post_name, 'weglot-switcher' ) === false ) {
 				$item->menu_order += $offset;
 				$new_items[] = $item;
 				continue;
