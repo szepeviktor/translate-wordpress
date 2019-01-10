@@ -68,12 +68,12 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 	 * @return array
 	 */
 	public function weglot_wp_get_nav_menu_items( $items ) {
-		if ( ! $this->request_url_services->is_translatable_url() || ! weglot_current_url_is_eligible() || $this->private_language_services->private_mode_for_all_languages()) {
+		if ( ! $this->request_url_services->is_translatable_url() || ! weglot_current_url_is_eligible() || $this->private_language_services->private_mode_for_all_languages() ) {
 			foreach ( $items as $key => $item ) {
 				if ( 'weglot-switcher' !== $item->post_name ) {
 					continue;
 				}
-				unset($items[$key]);
+				unset( $items[ $key ] );
 			}
 
 			return $items;
