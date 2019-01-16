@@ -9,13 +9,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 /**
- * @since 2.0
+ * @since 2.5.0
  */
-class Meta_Twitter extends AbstractDomChecker {
+class Meta_Twitter_Image extends AbstractDomChecker {
 	/**
 	 * {@inheritdoc}
 	 */
-	const DOM = "meta[name='twitter:card'],meta[name='twitter:site'],meta[name='twitter:creator']";
+	const DOM = "meta[name='twitter:image']";
 	/**
 	 * {@inheritdoc}
 	 */
@@ -23,5 +23,5 @@ class Meta_Twitter extends AbstractDomChecker {
 	/**
 	 * {@inheritdoc}
 	 */
-	const WORD_TYPE = WordType::META_CONTENT;
+	const WORD_TYPE = WordType::IMG_SRC;
 }
