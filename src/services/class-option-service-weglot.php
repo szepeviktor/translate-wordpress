@@ -6,6 +6,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Morphism\Morphism;
+use WeglotWP\Models\Schema_Option_V3;
+
 /**
  * Option services
  *
@@ -18,31 +21,34 @@ class Option_Service_Weglot {
 	 */
 	protected $options_default = [
 		'api_key'                    => '',
-		'original_language'          => 'en',
-		'destination_language'       => [],
-		'translate_amp'              => false,
-		'exclude_blocks'             => [],
-		'exclude_urls'               => [],
-		'auto_redirect'              => false,
-		'email_translate'            => false,
-		'is_fullname'                => false,
-		'with_name'                  => true,
-		'is_dropdown'                => true,
-		'type_flags'                 => 0,
-		'with_flags'                 => true,
-		'override_css'               => '',
-		'has_first_settings'         => true,
-		'show_box_first_settings'    => false,
-		'rtl_ltr_style'              => '',
-		'allowed'                    => true,
-		'active_wc_reload'           => false,
-		'custom_urls'                => [],
-		'flag_css'                   => '',
-		'menu_switcher'              => [],
-		'active_search'              => false,
-		'private_mode'               => [
-			'active' => false,
+		'language_from'              => [
+			'code' => 'en',
 		],
+		'language_to'                      => [],
+		'autoswitch'                       => false,
+		'autoswitch_fallback'              => 'en',
+		'exclude_blocks'                   => [],
+		'exclude_urls'                     => [],
+		'translate_email'                  => false,
+		'translate_amp'                    => false,
+		'translate_search'                 => false,
+		'button_style'                     => [
+			'fullname'    => false,
+			'withname'    => true,
+			'is_dropdown' => true,
+			'with_flags'  => true,
+			'flag_type'   => 0,
+			'custom_css'  => '',
+		],
+		'has_first_settings'               => true,
+		'show_box_first_settings'          => false,
+		'rtl_ltr_style'                    => '',
+		'allowed'                          => true,
+		'active_wc_reload'                 => false,
+		'custom_urls'                      => [],
+		'flag_css'                         => '',
+		'menu_switcher'                    => [],
+		'active_search'                    => false,
 	];
 
 
@@ -62,7 +68,14 @@ class Option_Service_Weglot {
 	 * @return array
 	 */
 	public function get_options() {
-		$options = wp_parse_args( get_option( WEGLOT_SLUG ), $this->get_options_default() );
+		$file_options = json_decode( file_get_contents( trailingslashit( WEGLOT_DIR ) . 'settings-example.json' ), true );
+		// var_dump($file_options);
+		// var_dump(get_option( WEGLOT_SLUG ));
+		// die;
+		// Morphism::setMapper('Schema_Option_V3', Schema_Option_V3::get_schema_switch_option_to_v3());
+		// $result = Morphism::map('Schema_Option_V3', $data);
+		// die;
+		$options = wp_parse_args( $file_options, $this->get_options_default() );
 
 		if ( empty( $options['menu_switcher'] ) ) {
 			$menu_options_services     = weglot_get_service( 'Menu_Options_Service_Weglot' );
