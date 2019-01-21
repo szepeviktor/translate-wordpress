@@ -176,7 +176,7 @@ function weglot_get_api_key() {
  * @return boolean
  */
 function weglot_has_auto_redirect() {
-	return weglot_get_option( 'auto_redirect' );
+	return weglot_get_option( 'autoswitch' );
 }
 
 /**

@@ -21,7 +21,7 @@ if ( ! function_exists( 'wp_doing_ajax' ) ) {
 }
 
 
-if ( ! function_exists('is_rest')) {
+if ( ! function_exists( 'is_rest' ) ) {
 	/**
 	 * Checks if the current request is a WP REST API request.
 	 *
@@ -34,15 +34,15 @@ if ( ! function_exists('is_rest')) {
 	 * @author matzeeable
 	 */
 	function is_rest() {
-		$prefix = rest_get_url_prefix( );
-		if (defined('REST_REQUEST') && REST_REQUEST // (#1)
-			|| isset($_GET['rest_route']) // (#2)
-				&& strpos( trim( $_GET['rest_route'], '\\/' ), $prefix, 0 ) === 0) {
+		$prefix = rest_get_url_prefix();
+		if ( defined( 'REST_REQUEST' ) && REST_REQUEST // (#1)
+			|| isset( $_GET['rest_route'] ) //phpcs:ignore
+				&& strpos( trim( $_GET['rest_route'], '\\/' ), $prefix, 0 ) === 0) { //phpcs:ignore
 			return true;
 		}
 		// (#3)
 		$rest_url    = wp_parse_url( site_url( $prefix ) );
-		$current_url = wp_parse_url( add_query_arg( array( ) ) );
+		$current_url = wp_parse_url( add_query_arg( array() ) );
 		return strpos( $current_url['path'], $rest_url['path'], 0 ) === 0;
 	}
 }

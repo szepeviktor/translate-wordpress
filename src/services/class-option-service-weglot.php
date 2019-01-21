@@ -51,6 +51,13 @@ class Option_Service_Weglot {
 		'active_search'                    => false,
 	];
 
+	/**
+	 * @since 3.0.0
+	 */
+	public function __construct() {
+		Morphism::setMapper('WeglotWP\Models\Schema_Option_V3', Schema_Option_V3::get_schema_switch_option_to_v3());
+	}
+
 
 	/**
 	 * Get options default
@@ -69,11 +76,11 @@ class Option_Service_Weglot {
 	 */
 	public function get_options() {
 		$file_options = json_decode( file_get_contents( trailingslashit( WEGLOT_DIR ) . 'settings-example.json' ), true );
-		// var_dump($file_options);
-		// var_dump(get_option( WEGLOT_SLUG ));
-		// die;
-		// Morphism::setMapper('Schema_Option_V3', Schema_Option_V3::get_schema_switch_option_to_v3());
-		// $result = Morphism::map('Schema_Option_V3', $data);
+		var_dump($file_options);
+		var_dump(get_option( WEGLOT_SLUG ));
+		$result = Morphism::map('WeglotWP\Models\Schema_Option_V3', $file_options);
+		var_dump($result);
+		die;
 		// die;
 		$options = wp_parse_args( $file_options, $this->get_options_default() );
 
@@ -129,7 +136,7 @@ class Option_Service_Weglot {
 	 * @return array
 	 */
 	public function get_exclude_urls() {
-		$exclude_urls     = $this->get_option( 'exclude_urls' );
+		$exclude_urls     = $this->get_option( 'excluded_paths' );
 		$exclude_urls[]   = '/wp-login.php';
 		$exclude_urls[]   = '/sitemaps_xsl.xsl';
 		$exclude_urls[]   = '/sitemaps.xml';
