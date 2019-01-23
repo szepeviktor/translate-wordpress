@@ -67,4 +67,37 @@ class HreflangPageTest extends WP_UnitTestCase {
 		$this->assertFalse( strpos( $out, 'hreflang="fr"' ) );
 		$this->assertFalse( strpos( $out, 'hreflang="es"' ) );
 	}
+
+	public function test_hreflang_with_autoswitch() {
+		global $wp_query;
+		$wp_query->is_home = true;
+
+		add_filter( 'weglot_get_options', function( $options ) {
+			$options['api_key'] = getenv( 'API_KEY' );
+			$options['original_language'] = 'en';
+			$options['destination_language'] = [ 'fr', 'es' ];
+			$options['auto_redirect'] = true;
+			$options['allowed'] = true;
+			return $options;
+		});
+
+		add_filter( 'weglot_translate_current_language', function() {
+			return 'fr';
+		});
+
+		add_filter( 'weglot_parser_config_provider', function() {
+			$config = new ManualConfigProvider( 'http://weglot-plugin.local/fr/', BotType::HUMAN, 'Homepage' );
+			return $config;
+		});
+
+		add_filter( 'weglot_check_link_server_host', function() {
+			return 'weglot-plugin.local';
+		});
+
+		$href_lang_service = new Href_Lang_Service_Weglot();
+		$out               = $href_lang_service->generate_href_lang_tags(); //phpcs:ignore
+
+		$this->assertFalse( strpos( $out, 'href="?no_lredirect=true" hreflang="en"' ) );
+		$this->assertNotFalse( strpos( $out, ' href="http://example.org/es/" hreflang="es"' ) );
+	}
 }

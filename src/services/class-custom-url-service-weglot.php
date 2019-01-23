@@ -24,9 +24,10 @@ class Custom_Url_Service_Weglot {
 	/**
 	 * @since 2.3.0
 	 * @param string $key_code
+	 * @param boolean $add_no_redirect
 	 * @return string
 	 */
-	public function get_link( $key_code ) {
+	public function get_link( $key_code, $add_no_redirect = true ) {
 		global $post;
 		$weglot_url                = $this->request_url_services->get_weglot_url();
 		$request_without_language  = array_filter( explode( '/', $weglot_url->getPath() ), 'strlen' );
@@ -56,7 +57,13 @@ class Custom_Url_Service_Weglot {
 
 		$link_button = apply_filters( 'weglot_link_language', $url_lang, $key_code );
 
-		if ( weglot_has_auto_redirect() && strpos( $link_button, 'no_lredirect' ) === false && ( is_home() || is_front_page() ) && $key_code === $original_language ) {
+		if (
+			weglot_has_auto_redirect() &&
+			strpos( $link_button, 'no_lredirect' ) === false && // If not exist
+			( is_home() || is_front_page() ) && // Only for homepage
+			$key_code === $original_language && // Only for original language
+			$add_no_redirect // Example : for hreflang service
+			) {
 			$link_button .= '?no_lredirect=true';
 		} else {
 			$link_button = preg_replace( '#\?no_lredirect=true$#', '', $link_button ); // Remove ending "?no_lredirect=true"

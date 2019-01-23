@@ -37,7 +37,7 @@ class Href_Lang_Service_Weglot {
 					continue;
 				}
 
-				$url = $this->custom_url_services->get_link( $language );
+				$url = $this->custom_url_services->get_link( $language, false );
 				$render .= '<link rel="alternate" href="' . $url . '" hreflang="' . $language . '"/>' . "\n";
 			}
 		} catch ( \Exception $e ) {

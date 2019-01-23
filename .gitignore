@@ -16,6 +16,7 @@ weglot.zip
 content.html
 content2.html
 content.json
+settings-example.json
 
 .env
 .env.json
