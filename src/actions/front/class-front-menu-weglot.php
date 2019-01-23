@@ -103,7 +103,7 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 
 			$languages        = weglot_get_languages_configured();
 			$current_language = $this->request_url_services->get_current_language_entry();
-
+			$dropdown         = $this->option_services->get_option_button( 'dropdown' );
 			if ( $options['dropdown'] ) {
 				$title = __( 'Choose your language', 'weglot' );
 				if ( ! $options['hide_current'] ) {

@@ -16,6 +16,7 @@ class Schema_Option_V3 {
 	public static function get_schema_switch_option_to_v3() {
 		$schema = [
 			'api_key'              => 'api_key',
+			'allowed'              => 'allowed',
 			'original_language'    => (object) [
 				'path' => 'language_from',
 				'fn'   => function( $language_from ) {

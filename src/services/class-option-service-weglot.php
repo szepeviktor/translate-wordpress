@@ -133,16 +133,36 @@ class Option_Service_Weglot {
 
 	/**
 	 * @since 2.0
-	 * @param string $name
+	 * @param string $key
 	 * @return array
 	 */
-	public function get_option( $name ) {
+	public function get_option( $key ) {
 		$options = $this->get_options();
-		if ( ! array_key_exists( $name, $options ) ) {
-			return null; // @TODO : throw exception
+		if ( ! array_key_exists( $key, $options ) ) {
+			return null;
 		}
 
-		return $options[ $name ];
+		return $options[ $key ];
+	}
+
+	/**
+	 * @since 3.0.0
+	 * @param string $key
+	 * @return string|boolean|int
+	 */
+	public function get_option_button( $key ) {
+		$options = $this->get_options();
+		if ( array_key_exists( $key, $options['button_style'] ) ) {
+			return $options['button_style'][ $key ];
+		}
+
+		// Retrocompatibility v2
+		$option = $this->get_option( $key );
+		if ( null !== $option ) {
+			return $option;
+		}
+
+		return null;
 	}
 
 	/**
