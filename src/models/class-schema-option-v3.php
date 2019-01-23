@@ -27,7 +27,7 @@ class Schema_Option_V3 {
 				'fn'   => function( $language_to ) {
 					$languages = [];
 					foreach ( $language_to as $item ) {
-						$languages[] = $item['language']['code'];
+						$languages[] = $item['language_to'];
 					}
 					return $languages;
 				},

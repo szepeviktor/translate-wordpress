@@ -138,7 +138,6 @@ class Option_Service_Weglot {
 	 */
 	public function get_option( $name ) {
 		$options = $this->get_options();
-
 		if ( ! array_key_exists( $name, $options ) ) {
 			return null; // @TODO : throw exception
 		}
