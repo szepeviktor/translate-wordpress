@@ -51,11 +51,54 @@ class Option_Service_Weglot {
 		'active_search'                    => false,
 	];
 
+
+	// 'original_language' => string 'en' (length=2)
+	// 'destination_language' =>
+	// 	array (size=2)
+	// 	0 => string 'fr' (length=2)
+	// 	1 => string 'es' (length=2)
+	// 'translate_amp' => int 0
+	// 'exclude_blocks' =>
+	// 	array (size=0)
+	// 	empty
+	// 'exclude_urls' =>
+	// 	array (size=0)
+	// 	empty
+	// 'auto_redirect' => int 1
+	// 'email_translate' => int 1
+	// 'is_fullname' => int 0
+	// 'with_name' => int 1
+	// 'is_dropdown' => int 1
+	// 'type_flags' => string '1' (length=1)
+	// 'with_flags' => int 1
+	// 'override_css' => string '' (length=0)
+	// 'has_first_settings' => boolean false
+	// 'show_box_first_settings' => boolean false
+	// 'rtl_ltr_style' => string '' (length=0)
+	// 'allowed' => boolean true
+	// 'active_wc_reload' => boolean false
+	// 'custom_urls' =>
+	// 	array (size=0)
+	// 	empty
+	// 'flag_css' => string '' (length=0)
+	// 'menu_switcher' =>
+	// 	array (size=2)
+	// 	'hide_current' => int 0
+	// 	'dropdown' => int 0
+	// 'active_search' => int 0
+	// 'private_mode' =>
+	// 	array (size=4)
+	// 	'active' => int 1
+	// 	'es' => int 1
+	// 	'en' => int 0
+	// 	'fr' => int 0
+	// 'is_menu' => int 0
+
 	/**
 	 * @since 3.0.0
 	 */
 	public function __construct() {
-		Morphism::setMapper('WeglotWP\Models\Schema_Option_V3', Schema_Option_V3::get_schema_switch_option_to_v3());
+		Morphism::setMapper( 'WeglotWP\Models\Schema_Option_V3', Schema_Option_V3::get_schema_switch_option_to_v3() );
 	}
 
 
@@ -71,18 +114,14 @@ class Option_Service_Weglot {
 
 	/**
 	 * @since 2.0
-	 * @version 2.4.0
+	 * @version 3.0.0
 	 * @return array
 	 */
 	public function get_options() {
 		$file_options = json_decode( file_get_contents( trailingslashit( WEGLOT_DIR ) . 'settings-example.json' ), true );
-		var_dump($file_options);
-		var_dump(get_option( WEGLOT_SLUG ));
-		$result = Morphism::map('WeglotWP\Models\Schema_Option_V3', $file_options);
-		var_dump($result);
-		die;
-		// die;
-		$options = wp_parse_args( $file_options, $this->get_options_default() );
+		$options      = (array) Morphism::map( 'WeglotWP\Models\Schema_Option_V3', $file_options );
+
+		// $options = wp_parse_args( $file_options, $this->get_options_default() ); // Options from WP
 
 		if ( empty( $options['menu_switcher'] ) ) {
 			$menu_options_services     = weglot_get_service( 'Menu_Options_Service_Weglot' );
