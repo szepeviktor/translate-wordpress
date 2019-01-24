@@ -26,6 +26,7 @@ class Translate_Service_Weglot {
 		$this->replace_link_services          = weglot_get_service( 'Replace_Link_Service_Weglot' );
 		$this->parser_services                = weglot_get_service( 'Parser_Service_Weglot' );
 		$this->wc_active_services             = weglot_get_service( 'WC_Active_Weglot' );
+		$this->ninja_active_services          = weglot_get_service( 'Ninja_Active_Weglot' );
 		$this->other_translate_services       = weglot_get_service( 'Other_Translate_Service_Weglot' );
 		$this->generate_switcher_service      = weglot_get_service( 'Generate_Switcher_Service_Weglot' );
 	}
@@ -107,6 +108,10 @@ class Translate_Service_Weglot {
 					if ( $this->wc_active_services->is_active() ) {
 						// Improve this with multiple service
 						$translated_content = weglot_get_service( 'WC_Translate_Weglot' )->translate_words( $translated_content );
+					}
+					if ( $this->ninja_active_services->is_active() ) {
+						// Improve this with multiple service
+						$translated_content = weglot_get_service( 'Ninja_Translate_Json_Weglot' )->translate_words( $translated_content );
 					}
 
 					$translated_content = $this->other_translate_services->translate_words( $translated_content );

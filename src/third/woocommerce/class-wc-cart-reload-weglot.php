@@ -40,12 +40,11 @@ class WC_Cart_Reload_Weglot implements Hooks_Interface_Weglot {
 			return;
 		}
 
+		add_action( 'wp_ajax_weglot_wc_reload_cart', [ $this, 'weglot_wc_reload_cart' ] );
+		add_action( 'wp_ajax_nopriv_weglot_wc_reload_cart', [ $this, 'weglot_wc_reload_cart' ] );
 
-		add_action('wp_ajax_weglot_wc_reload_cart', [$this, 'weglot_wc_reload_cart']);
-		add_action('wp_ajax_nopriv_weglot_wc_reload_cart', [$this, 'weglot_wc_reload_cart']);
-
-		add_action('wp_enqueue_scripts', [$this, 'weglot_wc_wp_enqueue_scripts']);
-		add_action('wp_footer', [$this, 'weglot_wc_footer']);
+		add_action( 'wp_enqueue_scripts', [ $this, 'weglot_wc_wp_enqueue_scripts' ] );
+		add_action( 'wp_footer', [ $this, 'weglot_wc_footer' ] );
 	}
 
 	/**
@@ -53,7 +52,7 @@ class WC_Cart_Reload_Weglot implements Hooks_Interface_Weglot {
 	 * @return void
 	 */
 	public function weglot_wc_reload_cart() {
-		set_transient($this->name_transient, 'true', 12 * HOUR_IN_SECONDS);
+		set_transient( $this->name_transient, 'true', 12 * HOUR_IN_SECONDS );
 		wp_send_json_success();
 	}
 
@@ -62,7 +61,7 @@ class WC_Cart_Reload_Weglot implements Hooks_Interface_Weglot {
 	 * @return void
 	 */
 	public function weglot_wc_wp_enqueue_scripts() {
-		wp_enqueue_script('jquery');
+		wp_enqueue_script( 'jquery' );
 	}
 
 	/**
@@ -71,19 +70,19 @@ class WC_Cart_Reload_Weglot implements Hooks_Interface_Weglot {
 	 */
 	public  function weglot_wc_footer() {
 		$click_selector = apply_filters( 'weglot_wc_reload_selector', '.weglot-flags a' );
-		$ajaxurl        = admin_url('admin-ajax.php');
-		$load           = apply_filters( 'weglot_load_script_reload_selector', true);
+		$ajaxurl        = admin_url( 'admin-ajax.php' );
+		$load           = apply_filters( 'weglot_load_script_reload_selector', true );
 		if ( ! $load ) {
 			return;
 		} ?>
 		<script>
 			document.addEventListener('DOMContentLoaded', function(){
 
-				jQuery('<?php echo $click_selector; ?>').on('click', function(e) {
+				jQuery( '<?php echo esc_attr( $click_selector ); ?>' ).on('click', function(e) {
 					e.preventDefault();
 					var href = jQuery(this).attr('href')
 					jQuery.ajax({
-						url: '<?php echo $ajaxurl; ?>',
+						url: '<?php echo esc_url( $ajaxurl ); ?>',
 						data:{
 							action :'weglot_wc_reload_cart'
 						}
@@ -94,12 +93,11 @@ class WC_Cart_Reload_Weglot implements Hooks_Interface_Weglot {
 				})
 			})
 		</script>
-     	<?php
-
+		<?php
 		$transient = get_transient( $this->name_transient );
 
 		if ( false !== $transient ) {
-			delete_transient( $this->name_transient ); ?>
+			delete_transient( $this->name_transient ); //phpcs:ignore ?>
 			<script>
 				document.addEventListener('DOMContentLoaded', function(){
 					jQuery(document.body).trigger('wc_fragment_refresh');
