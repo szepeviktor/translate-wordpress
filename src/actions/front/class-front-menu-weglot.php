@@ -104,7 +104,7 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 			$languages        = weglot_get_languages_configured();
 			$current_language = $this->request_url_services->get_current_language_entry();
 			$dropdown         = $this->option_services->get_option_button( 'dropdown' );
-			if ( $options['dropdown'] ) {
+			if ( $dropdown ) {
 				$title = __( 'Choose your language', 'weglot' );
 				if ( ! $options['hide_current'] ) {
 					$title      = $this->button_services->get_name_with_language_entry( $current_language );
@@ -122,7 +122,7 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 				}
 
 				if (
-					( $options['dropdown'] && $current_language->getIso639() === $language->getIso639() ) ||
+					( $dropdown && $current_language->getIso639() === $language->getIso639() ) ||
 					( $options['hide_current'] && $current_language->getIso639() === $language->getIso639() ) ) {
 					continue;
 				}
@@ -146,7 +146,7 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 				$language_item->lang       = $language->getIso639();
 				$language_item->classes    = array_merge( $classes, $add_classes );
 				$language_item->menu_order += $offset + $i++;
-				if ( $options['dropdown'] ) {
+				if ( $dropdown ) {
 					$language_item->menu_item_parent = $item->db_id;
 					$language_item->db_id            = 0;
 				}

@@ -157,12 +157,12 @@ class Option_Service_Weglot {
 		}
 
 		// Retrocompatibility v2
-		$option = $this->get_option( $key );
-		if ( null !== $option ) {
-			return $option;
+		$options = wp_parse_args( get_option( WEGLOT_SLUG ), $this->get_options_default() );
+		if ( ! array_key_exists( $key, $options ) ) {
+			return null;
 		}
 
-		return null;
+		return $options[ $key ];
 	}
 
 	/**
