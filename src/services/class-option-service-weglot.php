@@ -156,6 +156,12 @@ class Option_Service_Weglot {
 			return $options['button_style'][ $key ];
 		}
 
+		switch ( $key ) {
+			case 'withname':
+				$key = 'with_name';
+				break;
+		}
+
 		// Retrocompatibility v2
 		$options = wp_parse_args( get_option( WEGLOT_SLUG ), $this->get_options_default() );
 		if ( ! array_key_exists( $key, $options ) ) {

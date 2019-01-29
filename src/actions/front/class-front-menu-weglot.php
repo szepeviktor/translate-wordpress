@@ -94,19 +94,21 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 			$i = 0;
 
 			$classes          = [ 'weglot-lang', 'menu-item-weglot' ];
-			$with_flags       = $this->option_services->get_option( 'with_flags' );
 			$options          = $this->option_services->get_option( 'menu_switcher' );
+			$with_flags       = $this->option_services->get_option_button( 'with_flags' );
+			$dropdown         = $this->option_services->get_option_button( 'dropdown' );
+			$hide_current     = $this->option_services->get_option_button( 'hide_current' );
 
-			if ( ! $options['hide_current'] && $with_flags ) {
+			if ( ! $hide_current && $with_flags ) {
 				$classes   = array_merge( $classes, explode( ' ', $this->button_services->get_flag_class() ) );
 			}
 
 			$languages        = weglot_get_languages_configured();
 			$current_language = $this->request_url_services->get_current_language_entry();
-			$dropdown         = $this->option_services->get_option_button( 'dropdown' );
+
 			if ( $dropdown ) {
 				$title = __( 'Choose your language', 'weglot' );
-				if ( ! $options['hide_current'] ) {
+				if ( ! $hide_current ) {
 					$title      = $this->button_services->get_name_with_language_entry( $current_language );
 				}
 				$item->title      = apply_filters( 'weglot_menu_parent_menu_item_title', $title );
@@ -123,12 +125,12 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 
 				if (
 					( $dropdown && $current_language->getIso639() === $language->getIso639() ) ||
-					( $options['hide_current'] && $current_language->getIso639() === $language->getIso639() ) ) {
+					( $hide_current && $current_language->getIso639() === $language->getIso639() ) ) {
 					continue;
 				}
 
 				$add_classes = [];
-				if ( $options['hide_current'] && $with_flags ) { // Just for children without flag classes
+				if ( $hide_current && $with_flags ) { // Just for children without flag classes
 					$classes   = array_merge( $classes, explode( ' ', $this->button_services->get_flag_class() ) );
 				}
 
