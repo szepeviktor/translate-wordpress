@@ -29,26 +29,27 @@ class Option_Service_Weglot {
 		'autoswitch_fallback'              => 'en',
 		'exclude_blocks'                   => [],
 		'exclude_urls'                     => [],
-		'translate_email'                  => false,
-		'translate_amp'                    => false,
-		'translate_search'                 => false,
-		'button_style'                     => [
-			'fullname'    => false,
-			'withname'    => true,
-			'is_dropdown' => true,
-			'with_flags'  => true,
-			'flag_type'   => 0,
-			'custom_css'  => '',
+		'custom_settings'                  => [
+			'translate_email'                   => false,
+			'translate_amp'                     => false,
+			'translate_search'                  => false,
+			'button_style'                      => [
+				'fullname'     => false,
+				'with_name'    => true,
+				'is_dropdown'  => true,
+				'with_flags'   => true,
+				'flag_type'    => 0,
+				'custom_css'   => '',
+			],
+			'has_first_settings'               => true,
+			'show_box_first_settings'          => false,
+			'rtl_ltr_style'                    => '',
+			'active_wc_reload'                 => false,
+			'flag_css'                         => '',
+			'menu_switcher'                    => [],
 		],
-		'has_first_settings'               => true,
-		'show_box_first_settings'          => false,
-		'rtl_ltr_style'                    => '',
 		'allowed'                          => true,
-		'active_wc_reload'                 => false,
 		'custom_urls'                      => [],
-		'flag_css'                         => '',
-		'menu_switcher'                    => [],
-		'active_search'                    => false,
 	];
 
 
@@ -152,13 +153,17 @@ class Option_Service_Weglot {
 	 */
 	public function get_option_button( $key ) {
 		$options = $this->get_options();
-		if ( array_key_exists( $key, $options['button_style'] ) ) {
-			return $options['button_style'][ $key ];
+
+		if ( array_key_exists( $key, $options['custom_settings']['button_style'] ) ) {
+			return $options['custom_settings']['button_style'][ $key ];
 		}
 
 		switch ( $key ) {
-			case 'withname':
-				$key = 'with_name';
+			case 'flag_type':
+				$key = 'type_flags';
+				break;
+			case 'fullname':
+				$key = 'is_fullname';
 				break;
 		}
 

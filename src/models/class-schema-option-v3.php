@@ -33,8 +33,6 @@ class Schema_Option_V3 {
 					return $languages;
 				},
 			],
-			'translate_amp'               => 'translate_amp',
-			'translate_email'             => 'translate_email',
 			'autoswitch'                  => 'autoswitch',
 			'autoswitch_fallback'         => 'autoswitch_fallback',
 			'excluded_paths'              => (object) [
@@ -57,8 +55,8 @@ class Schema_Option_V3 {
 					return $excluded;
 				},
 			],
-			'button_style' => 'button_style',
-			'url_rewrite'  => 'url_rewrite',
+			'custom_settings' => 'custom_settings',
+			'url_rewrite'     => 'url_rewrite',
 		];
 
 		return $schema;
