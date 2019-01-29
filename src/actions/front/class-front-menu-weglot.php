@@ -98,9 +98,7 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 			$with_flags       = $this->option_services->get_option_button( 'with_flags' );
 			$dropdown         = $this->option_services->get_option_button( 'dropdown' );
 			$hide_current     = $this->option_services->get_option_button( 'hide_current' );
-			var_dump($with_flags);
-			var_dump($dropdown);
-			var_dump($hide_current);
+
 			if ( ! $hide_current && $with_flags ) {
 				$classes   = array_merge( $classes, explode( ' ', $this->button_services->get_flag_class() ) );
 			}
