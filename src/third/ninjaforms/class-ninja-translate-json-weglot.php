@@ -49,6 +49,55 @@ class Ninja_Translate_Json_Weglot {
 
 	/**
 	 * @since 2.5.0
+	 *
+	 * @param string $content
+	 * @return array
+	 */
+	protected function translate_i18n( $content ) {
+		if ( ! apply_filters( 'weglot_ninja_forms_translate_i18n', false ) ) {
+			return $content;
+		}
+
+		preg_match( '#nfi18n(.*?);#', $content, $match );
+
+		if ( ! isset( $match[1] ) ) {
+			return $content;
+		}
+
+		$regex = apply_filters( 'weglot_ninja_forms_translate_i18n', '#(title|changeEmailErrorMsg|changeDateErrorMsg|confirmFieldErrorMsg|fieldNumberNumMinError|fieldNumberNumMaxError|fieldNumberIncrementBy|fieldTextareaRTEInsertLink|fieldTextareaRTEInsertMedia|fieldTextareaRTESelectAFile|formErrorsCorrectErrors|validateRequiredField|honeypotHoneypotError|fileUploadOldCodeFileUploadInProgress|previousMonth|nextMonth|fieldsMarkedRequired|fileUploadOldCodeFileUpload)":"(.*?)",#' );
+		preg_match_all( $regex, $match[1], $all );
+
+		if ( empty( $all[2] ) ) {
+			return $content;
+		}
+
+		$object = $this->translate_entries( $all[2] );
+
+		foreach ( $object->getInputWords() as $key => $input_word ) {
+			$from_input_encoding    = apply_filters( 'weglot_ninja_translate_need_json_encode', true );
+			$to_output_encoding     = apply_filters( 'weglot_ninja_translate_need_json_encode', true );
+			$from_input             = $input_word->getWord();
+			$to_output              = $object->getOutputWords()[ $key ]->getWord();
+
+			if ( '' === $from_input ) {
+				continue;
+			}
+
+			if ( $from_input_encoding ) {
+				$from_input          = Helper_Json_Inline_Weglot::need_json_encode_api( $from_input );
+			}
+			if ( $to_output_encoding ) {
+				$to_output          = Helper_Json_Inline_Weglot::need_json_encode_api( $to_output );
+			}
+
+			$content    = str_replace( '"' . $from_input . '"', '"' . $to_output . '"', $content );
+		}
+
+		return $content;
+	}
+
+	/**
+	 * @since 2.5.0
 	 * @param string $content
 	 * @return array
 	 */
@@ -59,7 +108,7 @@ class Ninja_Translate_Json_Weglot {
 			return $content;
 		}
 
-		$regex = apply_filters( 'weglot_ninja_forms_translate_form_settings', '#(title|changeEmailErrorMsg|changeDateErrorMsg|confirmFieldErrorMsg|fieldNumberNumMinError|fieldNumberNumMaxError|fieldNumberIncrementBy|fieldTextareaRTEInsertLink|fieldTextareaRTEInsertMedia|fieldTextareaRTESelectAFile|formErrorsCorrectErrors|validateRequiredField|honeypotHoneypotError|fileUploadOldCodeFileUploadInProgress|previousMonth|nextMonth)":"(.*?)"#' );
+		$regex = apply_filters( 'weglot_ninja_forms_translate_form_settings', '#(title|changeEmailErrorMsg|changeDateErrorMsg|confirmFieldErrorMsg|fieldNumberNumMinError|fieldNumberNumMaxError|fieldNumberIncrementBy|fieldTextareaRTEInsertLink|fieldTextareaRTEInsertMedia|fieldTextareaRTESelectAFile|formErrorsCorrectErrors|validateRequiredField|honeypotHoneypotError|fileUploadOldCodeFileUploadInProgress|previousMonth|nextMonth|fieldsMarkedRequired)":"(.*?)",#' );
 		preg_match_all( $regex, $match[1], $all );
 
 		if ( empty( $all[2] ) ) {
@@ -69,8 +118,21 @@ class Ninja_Translate_Json_Weglot {
 		$object = $this->translate_entries( $all[2] );
 
 		foreach ( $object->getInputWords() as $key => $input_word ) {
-			$from_input = $input_word->getWord();
-			$to_output  = $object->getOutputWords()[ $key ]->getWord();
+			$from_input_encoding = apply_filters( 'weglot_ninja_translate_need_json_encode', true );
+			$to_output_encoding  = apply_filters( 'weglot_ninja_translate_need_json_encode', true );
+			$from_input          = $input_word->getWord();
+			$to_output           = $object->getOutputWords()[ $key ]->getWord();
+			if ( '' === $from_input ) {
+				continue;
+			}
+
+			if ( $from_input_encoding ) {
+				$from_input          = Helper_Json_Inline_Weglot::need_json_encode_api( $from_input );
+			}
+			if ( $to_output_encoding ) {
+				$to_output          = Helper_Json_Inline_Weglot::need_json_encode_api( $to_output );
+			}
+
 			$content    = str_replace( '"' . $from_input . '"', '"' . $to_output . '"', $content );
 		}
 
@@ -91,7 +153,7 @@ class Ninja_Translate_Json_Weglot {
 			return $content;
 		}
 
-		$regex = apply_filters( 'weglot_ninja_forms_translate_form_fields', '#(label|help_text)":"(.*?)"#' );
+		$regex = apply_filters( 'weglot_ninja_forms_translate_form_fields', '#(label|help_text|value)":"(.*?)",#' );
 		preg_match_all( $regex, $match[1], $all );
 		if ( empty( $all[1] ) ) {
 			return $content;
@@ -100,11 +162,19 @@ class Ninja_Translate_Json_Weglot {
 		$object = $this->translate_entries( $all[2] );
 
 		foreach ( $object->getInputWords() as $key => $input_word ) {
-			$from_input   = $input_word->getWord();
-			$to_output    = $object->getOutputWords()[ $key ]->getWord();
-
+			$from_input_encoding = apply_filters( 'weglot_ninja_translate_need_json_encode', true );
+			$to_output_encoding  = apply_filters( 'weglot_ninja_translate_need_json_encode', true );
+			$from_input          = $input_word->getWord();
+			$to_output           = $object->getOutputWords()[ $key ]->getWord();
 			if ( '' === $from_input ) {
 				continue;
+			}
+
+			if ( $from_input_encoding ) {
+				$from_input          = Helper_Json_Inline_Weglot::need_json_encode_api( $from_input );
+			}
+			if ( $to_output_encoding ) {
+				$to_output          = Helper_Json_Inline_Weglot::need_json_encode_api( $to_output );
 			}
 
 			$content    = str_replace( '"' . $from_input . '"', '"' . $to_output . '"', $content );
@@ -121,6 +191,7 @@ class Ninja_Translate_Json_Weglot {
 	public function translate_words( $content ) {
 		$content = $this->translate_form_settings( $content );
 		$content = $this->translate_form_fields( $content );
+		$content = $this->translate_i18n( $content );
 
 		return $content;
 	}

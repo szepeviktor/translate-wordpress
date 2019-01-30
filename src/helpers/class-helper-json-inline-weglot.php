@@ -33,6 +33,20 @@ abstract class Helper_Json_Inline_Weglot {
 	}
 
 	/**
+	 * @since 2.5.0
+	 * @param string $string
+	 * @return string
+	 */
+	public static function need_json_encode_api( $string ) {
+		if ( strip_tags( $string ) !== $string ) { // Is HTML
+			$str = \json_encode( $string ); //phpcs:ignore
+			return trim( $str, '"' );
+		}
+
+		return str_replace( '"', '', \json_encode( $string ) ); //phpcs:ignore
+	}
+
+	/**
 	 * @since 2.3.0
 	 *
 	 * @param string $string

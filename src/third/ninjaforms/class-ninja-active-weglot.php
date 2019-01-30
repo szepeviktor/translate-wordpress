@@ -20,7 +20,7 @@ class Ninja_Active_Weglot implements Third_Active_Interface_Weglot {
 
 	/**
 	 * Ninja forms is active ?
-	 * @since 2.0
+	 * @since 2.5.0
 	 *
 	 * @return boolean
 	 */
@@ -30,6 +30,7 @@ class Ninja_Active_Weglot implements Third_Active_Interface_Weglot {
 		}
 
 		$active = true;
+
 		if ( ! is_plugin_active( 'ninja-forms/ninja-forms.php' ) ) {
 			$active = false;
 		}
