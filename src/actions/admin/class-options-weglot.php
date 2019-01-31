@@ -100,6 +100,11 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 				break;
 		}
 
+		// $res = wp_remote_post('https://api-staging.weglot.com/projects/settings?api_key=' . $new_options['api_key'],  [
+		// 	'body'        => file_get_contents( trailingslashit( WEGLOT_DIR ) . 'settings-example.json' ),
+		// ]);
+		// var_dump($res);
+		// die;
 		return $new_options;
 	}
 

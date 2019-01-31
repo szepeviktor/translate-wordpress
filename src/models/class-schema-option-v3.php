@@ -17,12 +17,7 @@ class Schema_Option_V3 {
 		$schema = [
 			'api_key'              => 'api_key',
 			'allowed'              => 'allowed',
-			'original_language'    => (object) [
-				'path' => 'language_from',
-				'fn'   => function( $language_from ) {
-					return $language_from['code'];
-				},
-			],
+			'original_language'    => 'language_from',
 			'destination_language' => (object) [
 				'path' => 'languages',
 				'fn'   => function( $language_to ) {
@@ -33,8 +28,8 @@ class Schema_Option_V3 {
 					return $languages;
 				},
 			],
-			'autoswitch'                  => 'autoswitch',
-			'autoswitch_fallback'         => 'autoswitch_fallback',
+			'autoswitch'                  => 'auto_switch',
+			'autoswitch_fallback'         => 'auto_switch_fallback',
 			'excluded_paths'              => (object) [
 				'path' => 'excluded_paths',
 				'fn'   => function( $excluded_paths ) {
@@ -56,7 +51,6 @@ class Schema_Option_V3 {
 				},
 			],
 			'custom_settings' => 'custom_settings',
-			'url_rewrite'     => 'url_rewrite',
 		];
 
 		return $schema;
