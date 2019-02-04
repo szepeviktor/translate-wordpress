@@ -239,7 +239,7 @@ function weglot_get_private_languages() {
  * @return string
  */
 function weglot_get_rest_current_url_path() {
-	$prefix      = rest_get_url_prefix( );
-	$current_url = wp_parse_url( add_query_arg( array( ) ) );
+	$prefix      = rest_get_url_prefix();
+	$current_url = wp_parse_url( add_query_arg( [] ) );
 	return $current_url['path'];
 }
