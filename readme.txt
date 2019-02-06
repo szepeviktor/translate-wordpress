@@ -4,7 +4,7 @@ Tags: translate,translation,language,multilingual,bilingual,international,locali
 Requires at least: 4.5
 Tested up to: 5.0
 Requires PHP: 5.4
-Stable tag: 2.4.1
+Stable tag: 2.5.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -152,6 +152,12 @@ Weglot Translate is easy to set up:
 See changelog for upgrade changes.
 
 == Changelog ==
+
+= 2.5.0 (07/02/2019) =
+* Add : Compatibility with Ninja Forms
+* Add : DOM Checker on input type reset
+* Bugfix : have the same menu switcher on the same page several times
+* Bugfix : Remove no redirect on hreflang
 
 = 2.4.1 (09/01/2019) =
 * Bugfix: undefined function if there is no antislash before the function ( \is_rest )
