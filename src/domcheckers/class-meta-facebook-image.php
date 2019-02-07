@@ -11,11 +11,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * @since 2.5.0
  */
-class Meta_Twitter_Image extends AbstractDomChecker {
+class Meta_Facebook_Image extends AbstractDomChecker {
 	/**
 	 * {@inheritdoc}
 	 */
-	const DOM = "meta[name='twitter:image'], meta[name='twitter:image:src']";
+	const DOM = "meta[name='og:image'], meta[name='og:image:secure_url']";
 	/**
 	 * {@inheritdoc}
 	 */

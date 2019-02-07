@@ -158,6 +158,7 @@ See changelog for upgrade changes.
 * Add : DOM Checker on input type reset
 * Bugfix : have the same menu switcher on the same page several times
 * Bugfix : Remove no redirect on hreflang
+* Improve DOM Checker meta content image
 
 = 2.4.1 (09/01/2019) =
 * Bugfix: undefined function if there is no antislash before the function ( \is_rest )
