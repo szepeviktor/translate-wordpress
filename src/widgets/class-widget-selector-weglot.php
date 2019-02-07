@@ -32,8 +32,8 @@ class Widget_Selector_Weglot extends \WP_Widget {
 		if ( ! weglot_current_url_is_eligible() ) {
 			return;
 		}
-
-		$title = apply_filters( 'widget_title', $instance['title'] );
+		$title = (isset($instance['title'])) ? $instance['title'] : '';
+		$title = apply_filters( 'widget_title', $title );
 
 		$tt = ( ! empty( $title ) ) ? $args['before_title'] . $title . $args['after_title'] : '';
 
