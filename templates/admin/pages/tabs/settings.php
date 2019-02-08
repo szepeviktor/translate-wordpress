@@ -16,13 +16,14 @@ $options_available = [
 		'label'       => __( 'Original language', 'weglot' ),
 		'description' => 'What is the original (current) language of your website?',
 	],
-	'destination_language' => [
-		'key'         => 'destination_language',
+	'languages' => [
+		'key'         => 'languages',
 		'label'       => __( 'Destination languages', 'weglot' ),
 		'description' => 'Choose languages you want to translate into. Supported languages can be found <a target="_blank" href="https://weglot.com/translation-api#languages_code">here</a>.',
 	],
 ];
 
+var_dump($this->options); die;
 
 $languages          = $this->language_services->get_languages_available( [
 	'sort' => true,
@@ -86,22 +87,22 @@ $plans              = $this->user_api_services->get_plans();
 		</tr>
 		<tr valign="top">
 			<th scope="row" class="titledesc">
-				<label for="<?php echo esc_attr( $options_available['destination_language']['key'] ); ?>">
-					<?php echo esc_html( $options_available['destination_language']['label'] ); ?>
+				<label for="<?php echo esc_attr( $options_available['languages']['key'] ); ?>">
+					<?php echo esc_html( $options_available['languages']['label'] ); ?>
 				</label>
-				<p class="sub-label"><?php echo $options_available['destination_language']['description']; //phpcs:ignore ?></p>
+				<p class="sub-label"><?php echo $options_available['languages']['description']; //phpcs:ignore ?></p>
 			</th>
 
 			<td class="forminp forminp-text">
 				<select
 					class="weglot-select weglot-select-destination"
 					style="display:none"
-					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['destination_language']['key'] ) ); ?>[]"
-					id="<?php echo esc_attr( $options_available['destination_language']['key'] ); ?>"
+					name="<?php echo esc_attr( sprintf( '%s[%s][language_to]', WEGLOT_SLUG, $options_available['languages']['key'] ) ); ?>[]"
+					id="<?php echo esc_attr( $options_available['languages']['key'] ); ?>"
 					multiple="true"
 					required
 				>
-					<?php foreach ( $this->options[ $options_available['destination_language']['key'] ] as $language ) :
+					<?php foreach ( $this->options[ $options_available['languages']['key'] ] as $language ) :
 						$languages[ $language ]; ?>
 						<option
 							value="<?php echo esc_attr( $language ); ?>"
@@ -114,7 +115,7 @@ $plans              = $this->user_api_services->get_plans();
 					<?php foreach ( $languages as $language ) : ?>
 						<option
 							value="<?php echo esc_attr( $language->getIso639() ); ?>"
-							<?php selected( true, in_array( $language->getIso639(), $this->options[ $options_available['destination_language']['key'] ], true ) ); ?>
+							<?php selected( true, in_array( $language->getIso639(), $this->options[ $options_available['languages']['key'] ], true ) ); ?>
 						>
 							<?php echo esc_html( $language->getLocalName() ); ?>
 						</option>
@@ -165,11 +166,11 @@ $plans              = $this->user_api_services->get_plans();
 		</div>
 	</div>
 	<?php
-	if ( $this->options[ $options_available['destination_language']['key'] ] && count( $this->options[ $options_available['destination_language']['key'] ] ) > 0 ) :
+	if ( $this->options[ $options_available['languages']['key'] ] && count( $this->options[ $options_available['languages']['key'] ] ) > 0 ) :
 		?>
 		<iframe
 			style="visibility:hidden;"
-			src="<?php echo esc_url( sprintf( '%s/%s', home_url(), $this->options[ $options_available['destination_language']['key'] ][0] ) ); ?>/" width="1" height="1">
+			src="<?php echo esc_url( sprintf( '%s/%s', home_url(), $this->options[ $options_available['languages']['key'] ][0] ) ); ?>/" width="1" height="1">
 		</iframe>
 	<?php endif; ?>
 <?php endif; ?>

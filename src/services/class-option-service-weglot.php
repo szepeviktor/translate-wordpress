@@ -24,7 +24,7 @@ class Option_Service_Weglot {
 		'language_from'              => [
 			'code' => 'en',
 		],
-		'language_to'                      => [],
+		'languages'                        => [],
 		'autoswitch'                       => false,
 		'autoswitch_fallback'              => 'en',
 		'exclude_blocks'                   => [],
@@ -119,10 +119,9 @@ class Option_Service_Weglot {
 	 * @return array
 	 */
 	public function get_options() {
-		$file_options = json_decode( file_get_contents( trailingslashit( WEGLOT_DIR ) . 'settings-example.json' ), true );
-		$options      = (array) Morphism::map( 'WeglotWP\Models\Schema_Option_V3', $file_options );
-
-		// $options = wp_parse_args( $file_options, $this->get_options_default() ); // Options from WP
+		// $file_options = json_decode( file_get_contents( trailingslashit( WEGLOT_DIR ) . 'settings-example.json' ), true );
+		// $options      = (array) Morphism::map( 'WeglotWP\Models\Schema_Option_V3', $file_options );
+		$options = wp_parse_args( $file_options, $this->get_options_default() ); // Options from WP
 
 		if ( empty( $options['menu_switcher'] ) ) {
 			$menu_options_services     = weglot_get_service( 'Menu_Options_Service_Weglot' );

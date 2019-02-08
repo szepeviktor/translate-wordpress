@@ -100,9 +100,9 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 				break;
 		}
 
-		// $res = wp_remote_post('https://api-staging.weglot.com/projects/settings?api_key=' . $new_options['api_key'],  [
-		// 	'body'        => file_get_contents( trailingslashit( WEGLOT_DIR ) . 'settings-example.json' ),
-		// ]);
+		$res = wp_remote_post('https://api-staging.weglot.com/projects/settings?api_key=' . $new_options['api_key'],  [
+			'body'        => $new_options,
+		]);
 		// var_dump($res);
 		// die;
 		return $new_options;
@@ -121,16 +121,6 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 		$options_bdd      = $this->option_services->get_options();
 
 		$old_destination_languages = array_diff( $options_bdd['destination_language'], $new_options['destination_language'] );
-
-		if ( ! empty( $old_destination_languages ) ) {
-			foreach ( $old_destination_languages as $destination_language ) {
-				$nav_menu = get_page_by_title( sprintf( '[weglot_menu_title-%s]', $destination_language ), 'OBJECT', 'nav_menu_item' ); //phpcs:ignore
-				if ( ! $nav_menu ) {
-					continue;
-				}
-				wp_delete_post( $nav_menu->ID, true );
-			}
-		}
 
 		// Limit language
 		if (
