@@ -89,9 +89,9 @@ class Admin_Enqueue_Weglot implements Hooks_Interface_Weglot {
 		}
 
 		wp_localize_script( 'weglot-admin', 'weglot_languages', [
-			'available' => $this->language_services->get_languages_available( [
+			'available' => json_decode( json_encode( $this->language_services->get_languages_available( [
 				'sort' => true,
-			] ),
+			] ), true ), true ),
 			'limit'     => $limit,
 			'plans'     => $this->user_api_services->get_plans(),
 			'original'  => weglot_get_original_language(),

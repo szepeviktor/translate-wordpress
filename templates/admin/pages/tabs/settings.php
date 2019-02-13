@@ -23,7 +23,7 @@ $options_available = [
 	],
 ];
 
-var_dump($this->options); die;
+// var_dump($this->options); die;
 
 $languages          = $this->language_services->get_languages_available( [
 	'sort' => true,

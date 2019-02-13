@@ -2,6 +2,7 @@ const init_admin_select = function(){
 
     const $ = jQuery
     const generate_destination_language = () => {
+		console.log(weglot_languages.available)
         return weglot_languages.available.filter(itm => {
             return itm.code !== weglot_languages.original
         });
