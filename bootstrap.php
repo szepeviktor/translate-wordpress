@@ -51,6 +51,8 @@ abstract class Context_Weglot {
 			'\WeglotWP\Third\NinjaForms\Ninja_Active_Weglot',
 			'\WeglotWP\Third\NinjaForms\Ninja_Translate_Json_Weglot',
 			'\WeglotWP\Third\Amp\Amp_Service_Weglot',
+			'\WeglotWP\Third\CalderaForms\Caldera_Translate',
+			'\WeglotWP\Third\CalderaForms\Caldera_Active',
 			'\WeglotWP\Services\User_Api_Service_Weglot',
 			'\WeglotWP\Services\Other_Translate_Service_Weglot',
 			'\WeglotWP\Services\Dom_Checkers_Service_Weglot',
