@@ -8,6 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Morphism\Morphism;
 use WeglotWP\Models\Schema_Option_V3;
+use WeglotWP\Helpers\Helper_Flag_Type;
 
 /**
  * Option services
@@ -25,20 +26,20 @@ class Option_Service_Weglot {
 			'code' => 'en',
 		],
 		'languages'                        => [],
-		'autoswitch'                       => false,
-		'autoswitch_fallback'              => 'en',
-		'exclude_blocks'                   => [],
-		'exclude_urls'                     => [],
+		'auto_switch'                      => false,
+		'auto_switch_fallback'             => 'en',
+		'excluded_blocks'                  => [],
+		'excluded_paths'                   => [],
 		'custom_settings'                  => [
 			'translate_email'                   => false,
 			'translate_amp'                     => false,
 			'translate_search'                  => false,
 			'button_style'                      => [
-				'fullname'     => false,
+				'full_name'     => false,
 				'with_name'    => true,
 				'is_dropdown'  => true,
 				'with_flags'   => true,
-				'flag_type'    => 0,
+				'flag_type'    => Helper_Flag_Type::RECTANGLE_MAT,
 				'custom_css'   => '',
 			],
 			'has_first_settings'               => true,
@@ -47,9 +48,9 @@ class Option_Service_Weglot {
 			'active_wc_reload'                 => false,
 			'flag_css'                         => '',
 			'menu_switcher'                    => [],
+			'custom_urls'                      => [],
 		],
 		'allowed'                          => true,
-		'custom_urls'                      => [],
 	];
 
 
@@ -123,9 +124,9 @@ class Option_Service_Weglot {
 		// $options      = (array) Morphism::map( 'WeglotWP\Models\Schema_Option_V3', $file_options );
 		$options = wp_parse_args( $file_options, $this->get_options_default() ); // Options from WP
 
-		if ( empty( $options['menu_switcher'] ) ) {
+		if ( empty( $options['custom_settings']['menu_switcher'] ) ) {
 			$menu_options_services     = weglot_get_service( 'Menu_Options_Service_Weglot' );
-			$options['menu_switcher']  = $menu_options_services->get_options_default();
+			$options['custom_settings']['menu_switcher']  = $menu_options_services->get_options_default();
 		}
 
 		return apply_filters( 'weglot_get_options', $options );

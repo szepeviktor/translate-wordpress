@@ -86,8 +86,8 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 					$new_options['has_first_settings']      = false;
 					$new_options['show_box_first_settings'] = true;
 				} else {
-					$new_options = $this->sanitize_options_appearance( $new_options, $options );
-					$new_options = $this->sanitize_options_advanced( $new_options, $options );
+					// $new_options = $this->sanitize_options_appearance( $new_options, $options );
+					// $new_options = $this->sanitize_options_advanced( $new_options, $options );
 				}
 				break;
 			case Helper_Tabs_Admin_Weglot::SUPPORT:
@@ -101,10 +101,13 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 		}
 
 		$res = wp_remote_post('https://api-staging.weglot.com/projects/settings?api_key=' . $new_options['api_key'],  [
-			'body'        => $new_options,
+			'body'        => json_encode( $new_options ),
+			'headers' => [
+				'technology' => 'wordpress',
+				'Content-Type' => 'application/json; charset=utf-8',
+			],
 		]);
-		// var_dump($res);
-		// die;
+
 		return $new_options;
 	}
 
@@ -120,35 +123,19 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 		$plans            = $this->user_api_services->get_plans();
 		$options_bdd      = $this->option_services->get_options();
 
-		$old_destination_languages = array_diff( $options_bdd['destination_language'], $new_options['destination_language'] );
+		// $old_destination_languages = array_diff( $options_bdd['destination_language'], $new_options['destination_language'] );
 
-		// Limit language
-		if (
-			$user_info['plan'] <= 0 ||
-			in_array( $user_info['plan'], $plans['starter_free']['ids'] ) // phpcs:ignore
-		) {
-			$new_options['destination_language'] = array_splice( $options['destination_language'], 0, $plans['starter_free']['limit_language'] );
-		} elseif (
-			in_array( $user_info['plan'], $plans['business']['ids'] ) // phpcs:ignore
-		) {
-			$new_options['destination_language'] = array_splice( $options['destination_language'], 0, $plans['business']['limit_language'] );
-		}
-
-		if ( isset( $options['exclude_urls'] ) ) {
-			$new_options['exclude_urls'] = array_filter( $options['exclude_urls'], function( $value ) {
-				return '' !== $value;
-			} );
-		} else {
-			$new_options['exclude_urls'] = [];
-		}
-
-		if ( isset( $options['exclude_blocks'] ) ) {
-			$new_options['exclude_blocks'] = array_filter( $options['exclude_blocks'], function( $value ) {
-				return '' !== $value;
-			} );
-		} else {
-			$new_options['exclude_blocks'] = [];
-		}
+		// // Limit language
+		// if (
+		// 	$user_info['plan'] <= 0 ||
+		// 	in_array( $user_info['plan'], $plans['starter_free']['ids'] ) // phpcs:ignore
+		// ) {
+		// 	$new_options['destination_language'] = array_splice( $options['destination_language'], 0, $plans['starter_free']['limit_language'] );
+		// } elseif (
+		// 	in_array( $user_info['plan'], $plans['business']['ids'] ) // phpcs:ignore
+		// ) {
+		// 	$new_options['destination_language'] = array_splice( $options['destination_language'], 0, $plans['business']['limit_language'] );
+		// }
 
 		return $new_options;
 	}

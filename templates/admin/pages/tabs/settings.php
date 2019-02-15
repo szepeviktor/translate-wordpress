@@ -11,8 +11,8 @@ $options_available = [
 		'label'       => __( 'API Key', 'weglot' ),
 		'description' => __( 'Log in to <a target="_blank" href="https://weglot.com/register-wordpress">Weglot</a> to get your API key.', 'weglot' ),
 	],
-	'original_language' => [
-		'key'         => 'original_language',
+	'language_from' => [
+		'key'         => 'language_from',
 		'label'       => __( 'Original language', 'weglot' ),
 		'description' => 'What is the original (current) language of your website?',
 	],
@@ -63,21 +63,21 @@ $plans              = $this->user_api_services->get_plans();
 		</tr>
 		<tr valign="top">
 			<th scope="row" class="titledesc">
-				<label for="<?php echo esc_attr( $options_available['original_language']['key'] ); ?>">
-					<?php echo esc_html( $options_available['original_language']['label'] ); ?>
+				<label for="<?php echo esc_attr( $options_available['language_from']['key'] ); ?>">
+					<?php echo esc_html( $options_available['language_from']['label'] ); ?>
 				</label>
-					<p class="sub-label"><?php echo $options_available['original_language']['description']; //phpcs:ignore ?></p>
+					<p class="sub-label"><?php echo $options_available['language_from']['description']; //phpcs:ignore ?></p>
 			</th>
 			<td class="forminp forminp-text">
 				<select
 					class="weglot-select weglot-select-original"
-					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['original_language']['key'] ) ); ?>"
-					id="<?php echo esc_attr( $options_available['original_language']['key'] ); ?>"
+					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['language_from']['key'] ) ); ?>"
+					id="<?php echo esc_attr( $options_available['language_from']['key'] ); ?>"
 				>
 					<?php foreach ( $languages as $language ) : ?>
 						<option
 							value="<?php echo esc_attr( $language->getIso639() ); ?>"
-							<?php selected( $language->getIso639(), $this->options[ $options_available['original_language']['key'] ] ); ?>
+							<?php selected( $language->getIso639(), $this->options[ $options_available['language_from']['key'] ] ); ?>
 						>
 							<?php esc_html_e( $language->getEnglishName(), 'weglot'); //phpcs:ignore ?>
 						</option>
@@ -97,7 +97,7 @@ $plans              = $this->user_api_services->get_plans();
 				<select
 					class="weglot-select weglot-select-destination"
 					style="display:none"
-					name="<?php echo esc_attr( sprintf( '%s[%s][language_to]', WEGLOT_SLUG, $options_available['languages']['key'] ) ); ?>[]"
+					name="<?php echo esc_attr( sprintf( '%s[%s][][language_to]', WEGLOT_SLUG, $options_available['languages']['key'] ) ); ?>"
 					id="<?php echo esc_attr( $options_available['languages']['key'] ); ?>"
 					multiple="true"
 					required
