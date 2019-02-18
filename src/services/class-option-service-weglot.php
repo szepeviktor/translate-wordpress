@@ -21,8 +21,8 @@ class Option_Service_Weglot {
 	 * @var array
 	 */
 	protected $options_default = [
-		'api_key'                    => '',
-		'language_from'              => [
+		'api_key_private' => '',
+		'language_from'   => [
 			'code' => 'en',
 		],
 		'languages'                        => [],
@@ -115,6 +115,45 @@ class Option_Service_Weglot {
 	}
 
 	/**
+	 * @since 3.0.0
+	 * @param string $api_key
+	 * @return array
+	 */
+	public function get_options_from_cdn_with_api_key( $api_key ) {
+		$key      = str_replace( 'wg_', '', $api_key );
+		$url      = sprintf( '%s%s.json', 'https://cdn.weglot.com/projects-settings/', $key );
+
+		$response = wp_remote_get( $url );
+		try {
+			$body = json_decode( $response['body'], true );
+			return [
+				 'success' => true,
+				 'result'  => $body,
+			 ];
+		} catch ( \Exception $th ) {
+			return [
+				'success' => false,
+			];
+		}
+	}
+
+	/**
+	 * @since 3.0.0
+	 * @return array
+	 */
+	public function get_options_bdd() {
+		//  $row = $wpdb->get_row( $wpdb->prepare( "SELECT option_value FROM $wpdb->options WHERE option_name = %s LIMIT 1", $option ) );
+		// $wpdb->suppress_errors( $suppress );
+		// if ( is_object( $row ) ) {
+		// 	$value = $row->option_value;
+		// } else {
+		// 	/** This filter is documented in wp-includes/option.php */
+		// 	return apply_filters( "default_option_{$option}", $default, $option, $passed_default );
+		// }
+		return get_option( WEGLOT_SLUG );
+	}
+
+	/**
 	 * @since 2.0
 	 * @version 3.0.0
 	 * @return array
@@ -123,17 +162,46 @@ class Option_Service_Weglot {
 		$options_bdd = get_option( WEGLOT_SLUG );
 		// $file_options = json_decode( file_get_contents( trailingslashit( WEGLOT_DIR ) . 'settings-example.json' ), true );
 		// $options      = (array) Morphism::map( 'WeglotWP\Models\Schema_Option_V3', $file_options );
-		$api_key_public = $options_bdd['api_key_public'];
-		// var_dump($options_bdd);
-		// die;
-		$options = wp_parse_args( $file_options, $this->get_options_default() ); // Options from WP
+		$api_key_private            = $options_bdd['api_key_private'];
+		$response                   = $this->get_options_from_cdn_with_api_key( $options_bdd['api_key'] );
+		$options                    = $this->get_options_default();
+		if ( $response['success'] ) {
+			$options = $response['result'];
+		}
+		$options['api_key_private'] = $api_key_private;
+
 
 		if ( empty( $options['custom_settings']['menu_switcher'] ) ) {
 			$menu_options_services                        = weglot_get_service( 'Menu_Options_Service_Weglot' );
 			$options['custom_settings']['menu_switcher']  = $menu_options_services->get_options_default();
 		}
 
-		return apply_filters( 'weglot_get_options', $options_bdd );
+		return apply_filters( 'weglot_get_options', $options );
+	}
+
+
+	/**
+	 * @since 3.0.0
+	 * @param array $new_options
+	 * @return array
+	 */
+	public function save_options_to_weglot( $new_options ) {
+		$response    = wp_remote_post( 'https://api-staging.weglot.com/projects/settings?api_key=' . $new_options['api_key_private'],  [
+			'body'        => json_encode( $new_options ),
+			'headers'     => [
+				'technology'   => 'wordpress',
+				'Content-Type' => 'application/json; charset=utf-8',
+			],
+		] );
+
+		if ( is_wp_error( $response ) ) {
+			return $new_options;
+		}
+
+		$body                          = json_decode( $response['body'], true );
+		$new_options['api_key']        = $body['api_key'];
+
+		return $new_options;
 	}
 
 	/**

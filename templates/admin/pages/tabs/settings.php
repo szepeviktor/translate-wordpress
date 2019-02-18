@@ -6,8 +6,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 use WeglotWP\Helpers\Helper_Tabs_Admin_Weglot;
 
 $options_available = [
-	'api_key' => [
-		'key'         => 'api_key',
+	'api_key_private' => [
+		'key'         => 'api_key_private',
 		'label'       => __( 'API Key', 'weglot' ),
 		'description' => __( 'Log in to <a target="_blank" href="https://weglot.com/register-wordpress">Weglot</a> to get your API key.', 'weglot' ),
 	],
@@ -39,19 +39,19 @@ $plans              = $this->user_api_services->get_plans();
 	<tbody>
 		<tr valign="top">
 			<th scope="row" class="titledesc">
-				<label for="<?php echo esc_attr( $options_available['api_key']['key'] ); ?>">
-					<?php echo esc_html( $options_available['api_key']['label'] ); ?>
+				<label for="<?php echo esc_attr( $options_available['api_key_private']['key'] ); ?>">
+					<?php echo esc_html( $options_available['api_key_private']['label'] ); ?>
 				</label>
-				<p class="sub-label"><?php echo $options_available['api_key']['description']; //phpcs:ignore ?></p>
+				<p class="sub-label"><?php echo $options_available['api_key_private']['description']; //phpcs:ignore ?></p>
 			</th>
 			<td class="forminp forminp-text">
 				<input
-					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['api_key']['key'] ) ); ?>"
-					id="<?php echo esc_attr( $options_available['api_key']['key'] ); ?>"
+					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['api_key_private']['key'] ) ); ?>"
+					id="<?php echo esc_attr( $options_available['api_key_private']['key'] ); ?>"
 					type="text"
 					required
 					placeholder="wg_XXXXXXXXXXXX"
-					value="<?php echo esc_attr( $this->options[ $options_available['api_key']['key'] ] ); ?>"
+					value="<?php echo esc_attr( $this->options[ $options_available['api_key_private']['key'] ] ); ?>"
 				>
 				<br>
 				<?php if ( $this->options['has_first_settings'] ) {
