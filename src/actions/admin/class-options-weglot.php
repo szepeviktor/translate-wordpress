@@ -89,6 +89,9 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 					// $new_options = $this->sanitize_options_appearance( $new_options, $options );
 					// $new_options = $this->sanitize_options_advanced( $new_options, $options );
 				}
+
+				$new_options = $this->save_options_to_weglot( $new_options );
+
 				break;
 			case Helper_Tabs_Admin_Weglot::SUPPORT:
 				$new_options['active_wc_reload'] = isset( $options['active_wc_reload'] ) ? 1 : 0;
@@ -100,14 +103,26 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 				break;
 		}
 
-		$res = wp_remote_post('https://api-staging.weglot.com/projects/settings?api_key=' . $new_options['api_key'],  [
+
+
+		return $new_options;
+	}
+
+	public function save_options_to_weglot( $new_options ) {
+		$response    = wp_remote_post('https://api-staging.weglot.com/projects/settings?api_key=' . $new_options['api_key'],  [
 			'body'        => json_encode( $new_options ),
-			'headers' => [
-				'technology' => 'wordpress',
+			'headers'     => [
+				'technology'   => 'wordpress',
 				'Content-Type' => 'application/json; charset=utf-8',
 			],
 		]);
 
+		if ( is_wp_error( $response ) ) {
+			return $new_options;
+		}
+
+		$body                          = json_decode( $response['body'], true );
+		$new_options['api_key_public'] = $body['api_key'];
 		return $new_options;
 	}
 

@@ -36,11 +36,11 @@ class Option_Service_Weglot {
 			'translate_search'                  => false,
 			'button_style'                      => [
 				'full_name'     => false,
-				'with_name'    => true,
-				'is_dropdown'  => true,
-				'with_flags'   => true,
-				'flag_type'    => Helper_Flag_Type::RECTANGLE_MAT,
-				'custom_css'   => '',
+				'with_name'     => true,
+				'is_dropdown'   => true,
+				'with_flags'    => true,
+				'flag_type'     => Helper_Flag_Type::RECTANGLE_MAT,
+				'custom_css'    => '',
 			],
 			'has_first_settings'               => true,
 			'show_box_first_settings'          => false,
@@ -120,16 +120,20 @@ class Option_Service_Weglot {
 	 * @return array
 	 */
 	public function get_options() {
+		$options_bdd = get_option( WEGLOT_SLUG );
 		// $file_options = json_decode( file_get_contents( trailingslashit( WEGLOT_DIR ) . 'settings-example.json' ), true );
 		// $options      = (array) Morphism::map( 'WeglotWP\Models\Schema_Option_V3', $file_options );
+		$api_key_public = $options_bdd['api_key_public'];
+		// var_dump($options_bdd);
+		// die;
 		$options = wp_parse_args( $file_options, $this->get_options_default() ); // Options from WP
 
 		if ( empty( $options['custom_settings']['menu_switcher'] ) ) {
-			$menu_options_services     = weglot_get_service( 'Menu_Options_Service_Weglot' );
+			$menu_options_services                        = weglot_get_service( 'Menu_Options_Service_Weglot' );
 			$options['custom_settings']['menu_switcher']  = $menu_options_services->get_options_default();
 		}
 
-		return apply_filters( 'weglot_get_options', $options );
+		return apply_filters( 'weglot_get_options', $options_bdd );
 	}
 
 	/**
@@ -139,6 +143,7 @@ class Option_Service_Weglot {
 	 */
 	public function get_option( $key ) {
 		$options = $this->get_options();
+
 		if ( ! array_key_exists( $key, $options ) ) {
 			return null;
 		}
