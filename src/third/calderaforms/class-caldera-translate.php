@@ -33,8 +33,10 @@ class Caldera_Translate {
 			return $content;
 		}
 
-		$dom_translate  = $this->translate_entries( $match[2][0] );
-		$content        = str_replace( $match[2][0], $dom_translate, $content );
+		foreach ( $match[2] as $key => $template_html ) {
+			$dom_translate  = $this->translate_entries( $template_html );
+			$content        = str_replace( $match[2][$key], $dom_translate, $content );
+		}
 
 		return $content;
 	}
