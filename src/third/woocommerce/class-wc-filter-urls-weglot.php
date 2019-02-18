@@ -29,7 +29,7 @@ class WC_Filter_Urls_Weglot implements Hooks_Interface_Weglot {
 
 	/**
 	 * @since 2.0
-	 * @version 2.0.4
+	 * @version 2.6.0
 	 * @see Hooks_Interface_Weglot
 	 *
 	 * @return void
@@ -48,6 +48,10 @@ class WC_Filter_Urls_Weglot implements Hooks_Interface_Weglot {
 		add_filter( 'woocommerce_login_redirect', [ '\WeglotWP\Helpers\Helper_Filter_Url_Weglot', 'filter_url_log_redirect' ] );
 		add_filter( 'woocommerce_registration_redirect', [ '\WeglotWP\Helpers\Helper_Filter_Url_Weglot', 'filter_url_log_redirect' ] );
 		add_filter( 'woocommerce_cart_item_permalink',  [ '\WeglotWP\Helpers\Helper_Filter_Url_Weglot', 'filter_url_lambda' ] );
+
+		/**
+		 * @since 2.6.0
+		 */
 		add_filter( 'woocommerce_get_cart_page_permalink', [ '\WeglotWP\Helpers\Helper_Filter_Url_Weglot', 'filter_url_lambda' ] );
 	}
 
