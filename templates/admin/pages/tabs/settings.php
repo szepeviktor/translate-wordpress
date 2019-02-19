@@ -23,8 +23,7 @@ $options_available = [
 	],
 ];
 
-// var_dump($this->options); die;
-
+var_dump($this->options);
 $languages          = $this->language_services->get_languages_available( [
 	'sort' => true,
 ] );
@@ -102,13 +101,14 @@ $plans              = $this->user_api_services->get_plans();
 					multiple="true"
 					required
 				>
-					<?php foreach ( $this->options[ $options_available['languages']['key'] ] as $language ) :
-						$languages[ $language ]; ?>
+					<?php foreach ( $this->options[ $options_available['languages']['key'] ] as $language ):
+						$language = $languages[ $language['language_to'] ];
+						?>
 						<option
-							value="<?php echo esc_attr( $language ); ?>"
+							value="<?php echo esc_attr( $language->getIso639() ); ?>"
 							selected="selected"
 						>
-							<?php echo esc_html( $language ); ?>
+							<?php echo esc_html( $language->getLocalName() ); ?>
 						</option>
 					<?php endforeach; ?>
 

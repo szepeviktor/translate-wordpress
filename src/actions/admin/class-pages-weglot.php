@@ -68,14 +68,14 @@ class Pages_Weglot implements Hooks_Interface_Weglot {
 			$this->tab_active = sanitize_text_field( wp_unslash( $_GET['tab'] ) ); // phpcs:ignore
 		}
 
-		$this->options = $this->option_services->get_options();
+		$this->options         = $this->option_services->get_options();
 
-		try {
-			$user_info = $this->user_api_services->get_user_info();
-			$this->option_services->set_option_by_key( 'allowed', $user_info['allowed'] );
-		} catch ( \Exception $e ) {
-			// If an exception occurs, do nothing, keep wg_allowed.
-		}
+		// try {
+		// 	$user_info = $this->user_api_services->get_user_info();
+		// 	$this->option_services->set_option_by_key( 'allowed', $user_info['allowed'] );
+		// } catch ( \Exception $e ) {
+		// 	// If an exception occurs, do nothing, keep wg_allowed.
+		// }
 
 		include_once WEGLOT_TEMPLATES_ADMIN_PAGES . '/settings.php';
 	}

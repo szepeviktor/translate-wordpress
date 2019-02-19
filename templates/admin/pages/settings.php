@@ -6,12 +6,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use WeglotWP\Helpers\Helper_Tabs_Admin_Weglot;
 
+$url_form = wp_nonce_url(
+	add_query_arg(
+		[
+			'action' => 'weglot_save_settings',
+			'tab'    => $this->tab_active,
+		],
+		admin_url( 'admin-post.php' )
+	),
+	'weglot_save_settings'
+);
+
 
 ?>
 
 <div id="wrap-weglot">
 	<div class="wrap">
-		<form method="post" id="mainform" action="<?php echo esc_url( admin_url( 'options.php' ) ); ?>">
+		<form method="post" id="mainform" action="<?php echo esc_url( $url_form ); ?>">
 			<?php
 
 
@@ -37,7 +48,6 @@ use WeglotWP\Helpers\Helper_Tabs_Admin_Weglot;
 			}
 
 			if ( ! in_array( $this->tab_active, [ Helper_Tabs_Admin_Weglot::STATUS ], true ) ) {
-				settings_fields( WEGLOT_OPTION_GROUP );
 				submit_button();
 			}
 			?>
