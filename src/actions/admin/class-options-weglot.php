@@ -78,17 +78,19 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 				if ( $response['success'] ) {
 					update_option( sprintf( '%s-%s', WEGLOT_SLUG, 'api_key_private' ), $options['api_key_private'] );
 					update_option( sprintf( '%s-%s', WEGLOT_SLUG, 'api_key' ), $response['result']['api_key'] );
+
+					$options_bdd = $this->option_services->get_options_bdd();
+
+					if ( $options_bdd['has_first_settings'] ) {
+						$options_bdd['has_first_settings']      = false;
+						$options_bdd['show_box_first_settings'] = true;
+						$this->option_services->set_options( $options_bdd );
+					}
 				}
 				break;
 		}
-		// $options = $this->sanitize_options_settings( $options );
 
-		// 	if ( $options['has_first_settings'] ) {
-		// 		$options['has_first_settings']      = false;
-		// 		$options['show_box_first_settings'] = true;
-		// 	}
-
-		wp_redirect( $redirect_url );
+		wp_redirect( $redirect_url ); //phpcs:ignore
 	}
 
 

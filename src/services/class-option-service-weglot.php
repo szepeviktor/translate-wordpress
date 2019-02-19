@@ -21,36 +21,8 @@ class Option_Service_Weglot {
 	 * @var array
 	 */
 	protected $options_default = [
-		'api_key_private' => '',
-		'language_from'   => [
-			'code' => 'en',
-		],
-		'languages'                        => [],
-		'auto_switch'                      => false,
-		'auto_switch_fallback'             => 'en',
-		'excluded_blocks'                  => [],
-		'excluded_paths'                   => [],
-		'custom_settings'                  => [
-			'translate_email'                   => false,
-			'translate_amp'                     => false,
-			'translate_search'                  => false,
-			'button_style'                      => [
-				'full_name'     => false,
-				'with_name'     => true,
-				'is_dropdown'   => true,
-				'with_flags'    => true,
-				'flag_type'     => Helper_Flag_Type::RECTANGLE_MAT,
-				'custom_css'    => '',
-			],
-			'has_first_settings'               => true,
-			'show_box_first_settings'          => false,
-			'rtl_ltr_style'                    => '',
-			'active_wc_reload'                 => false,
-			'flag_css'                         => '',
-			'menu_switcher'                    => [],
-			'custom_urls'                      => [],
-		],
-		'allowed'                          => true,
+		'has_first_settings'      => true,
+		'show_box_first_settings' => false,
 	];
 
 
@@ -129,7 +101,7 @@ class Option_Service_Weglot {
 			return [
 				'success' => true,
 				'result'  => $body,
-			 ];
+			];
 		} catch ( \Exception $th ) {
 			return [
 				'success' => false,
@@ -153,7 +125,7 @@ class Option_Service_Weglot {
 		$response = $this->get_options_from_cdn_with_api_key(
 			$api_key
 		);
-		// $file_options = json_decode( file_get_contents( trailingslashit( WEGLOT_DIR ) . 'settings-example.json' ), true );
+
 		// $options      = (array) Morphism::map( 'WeglotWP\Models\Schema_Option_V3', $file_options );
 
 		if ( $response['success'] ) {
@@ -166,7 +138,7 @@ class Option_Service_Weglot {
 			$options['custom_settings']['menu_switcher']  = $menu_options_services->get_options_default();
 		}
 
-		return apply_filters( 'weglot_get_options', $options );
+		return apply_filters( 'weglot_get_options', array_merge( $this->get_options_bdd(), $options ) );
 	}
 
 	/**
@@ -184,6 +156,14 @@ class Option_Service_Weglot {
 	 */
 	public function get_api_key() {
 		return get_option( sprintf( '%s-%s', WEGLOT_SLUG, 'api_key' ) );
+	}
+
+	/**
+	 * @since 3.0.0
+	 * @return array
+	 */
+	public function get_options_bdd() {
+		return wp_parse_args( get_option( WEGLOT_SLUG ), $this->get_options_default() );
 	}
 
 

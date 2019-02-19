@@ -30,10 +30,10 @@ $url_form = wp_nonce_url(
 				case Helper_Tabs_Admin_Weglot::SETTINGS:
 				default:
 					include_once WEGLOT_TEMPLATES_ADMIN_PAGES . '/tabs/settings.php';
-					// if ( ! $this->options['has_first_settings'] ) {
-					// 	include_once WEGLOT_TEMPLATES_ADMIN_PAGES . '/tabs/appearance.php';
-					// 	include_once WEGLOT_TEMPLATES_ADMIN_PAGES . '/tabs/advanced.php';
-					// }
+					if ( ! $this->options['has_first_settings'] ) {
+						include_once WEGLOT_TEMPLATES_ADMIN_PAGES . '/tabs/appearance.php';
+						include_once WEGLOT_TEMPLATES_ADMIN_PAGES . '/tabs/advanced.php';
+					}
 
 					break;
 				case Helper_Tabs_Admin_Weglot::STATUS:
