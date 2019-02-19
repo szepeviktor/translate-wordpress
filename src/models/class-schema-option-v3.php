@@ -15,14 +15,28 @@ class Schema_Option_V3 {
 	 */
 	public static function get_schema_switch_option_to_v3() {
 		$schema = [
-			'api_key'              => 'api_key',
-			'allowed'              => 'allowed',
-			'original_language'    => 'language_from',
-			'destination_language' => (object) [
+			'api_key'                      => 'api_key',
+			'api_key_private'              => 'api_key_private',
+			'allowed'                      => 'allowed',
+			'original_language'            => 'language_from',
+			'destination_language'         => (object) [
 				'path' => 'languages',
 				'fn'   => function( $language_to ) {
 					$languages = [];
 					foreach ( $language_to as $item ) {
+						$languages[] = $item['language_to'];
+					}
+					return $languages;
+				},
+			],
+			'private_languages'         => (object) [
+				'path' => 'languages',
+				'fn'   => function( $language_to ) {
+					$languages = [];
+					foreach ( $language_to as $item ) {
+						if ( $item['enabled'] ) {
+							continue;
+						}
 						$languages[] = $item['language_to'];
 					}
 					return $languages;
@@ -51,6 +65,10 @@ class Schema_Option_V3 {
 				},
 			],
 			'custom_settings' => 'custom_settings',
+			'is_dropdown'     => 'custom_settings.button_style.is_dropdown',
+			'fullname'        => 'custom_settings.button_style.full_name',
+			'with_flags'      => 'custom_settings.button_style.with_flags',
+			'flag_type'       => 'custom_settings.button_style.flag_type',
 		];
 
 		return $schema;

@@ -12,18 +12,17 @@ $options_available = [
 		'description' => __( 'Log in to <a target="_blank" href="https://weglot.com/register-wordpress">Weglot</a> to get your API key.', 'weglot' ),
 	],
 	'language_from' => [
-		'key'         => 'language_from',
+		'key'         => 'original_language',
 		'label'       => __( 'Original language', 'weglot' ),
 		'description' => 'What is the original (current) language of your website?',
 	],
 	'languages' => [
-		'key'         => 'languages',
+		'key'         => 'destination_language',
 		'label'       => __( 'Destination languages', 'weglot' ),
 		'description' => 'Choose languages you want to translate into. Supported languages can be found <a target="_blank" href="https://weglot.com/translation-api#languages_code">here</a>.',
 	],
 ];
 
-var_dump($this->options);
 $languages          = $this->language_services->get_languages_available( [
 	'sort' => true,
 ] );
@@ -70,7 +69,7 @@ $plans              = $this->user_api_services->get_plans();
 			<td class="forminp forminp-text">
 				<select
 					class="weglot-select weglot-select-original"
-					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['language_from']['key'] ) ); ?>"
+					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, 'language_from' ) ); ?>"
 					id="<?php echo esc_attr( $options_available['language_from']['key'] ); ?>"
 				>
 					<?php foreach ( $languages as $language ) : ?>
@@ -96,13 +95,14 @@ $plans              = $this->user_api_services->get_plans();
 				<select
 					class="weglot-select weglot-select-destination"
 					style="display:none"
-					name="<?php echo esc_attr( sprintf( '%s[%s][][language_to]', WEGLOT_SLUG, $options_available['languages']['key'] ) ); ?>"
+					name="<?php echo esc_attr( sprintf( '%s[languages][][language_to]', WEGLOT_SLUG ) ); ?>"
 					id="<?php echo esc_attr( $options_available['languages']['key'] ); ?>"
 					multiple="true"
 					required
 				>
-					<?php foreach ( $this->options[ $options_available['languages']['key'] ] as $language ):
-						$language = $languages[ $language['language_to'] ];
+					<?php foreach ( $this->options[ $options_available['languages']['key'] ] as $language ) :
+
+						$language = $languages[ $language ];
 						?>
 						<option
 							value="<?php echo esc_attr( $language->getIso639() ); ?>"

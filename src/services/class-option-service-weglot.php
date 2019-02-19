@@ -23,6 +23,35 @@ class Option_Service_Weglot {
 	protected $options_default = [
 		'has_first_settings'      => true,
 		'show_box_first_settings' => false,
+		'language_from'           => [
+			'code' => 'en',
+		],
+		'languages'                        => [],
+		'auto_switch'                      => false,
+		'auto_switch_fallback'             => 'en',
+		'excluded_blocks'                  => [],
+		'excluded_paths'                   => [],
+		'custom_settings'                  => [
+			'translate_email'                   => false,
+			'translate_amp'                     => false,
+			'translate_search'                  => false,
+			'button_style'                      => [
+				'full_name'     => false,
+				'with_name'     => true,
+				'is_dropdown'   => true,
+				'with_flags'    => true,
+				'flag_type'     => Helper_Flag_Type::RECTANGLE_MAT,
+				'custom_css'    => '',
+			],
+			'has_first_settings'               => true,
+			'show_box_first_settings'          => false,
+			'rtl_ltr_style'                    => '',
+			'active_wc_reload'                 => false,
+			'flag_css'                         => '',
+			'menu_switcher'                    => [],
+			'custom_urls'                      => [],
+		],
+		'allowed' => true,
 	];
 
 
@@ -119,14 +148,12 @@ class Option_Service_Weglot {
 		$api_key = $this->get_api_key();
 
 		if ( ! $api_key ) {
-			return [];
+			return (array) Morphism::map( 'WeglotWP\Models\Schema_Option_V3', $this->get_options_default() );
 		}
 
 		$response = $this->get_options_from_cdn_with_api_key(
 			$api_key
 		);
-
-		// $options      = (array) Morphism::map( 'WeglotWP\Models\Schema_Option_V3', $file_options );
 
 		if ( $response['success'] ) {
 			$options = $response['result'];
@@ -138,7 +165,9 @@ class Option_Service_Weglot {
 			$options['custom_settings']['menu_switcher']  = $menu_options_services->get_options_default();
 		}
 
-		return apply_filters( 'weglot_get_options', array_merge( $this->get_options_bdd(), $options ) );
+		$options = apply_filters( 'weglot_get_options', array_merge( $this->get_options_bdd(), $options ) );
+
+		return (array) Morphism::map( 'WeglotWP\Models\Schema_Option_V3', $options );
 	}
 
 	/**
@@ -186,7 +215,7 @@ class Option_Service_Weglot {
 				'success' => false,
 			];
 		}
-
+		var_dump($response['body']);
 		return [
 			'success' => true,
 			'result'  => json_decode( $response['body'], true ),

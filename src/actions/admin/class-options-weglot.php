@@ -8,6 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use WeglotWP\Helpers\Helper_Tabs_Admin_Weglot;
 use WeglotWP\Helpers\Helper_Pages_Weglot;
+use WeglotWP\Helpers\Helper_Flag_Type;
 
 use WeglotWP\Models\Hooks_Interface_Weglot;
 
@@ -74,6 +75,7 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 		switch ( $tab ) {
 			case Helper_Tabs_Admin_Weglot::SETTINGS:
 				$options  = $_POST[ WEGLOT_SLUG ]; //phpcs:ignore
+				$options  = $this->sanitize_options_settings( $options );
 				$response = $this->option_services->save_options_to_weglot( $options );
 				if ( $response['success'] ) {
 					update_option( sprintf( '%s-%s', WEGLOT_SLUG, 'api_key_private' ), $options['api_key_private'] );
@@ -117,6 +119,16 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 		// ) {
 		// 	$new_options['destination_language'] = array_splice( $options['destination_language'], 0, $plans['business']['limit_language'] );
 		// }
+
+		$options['custom_settings']['button_style']['is_dropdown']  = isset( $options['custom_settings']['button_style']['is_dropdown'] );
+		$options['custom_settings']['button_style']['with_flags']   = isset( $options['custom_settings']['button_style']['with_flags'] );
+		$options['custom_settings']['button_style']['full_name']    = isset( $options['custom_settings']['button_style']['full_name'] );
+		$options['custom_settings']['button_style']['with_name']    = isset( $options['custom_settings']['button_style']['with_name'] );
+		$options['custom_settings']['button_style']['custom_css']   = isset( $options['custom_settings']['button_style']['custom_css'] ) ? $options['custom_settings']['button_style']['custom_css'] : '';
+		$options['custom_settings']['button_style']['flag_type']    = isset( $options['custom_settings']['button_style']['flag_type'] ) ? $options['custom_settings']['button_style']['flag_type'] : Helper_Flag_Type::RECTANGLE_MAT;
+		$options['custom_settings']['translate_email']              = isset( $options['custom_settings']['translate_email'] );
+		$options['custom_settings']['translate_search']             = isset( $options['custom_settings']['translate_search'] );
+		$options['custom_settings']['translate_amp']                = isset( $options['custom_settings']['translate_amp'] );
 
 		return $options;
 	}

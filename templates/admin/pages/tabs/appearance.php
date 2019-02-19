@@ -11,8 +11,8 @@ $options_available = [
 		'label'       => __( 'Type of flags', 'weglot' ),
 		'description' => '',
 	],
-	'is_fullname' => [
-		'key'         => 'is_fullname',
+	'fullname' => [
+		'key'         => 'fullname',
 		'label'       => __( 'Is fullname', 'weglot' ),
 		'description' => __( "Check if you want the name of the languge. Don't check if you want the language code.", 'weglot' ),
 	],
@@ -68,7 +68,7 @@ $options_available = [
 			</th>
 			<td class="forminp forminp-text">
 				<input
-					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['is_dropdown']['key'] ) ); ?>"
+					name="<?php echo esc_attr( sprintf( '%s[custom_settings][button_style][is_dropdown]', WEGLOT_SLUG ) ); ?>"
 					id="<?php echo esc_attr( $options_available['is_dropdown']['key'] ); ?>"
 					type="checkbox"
 					<?php checked( $this->options[ $options_available['is_dropdown']['key'] ], 1 ); ?>
@@ -84,7 +84,7 @@ $options_available = [
 			</th>
 			<td class="forminp forminp-text">
 				<input
-					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['with_flags']['key'] ) ); ?>"
+					name="<?php echo esc_attr( sprintf( '%s[custom_settings][button_style][with_flags]', WEGLOT_SLUG ) ); ?>"
 					id="<?php echo esc_attr( $options_available['with_flags']['key'] ); ?>"
 					type="checkbox"
 					<?php checked( $this->options[ $options_available['with_flags']['key'] ], 1 ); ?>
@@ -101,7 +101,7 @@ $options_available = [
 			<td class="forminp forminp-text">
 				<select
 					class="wg-input-select"
-					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['type_flags']['key'] ) ); ?>"
+					name="<?php echo esc_attr( sprintf( '%s[custom_settings][button_style][type_flags]', WEGLOT_SLUG ) ); ?>"
 					id="<?php echo esc_attr( $options_available['type_flags']['key'] ); ?>"
 				>
 					<option <?php selected( $this->options[ $options_available['type_flags']['key'] ], '0' ); ?> value="0">
@@ -196,7 +196,7 @@ $options_available = [
 			</th>
 			<td class="forminp forminp-text">
 				<input
-					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['with_name']['key'] ) ); ?>"
+					name="<?php echo esc_attr( sprintf( '%s[custom_settings][button_style][with_name]', WEGLOT_SLUG ) ); ?>"
 					id="<?php echo esc_attr( $options_available['with_name']['key'] ); ?>"
 					type="checkbox"
 					<?php checked( $this->options[ $options_available['with_name']['key'] ], 1 ); ?>
@@ -206,18 +206,18 @@ $options_available = [
 		</tr>
 		<tr valign="top">
 			<th scope="row" class="titledesc">
-				<label for="<?php echo esc_attr( $options_available['is_fullname']['key'] ); ?>">
-					<?php echo esc_html( $options_available['is_fullname']['label'] ); ?>
+				<label for="<?php echo esc_attr( $options_available['fullname']['key'] ); ?>">
+					<?php echo esc_html( $options_available['fullname']['label'] ); ?>
 				</label>
 			</th>
 			<td class="forminp forminp-text">
 				<input
-				name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['is_fullname']['key'] ) ); ?>"
-				id="<?php echo esc_attr( $options_available['is_fullname']['key'] ); ?>"
+				name="<?php echo esc_attr( sprintf( '%s[custom_settings][button_style][full_name]', WEGLOT_SLUG ) ); ?>"
+				id="<?php echo esc_attr( $options_available['fullname']['key'] ); ?>"
 				type="checkbox"
-					<?php checked( $this->options[ $options_available['is_fullname']['key'] ], 1 ); ?>
+					<?php checked( $this->options[ $options_available['fullname']['key'] ], 1 ); ?>
 				>
-				<p class="description"><?php echo esc_html( $options_available['is_fullname']['description'] ); ?></p>
+				<p class="description"><?php echo esc_html( $options_available['fullname']['description'] ); ?></p>
 			</td>
 		</tr>
 		<tr valign="top">
