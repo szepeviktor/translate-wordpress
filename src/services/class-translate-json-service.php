@@ -48,8 +48,6 @@ class Translate_Json_Service {
 	 * @since 2.6.0
 	 */
 	public function __construct() {
-		$this->option_services                  = weglot_get_service( 'Option_Service_Weglot' );
-		$this->request_url_services             = weglot_get_service( 'Request_Url_Service_Weglot' );
 		$this->replace_url_services             = weglot_get_service( 'Replace_Url_Service_Weglot' );
 		$this->replace_link_services            = weglot_get_service( 'Replace_Link_Service_Weglot' );
 		$this->parser_services                  = weglot_get_service( 'Parser_Service_Weglot' );
@@ -63,8 +61,6 @@ class Translate_Json_Service {
 	 * @return array
 	 */
 	protected function check_json_to_translate( $json, $path = '$' ) {
-		$array_not_ajax_html = apply_filters( 'weglot_array_not_ajax_html', [ 'redirecturl', 'url' ] );
-
 		foreach ( $json as $key => $val ) {
 			if ( is_array( $val ) ) {
 				if ( is_string( $key ) ) {
@@ -90,8 +86,6 @@ class Translate_Json_Service {
 					} catch ( \Exception $e ) {
 						continue;
 					}
-				} elseif ( in_array( $key,  $array_not_ajax_html, true ) ) {
-					// $array[$key] = $this->replace_link_services->replace_url( $val ); //phpcs:ignore
 				} else {
 					if ( Helper_Keys_Json_Weglot::translate_key_for_path( $key ) ) {
 						try {
@@ -120,16 +114,12 @@ class Translate_Json_Service {
 		];
 	}
 
-
 	/**
 	 * @since 2.6.0
 	 * @param array $json
-	 * @param mixed $path
-	 * @return array
+	 * @return JsonObject
 	 */
-	public function translate_json( $json ) {
-		list( $indexes, $words ) = $this->check_json_to_translate( $json );
-
+	protected function translate_json_strings( $json ) {
 		$parser = $this->parser_services->get_parser();
 
 		// Translate endpoint parameters
@@ -144,37 +134,80 @@ class Translate_Json_Service {
 		try {
 			$translate       = new TranslateEntry( $params );
 			$word_collection = $translate->getInputWords();
-			foreach ( $words as $value ) {
+			foreach ( $this->collections as $value ) {
 				$word_collection->addOne( new WordEntry( $value['w'], $value['t'] ) );
 			}
 		} catch ( \Exception $e ) {
 		}
 
-		$translate  = new Translate( $translate, $parser->getClient() );
-		$translated = $translate->handle();
+		$translate   = new Translate( $translate, $parser->getClient() );
+		$translated  = $translate->handle();
 
 		$output_words = $translated->getOutputWords();
 
-		if ( $output_words->count() !== count( $words ) ) {
-			return $json;
+		$json_object = new JsonObject( $json );
+		if ( $output_words->count() !== count( $this->collections ) ) {
+			return $json_object;
 		}
 
 		$input_words = $translated->getInputWords();
-
-		$json_object = new JsonObject( $json );
 		$i           = 0;
-		foreach ( $indexes as $path => $index ) {
-			do {
-				$input_word = $input_words[ $i ]->getWord();
-				$ouput_word = $output_words[ $i ]->getWord();
-				$str        = $json_object->get( $path )[0];
 
-				$json_object->set( $path, str_replace( $input_word, $ouput_word, $str ) );
+		foreach ( $this->indexes as $path => $index ) {
+			do {
+				$input_word  = $input_words[ $i ]->getWord();
+				$output_word = $output_words[ $i ]->getWord();
+				$str         = $json_object->get( $path )[0];
+
+				$json_object->set( $path, str_replace( $input_word, $output_word, $str ) );
 				$i++;
 			} while ( $i < $index['limit'] );
 		}
 
 		return $json_object;
+	}
+
+
+	/**
+	 * @since 2.6.0
+	 * @param array $json
+	 * @return array
+	 */
+	public function replace_json_links( $json ) {
+		$replace_urls = apply_filters( 'weglot_ajax_replace_urls', [ 'redirecturl', 'url', 'link' ] );
+
+		foreach ( $json as $key => $val ) {
+			if ( is_array( $val ) ) {
+				$json[ $key ] = $this->replace_json_links( $val );
+			} else {
+				if ( Helper_Json_Inline_Weglot::is_ajax_html( $val ) ) {
+					$json[ $key ] = $this->replace_url_services->replace_link_in_dom( $val );
+				} else {
+					if ( in_array( $key,  $replace_urls, true ) ) {
+						$json[ $key ] = $this->replace_link_services->replace_url( $val );
+					}
+				}
+			}
+		}
+
+		return $json;
+	}
+
+
+	/**
+	 * @since 2.6.0
+	 * @param array $json
+	 * @param mixed $path
+	 * @return JsonObject
+	 */
+	public function translate_json( $json ) {
+		$this->check_json_to_translate( $json );
+		$json_object = $this->translate_json_strings( $json );
+		$json        = json_decode( $json_object->getJson(), true );
+
+		$json = $this->replace_json_links( $json );
+
+		return $json;
 	}
 }
 

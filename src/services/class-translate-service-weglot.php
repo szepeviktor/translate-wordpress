@@ -99,11 +99,10 @@ class Translate_Service_Weglot {
 				case 'json':
 					$json       = \json_decode( $content, true );
 					$content    = $this->translate_json_service->translate_json( $json );
-					// $content    = $this->translate_json( $json );
 					// $content    = $this->replace_link_array( $content );
 					$content    = apply_filters( 'weglot_json_treat_page', $content );
 
-					return $content;
+					return wp_json_encode( $content );
 				case 'html':
 					$content            = $this->fix_menu_link( $content );
 					$translated_content = $parser->translate( $content, $this->original_language, $this->current_language ); // phpcs:ignore
@@ -182,32 +181,6 @@ class Translate_Service_Weglot {
 		}
 		return $array;
 	}
-
-	/**
-	 * Replace links for JSON translate
-	 *
-	 * @since 2.3.0
-	 *
-	 * @param array $array
-	 * @return array
-	 */
-	public function replace_link_array( $array ) {
-		$array_not_ajax_html = apply_filters( 'weglot_array_not_ajax_html', [ 'redirecturl', 'url' ] );
-
-		foreach ( $array as $key => $val ) {
-			if ( is_array( $val ) ) {
-				$array[ $key ] = $this->replace_link_array( $val );
-			} else {
-				if ( $this->is_ajax_html( $val ) ) {
-					$array[ $key ] = $this->replace_url_services->replace_link_in_dom( $val );
-				}
-			}
-		}
-
-		return $array;
-	}
-
-
 
 
 	/**
