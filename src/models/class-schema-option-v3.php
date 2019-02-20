@@ -64,11 +64,12 @@ class Schema_Option_V3 {
 					return $excluded;
 				},
 			],
-			'custom_settings' => 'custom_settings',
-			'is_dropdown'     => 'custom_settings.button_style.is_dropdown',
-			'fullname'        => 'custom_settings.button_style.full_name',
-			'with_flags'      => 'custom_settings.button_style.with_flags',
-			'flag_type'       => 'custom_settings.button_style.flag_type',
+			'custom_settings'    => 'custom_settings',
+			'is_dropdown'        => 'custom_settings.button_style.is_dropdown',
+			'is_fullname'        => 'custom_settings.button_style.full_name',
+			'with_name'          => 'custom_settings.button_style.with_name',
+			'with_flags'         => 'custom_settings.button_style.with_flags',
+			'flag_type'          => 'custom_settings.button_style.flag_type',
 		];
 
 		return $schema;

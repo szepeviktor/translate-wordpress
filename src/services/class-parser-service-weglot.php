@@ -52,12 +52,15 @@ class Parser_Service_Weglot {
 			}, $exclude_blocks);
 		}
 
-		$api_key        = $this->option_services->get_option( 'api_key' );
+		$api_key        = get_option( WEGLOT_SLUG . '-api_key' );
+
 		$config         = apply_filters( 'weglot_parser_config_provider', new ServerConfigProvider() );
 		if ( ! ( $config instanceof ConfigProviderInterface ) ) {
 			$config = new ServerConfigProvider();
 		}
-		$client         = new Client( $api_key );
+		$client         = new Client( $api_key, [
+			'host' => 'https://api-staging.weglot.com',
+		] );
 
 		if ( '2' === WEGLOT_LIB_PARSER ) {
 			$listeners = $this->dom_listeners_services->get_dom_listeners();

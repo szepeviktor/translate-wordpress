@@ -10,9 +10,7 @@ use WeglotWP\Models\Hooks_Interface_Weglot;
 use WeglotWP\Helpers\Helper_Post_Meta_Weglot;
 
 use Weglot\Client\Api\Enum\BotType;
-use Weglot\Client\Client;
 use Weglot\Util\Server;
-use Weglot\Client\Api\Exception\ApiError;
 
 
 /**

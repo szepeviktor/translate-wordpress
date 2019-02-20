@@ -215,7 +215,7 @@ class Option_Service_Weglot {
 				'success' => false,
 			];
 		}
-		var_dump($response['body']);
+
 		return [
 			'success' => true,
 			'result'  => json_decode( $response['body'], true ),
