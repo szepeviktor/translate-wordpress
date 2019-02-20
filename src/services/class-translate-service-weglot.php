@@ -29,6 +29,7 @@ class Translate_Service_Weglot {
 		$this->ninja_active_services            = weglot_get_service( 'Ninja_Active_Weglot' );
 		$this->caldera_active_services          = weglot_get_service( 'Caldera_Active' );
 		$this->other_translate_services         = weglot_get_service( 'Other_Translate_Service_Weglot' );
+		$this->translate_json_service           = weglot_get_service( 'Translate_Json_Service' );
 		$this->generate_switcher_service        = weglot_get_service( 'Generate_Switcher_Service_Weglot' );
 	}
 
@@ -97,11 +98,12 @@ class Translate_Service_Weglot {
 			switch ( $type ) {
 				case 'json':
 					$json       = \json_decode( $content, true );
-					$content    = $this->translate_array( $json );
-					$content    = $this->replace_link_array( $content );
+					$content    = $this->translate_json_service->translate_json( $json );
+					// $content    = $this->translate_json( $json );
+					// $content    = $this->replace_link_array( $content );
 					$content    = apply_filters( 'weglot_json_treat_page', $content );
 
-					return wp_json_encode( $content );
+					return $content;
 				case 'html':
 					$content            = $this->fix_menu_link( $content );
 					$translated_content = $parser->translate( $content, $this->original_language, $this->current_language ); // phpcs:ignore
@@ -205,22 +207,7 @@ class Translate_Service_Weglot {
 		return $array;
 	}
 
-	/**
-	 * @since 2.3.0
-	 *
-	 * @param string $string
-	 * @return boolean
-	 */
-	protected function is_ajax_html( $string ) {
-		$preg_match_ajax_html = apply_filters( 'weglot_is_ajax_html_regex',  '/<(a|div|span|p|i|aside|input|textarea|select|h1|h2|h3|h4|meta|button|form|li|strong|ul|option)/' );
-		$result               = preg_match_all( $preg_match_ajax_html, $string, $m, PREG_PATTERN_ORDER );
 
-		if ( isset( $string[0] ) && '{' !== $string[0] && $result && $result >= 1 ) {
-			return true;
-		} else {
-			return false;
-		}
-	}
 
 
 	/**

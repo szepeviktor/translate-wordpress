@@ -6,7 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-use Weglot\Client\Api\WordCollection;
 use Weglot\Client\Api\WordEntry;
 use Weglot\Client\Api\Enum\WordType;
 use Weglot\Client\Client;

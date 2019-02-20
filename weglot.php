@@ -28,7 +28,7 @@ define('WEGLOT_BNAME', plugin_basename(__FILE__));
 define('WEGLOT_DIR', __DIR__ );
 define('WEGLOT_DIR_LANGUAGES', WEGLOT_DIR . '/languages');
 define('WEGLOT_DIR_DIST', WEGLOT_DIR . '/dist');
-define('WEGLOT_DEBUG', false);
+define('WEGLOT_DEBUG', true);
 
 define('WEGLOT_DIRURL', plugin_dir_url(__FILE__));
 define('WEGLOT_URL_DIST', WEGLOT_DIRURL . 'dist');
@@ -40,6 +40,11 @@ define('WEGLOT_TEMPLATES_ADMIN', WEGLOT_TEMPLATES . '/admin');
 define('WEGLOT_TEMPLATES_ADMIN_METABOXES', WEGLOT_TEMPLATES_ADMIN . '/metaboxes');
 define('WEGLOT_TEMPLATES_ADMIN_NOTICES', WEGLOT_TEMPLATES_ADMIN . '/notices');
 define('WEGLOT_TEMPLATES_ADMIN_PAGES', WEGLOT_TEMPLATES_ADMIN . '/pages');
+
+add_filter('weglot_keys_translate_json', function($arr) {
+	$arr['/'] = ['post_title'];
+	return $arr;
+});
 
 // Compatibility Yoast premium Redirection
 $dir_yoast_premium = plugin_dir_path(__DIR__) . 'wordpress-seo-premium';
