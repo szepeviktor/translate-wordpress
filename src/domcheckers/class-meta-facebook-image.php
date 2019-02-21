@@ -15,7 +15,7 @@ class Meta_Facebook_Image extends AbstractDomChecker {
 	/**
 	 * {@inheritdoc}
 	 */
-	const DOM = "meta[name='og:image'], meta[name='og:image:secure_url']";
+	const DOM = "meta[property='og:image'], meta[property='og:image:secure_url']";
 	/**
 	 * {@inheritdoc}
 	 */
