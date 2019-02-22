@@ -153,7 +153,7 @@ class Translate_Json_Service {
 		$output_words = $translated->getOutputWords();
 
 		$json_object = new JsonObject( $json );
-		if ( $output_words->count() !== count( $this->collections ) ) {
+		if ( $output_words->count() !== count( $this->collections ) || $output_words->count() === 0) {
 			return $json_object;
 		}
 
@@ -162,6 +162,11 @@ class Translate_Json_Service {
 
 		foreach ( $this->indexes as $path => $index ) {
 			do {
+				if ( is_null( $input_words[ $i ] ) || is_null( $output_words[ $i ] ) ) {
+					$i++;
+					continue;
+				}
+
 				$input_word  = $input_words[ $i ]->getWord();
 				$output_word = $output_words[ $i ]->getWord();
 				$str         = $json_object->get( $path )[0];
