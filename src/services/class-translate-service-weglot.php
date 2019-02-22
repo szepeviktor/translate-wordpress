@@ -99,7 +99,6 @@ class Translate_Service_Weglot {
 				case 'json':
 					$json       = \json_decode( $content, true );
 					$content    = $this->translate_json_service->translate_json( $json );
-					// $content    = $this->replace_link_array( $content );
 					$content    = apply_filters( 'weglot_json_treat_page', $content );
 
 					return wp_json_encode( $content );

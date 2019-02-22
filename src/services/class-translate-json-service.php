@@ -9,6 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use WeglotWP\Helpers\Helper_Json_Inline_Weglot;
 use WeglotWP\Helpers\Helper_Keys_Json_Weglot;
 
+use Weglot\Client\Api\WordCollection;
 use Weglot\Client\Api\TranslateEntry;
 use Weglot\Client\Endpoint\Translate;
 use Weglot\Client\Api\WordEntry;
@@ -76,6 +77,9 @@ class Translate_Json_Service {
 						$newpath                           = "$path.$key";
 						$parser                            = $this->parser_services->get_parser();
 						$words                             = $parser->parse( $val );
+						if ( ! $words instanceof WordCollection ) {
+							continue;
+						}
 						$this->collections                 = array_merge( $this->collections, $words->jsonSerialize() );
 						$this->limit                       = $this->index + $words->count();
 						$this->indexes[ $newpath ]         = [
@@ -93,6 +97,9 @@ class Translate_Json_Service {
 
 							$parser                    = $this->parser_services->get_parser();
 							$words                     = $parser->parse( $val );
+							if ( ! $words instanceof WordCollection ) {
+								continue;
+							}
 							$this->collections         = array_merge( $this->collections, $words->jsonSerialize() );
 							$this->limit               = $this->index + $words->count();
 							$this->indexes[ $newpath ] = [

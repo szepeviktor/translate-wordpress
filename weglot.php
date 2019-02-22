@@ -41,11 +41,6 @@ define('WEGLOT_TEMPLATES_ADMIN_METABOXES', WEGLOT_TEMPLATES_ADMIN . '/metaboxes'
 define('WEGLOT_TEMPLATES_ADMIN_NOTICES', WEGLOT_TEMPLATES_ADMIN . '/notices');
 define('WEGLOT_TEMPLATES_ADMIN_PAGES', WEGLOT_TEMPLATES_ADMIN . '/pages');
 
-add_filter('weglot_keys_translate_json', function($arr) {
-	$arr['/'] = ['post_title'];
-	return $arr;
-});
-
 // Compatibility Yoast premium Redirection
 $dir_yoast_premium = plugin_dir_path(__DIR__) . 'wordpress-seo-premium';
 if ( file_exists( $dir_yoast_premium . '/wp-seo-premium.php' ) ) {

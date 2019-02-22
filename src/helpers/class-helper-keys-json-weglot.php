@@ -17,6 +17,9 @@ abstract class Helper_Keys_Json_Weglot {
 		'contact-form-7' => [
 			'message',
 		],
+		'/' => [
+			'post_title',
+		],
 	];
 
 	/**
