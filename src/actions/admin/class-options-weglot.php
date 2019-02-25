@@ -125,10 +125,14 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 		$options['custom_settings']['button_style']['full_name']    = isset( $options['custom_settings']['button_style']['full_name'] );
 		$options['custom_settings']['button_style']['with_name']    = isset( $options['custom_settings']['button_style']['with_name'] );
 		$options['custom_settings']['button_style']['custom_css']   = isset( $options['custom_settings']['button_style']['custom_css'] ) ? $options['custom_settings']['button_style']['custom_css'] : '';
+
 		$options['custom_settings']['button_style']['flag_type']    = isset( $options['custom_settings']['button_style']['flag_type'] ) ? $options['custom_settings']['button_style']['flag_type'] : Helper_Flag_Type::RECTANGLE_MAT;
+
 		$options['custom_settings']['translate_email']              = isset( $options['custom_settings']['translate_email'] );
 		$options['custom_settings']['translate_search']             = isset( $options['custom_settings']['translate_search'] );
 		$options['custom_settings']['translate_amp']                = isset( $options['custom_settings']['translate_amp'] );
+
+		$options['auto_switch']                = isset( $options['auto_switch'] );
 
 		return $options;
 	}

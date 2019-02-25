@@ -42,9 +42,9 @@ class Schema_Option_V3 {
 					return $languages;
 				},
 			],
-			'autoswitch'                  => 'auto_switch',
-			'autoswitch_fallback'         => 'auto_switch_fallback',
-			'excluded_paths'              => (object) [
+			'auto_redirect'                  => 'auto_switch',
+			'autoswitch_fallback'            => 'auto_switch_fallback',
+			'excluded_paths'                 => (object) [
 				'path' => 'excluded_paths',
 				'fn'   => function( $excluded_paths ) {
 					$excluded = [];
@@ -70,6 +70,10 @@ class Schema_Option_V3 {
 			'with_name'          => 'custom_settings.button_style.with_name',
 			'with_flags'         => 'custom_settings.button_style.with_flags',
 			'flag_type'          => 'custom_settings.button_style.flag_type',
+			'override_css'       => 'custom_settings.button_style.custom_css',
+			'email_translate'    => 'custom_settings.translate_email',
+			'active_search'      => 'custom_settings.translate_search',
+			'translate_amp'      => 'custom_settings.translate_amp',
 		];
 
 		return $schema;

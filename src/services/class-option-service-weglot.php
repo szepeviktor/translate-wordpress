@@ -124,7 +124,21 @@ class Option_Service_Weglot {
 		$key      = str_replace( 'wg_', '', $api_key );
 		$url      = sprintf( '%s%s.json', 'https://cdn.weglot.com/projects-settings/', $key );
 
-		$response = wp_remote_get( $url );
+		$response = wp_remote_get( $url, [
+			'timeout'     => 15,
+		] );
+
+		if ( is_wp_error( $response ) ) {
+			$error_string = $response->get_error_message();
+			echo '<div id="message" class="error"><p>' . $error_string . '</p></div>';
+			var_dump( $response );
+			die;
+			return [
+				'success' => false,
+				'result'  => [],
+			];
+		}
+
 		try {
 			$body = json_decode( $response['body'], true );
 			return [

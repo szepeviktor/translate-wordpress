@@ -142,7 +142,7 @@ foreach ( $languages as $key => $value ) {
 			</th>
 			<td class="forminp forminp-text">
 				<input
-					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['auto_redirect']['key'] ) ); ?>"
+					name="<?php echo esc_attr( sprintf( '%s[auto_switch]', WEGLOT_SLUG ) ); ?>"
 					id="<?php echo esc_attr( $options_available['auto_redirect']['key'] ); ?>"
 					type="checkbox"
 					<?php checked( $this->options[ $options_available['auto_redirect']['key'] ], 1 ); ?>
@@ -158,7 +158,7 @@ foreach ( $languages as $key => $value ) {
 			</th>
 			<td class="forminp forminp-text">
 				<input
-					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['email_translate']['key'] ) ); ?>"
+					name="<?php echo esc_attr( sprintf( '%s[custom_settings][translate_email]', WEGLOT_SLUG ) ); ?>"
 					id="<?php echo esc_attr( $options_available['email_translate']['key'] ); ?>"
 					type="checkbox"
 					<?php checked( $this->options[ $options_available['email_translate']['key'] ], 1 ); ?>
@@ -174,7 +174,7 @@ foreach ( $languages as $key => $value ) {
 			</th>
 			<td class="forminp forminp-text">
 				<input
-					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['translate_amp']['key'] ) ); ?>"
+					name="<?php echo esc_attr( sprintf( '%s[custom_settings][translate_amp]', WEGLOT_SLUG ) ); ?>"
 					id="<?php echo esc_attr( $options_available['translate_amp']['key'] ); ?>"
 					type="checkbox"
 					<?php checked( $this->options[ $options_available['translate_amp']['key'] ], 1 ); ?>
@@ -190,7 +190,7 @@ foreach ( $languages as $key => $value ) {
 			</th>
 			<td class="forminp forminp-text">
 				<input
-					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['active_search']['key'] ) ); ?>"
+					name="<?php echo esc_attr( sprintf( '%s[custom_settings][translate_search]', WEGLOT_SLUG ) ); ?>"
 					id="<?php echo esc_attr( $options_available['active_search']['key'] ); ?>"
 					type="checkbox"
 					<?php checked( $this->options[ $options_available['active_search']['key'] ], 1 ); ?>
