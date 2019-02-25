@@ -133,6 +133,12 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 		$options['custom_settings']['translate_amp']                = isset( $options['custom_settings']['translate_amp'] );
 
 		$options['auto_switch']                = isset( $options['auto_switch'] );
+		foreach ( $options['languages'] as $key => $language ) {
+			if ( 'active' === $key ) {
+				continue;
+			}
+			$options['languages'][ $key ]['enabled'] = isset( $options['languages'][ $key ]['enabled'] );
+		}
 
 		return $options;
 	}

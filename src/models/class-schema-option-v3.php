@@ -21,25 +21,30 @@ class Schema_Option_V3 {
 			'original_language'            => 'language_from',
 			'destination_language'         => (object) [
 				'path' => 'languages',
-				'fn'   => function( $language_to ) {
-					$languages = [];
-					foreach ( $language_to as $item ) {
-						$languages[] = $item['language_to'];
+				'fn'   => function( $languages ) {
+					$destinations = [];
+					foreach ( $languages as $item ) {
+						$destinations[] = $item['language_to'];
 					}
-					return $languages;
+					return $destinations;
 				},
 			],
-			'private_languages'         => (object) [
+			'private_mode'         => (object) [
 				'path' => 'languages',
-				'fn'   => function( $language_to ) {
-					$languages = [];
-					foreach ( $language_to as $item ) {
-						if ( $item['enabled'] ) {
+				'fn'   => function( $languages ) {
+					$private = [];
+					foreach ( $languages as $item ) {
+						if ( ! $item['enabled'] ) {
 							continue;
 						}
-						$languages[] = $item['language_to'];
+						$private[ $item['language_to'] ] = true;
 					}
-					return $languages;
+
+					if ( ! empty( $private ) ) {
+						$private['active'] = true;
+					}
+
+					return $private;
 				},
 			],
 			'auto_redirect'                  => 'auto_switch',

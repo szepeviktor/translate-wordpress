@@ -58,6 +58,8 @@ foreach ( $languages as $key => $value ) {
 	}
 }
 
+$languages = array_values($languages);
+
 ?>
 
 <h3><?php esc_html_e( 'Translation Exclusion (Optional)', 'weglot' ); ?> </h3>
@@ -214,6 +216,7 @@ foreach ( $languages as $key => $value ) {
 				<p class="description"><?php echo esc_html( $options_available['private_mode']['description'] ); ?></p>
 				<div id="private-mode-detail">
 					<?php foreach ( $languages as $key => $lang):
+
 						if ( ! $lang ) {
 							continue;
 						}
@@ -222,7 +225,7 @@ foreach ( $languages as $key => $value ) {
 					?>
 						<div class="private-mode-detail-lang">
 							<input
-								name="<?php echo esc_attr( sprintf( '%s[%s][%s]', WEGLOT_SLUG, $options_available['private_mode']['key'], $lang->getIso639() ) ); ?>"
+								name="<?php echo esc_attr( sprintf( '%s[languages][%s][enabled]', WEGLOT_SLUG, $key ) ); ?>"
 								id="<?php echo esc_attr( sprintf( '%s[%s][%s]', WEGLOT_SLUG, $options_available['private_mode']['key'], $lang->getIso639() ) ); ?>"
 								type="checkbox"
 								class="private-mode-lang--input"
@@ -246,39 +249,50 @@ foreach ( $languages as $key => $value ) {
 		<?php esc_html_e( 'If you need any help, you can contact us via email us at support@weglot.com.', 'weglot' ); ?>
 	</p>
 	<p>
-		<?php esc_html_e( 'You can also return to version 1.13.1 by clicking on the button below', 'weglot' ); ?>
+		<?php
+			// translators: 1 Latest weglot version
+			$text = __( 'You can also return to version %s by clicking on the button below', 'weglot' );
+			$text = sprintf( $text, WEGLOT_LATEST_VERSION );
+
+			echo esc_html( $text );
+		?>
 	</p>
 	<p>
 		<a href="<?php echo wp_nonce_url( admin_url( 'admin-post.php?action=weglot_rollback' ), 'weglot_rollback' ); //phpcs:ignore ?>" class="button">
-			<?php echo esc_html__( 'Re-install version 1.13.1', 'weglot' ); ?>
+			<?php
+				// translators: 1 Latest weglot version
+				$text = __( 'Re-install version %s', 'weglot' );
+				$text = sprintf( $text, WEGLOT_LATEST_VERSION );
+				echo esc_html( $text );
+			?>
 		</a>
 	</p>
 </div>
 
 <template id="tpl-exclusion-url">
-    <div class="item-exclude">
-        <input
-                type="text"
-                placeholder="/my-awesome-url"
-                name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['exclude_urls']['key'] ) ); ?>[]"
-                value=""
-        >
-        <button class="js-btn-remove js-btn-remove-exclude">
-            <span class="dashicons dashicons-minus"></span>
-        </button>
-    </div>
+	<div class="item-exclude">
+		<input
+				type="text"
+				placeholder="/my-awesome-url"
+				name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['exclude_urls']['key'] ) ); ?>[]"
+				value=""
+		>
+		<button class="js-btn-remove js-btn-remove-exclude">
+			<span class="dashicons dashicons-minus"></span>
+		</button>
+	</div>
 </template>
 
 <template id="tpl-exclusion-block">
-    <div class="item-exclude">
-        <input
-                type="text"
-                placeholder=".my-class"
-                name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['exclude_blocks']['key'] ) ); ?>[]"
-                value=""
-        >
-        <button class="js-btn-remove js-btn-remove-exclude">
-            <span class="dashicons dashicons-minus"></span>
-        </button>
-    </div>
+	<div class="item-exclude">
+		<input
+				type="text"
+				placeholder=".my-class"
+				name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['exclude_blocks']['key'] ) ); ?>[]"
+				value=""
+		>
+		<button class="js-btn-remove js-btn-remove-exclude">
+			<span class="dashicons dashicons-minus"></span>
+		</button>
+	</div>
 </template>

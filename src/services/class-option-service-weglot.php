@@ -129,10 +129,6 @@ class Option_Service_Weglot {
 		] );
 
 		if ( is_wp_error( $response ) ) {
-			$error_string = $response->get_error_message();
-			echo '<div id="message" class="error"><p>' . $error_string . '</p></div>';
-			var_dump( $response );
-			die;
 			return [
 				'success' => false,
 				'result'  => [],
@@ -172,6 +168,7 @@ class Option_Service_Weglot {
 		if ( $response['success'] ) {
 			$options = $response['result'];
 		}
+
 		$options['api_key_private'] = $this->get_api_key_private();
 
 		if ( empty( $options['custom_settings']['menu_switcher'] ) ) {
