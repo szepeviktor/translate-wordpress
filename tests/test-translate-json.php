@@ -8,6 +8,7 @@ class TranslateJsonTest extends WP_UnitTestCase {
 	public function test_translation_content_links_internal() {
 		add_filter( 'weglot_get_options', function( $options ) {
 			$options['api_key'] = getenv( 'API_KEY' );
+			$options['original_language'] = 'en';
 			$options['destination_language'] = [ 'fr' ];
 			$options['allowed'] = true;
 			return $options;
@@ -29,7 +30,7 @@ class TranslateJsonTest extends WP_UnitTestCase {
 		$translate_service = new Translate_Service_Weglot();
 		$translate_service->set_original_language( 'en' );
 		$translate_service->set_current_language( 'fr' );
-		$content               = $translate_service->weglot_treat_page( file_get_contents( __DIR__ . '/templates/wc-cart.json' ) ); //phpcs:ignore
+		$content = $translate_service->weglot_treat_page( file_get_contents( __DIR__ . '/templates/wc-cart.json' ) ); //phpcs:ignore
 
 		$dom = \WGSimpleHtmlDom\str_get_html(
 			$content,

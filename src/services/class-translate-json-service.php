@@ -15,6 +15,7 @@ use Weglot\Client\Endpoint\Translate;
 use Weglot\Client\Api\WordEntry;
 use Weglot\Client\Api\Enum\WordType;
 use JsonPath\JsonObject;
+use Weglot\Parser\ConfigProvider\ServerConfigProvider;
 
 /**
  * @since 2.6.0
@@ -65,16 +66,25 @@ class Translate_Json_Service {
 		foreach ( $json as $key => $val ) {
 			if ( is_array( $val ) ) {
 				if ( is_string( $key ) ) {
-					$newpath = "$path.$key";
+					if ( false === strpos( $key, '.' ) ) {
+						$newpath = "$path.$key";
+					} else {
+						$newpath = sprintf( '%s["%s"]', $path, $key );
+					}
 				} else {
-					$newpath = $path . "[$key]";
+					$newpath = sprintf( '%s[%s]', $path, $key );
 				}
 
 				$this->check_json_to_translate( $val, $newpath );
 			} else {
+				if ( false === strpos( $key, '.' ) ) {
+					$newpath = "$path.$key";
+				} else {
+					$newpath = sprintf( '%s["%s"]', $path, $key );
+				}
+
 				if ( Helper_Json_Inline_Weglot::is_ajax_html( $val ) ) {
 					try {
-						$newpath                           = "$path.$key";
 						$parser                            = $this->parser_services->get_parser();
 						$words                             = $parser->parse( $val );
 						if ( ! $words instanceof WordCollection ) {
@@ -93,8 +103,6 @@ class Translate_Json_Service {
 				} else {
 					if ( Helper_Keys_Json_Weglot::translate_key_for_path( $key ) ) {
 						try {
-							$newpath = "$path.$key";
-
 							$parser                    = $this->parser_services->get_parser();
 							$words                     = $parser->parse( $val );
 							if ( ! $words instanceof WordCollection ) {
@@ -135,9 +143,12 @@ class Translate_Json_Service {
 			'language_to'   => weglot_get_current_language(),
 		];
 
-		$parser->getConfigProvider()->loadFromServer();
-		$params = array_merge( $params, $parser->getConfigProvider()->asArray() );
+		if ( $parser->getConfigProvider() instanceof ServerConfigProvider ) {
+			$parser->getConfigProvider()->loadFromServer();
+		}
 
+		$params      = array_merge( $params, $parser->getConfigProvider()->asArray() );
+		$json_object = new JsonObject( $json );
 		try {
 			$translate       = new TranslateEntry( $params );
 			$word_collection = $translate->getInputWords();
@@ -145,6 +156,7 @@ class Translate_Json_Service {
 				$word_collection->addOne( new WordEntry( $value['w'], $value['t'] ) );
 			}
 		} catch ( \Exception $e ) {
+			return $json_object;
 		}
 
 		$translate   = new Translate( $translate, $parser->getClient() );
@@ -152,8 +164,7 @@ class Translate_Json_Service {
 
 		$output_words = $translated->getOutputWords();
 
-		$json_object = new JsonObject( $json );
-		if ( $output_words->count() !== count( $this->collections ) || $output_words->count() === 0) {
+		if ( $output_words->count() !== count( $this->collections ) || $output_words->count() === 0 ) {
 			return $json_object;
 		}
 
