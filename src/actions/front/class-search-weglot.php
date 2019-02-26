@@ -62,7 +62,7 @@ class Search_Weglot implements Hooks_Interface_Weglot {
 
 		try {
 			$parser           = $this->parser_services->get_parser();
-			$this->old_search = $query->query_vars[ 's' ];
+			$this->old_search = $query->query_vars['s'];
 			$this->new_search = $parser->translate( $query->query_vars[ 's' ], $current_language, $original_language ); //phpcs:ignore
 
 			if ( empty( $this->new_search ) ) {

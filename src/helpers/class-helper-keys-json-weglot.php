@@ -15,7 +15,10 @@ abstract class Helper_Keys_Json_Weglot {
 	 */
 	protected static $keys = [
 		'contact-form-7' => [
-			'message'
+			'message',
+		],
+		'/' => [
+			'post_title',
 		],
 	];
 
@@ -36,8 +39,8 @@ abstract class Helper_Keys_Json_Weglot {
 		$keys_translate = self::get_keys();
 		$path           = weglot_get_rest_current_url_path();
 
-		foreach ( $keys_translate as $key_translate => $value) {
-			if ( empty( $key_translate ) || strpos( $path, $key_translate ) === false) {
+		foreach ( $keys_translate as $key_translate => $value ) {
+			if ( empty( $key_translate ) || strpos( $path, $key_translate ) === false ) {
 				continue;
 			}
 

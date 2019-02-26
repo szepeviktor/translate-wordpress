@@ -13,7 +13,8 @@
     }
   ],
   "require": {
-    "weglot/weglot-php": "^0.5"
+    "weglot/weglot-php": "^0.5",
+    "galbar/jsonpath": "dev-master"
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "*",
