@@ -59,7 +59,7 @@ class Schema_Option_V3 {
 					return $excluded;
 				},
 			],
-			'excluded_blocks'              => (object) [
+			'exclude_blocks'              => (object) [
 				'path' => 'excluded_blocks',
 				'fn'   => function( $excluded_blocks ) {
 					$excluded = [];

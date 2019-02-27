@@ -120,7 +120,7 @@ class Option_Service_Weglot {
 	 * @param string $api_key
 	 * @return array
 	 */
-	public function get_options_from_cdn_with_api_key( $api_key ) {
+	protected function get_options_from_cdn_with_api_key( $api_key ) {
 		$key      = str_replace( 'wg_', '', $api_key );
 		$url      = sprintf( '%s%s.json', 'https://cdn.weglot.com/projects-settings/', $key );
 
@@ -204,6 +204,40 @@ class Option_Service_Weglot {
 	 */
 	public function get_options_bdd() {
 		return wp_parse_args( get_option( WEGLOT_SLUG ), $this->get_options_default() );
+	}
+
+	public function get_options_from_api_with_api_key( $api_key ) {
+		$url      = sprintf( 'https://api-staging.weglot.com/projects/settings?api_key=%s', $api_key );
+
+		$response = wp_remote_get( $url, [
+			'timeout'     => 15,
+		] );
+
+		if ( is_wp_error( $response ) ) {
+			return [
+				'success' => false,
+				'result'  => [],
+			];
+		}
+
+		try {
+			$body                       = json_decode( $response['body'], true );
+			$options                    = apply_filters( 'weglot_get_options', array_merge( $this->get_options_bdd(), $body ) );
+			$options['api_key_private'] = $this->get_api_key_private();
+			if ( empty( $options['custom_settings']['menu_switcher'] ) ) {
+				$menu_options_services                        = weglot_get_service( 'Menu_Options_Service_Weglot' );
+				$options['custom_settings']['menu_switcher']  = $menu_options_services->get_options_default();
+			}
+
+			return [
+				'success' => true,
+				'result'  => (array) Morphism::map( 'WeglotWP\Models\Schema_Option_V3', $options ),
+			];
+		} catch ( \Exception $th ) {
+			return [
+				'success' => false,
+			];
+		}
 	}
 
 
