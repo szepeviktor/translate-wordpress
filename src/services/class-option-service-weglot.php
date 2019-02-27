@@ -96,6 +96,7 @@ class Option_Service_Weglot {
 		$exclude_blocks[]   = '#wpadminbar';
 		$exclude_blocks[]   = '#query-monitor';
 		$exclude_blocks[]   = '.menu-item-weglot';
+		$exclude_blocks[]   = '.menu-item-weglot a';
 
 		return apply_filters( 'weglot_exclude_blocks', $exclude_blocks );
 	}
