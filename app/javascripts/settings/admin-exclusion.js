@@ -1,5 +1,4 @@
 const init_admin_exclusion = function () {
-	const $ = jQuery
 
 	const execute = () => {
 		const template_add_exclude_url = document.querySelector("#tpl-exclusion-url");
@@ -18,7 +17,8 @@ const init_admin_exclusion = function () {
 				.querySelector("#js-add-exclude-url")
 				.addEventListener("click", (e) => {
 					e.preventDefault()
-					parent_exclude_url_append.insertAdjacentHTML("beforeend", template_add_exclude_url.innerHTML);
+					const random_key = Math.random().toString(36).substring(7);
+					parent_exclude_url_append.insertAdjacentHTML("beforeend", template_add_exclude_url.innerHTML.replace(new RegExp('{KEY}', 'g'), random_key));
 					document
 						.querySelector(
 							"#container-exclude_urls .item-exclude:last-child .js-btn-remove"

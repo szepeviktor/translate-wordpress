@@ -7,6 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Weglot\Client\Client;
 
 use WeglotWP\Helpers\Helper_Tabs_Admin_Weglot;
+use WeglotWP\Helpers\Helper_Excluded_Type;
 
 $options_available = [
 	'exclude_urls' => [
@@ -58,7 +59,7 @@ foreach ( $languages as $key => $value ) {
 	}
 }
 
-$languages = array_values($languages);
+$languages = array_values( $languages );
 
 ?>
 
@@ -78,14 +79,26 @@ $languages = array_values($languages);
 			<div id="container-<?php echo esc_attr( $options_available['exclude_urls']['key'] ); ?>">
 				<?php
 				if ( ! empty( $this->options[ $options_available['exclude_urls']['key'] ] ) ) :
-					foreach ( $this->options[ $options_available['exclude_urls']['key'] ] as $option ) :
+					foreach ( $this->options[ $options_available['exclude_urls']['key'] ] as $key => $option ) :
 						?>
 						<div class="item-exclude">
+							<select
+								name="<?php echo esc_attr( sprintf( '%s[excluded_paths][%s][type]', WEGLOT_SLUG, $key ) ); ?>"
+							>
+								<?php foreach ( Helper_Excluded_Type::get_excluded_type() as $type ) : ?>
+									<option
+										value="<?php echo esc_attr( $type ); ?>"
+										<?php echo selected( $option['type'], $type ); ?>
+									>
+										<?php echo esc_attr( $type ); ?>
+									</option>
+								<?php endforeach; ?>
+							</select>
 							<input
 									type="text"
 									placeholder="/my-awesome-url"
-									name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['exclude_urls']['key'] ) ); ?>[]"
-									value="<?php echo esc_attr( $option ); ?>"
+									name="<?php echo esc_attr( sprintf( '%s[excluded_paths][%s][type]', WEGLOT_SLUG, $key ) ); ?>"
+									value="<?php echo esc_attr( $option['value'] ); ?>"
 							>
 							<button class="js-btn-remove js-btn-remove-exclude-url">
 								<span class="dashicons dashicons-minus"></span>
@@ -93,7 +106,8 @@ $languages = array_values($languages);
 						</div>
 						<?php
 					endforeach;
-				endif; ?>
+				endif;
+				?>
 			</div>
 			<button id="js-add-exclude-url" class="btn btn-soft"><?php esc_html_e( 'Add an URL to exclude', 'weglot' ); ?></button>
 		</td>
@@ -124,12 +138,13 @@ $languages = array_values($languages);
 						</div>
 						<?php
 					endforeach;
-				endif; ?>
+				endif;
+				?>
 			</div>
 			<button id="js-add-exclude-block" class="btn btn-soft"><?php esc_html_e( 'Add a block to exclude', 'weglot' ); ?></button>
-        </td>
-    </tr>
-    </tbody>
+		</td>
+	</tr>
+	</tbody>
 </table>
 
 <h3><?php esc_html_e( 'Other options (Optional)', 'weglot' ); ?></h3>
@@ -215,14 +230,15 @@ $languages = array_values($languages);
 				>
 				<p class="description"><?php echo esc_html( $options_available['private_mode']['description'] ); ?></p>
 				<div id="private-mode-detail">
-					<?php foreach ( $languages as $key => $lang):
+					<?php
+					foreach ( $languages as $key => $lang ) :
 
 						if ( ! $lang ) {
 							continue;
 						}
 
 						$checked_value = isset( $this->options[ $options_available['private_mode']['key'] ][ $lang->getIso639() ] ) ? $this->options[ $options_available['private_mode']['key'] ][ $lang->getIso639() ] : null;
-					?>
+						?>
 						<div class="private-mode-detail-lang">
 							<input
 								name="<?php echo esc_attr( sprintf( '%s[languages][%s][enabled]', WEGLOT_SLUG, $key ) ); ?>"
@@ -234,7 +250,9 @@ $languages = array_values($languages);
 							<label for="<?php echo esc_attr( sprintf( '%s[%s][%s]', WEGLOT_SLUG, $options_available['private_mode']['key'], $lang->getIso639() ) ); ?>">
 								<?php
 								// translators: 1 Local name language
-								esc_html_e( sprintf( "Make '%s' a private language", $lang->getLocalName() ), 'weglot' ); ?>
+								$str = __( 'Make "%s" a private language', 'weglot' );
+								echo esc_html( sprintf( $str, $lang->getLocalName() ), 'weglot' );
+								?>
 							</label>
 						</div>
 					<?php endforeach; ?>
@@ -271,11 +289,18 @@ $languages = array_values($languages);
 
 <template id="tpl-exclusion-url">
 	<div class="item-exclude">
+		<select
+			name="<?php echo esc_attr( sprintf( '%s[excluded_paths][{KEY}][type]', WEGLOT_SLUG ) ); ?>"
+		>
+			<?php foreach ( Helper_Excluded_Type::get_excluded_type() as $type ) : ?>
+				<option value="<?php echo esc_attr( $type ); ?>"><?php echo esc_attr( $type ); ?></option>
+			<?php endforeach; ?>
+		</select>
 		<input
-				type="text"
-				placeholder="/my-awesome-url"
-				name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['exclude_urls']['key'] ) ); ?>[]"
-				value=""
+			type="text"
+			placeholder="/my-awesome-url"
+			name="<?php echo esc_attr( sprintf( '%s[excluded_paths][{KEY}][value]', WEGLOT_SLUG ) ); ?>"
+			value=""
 		>
 		<button class="js-btn-remove js-btn-remove-exclude">
 			<span class="dashicons dashicons-minus"></span>

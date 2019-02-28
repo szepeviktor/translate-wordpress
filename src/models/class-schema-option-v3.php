@@ -47,19 +47,10 @@ class Schema_Option_V3 {
 					return $private;
 				},
 			],
-			'auto_redirect'                  => 'auto_switch',
-			'autoswitch_fallback'            => 'auto_switch_fallback',
-			'excluded_paths'                 => (object) [
-				'path' => 'excluded_paths',
-				'fn'   => function( $excluded_paths ) {
-					$excluded = [];
-					foreach ( $excluded_paths as $item ) {
-						$excluded[] = $item['value'];
-					}
-					return $excluded;
-				},
-			],
-			'exclude_blocks'              => (object) [
+			'auto_redirect'                => 'auto_switch',
+			'autoswitch_fallback'          => 'auto_switch_fallback',
+			'exclude_urls'                 => 'excluded_paths',
+			'exclude_blocks'               => (object) [
 				'path' => 'excluded_blocks',
 				'fn'   => function( $excluded_blocks ) {
 					$excluded = [];
