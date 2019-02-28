@@ -101,7 +101,7 @@ class Option_Service_Weglot {
 	 * @since 3.0.0
 	 */
 	public function __construct() {
-		Morphism::setMapper( 'WeglotWP\Models\Schema_Option_V3', Schema_Option_V3::get_schema_switch_option_to_v3() );
+		Morphism::setMapper( 'WeglotWP\Models\Schema_Option_V3', Schema_Option_V3::get_schema_options_v3_compatible() );
 	}
 
 

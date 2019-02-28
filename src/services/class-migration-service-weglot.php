@@ -6,6 +6,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Morphism\Morphism;
+use WeglotWP\Models\Schema_Option_V3;
+
 
 /**
  * Migration service
@@ -97,6 +100,25 @@ class Migration_Service_Weglot {
 			$this->option_services->set_options( $new_options );
 			update_option( 'weglot_version', WEGLOT_VERSION );
 		}
+	}
+
+	/**
+	 * Update V2 to V3 plugin
+	 * @since 3.0.0
+	 * @return void
+	 */
+	public function update_v300() {
+		$options = json_decode( file_get_contents( WEGLOT_DIR . '/settings-example.json'), true);
+
+		$options_to_v3 = (array) Morphism::map( 'WeglotWP\Models\Schema_Option_Migration_V3', $options );
+
+		$response      = $this->option_services->save_options_to_weglot( $options_to_v3 );
+		if ( $response['success'] ) {
+			update_option( sprintf( '%s-%s', WEGLOT_SLUG, 'api_key_private' ), $options_to_v3['api_key_private'] );
+			update_option( sprintf( '%s-%s', WEGLOT_SLUG, 'api_key' ), $response['result']['api_key'] );
+		}
+
+		update_option( 'weglot_version', WEGLOT_VERSION );
 	}
 }
 

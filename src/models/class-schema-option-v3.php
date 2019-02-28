@@ -13,7 +13,7 @@ class Schema_Option_V3 {
 	 * @since 3.0.0
 	 * @return array
 	 */
-	public static function get_schema_switch_option_to_v3() {
+	public static function get_schema_options_v3_compatible() {
 		$schema = [
 			'api_key'                      => 'api_key',
 			'api_key_private'              => 'api_key_private',
