@@ -109,16 +109,16 @@ class Migration_Service_Weglot {
 	 */
 	public function update_v300() {
 		$options = json_decode( file_get_contents( WEGLOT_DIR . '/settings-example.json'), true);
+		update_option('weglot-translate', $options);
+		// $options_to_v3 = (array) Morphism::map( 'WeglotWP\Models\Schema_Option_Migration_V3', $options );
 
-		$options_to_v3 = (array) Morphism::map( 'WeglotWP\Models\Schema_Option_Migration_V3', $options );
+		// $response      = $this->option_services->save_options_to_weglot( $options_to_v3 );
+		// if ( $response['success'] ) {
+		// 	update_option( sprintf( '%s-%s', WEGLOT_SLUG, 'api_key_private' ), $options_to_v3['api_key_private'] );
+		// 	update_option( sprintf( '%s-%s', WEGLOT_SLUG, 'api_key' ), $response['result']['api_key'] );
+		// }
 
-		$response      = $this->option_services->save_options_to_weglot( $options_to_v3 );
-		if ( $response['success'] ) {
-			update_option( sprintf( '%s-%s', WEGLOT_SLUG, 'api_key_private' ), $options_to_v3['api_key_private'] );
-			update_option( sprintf( '%s-%s', WEGLOT_SLUG, 'api_key' ), $response['result']['api_key'] );
-		}
-
-		update_option( 'weglot_version', WEGLOT_VERSION );
+		// update_option( 'weglot_version', WEGLOT_VERSION );
 	}
 }
 

@@ -93,6 +93,8 @@ class Language_Service_Weglot {
 		$languages_object = [];
 
 		foreach ( $languages as $language ) {
+			var_dump($language);
+			die;
 			switch ( $type ) {
 				case 'code':
 					$languages_object[] = $this->get_language( $language )->getIso639();

@@ -54,49 +54,6 @@ class Option_Service_Weglot {
 		'allowed' => true,
 	];
 
-
-	// 'original_language' => string 'en' (length=2)
-	// 'destination_language' =>
-	// 	array (size=2)
-	// 	0 => string 'fr' (length=2)
-	// 	1 => string 'es' (length=2)
-	// 'translate_amp' => int 0
-	// 'exclude_blocks' =>
-	// 	array (size=0)
-	// 	empty
-	// 'exclude_urls' =>
-	// 	array (size=0)
-	// 	empty
-	// 'auto_redirect' => int 1
-	// 'email_translate' => int 1
-	// 'is_fullname' => int 0
-	// 'with_name' => int 1
-	// 'is_dropdown' => int 1
-	// 'type_flags' => string '1' (length=1)
-	// 'with_flags' => int 1
-	// 'override_css' => string '' (length=0)
-	// 'has_first_settings' => boolean false
-	// 'show_box_first_settings' => boolean false
-	// 'rtl_ltr_style' => string '' (length=0)
-	// 'allowed' => boolean true
-	// 'active_wc_reload' => boolean false
-	// 'custom_urls' =>
-	// 	array (size=0)
-	// 	empty
-	// 'flag_css' => string '' (length=0)
-	// 'menu_switcher' =>
-	// 	array (size=2)
-	// 	'hide_current' => int 0
-	// 	'dropdown' => int 0
-	// 'active_search' => int 0
-	// 'private_mode' =>
-	// 	array (size=4)
-	// 	'active' => int 1
-	// 	'es' => int 1
-	// 	'en' => int 0
-	// 	'fr' => int 0
-	// 'is_menu' => int 0
-
 	/**
 	 * @since 3.0.0
 	 */
@@ -206,6 +163,27 @@ class Option_Service_Weglot {
 		return wp_parse_args( get_option( WEGLOT_SLUG ), $this->get_options_default() );
 	}
 
+	/**
+	 * @since 3.0.0
+	 * @return array
+	 */
+	public function get_options_from_v2() {
+		$options_v2 = get_option( WEGLOT_SLUG, false );
+
+		if ( $options_v2 ) {
+			$options_v2['api_key_private'] = $options_v2['api_key'];
+			return $options_v2;
+		}
+
+		$options_default = $this->get_options_default();
+		return (array) Morphism::map( 'WeglotWP\Models\Schema_Option_V3', $options_default );
+	}
+
+	/**
+	 * @since 3.0.0
+	 * @param string $api_key
+	 * @return array
+	 */
 	public function get_options_from_api_with_api_key( $api_key ) {
 		$url      = sprintf( 'https://api-staging.weglot.com/projects/settings?api_key=%s', $api_key );
 
@@ -222,6 +200,14 @@ class Option_Service_Weglot {
 
 		try {
 			$body                       = json_decode( $response['body'], true );
+
+			if ( null === $body ) {
+				return [
+					'success' => true,
+					'result'  => $this->get_options_from_v2(),
+				];
+			}
+
 			$options                    = apply_filters( 'weglot_get_options', array_merge( $this->get_options_bdd(), $body ) );
 			$options['api_key_private'] = $this->get_api_key_private();
 			if ( empty( $options['custom_settings']['menu_switcher'] ) ) {
@@ -233,7 +219,7 @@ class Option_Service_Weglot {
 				'success' => true,
 				'result'  => (array) Morphism::map( 'WeglotWP\Models\Schema_Option_V3', $options ),
 			];
-		} catch ( \Exception $th ) {
+		} catch ( \Exception $e ) {
 			return [
 				'success' => false,
 			];

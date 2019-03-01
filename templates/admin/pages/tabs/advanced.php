@@ -80,6 +80,12 @@ $languages = array_values( $languages );
 				<?php
 				if ( ! empty( $this->options[ $options_available['exclude_urls']['key'] ] ) ) :
 					foreach ( $this->options[ $options_available['exclude_urls']['key'] ] as $key => $option ) :
+						$typeOption  = Helper_Excluded_Type::MATCH_REGEX;
+						$value       = $option;
+						if ( is_array( $option ) ) {
+							$typeOption  = $option['type'];
+							$value       = $option['value'];
+						}
 						?>
 						<div class="item-exclude">
 							<select
@@ -88,7 +94,7 @@ $languages = array_values( $languages );
 								<?php foreach ( Helper_Excluded_Type::get_excluded_type() as $type ) : ?>
 									<option
 										value="<?php echo esc_attr( $type ); ?>"
-										<?php echo selected( $option['type'], $type ); ?>
+										<?php echo selected( $typeOption, $type ); ?>
 									>
 										<?php echo esc_attr( $type ); ?>
 									</option>
@@ -98,7 +104,7 @@ $languages = array_values( $languages );
 									type="text"
 									placeholder="/my-awesome-url"
 									name="<?php echo esc_attr( sprintf( '%s[excluded_paths][%s][type]', WEGLOT_SLUG, $key ) ); ?>"
-									value="<?php echo esc_attr( $option['value'] ); ?>"
+									value="<?php echo esc_attr( $value ); ?>"
 							>
 							<button class="js-btn-remove js-btn-remove-exclude-url">
 								<span class="dashicons dashicons-minus"></span>
