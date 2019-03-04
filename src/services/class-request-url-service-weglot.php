@@ -280,7 +280,6 @@ class Request_Url_Service_Weglot {
 
 	/**
 	 * @since 2.0
-	 *
 	 * @param string $url
 	 * @return string
 	 */

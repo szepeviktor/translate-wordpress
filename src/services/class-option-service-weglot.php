@@ -336,8 +336,15 @@ class Option_Service_Weglot {
 	 * @return array
 	 */
 	public function get_exclude_urls() {
-		$exclude_urls     = $this->get_option( 'exclude_urls' );
+		$list_exclude_urls     = $this->get_option( 'exclude_urls' );
 
+		$exclude_urls = [];
+		if ( ! empty( $exclude_urls ) ) {
+			foreach ( $list_exclude_urls as $item ) {
+				// @TODO : create good regex with lib PHP
+				$exclude_urls[] = $item['value'];
+			}
+		}
 		$exclude_urls[]   = '/wp-login.php';
 		$exclude_urls[]   = '/sitemaps_xsl.xsl';
 		$exclude_urls[]   = '/sitemaps.xml';

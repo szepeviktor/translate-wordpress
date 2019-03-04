@@ -103,7 +103,7 @@ $languages = array_values( $languages );
 							<input
 									type="text"
 									placeholder="/my-awesome-url"
-									name="<?php echo esc_attr( sprintf( '%s[excluded_paths][%s][type]', WEGLOT_SLUG, $key ) ); ?>"
+									name="<?php echo esc_attr( sprintf( '%s[excluded_paths][%s][value]', WEGLOT_SLUG, $key ) ); ?>"
 									value="<?php echo esc_attr( $value ); ?>"
 							>
 							<button class="js-btn-remove js-btn-remove-exclude-url">

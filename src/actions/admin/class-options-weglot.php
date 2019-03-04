@@ -140,6 +140,8 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 			$options['languages'][ $key ]['enabled'] = isset( $options['languages'][ $key ]['enabled'] );
 		}
 
+		$options['excluded_paths'] = array_values( $options['excluded_paths'] );
+
 		return $options;
 	}
 }
