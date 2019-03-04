@@ -209,7 +209,14 @@ class Option_Service_Weglot {
 	 * @return string
 	 */
 	public function get_api_key() {
-		return get_option( sprintf( '%s-%s', WEGLOT_SLUG, 'api_key' ) );
+		$api_key = get_option( sprintf( '%s-%s', WEGLOT_SLUG, 'api_key' ), false );
+		if ( $api_key ) {
+			return  $api_key;
+		}
+
+		$options = $this->get_options_from_v2();
+
+		return $options['api_key'];
 	}
 
 	/**
