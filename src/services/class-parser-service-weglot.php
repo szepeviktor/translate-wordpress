@@ -52,7 +52,7 @@ class Parser_Service_Weglot {
 			}, $exclude_blocks);
 		}
 
-		$api_key        = $this->option_services->get_api_key();
+		$api_key        = $this->option_services->get_api_key( true );
 
 		$config         = apply_filters( 'weglot_parser_config_provider', new ServerConfigProvider() );
 		if ( ! ( $config instanceof ConfigProviderInterface ) ) {

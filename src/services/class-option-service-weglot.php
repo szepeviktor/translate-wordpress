@@ -206,12 +206,14 @@ class Option_Service_Weglot {
 
 	/**
 	 * @since 3.0.0
+	 * @param bool $compatibility
 	 * @return string
 	 */
-	public function get_api_key() {
+	public function get_api_key( $compatibility = false ) {
 		$api_key = get_option( sprintf( '%s-%s', WEGLOT_SLUG, 'api_key' ), false );
-		if ( $api_key ) {
-			return  $api_key;
+
+		if ( ! $compatibility || $api_key) {
+			return $api_key;
 		}
 
 		$options = $this->get_options_from_v2();
@@ -334,7 +336,8 @@ class Option_Service_Weglot {
 	 * @return array
 	 */
 	public function get_exclude_urls() {
-		$exclude_urls     = $this->get_option( 'excluded_paths' );
+		$exclude_urls     = $this->get_option( 'exclude_urls' );
+
 		$exclude_urls[]   = '/wp-login.php';
 		$exclude_urls[]   = '/sitemaps_xsl.xsl';
 		$exclude_urls[]   = '/sitemaps.xml';
