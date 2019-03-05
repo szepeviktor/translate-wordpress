@@ -3,6 +3,7 @@
 namespace WeglotWP\Services;
 
 use WeglotWP\Models\Hooks_Interface_Weglot;
+use WeglotWP\Helpers\Helper_API;
 
 
 use Weglot\Client\Client;
@@ -59,7 +60,7 @@ class Parser_Service_Weglot {
 			$config = new ServerConfigProvider();
 		}
 		$client         = new Client( $api_key, [
-			'host' => 'https://api-staging.weglot.com',
+			'host' => Helper_API::get_api_url(),
 		] );
 
 		if ( '2' === WEGLOT_LIB_PARSER ) {

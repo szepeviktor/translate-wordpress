@@ -9,6 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Morphism\Morphism;
 use WeglotWP\Models\Schema_Option_V3;
 use WeglotWP\Helpers\Helper_Flag_Type;
+use WeglotWP\Helpers\Helper_API;
 
 /**
  * Option services
@@ -120,7 +121,7 @@ class Option_Service_Weglot {
 	 * @return array
 	 */
 	public function get_options_from_api_with_api_key( $api_key ) {
-		$url      = sprintf( 'https://api-staging.weglot.com/projects/settings?api_key=%s', $api_key );
+		$url      = sprintf( '%s/projects/settings?api_key=%s', Helper_API::get_api_url(), $api_key );
 
 		$response = wp_remote_get( $url, [
 			'timeout'     => 15,
@@ -252,7 +253,7 @@ class Option_Service_Weglot {
 	 * @return array
 	 */
 	public function save_options_to_weglot( $options ) {
-		$response    = wp_remote_post( 'https://api-staging.weglot.com/projects/settings?api_key=' . $options['api_key_private'],  [
+		$response    = wp_remote_post( sprintf( '%s/projects/settings?api_key=%s', Helper_API::get_api_url(), $options['api_key_private'] ),  [
 			'body'        => json_encode( $options ), //phpcs:ignore
 			'headers'     => [
 				'technology'   => 'wordpress',
