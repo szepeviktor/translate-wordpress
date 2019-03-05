@@ -284,7 +284,8 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 		}
 
 		$custom_urls   = $this->option_services->get_option( 'custom_urls' );
-
+		// var_dump($custom_urls);
+		// die;
 		// Update new post_name
 		if ( $this->old_post_name !== $this->new_post_name ) {
 			foreach ( $custom_urls as $key_code => $urls ) {

@@ -80,11 +80,11 @@ $languages = array_values( $languages );
 				<?php
 				if ( ! empty( $this->options[ $options_available['exclude_urls']['key'] ] ) ) :
 					foreach ( $this->options[ $options_available['exclude_urls']['key'] ] as $key => $option ) :
-						$typeOption  = Helper_Excluded_Type::MATCH_REGEX;
-						$value       = $option;
+						$type_option  = Helper_Excluded_Type::MATCH_REGEX;
+						$value        = $option;
 						if ( is_array( $option ) ) {
-							$typeOption  = $option['type'];
-							$value       = $option['value'];
+							$type_option  = $option['type'];
+							$value        = $option['value'];
 						}
 						?>
 						<div class="item-exclude">
@@ -94,7 +94,7 @@ $languages = array_values( $languages );
 								<?php foreach ( Helper_Excluded_Type::get_excluded_type() as $type ) : ?>
 									<option
 										value="<?php echo esc_attr( $type ); ?>"
-										<?php echo selected( $typeOption, $type ); ?>
+										<?php echo selected( $type_option, $type ); ?>
 									>
 										<?php echo esc_attr( $type ); ?>
 									</option>

@@ -53,7 +53,6 @@ class Language_Service_Weglot {
 		$languages        = new Languages( $client );
 		$this->languages  = $languages->handle();
 
-
 		if ( isset( $params['sort'] ) && $params['sort'] ) {
 			$this->languages = $this->languages->jsonSerialize();
 			usort( $this->languages, [ $this, 'compare_language' ] );

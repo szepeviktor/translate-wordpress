@@ -212,7 +212,7 @@ class Option_Service_Weglot {
 	public function get_api_key( $compatibility = false ) {
 		$api_key = get_option( sprintf( '%s-%s', WEGLOT_SLUG, 'api_key' ), false );
 
-		if ( ! $compatibility || $api_key) {
+		if ( ! $compatibility || $api_key ) {
 			return $api_key;
 		}
 
@@ -339,7 +339,7 @@ class Option_Service_Weglot {
 		$list_exclude_urls     = $this->get_option( 'exclude_urls' );
 
 		$exclude_urls = [];
-		if ( ! empty( $exclude_urls ) ) {
+		if ( ! empty( $list_exclude_urls ) ) {
 			foreach ( $list_exclude_urls as $item ) {
 				// @TODO : create good regex with lib PHP
 				$exclude_urls[] = $item['value'];
