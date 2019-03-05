@@ -87,6 +87,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			'wpestate_ajax_check_booking_valability', // WP Estate theme
 			'mailster_get_template', // Mailster Pro,
 			'mmp_map_settings', // MMP Map,
+			'elementor_ajax', // Elementor since 2.5
 		] );
 
 		if ( 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['action'] ) && in_array( $_POST['action'], $action_ajax_no_translate ) ) { //phpcs:ignore
