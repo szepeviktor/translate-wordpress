@@ -47,8 +47,9 @@ class User_Api_Service_Weglot {
 		}
 
 		try {
-			$results   = $this->do_request( Helper_API::get_old_api_url() . 'user-info?api_key=' . $api_key, null );
+			$results   = $this->do_request( Helper_API::get_api_url() . '/projects/owner?api_key=' . 'wg_96725c334a27df12c3c30f142cf475eb4', null );
 			$json      = \json_decode( $results, true );
+
 			if ( \json_last_error() !== JSON_ERROR_NONE ) {
 				throw new \Exception( 'Unknown error with Weglot Api (0001) : ' . \json_last_error() );
 			}

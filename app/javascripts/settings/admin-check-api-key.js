@@ -3,11 +3,11 @@ const init_admin_button_preview = function () {
 
 	const execute = () => {
 
-		// $("#api_key").blur(function() {
+		// $("#api_key_private").blur(function() {
 		// 	var key = $(this).val();
 		// 	if( key.length === 0){
         //         $(".weglot-keyres").remove();
-        //         $("#api_key").after('<span class="weglot-keyres weglot-nokkey"></span>');
+        //         $("#api_key_private").after('<span class="weglot-keyres weglot-nokkey"></span>');
         //         $("#wrap-weglot #submit").prop("disabled", true);
 		// 		return;
 		// 	}
@@ -15,7 +15,7 @@ const init_admin_button_preview = function () {
 		// 		"https://weglot.com/api/user-info?api_key=" + key,
 		// 		(data) => {
 		// 			$(".weglot-keyres").remove();
-		// 			$("#api_key").after(
+		// 			$("#api_key_private").after(
 		// 				'<span class="weglot-keyres weglot-okkey"></span>'
 		// 			);
 		// 			$("#wrap-weglot #submit").prop(
@@ -31,7 +31,7 @@ const init_admin_button_preview = function () {
 		// 		}
 		// 	).fail(function() {
 		// 		$(".weglot-keyres").remove();
-		// 		$("#api_key").after('<span class="weglot-keyres weglot-nokkey"></span>');
+		// 		$("#api_key_private").after('<span class="weglot-keyres weglot-nokkey"></span>');
 		// 		$("#wrap-weglot #submit").prop("disabled", true);
 		// 	});
 		// });

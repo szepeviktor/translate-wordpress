@@ -103,22 +103,20 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 	 * @return array
 	 */
 	public function sanitize_options_settings( $options ) {
-		// $user_info        = $this->user_api_services->get_user_info( $options['api_key'] );
-		// $plans            = $this->user_api_services->get_plans();
+		$user_info        = $this->user_api_services->get_user_info( $options['api_key_private'] );
+		$plans            = $this->user_api_services->get_plans();
 
-		// $old_destination_languages = array_diff( $options_bdd['destination_language'], $options['destination_language'] );
-
-		// // Limit language
-		// if (
-		// 	$user_info['plan'] <= 0 ||
-		// 	in_array( $user_info['plan'], $plans['starter_free']['ids'] ) // phpcs:ignore
-		// ) {
-		// 	$new_options['destination_language'] = array_splice( $options['destination_language'], 0, $plans['starter_free']['limit_language'] );
-		// } elseif (
-		// 	in_array( $user_info['plan'], $plans['business']['ids'] ) // phpcs:ignore
-		// ) {
-		// 	$new_options['destination_language'] = array_splice( $options['destination_language'], 0, $plans['business']['limit_language'] );
-		// }
+		// Limit language
+		if (
+			$user_info['plan'] <= 0 ||
+			in_array( $user_info['plan'], $plans['starter_free']['ids'] ) // phpcs:ignore
+		) {
+			$options['languages'] = array_splice( $options['languages'], 0, $plans['starter_free']['limit_language'] );
+		} elseif (
+			in_array( $user_info['plan'], $plans['business']['ids'] ) // phpcs:ignore
+		) {
+			$options['languages'] = array_splice( $options['languages'], 0, $plans['business']['limit_language'] );
+		}
 
 		$options['custom_settings']['button_style']['is_dropdown']  = isset( $options['custom_settings']['button_style']['is_dropdown'] );
 		$options['custom_settings']['button_style']['with_flags']   = isset( $options['custom_settings']['button_style']['with_flags'] );
