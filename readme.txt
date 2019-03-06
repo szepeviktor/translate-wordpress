@@ -153,7 +153,7 @@ See changelog for upgrade changes.
 
 == Changelog ==
 
-= 2.5.0 (06/03/2019) =
+= 2.6.0 (06/03/2019) =
 * Add : Prevent elementor ajax action on 2.5
 * Add : Compatibility with Caldera Forms
 * Add : Prevent ajax MMP Map
