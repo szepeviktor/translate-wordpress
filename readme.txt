@@ -2,9 +2,9 @@
 Contributors: remyb92, gmulti, wysija
 Tags: translate,translation,language,multilingual,bilingual,international,localization,multilanguage,multi language,translations,translator,multilangues,traduction,traducteur,ubersetzung,mehrsprachig,traduccion,traduzione,vertaling,vertaler,meertalig
 Requires at least: 4.5
-Tested up to: 5.0
+Tested up to: 5.1
 Requires PHP: 5.4
-Stable tag: 2.5.0
+Stable tag: 2.6.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -152,6 +152,15 @@ Weglot Translate is easy to set up:
 See changelog for upgrade changes.
 
 == Changelog ==
+
+= 2.5.0 (06/03/2019) =
+* Add : Prevent elementor ajax action on 2.5
+* Add : Compatibility with Caldera Forms
+* Add : Prevent ajax MMP Map
+* Changed: Improved AJAX translation performance
+* Bugfix: No translate link on weglot menu item
+* Bugfix: meta og facebook
+* Bugfix: prevent undefined index on widget
 
 = 2.5.0 (07/02/2019) =
 * Add : Compatibility with Ninja Forms

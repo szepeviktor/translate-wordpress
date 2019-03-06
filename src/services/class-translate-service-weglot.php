@@ -103,7 +103,6 @@ class Translate_Service_Weglot {
 
 					return wp_json_encode( $content );
 				case 'html':
-					$content            = $this->fix_menu_link( $content );
 					$translated_content = $parser->translate( $content, $this->original_language, $this->current_language ); // phpcs:ignore
 
 					if ( $this->wc_active_services->is_active() ) {
@@ -179,20 +178,6 @@ class Translate_Service_Weglot {
 			}
 		}
 		return $array;
-	}
-
-
-	/**
-	 * @since 2.3.0.2
-	 *
-	 * Check if there are Weglot menu links and make sure there is the data-wg-notranslate
-	 * @param string $content
-	 * @return string
-	 */
-	public function fix_menu_link( $content ) {
-		$content = preg_replace( '#<a([^\>]+?)?href="(http|https):\/\/\[weglot_#', '<a$1 data-wg-notranslate="true" href="$2://[weglot_', $content );
-
-		return $content;
 	}
 
 
