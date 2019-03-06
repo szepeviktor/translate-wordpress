@@ -19,6 +19,7 @@ abstract class Helper_Keys_Json_Weglot {
 		],
 		'/' => [
 			'post_title',
+			'rendered',
 		],
 	];
 

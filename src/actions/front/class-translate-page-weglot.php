@@ -150,12 +150,12 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			return;
 		}
 
-		$file = apply_filters( 'weglot_debug_file', WEGLOT_DIR . '/content.json' );
+		$file = apply_filters( 'weglot_debug_file', WEGLOT_DIR . '/tests/templates/wp-api-posts.json' );
 
 		if ( defined( 'WEGLOT_DEBUG' ) && WEGLOT_DEBUG && file_exists( $file ) ) {
 			$this->translate_services->set_original_language( weglot_get_original_language() );
 			$this->translate_services->set_current_language( $this->request_url_services->get_current_language() );
-			header('Content-Type: application/json');
+			header( 'Content-Type: application/json' );
 			echo $this->translate_services->weglot_treat_page( file_get_contents( $file ) ); //phpcs:ignore
 			die;
 		} else {
