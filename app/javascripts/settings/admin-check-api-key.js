@@ -55,8 +55,7 @@ const init_admin_button_preview = function () {
 						}
 
 					}
-				},
-
+				}
 			).fail(function() {
 				unvalidApiKey()
 			});

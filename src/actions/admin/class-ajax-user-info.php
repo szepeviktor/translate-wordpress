@@ -7,7 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use WeglotWP\Models\Hooks_Interface_Weglot;
-use WeglotWP\Helpers\Helper_Pages_Weglot;
 
 class Ajax_User_Info implements Hooks_Interface_Weglot {
 	public function __construct() {
@@ -33,12 +32,12 @@ class Ajax_User_Info implements Hooks_Interface_Weglot {
 	 * @return array
 	 */
 	public function get_user_info() {
-		if ( ! isset( $_POST['api_key'] ) ) {
+		if ( ! isset( $_POST['api_key'] ) ) { //phpcs:ignore
 			wp_send_json_error();
 			return;
 		}
 
-		$api_key = sanitize_title( $_POST['api_key'] );
+		$api_key = sanitize_title( $_POST['api_key'] ); //phpcs:ignore
 
 		$response = $this->user_services->get_user_info( $api_key );
 
