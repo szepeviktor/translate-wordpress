@@ -4,6 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 use WeglotWP\Helpers\Helper_Tabs_Admin_Weglot;
+use WeglotWP\Helpers\Helper_Flag_Type;
 
 $options_available = [
 	'type_flags' => [
@@ -40,6 +41,8 @@ $options_available = [
 		'key'         => 'flag_css',
 	],
 ];
+
+
 
 ?>
 <style id="weglot-css-flag-css"></style>
@@ -101,19 +104,35 @@ $options_available = [
 			<td class="forminp forminp-text">
 				<select
 					class="wg-input-select"
-					name="<?php echo esc_attr( sprintf( '%s[custom_settings][button_style][type_flags]', WEGLOT_SLUG ) ); ?>"
+					name="<?php echo esc_attr( sprintf( '%s[custom_settings][button_style][flag_type]', WEGLOT_SLUG ) ); ?>"
 					id="<?php echo esc_attr( $options_available['type_flags']['key'] ); ?>"
 				>
-					<option <?php selected( $this->options[ $options_available['type_flags']['key'] ], '0' ); ?> value="0">
+					<option
+						<?php selected( $this->options[ $options_available['type_flags']['key'] ], Helper_Flag_Type::RECTANGLE_MAT ); ?>
+						data-value="<?php echo esc_attr( Helper_Flag_Type::get_flag_number_with_type( Helper_Flag_Type::RECTANGLE_MAT ) ); ?>"
+						value="<?php echo esc_attr( Helper_Flag_Type::RECTANGLE_MAT ); ?>"
+					>
 						<?php esc_html_e( 'Rectangle mat', 'weglot' ); ?>
 					</option>
-					<option <?php selected( $this->options[ $options_available['type_flags']['key'] ], '1' ); ?> value="1">
+					<option
+						<?php selected( $this->options[ $options_available['type_flags']['key'] ], Helper_Flag_Type::SHINY ); ?>
+						data-value="<?php echo esc_attr( Helper_Flag_Type::get_flag_number_with_type( Helper_Flag_Type::SHINY ) ); ?>"
+						value="<?php echo esc_attr( Helper_Flag_Type::SHINY ); ?>"
+					>
 						<?php esc_html_e( 'Rectangle shiny', 'weglot' ); ?>
 					</option>
-					<option <?php selected( $this->options[ $options_available['type_flags']['key'] ], '2' ); ?> value="2">
+					<option
+						<?php selected( $this->options[ $options_available['type_flags']['key'] ], Helper_Flag_Type::SQUARE ); ?>
+						data-value="<?php echo esc_attr( Helper_Flag_Type::get_flag_number_with_type( Helper_Flag_Type::SQUARE ) ); ?>"
+						value="<?php echo esc_attr( Helper_Flag_Type::SQUARE ); ?>"
+					>
 						<?php esc_html_e( 'Square', 'weglot' ); ?>
 					</option>
-					<option <?php selected( $this->options[ $options_available['type_flags']['key'] ], '3' ); ?> value="3">
+					<option
+						<?php selected( $this->options[ $options_available['type_flags']['key'] ], Helper_Flag_Type::CIRCLE ); ?>
+						data-value="<?php echo esc_attr( Helper_Flag_Type::get_flag_number_with_type( Helper_Flag_Type::CIRCLE ) ); ?>"
+						value="<?php echo esc_attr( Helper_Flag_Type::CIRCLE ); ?>"
+					>
 						<?php esc_html_e( 'Circle', 'weglot' ); ?>
 					</option>
 				</select>

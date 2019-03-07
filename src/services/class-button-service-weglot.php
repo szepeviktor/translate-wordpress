@@ -6,6 +6,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use WeglotWP\Helpers\Helper_Flag_Type;
+
 /**
  * Button services
  *
@@ -31,11 +33,14 @@ class Button_Service_Weglot {
 	 * @return string
 	 */
 	public function get_flag_class() {
-		$type_flags = $this->option_services->get_option_button( 'flag_type' );
+		$type_flags = $this->option_services->get_option_button( 'type_flags' );
 		$with_flags = $this->option_services->get_option_button( 'with_flags' );
 
 		$flag_class = $with_flags ? 'weglot-flags ' : '';
-		$flag_class .= '0' === $type_flags ? '' : 'flag-' . $type_flags . ' ';
+		$type_flags = Helper_Flag_Type::get_flag_number_with_type( $type_flags );
+		if ( '0' !== $type_flags ) {
+			$flag_class .= sprintf( 'flag-%s ', $type_flags );
+		}
 
 		return apply_filters( 'weglot_get_flag_class', $flag_class );
 	}

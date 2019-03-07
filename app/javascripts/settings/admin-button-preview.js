@@ -3,7 +3,7 @@ const init_admin_button_preview = function () {
 
 	const execute = () => {
 		// Init old type flags
-		let old_type_flags = $("#type_flags").val()
+		let old_type_flags = $("#type_flags option:selected").data('value')
 
 		let destination_languages = []
 		destination_languages.push($(".country-selector label").data("code-language"));
@@ -31,7 +31,7 @@ const init_admin_button_preview = function () {
 		// Change type flags
 		$("#type_flags").on("change", function(e) {
 			$(".country-selector label, .country-selector li").removeClass(`flag-${old_type_flags}`);
-			const new_type_flags = e.target.value;
+			const new_type_flags = $(':selected', this).data('value')
 			$(".country-selector label, .country-selector li").addClass(`flag-${new_type_flags}`);
 			old_type_flags = new_type_flags;
 		});

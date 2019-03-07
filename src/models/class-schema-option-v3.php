@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use WeglotWP\Helpers\Helper_Flag_Type;
 
 class Schema_Option_V3 {
 
@@ -63,7 +64,16 @@ class Schema_Option_V3 {
 			'is_fullname'        => 'custom_settings.button_style.full_name',
 			'with_name'          => 'custom_settings.button_style.with_name',
 			'with_flags'         => 'custom_settings.button_style.with_flags',
-			'flag_type'          => 'custom_settings.button_style.flag_type',
+			'type_flags'         => (object) [
+				'path' => 'custom_settings.button_style.flag_type',
+				'fn'   => function( $flag_type ) {
+					if ( $flag_type ) {
+						return $flag_type;
+					}
+
+					return Helper_Flag_Type::RECTANGLE_MAT;
+				},
+			],
 			'override_css'       => 'custom_settings.button_style.custom_css',
 			'email_translate'    => 'custom_settings.translate_email',
 			'active_search'      => 'custom_settings.translate_search',

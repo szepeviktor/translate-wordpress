@@ -66,4 +66,21 @@ class Helper_Flag_Type {
 				break;
 		}
 	}
+
+	/**
+	 * @param string $type
+	 * @return string
+	 */
+	public static function get_flag_number_with_type( $type ) {
+		switch ( $type ) {
+			case self::RECTANGLE_MAT:
+				return 0;
+			case self::SHINY:
+				return 1;
+			case self::SQUARE:
+				return 2;
+			case self::CIRCLE:
+				return 3;
+		}
+	}
 }
