@@ -74,7 +74,8 @@ class Migration_Service_Weglot {
 			'rtl_ltr_style'              => $rtl_ltr_style,
 			'is_menu'                    => ( 'on' === $is_menu ) ? true : false,
 		];
-
+		var_dump('oups');
+		die;
 		$this->option_services->set_options( $new_options );
 		update_option( 'weglot_version', WEGLOT_VERSION );
 	}
@@ -86,7 +87,8 @@ class Migration_Service_Weglot {
 	 */
 	public function update_v230() {
 		$private_mode = weglot_get_option( 'private_mode' );
-
+		var_dump('ah');
+		die;
 		if ( $private_mode ) {
 			$destination_language                  = weglot_get_destination_language();
 			$new_options                           = weglot_get_options();
@@ -108,8 +110,8 @@ class Migration_Service_Weglot {
 	 * @return void
 	 */
 	public function update_v300() {
-		$options = json_decode( file_get_contents( WEGLOT_DIR . '/settings-example.json'), true);
-		update_option('weglot-translate', $options);
+		// $options = json_decode( file_get_contents( WEGLOT_DIR . '/settings-example.json'), true);
+		// update_option('weglot-translate', $options);
 		// $options_to_v3 = (array) Morphism::map( 'WeglotWP\Models\Schema_Option_Migration_V3', $options );
 
 		// $response      = $this->option_services->save_options_to_weglot( $options_to_v3 );

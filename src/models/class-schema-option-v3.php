@@ -27,6 +27,7 @@ class Schema_Option_V3 {
 					foreach ( $languages as $item ) {
 						$destinations[] = $item['language_to'];
 					}
+
 					return $destinations;
 				},
 			],
@@ -78,6 +79,7 @@ class Schema_Option_V3 {
 			'email_translate'    => 'custom_settings.translate_email',
 			'active_search'      => 'custom_settings.translate_search',
 			'translate_amp'      => 'custom_settings.translate_amp',
+			'has_first_settings' => 'custom_settings.has_first_settings',
 		];
 
 		return $schema;

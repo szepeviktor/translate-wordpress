@@ -49,9 +49,6 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 	 */
 	public function activate() {
 		update_option( 'weglot_version', WEGLOT_VERSION );
-		$options            = $this->option_services->get_options();
-
-		$this->option_services->set_options( $options );
 	}
 
 

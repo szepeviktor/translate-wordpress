@@ -23,11 +23,9 @@ class Option_Service_Weglot {
 	 * @var array
 	 */
 	protected $options_default = [
-		'has_first_settings'      => true,
-		'show_box_first_settings' => false,
-		'language_from'           => [
-			'code' => 'en',
-		],
+		'has_first_settings'               => true,
+		'show_box_first_settings'          => false,
+		'language_from'                    => 'en',
 		'languages'                        => [],
 		'auto_switch'                      => false,
 		'auto_switch_fallback'             => 'en',
@@ -135,7 +133,7 @@ class Option_Service_Weglot {
 		}
 
 		try {
-			$body                       = json_decode( $response['body'], true );
+			$body = json_decode( $response['body'], true );
 
 			if ( null === $body ) {
 				return [
@@ -243,6 +241,7 @@ class Option_Service_Weglot {
 		}
 
 		$options_default = $this->get_options_default();
+
 		return (array) Morphism::map( 'WeglotWP\Models\Schema_Option_V3', $options_default );
 	}
 
