@@ -35,13 +35,11 @@ class Schema_Option_V3 {
 					$private = [];
 					foreach ( $languages as $item ) {
 						if ( ! $item['enabled'] ) {
-							continue;
+							$private[ $item['language_to'] ] = false;
+						} else {
+							$private[ $item['language_to'] ] = true;
+							$private['active'] = true;
 						}
-						$private[ $item['language_to'] ] = true;
-					}
-
-					if ( ! empty( $private ) ) {
-						$private['active'] = true;
 					}
 
 					return $private;
