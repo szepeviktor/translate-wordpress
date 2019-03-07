@@ -47,7 +47,7 @@ class User_Api_Service_Weglot {
 		}
 
 		try {
-			$results   = $this->do_request( Helper_API::get_api_url() . '/projects/owner?api_key=' . 'wg_96725c334a27df12c3c30f142cf475eb4', null );
+			$results   = $this->do_request( Helper_API::get_api_url() . '/projects/owner?api_key=' . $api_key, null );
 			$json      = \json_decode( $results, true );
 
 			if ( \json_last_error() !== JSON_ERROR_NONE ) {
@@ -67,12 +67,12 @@ class User_Api_Service_Weglot {
 				$answer          = $json['answer'];
 				$this->user_info = $answer;
 				return $this->user_info;
-			} else {
-				throw new \Exception( 'Unknown error with Weglot Api (0002) : ' . $json );
 			}
+
+			throw new \Exception( 'Unknown error with Weglot Api (0002) : ' . $json );
 		} catch ( \Exception $e ) {
 			return [
-				'allowed' => true,
+				'allowed' => false,
 			];
 		}
 	}

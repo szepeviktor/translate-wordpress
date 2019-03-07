@@ -3,38 +3,64 @@ const init_admin_button_preview = function () {
 
 	const execute = () => {
 
-		// $("#api_key_private").blur(function() {
-		// 	var key = $(this).val();
-		// 	if( key.length === 0){
-        //         $(".weglot-keyres").remove();
-        //         $("#api_key_private").after('<span class="weglot-keyres weglot-nokkey"></span>');
-        //         $("#wrap-weglot #submit").prop("disabled", true);
-		// 		return;
-		// 	}
-		// 	$.getJSON(
-		// 		"https://weglot.com/api/user-info?api_key=" + key,
-		// 		(data) => {
-		// 			$(".weglot-keyres").remove();
-		// 			$("#api_key_private").after(
-		// 				'<span class="weglot-keyres weglot-okkey"></span>'
-		// 			);
-		// 			$("#wrap-weglot #submit").prop(
-		// 				"disabled",
-		// 				false
-		// 			);
+		$("#api_key_private").blur(function() {
+			var key = $(this).val();
+			if( key.length === 0){
+                $(".weglot-keyres").remove();
+                $("#api_key_private").after('<span class="weglot-keyres weglot-nokkey"></span>');
+                $("#wrap-weglot #submit").prop("disabled", true);
+				return;
+			}
 
-		// 			const evt = new CustomEvent("weglotCheckApi", {
-		// 				detail: data
-		// 			});
+			function validApiKey(data){
 
-		// 			window.dispatchEvent(evt);
-		// 		}
-		// 	).fail(function() {
-		// 		$(".weglot-keyres").remove();
-		// 		$("#api_key_private").after('<span class="weglot-keyres weglot-nokkey"></span>');
-		// 		$("#wrap-weglot #submit").prop("disabled", true);
-		// 	});
-		// });
+				$(".weglot-keyres").remove();
+				$("#api_key_private").after(
+					'<span class="weglot-keyres weglot-okkey"></span>'
+				);
+
+				$("#wrap-weglot #submit").prop(
+					"disabled",
+					false
+				);
+
+				const evt = new CustomEvent("weglotCheckApi", {
+					detail: data
+				});
+
+				window.dispatchEvent(evt);
+			}
+
+			function unvalidApiKey(){
+				$(".weglot-keyres").remove();
+				$("#api_key_private").after('<span class="weglot-keyres weglot-nokkey"></span>');
+				$("#wrap-weglot #submit").prop("disabled", true);
+			}
+
+			$.ajax(
+				{
+					method: 'POST',
+					url: ajaxurl,
+					data : {
+						action: 'get_user_info',
+						api_key: key,
+					},
+					success: ({data, success}) => {
+
+						if (success ){
+							validApiKey(data)
+						}
+						else{
+							unvalidApiKey()
+						}
+
+					}
+				},
+
+			).fail(function() {
+				unvalidApiKey()
+			});
+		});
 	}
 
 	document.addEventListener('DOMContentLoaded', () => {
