@@ -34,6 +34,7 @@ abstract class Helper_Filter_Url_Weglot {
 	public static function filter_url_lambda( $url ) {
 		$current_and_original_language   = weglot_get_current_and_original_language();
 		$request_url_service             = weglot_get_request_url_service();
+
 		if ( $current_and_original_language['current'] === $current_and_original_language['original'] ) {
 			return $url;
 		}

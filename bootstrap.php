@@ -88,6 +88,7 @@ abstract class Context_Weglot {
 			'\WeglotWP\Actions\Admin\Metabox_Url_Translate_Weglot',
 			'\WeglotWP\Actions\Front\Front_Menu_Weglot',
 			'\WeglotWP\Actions\Front\Search_Weglot',
+			'\WeglotWP\Actions\Front\Redirect_Comment',
 		];
 
 		self::$context->set_actions( $actions );

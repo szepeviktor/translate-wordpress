@@ -111,10 +111,14 @@ class Request_Url_Service_Weglot {
 	 * @return string
 	 */
 	public function get_current_language( $with_filter = true ) {
+		$current_language = $this->get_weglot_url()->detectCurrentLanguage();
+
 		if ( ( wp_doing_ajax() || $this->is_rest() ) && isset( $_SERVER['HTTP_REFERER'] ) ) { //phpcs:ignore
 			$current_language = $this->create_url_object( $_SERVER['HTTP_REFERER'] )->detectCurrentLanguage(); //phpcs:ignore
 		} else {
-			$current_language = $this->get_weglot_url()->detectCurrentLanguage();
+			if ( strpos( $this->get_full_url(), 'wp-comments-post.php' ) !== false ) {
+				$current_language = $this->create_url_object( $_SERVER['HTTP_REFERER'] )->detectCurrentLanguage(); //phpcs:ignore
+			}
 		}
 
 		if ( $with_filter ) {
