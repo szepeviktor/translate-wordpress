@@ -71,14 +71,16 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 		$tab = $_GET[ 'tab' ]; //phpcs:ignore
 		switch ( $tab ) {
 			case Helper_Tabs_Admin_Weglot::SETTINGS:
-				$options  = $_POST[ WEGLOT_SLUG ]; //phpcs:ignore
-				$options  = $this->sanitize_options_settings( $options );
-				$response = $this->option_services->save_options_to_weglot( $options );
+				$options            = $_POST[ WEGLOT_SLUG ]; //phpcs:ignore
+				$options            = $this->sanitize_options_settings( $options );
+				$options_bdd        = $this->option_services->get_options_bdd();
+				$has_first_settings = isset( $options_bdd['has_first_settings'] ) ? $options_bdd['has_first_settings'] : true;
+				$response           = $this->option_services->save_options_to_weglot( $options,  $has_first_settings );
 				if ( $response['success'] ) {
 					update_option( sprintf( '%s-%s', WEGLOT_SLUG, 'api_key_private' ), $options['api_key_private'] );
 					update_option( sprintf( '%s-%s', WEGLOT_SLUG, 'api_key' ), $response['result']['api_key'] );
 
-					$options_bdd = $this->option_services->get_options_bdd();
+
 
 					if ( $options_bdd['has_first_settings'] ) {
 						$options_bdd['has_first_settings']      = false;
@@ -97,9 +99,10 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 	 * @since 2.0
 	 * @version 2.0.6
 	 * @param array $options
+	 * @param mixed $has_first_settings
 	 * @return array
 	 */
-	public function sanitize_options_settings( $options ) {
+	public function sanitize_options_settings( $options, $has_first_settings = false ) {
 		$user_info        = $this->user_api_services->get_user_info( $options['api_key_private'] );
 		$plans            = $this->user_api_services->get_plans();
 
@@ -115,10 +118,21 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 			$options['languages'] = array_splice( $options['languages'], 0, $plans['business']['limit_language'] );
 		}
 
-		$options['custom_settings']['button_style']['is_dropdown']  = isset( $options['custom_settings']['button_style']['is_dropdown'] );
-		$options['custom_settings']['button_style']['with_flags']   = isset( $options['custom_settings']['button_style']['with_flags'] );
-		$options['custom_settings']['button_style']['full_name']    = isset( $options['custom_settings']['button_style']['full_name'] );
-		$options['custom_settings']['button_style']['with_name']    = isset( $options['custom_settings']['button_style']['with_name'] );
+		$default_options = $this->option_services->get_options_default();
+
+		$options['custom_settings']['button_style']['is_dropdown']    = isset( $options['custom_settings']['button_style']['is_dropdown'] );
+		$options['custom_settings']['button_style']['with_flags']     = isset( $options['custom_settings']['button_style']['with_flags'] );
+		$options['custom_settings']['button_style']['full_name']      = isset( $options['custom_settings']['button_style']['full_name'] );
+		$options['custom_settings']['button_style']['with_name']      = isset( $options['custom_settings']['button_style']['with_name'] );
+
+		if ( $has_first_settings ) {
+			$options['custom_settings']['button_style']['is_dropdown'] = $default_options['custom_settings']['button_style']['is_dropdown'];
+			$options['custom_settings']['button_style']['with_flags']  = $default_options['custom_settings']['button_style']['with_flags'];
+			$options['custom_settings']['button_style']['full_name']   = $default_options['custom_settings']['button_style']['full_name'];
+			$options['custom_settings']['button_style']['with_name']   = $default_options['custom_settings']['button_style']['with_name'];
+		}
+
+
 		$options['custom_settings']['button_style']['custom_css']   = isset( $options['custom_settings']['button_style']['custom_css'] ) ? $options['custom_settings']['button_style']['custom_css'] : '';
 
 		$options['custom_settings']['button_style']['flag_type']    = isset( $options['custom_settings']['button_style']['flag_type'] ) ? $options['custom_settings']['button_style']['flag_type'] : Helper_Flag_Type::RECTANGLE_MAT;
@@ -145,6 +159,6 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 			$options['excluded_blocks'] = [];
 		}
 
-		return $options;
+		return $options ;
 	}
 }

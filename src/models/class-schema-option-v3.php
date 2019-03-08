@@ -76,11 +76,12 @@ class Schema_Option_V3 {
 					return Helper_Flag_Type::RECTANGLE_MAT;
 				},
 			],
-			'override_css'       => 'custom_settings.button_style.custom_css',
-			'email_translate'    => 'custom_settings.translate_email',
-			'active_search'      => 'custom_settings.translate_search',
-			'translate_amp'      => 'custom_settings.translate_amp',
-			'has_first_settings' => 'custom_settings.has_first_settings',
+			'override_css'            => 'custom_settings.button_style.custom_css',
+			'email_translate'         => 'custom_settings.translate_email',
+			'active_search'           => 'custom_settings.translate_search',
+			'translate_amp'           => 'custom_settings.translate_amp',
+			'has_first_settings'      => 'has_first_settings',
+			'show_box_first_settings' => 'show_box_first_settings',
 		];
 
 		return $schema;

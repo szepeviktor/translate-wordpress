@@ -74,8 +74,7 @@ class Migration_Service_Weglot {
 			'rtl_ltr_style'              => $rtl_ltr_style,
 			'is_menu'                    => ( 'on' === $is_menu ) ? true : false,
 		];
-		var_dump('oups');
-		die;
+
 		$this->option_services->set_options( $new_options );
 		update_option( 'weglot_version', WEGLOT_VERSION );
 	}
@@ -87,8 +86,7 @@ class Migration_Service_Weglot {
 	 */
 	public function update_v230() {
 		$private_mode = weglot_get_option( 'private_mode' );
-		var_dump('ah');
-		die;
+
 		if ( $private_mode ) {
 			$destination_language                  = weglot_get_destination_language();
 			$new_options                           = weglot_get_options();
