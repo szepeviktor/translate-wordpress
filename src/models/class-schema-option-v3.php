@@ -20,6 +20,7 @@ class Schema_Option_V3 {
 			'api_key_private'              => 'api_key_private',
 			'allowed'                      => 'allowed',
 			'original_language'            => 'language_from',
+			'translation_engine'           => 'translation_engine',
 			'destination_language'         => (object) [
 				'path' => 'languages',
 				'fn'   => function( $languages ) {
