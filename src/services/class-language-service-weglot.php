@@ -49,7 +49,8 @@ class Language_Service_Weglot {
 			return $this->languages;
 		}
 
-		$client           = new Client( $this->option_services->get_option( 'api_key' ) );
+		$client           = weglot_get_service( 'Parser_Service_Weglot' )->get_client();
+
 		$languages        = new Languages( $client );
 		$this->languages  = $languages->handle();
 

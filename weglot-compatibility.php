@@ -46,3 +46,32 @@ if ( ! function_exists( 'is_rest' ) ) {
 		return strpos( $current_url['path'], $rest_url['path'], 0 ) === 0;
 	}
 }
+
+/**
+ * Compatibility for library weglot-php PHP 5.4
+ */
+if ( ! function_exists( 'array_column' ) ) {
+	function array_column( array $input, $column_key, $index_key = null) {
+		$array = array();
+		foreach ( $input as $value ) {
+			if ( ! array_key_exists( $column_key, $value ) ) {
+				trigger_error( "Key \"$column_key\" does not exist in array" );
+				return false;
+			}
+			if ( is_null( $index_key ) ) {
+				$array[] = $value[ $column_key ];
+			} else {
+				if ( ! array_key_exists( $index_key, $value ) ) {
+					trigger_error( "Key \"$index_key\" does not exist in array" );
+					return false;
+				}
+				if ( ! is_scalar( $value[ $index_key ] ) ) {
+					trigger_error( "Key \"$index_key\" does not contain scalar value" );
+					return false;
+				}
+				$array[ $value[ $index_key ] ] = $value[ $column_key ];
+			}
+		}
+		return $array;
+	}
+}

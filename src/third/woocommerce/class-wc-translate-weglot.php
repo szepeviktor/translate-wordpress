@@ -19,10 +19,18 @@ use WeglotWP\Helpers\Helper_Json_Inline_Weglot;
 
 /**
  * WC_Translate_Weglot
- *
  * @since 2.0
+ * @version 3.0.0
  */
 class WC_Translate_Weglot {
+
+	/**
+	 * @since 3.0.0
+	 */
+	public function __construct() {
+		$this->parser_services           = weglot_get_service( 'Parser_Service_Weglot' );
+	}
+
 	protected function translate_entries( $all_words ) {
 		// TranslateEntry
 		$params = [
@@ -40,8 +48,8 @@ class WC_Translate_Weglot {
 			$word_collection->addOne( new WordEntry( $value, WordType::TEXT ) );
 		}
 
-		$client    = new Client( weglot_get_option( 'api_key' ) );
-		$translate = new Translate( $translate, $client );
+		$client           = $this->parser_services->get_client();
+		$translate        = new Translate( $translate, $client );
 
 		return $translate->handle();
 	}
