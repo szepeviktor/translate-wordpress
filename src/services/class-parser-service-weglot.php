@@ -63,6 +63,15 @@ class Parser_Service_Weglot {
 			'host' => Helper_API::get_api_url(),
 		] );
 
+		$translation_engine = $this->option_services->get_translation_engine();
+		if ( ! $translation_engine || empty( $translation_engine ) ) {
+			$translation_engine = 2;
+		}
+
+		if ( method_exists( $client->getProfile(), 'setTranslationEngine' ) ) {
+			$client->getProfile()->setTranslationEngine( $translation_engine );
+		}
+
 		if ( '2' === WEGLOT_LIB_PARSER ) {
 			$listeners = $this->dom_listeners_services->get_dom_listeners();
 			$parser    = new Parser( $client, $config, $exclude_blocks, $listeners );

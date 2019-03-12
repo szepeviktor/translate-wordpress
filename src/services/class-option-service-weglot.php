@@ -372,6 +372,14 @@ class Option_Service_Weglot {
 		return apply_filters( 'weglot_flag_css', $this->get_option( 'flag_css' ) );
 	}
 
+	/**
+	 * @since 3.0.0
+	 * @return int
+	 */
+	public function get_translation_engine() {
+		return apply_filters( 'weglot_get_translation_engine', $this->get_option( 'translation_engine' ) );
+	}
+
 
 	/**
 	 * @since 2.0
