@@ -5,6 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Weglot\Client\Client;
+use Weglot\Util\Regex\RegexEnum;
 
 use WeglotWP\Helpers\Helper_Tabs_Admin_Weglot;
 use WeglotWP\Helpers\Helper_Excluded_Type;
@@ -80,7 +81,7 @@ $languages = array_values( $languages );
 				<?php
 				if ( ! empty( $this->options[ $options_available['exclude_urls']['key'] ] ) ) :
 					foreach ( $this->options[ $options_available['exclude_urls']['key'] ] as $key => $option ) :
-						$type_option  = Helper_Excluded_Type::MATCH_REGEX;
+						$type_option  = RegexEnum::MATCH_REGEX;
 						$value        = $option;
 						if ( is_array( $option ) ) {
 							$type_option  = $option['type'];

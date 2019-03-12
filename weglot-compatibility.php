@@ -51,7 +51,7 @@ if ( ! function_exists( 'is_rest' ) ) {
  * Compatibility for library weglot-php PHP 5.4
  */
 if ( ! function_exists( 'array_column' ) ) {
-	function array_column( array $input, $column_key, $index_key = null) {
+	function array_column( array $input, $column_key, $index_key = null ) {
 		$array = array();
 		foreach ( $input as $value ) {
 			if ( ! array_key_exists( $column_key, $value ) ) {
