@@ -227,10 +227,12 @@ class Request_Url_Service_Weglot {
 			return apply_filters( 'weglot_is_eligible_url', false, $weglot_url );
 		}
 
-		$weglot_url = $this->create_url_object( $url_path_custom );
-		$weglot_url->setExcludedUrls( $exclude_urls_option );
-		if ( ! $weglot_url->isTranslable() ) {
-			return apply_filters( 'weglot_is_eligible_url', false, $weglot_url );
+		if ( $url_path_custom ) {
+			$weglot_url = $this->create_url_object( $url_path_custom );
+			$weglot_url->setExcludedUrls( $exclude_urls_option );
+			if ( ! $weglot_url->isTranslable() ) {
+				return apply_filters( 'weglot_is_eligible_url', false, $weglot_url );
+			}
 		}
 
 		return apply_filters( 'weglot_is_eligible_url', true, $url );

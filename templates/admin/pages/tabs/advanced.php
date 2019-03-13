@@ -233,7 +233,11 @@ $languages = array_values( $languages );
 					id="<?php echo esc_attr( $options_available['private_mode']['key'] ); ?>"
 					name="<?php echo esc_attr( sprintf( '%s[%s][active]', WEGLOT_SLUG, $options_available['private_mode']['key'] ) ); ?>"
 					type="checkbox"
-					<?php checked( $this->options[ $options_available['private_mode']['key'] ]['active'], 1 ); ?>
+					<?php
+					if ( array_key_exists( 'active', $this->options[ $options_available['private_mode']['key'] ] ) ) {
+						checked( $this->options[ $options_available['private_mode']['key'] ]['active'], 1 );
+					}
+					?>
 				>
 				<p class="description"><?php echo esc_html( $options_available['private_mode']['description'] ); ?></p>
 				<div id="private-mode-detail">
