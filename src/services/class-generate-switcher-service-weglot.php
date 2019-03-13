@@ -56,8 +56,6 @@ class Generate_Switcher_Service_Weglot {
 			return $dom;
 		}
 
-
-
 		$languages_configured = $this->language_services->get_languages_configured();
 		$options              = $this->option_services->get_options();
 		$is_fullname          = $options['is_fullname'];

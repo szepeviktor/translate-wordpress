@@ -7,6 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Morphism\Morphism;
+use Weglot\Util\Regex;
 use WeglotWP\Models\Schema_Option_V3;
 use WeglotWP\Helpers\Helper_Flag_Type;
 use WeglotWP\Helpers\Helper_API;
@@ -337,12 +338,12 @@ class Option_Service_Weglot {
 	 */
 	public function get_exclude_urls() {
 		$list_exclude_urls     = $this->get_option( 'exclude_urls' );
-
-		$exclude_urls = [];
+		$request_url_services  = weglot_get_service( 'Request_Url_Service_Weglot' );
+		$exclude_urls          = [];
 		if ( ! empty( $list_exclude_urls ) ) {
 			foreach ( $list_exclude_urls as $item ) {
-				// @TODO : create good regex with lib PHP
-				$exclude_urls[] = $item['value'];
+				$regex          = new Regex( $item['type'], $request_url_services->url_to_relative( $item['value'] ) );
+				$exclude_urls[] = $regex->getRegex();
 			}
 		}
 		$exclude_urls[]   = '/wp-login.php';
@@ -351,7 +352,16 @@ class Option_Service_Weglot {
 		$exclude_urls[]   = 'wp-comments-post.php';
 		$exclude_urls[]   = '/ct_template'; // Compatibility Oxygen
 
-		return apply_filters( 'weglot_exclude_urls', $exclude_urls );
+		$translate_amp = weglot_get_translate_amp_translation();
+
+		if ( ! $translate_amp ) {
+			$exclude_urls[] = weglot_get_service( 'Amp_Service_Weglot' )->get_regex();
+		}
+
+		// array_map : Need only for those who use the filter
+		return apply_filters( 'weglot_exclude_urls', array_map( function( $value ) use ( $request_url_services ) {
+			return $request_url_services->url_to_relative( $value );
+		}, $exclude_urls ) );
 	}
 
 	/**
