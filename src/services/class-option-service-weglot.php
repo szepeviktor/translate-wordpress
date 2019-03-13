@@ -37,7 +37,7 @@ class Option_Service_Weglot {
 			'translate_amp'                     => false,
 			'translate_search'                  => false,
 			'button_style'                      => [
-				'full_name'     => false,
+				'full_name'     => true,
 				'with_name'     => true,
 				'is_dropdown'   => true,
 				'with_flags'    => true,
