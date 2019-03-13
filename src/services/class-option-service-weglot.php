@@ -170,7 +170,7 @@ class Option_Service_Weglot {
 
 		if ( $options_v2 ) {
 			$options_v2['api_key_private'] = $options_v2['api_key'];
-			if ( ! $options_v2['custom_urls'] ) {
+			if ( ! array_key_exists( 'custom_urls', $options_v2 ) || ! $options_v2['custom_urls'] ) {
 				$options_v2['custom_urls'] = [];
 			}
 			return $options_v2;
