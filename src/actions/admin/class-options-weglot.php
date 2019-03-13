@@ -72,9 +72,9 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 		switch ( $tab ) {
 			case Helper_Tabs_Admin_Weglot::SETTINGS:
 				$options            = $_POST[ WEGLOT_SLUG ]; //phpcs:ignore
-				$options            = $this->sanitize_options_settings( $options );
-				$options_bdd        = $this->option_services->get_options_bdd();
 				$has_first_settings = isset( $options_bdd['has_first_settings'] ) ? $options_bdd['has_first_settings'] : true;
+				$options            = $this->sanitize_options_settings( $options, $has_first_settings );
+				$options_bdd        = $this->option_services->get_options_bdd();
 				$response           = $this->option_services->save_options_to_weglot( $options,  $has_first_settings );
 				if ( $response['success'] ) {
 					update_option( sprintf( '%s-%s', WEGLOT_SLUG, 'api_key_private' ), $options['api_key_private'] );
@@ -131,7 +131,6 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 			$options['custom_settings']['button_style']['full_name']   = $default_options['custom_settings']['button_style']['full_name'];
 			$options['custom_settings']['button_style']['with_name']   = $default_options['custom_settings']['button_style']['with_name'];
 		}
-
 
 		$options['custom_settings']['button_style']['custom_css']   = isset( $options['custom_settings']['button_style']['custom_css'] ) ? $options['custom_settings']['button_style']['custom_css'] : '';
 
