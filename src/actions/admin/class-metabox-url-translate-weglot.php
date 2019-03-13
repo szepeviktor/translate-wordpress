@@ -107,6 +107,7 @@ class Metabox_Url_Translate_Weglot implements Hooks_Interface_Weglot {
 	 */
 	public function weglot_wp_unique_post_slug( $slug ) {
 		$custom_urls = $this->option_services->get_option( 'custom_urls' );
+
 		return $this->search_unique_key_post_name( $slug, $custom_urls );
 	}
 

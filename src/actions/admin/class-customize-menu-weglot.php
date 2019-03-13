@@ -66,6 +66,7 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 		check_admin_referer( 'update-nav_menu', 'update-nav-menu-nonce' );
 
 		$options = $this->option_services->get_option( 'menu_switcher' );
+
 		foreach ( $options as $key => $value ) {
 			$options[ $key ] = empty( $_POST[ 'menu-item-' . $key ][ $menu_item_db_id ] ) ? 0 : 1;
 		}

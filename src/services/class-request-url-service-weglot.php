@@ -53,12 +53,18 @@ class Request_Url_Service_Weglot {
 	 * @return string
 	 */
 	public function init_weglot_url() {
-		$exclude_urls_option = $this->option_services->get_exclude_urls();
+		$exclude_urls_option   = $this->option_services->get_exclude_urls();
+		$original_language     = $this->option_services->get_option( 'original_language' );
+		$destinations_language = weglot_get_destination_languages();
+
+		if ( empty( $destinations_language ) ) {
+			$destinations_language[] = $original_language;
+		}
 
 		$this->weglot_url    = new Url(
 			$this->get_full_url(),
-			$this->option_services->get_option( 'original_language' ),
-			weglot_get_destination_languages(),
+			$original_language,
+			$destinations_language,
 			$this->get_home_wordpress_directory()
 		);
 
@@ -137,6 +143,10 @@ class Request_Url_Service_Weglot {
 	 * @return boolean
 	 */
 	public function is_translatable_url() {
+		$destinations = weglot_get_destination_languages();
+		if ( empty( $destinations ) ) {
+			return true;
+		}
 		return $this->get_weglot_url()->isTranslable() && $this->is_eligible_url( $this->get_full_url() );
 	}
 
@@ -207,6 +217,11 @@ class Request_Url_Service_Weglot {
 	 * @return boolean
 	 */
 	public function is_eligible_url( $url ) {
+		$destinations = weglot_get_destination_languages();
+		if ( empty( $destinations ) ) {
+			return true;
+		}
+
 		$url_relative = urldecode( $this->url_to_relative( $url ) );
 
 		$exclude_urls_option = $this->option_services->get_exclude_urls();

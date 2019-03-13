@@ -161,7 +161,42 @@ class Option_Service_Weglot {
 		}
 	}
 
+	/**
+	 * @since 3.0.0
+	 * @return array
+	 */
+	public function get_options_from_v2() {
+		$options_v2 = get_option( WEGLOT_SLUG, false );
 
+		if ( $options_v2 ) {
+			$options_v2['api_key_private'] = $options_v2['api_key'];
+			if ( ! $options_v2['custom_urls'] ) {
+				$options_v2['custom_urls'] = [];
+			}
+			return $options_v2;
+		}
+
+		$options_default = $this->get_options_default();
+
+		return (array) Morphism::map( 'WeglotWP\Models\Schema_Option_V3', $options_default );
+	}
+
+	/**
+	 * @since 3.0.0
+	 * @param bool $compatibility
+	 * @return string
+	 */
+	public function get_api_key( $compatibility = false ) {
+		$api_key = get_option( sprintf( '%s-%s', WEGLOT_SLUG, 'api_key' ), false );
+
+		if ( ! $compatibility || $api_key ) {
+			return $api_key;
+		}
+
+		$options = $this->get_options_from_v2();
+
+		return $options['api_key'];
+	}
 
 	/**
 	 * @since 2.0
@@ -206,44 +241,10 @@ class Option_Service_Weglot {
 
 	/**
 	 * @since 3.0.0
-	 * @param bool $compatibility
-	 * @return string
-	 */
-	public function get_api_key( $compatibility = false ) {
-		$api_key = get_option( sprintf( '%s-%s', WEGLOT_SLUG, 'api_key' ), false );
-
-		if ( ! $compatibility || $api_key ) {
-			return $api_key;
-		}
-
-		$options = $this->get_options_from_v2();
-
-		return $options['api_key'];
-	}
-
-	/**
-	 * @since 3.0.0
 	 * @return array
 	 */
 	public function get_options_bdd() {
 		return wp_parse_args( get_option( WEGLOT_SLUG ), $this->get_options_default() );
-	}
-
-	/**
-	 * @since 3.0.0
-	 * @return array
-	 */
-	public function get_options_from_v2() {
-		$options_v2 = get_option( WEGLOT_SLUG, false );
-
-		if ( $options_v2 ) {
-			$options_v2['api_key_private'] = $options_v2['api_key'];
-			return $options_v2;
-		}
-
-		$options_default = $this->get_options_default();
-
-		return (array) Morphism::map( 'WeglotWP\Models\Schema_Option_V3', $options_default );
 	}
 
 
