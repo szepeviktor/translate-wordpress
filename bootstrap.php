@@ -84,6 +84,7 @@ abstract class Context_Weglot {
 			'\WeglotWP\Actions\Migration_Weglot',
 			'\WeglotWP\Third\Woocommerce\WC_Filter_Urls_Weglot',
 			'\WeglotWP\Third\Woocommerce\WC_Cart_Reload_Weglot',
+			'\WeglotWP\Third\CalderaForms\Caldera_I18n_Inline',
 			'\WeglotWP\Third\Amp\Amp_Enqueue_Weglot',
 			'\WeglotWP\Actions\Admin\Metabox_Url_Translate_Weglot',
 			'\WeglotWP\Actions\Front\Front_Menu_Weglot',
