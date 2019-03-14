@@ -72,17 +72,17 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 		switch ( $tab ) {
 			case Helper_Tabs_Admin_Weglot::SETTINGS:
 				$options            = $_POST[ WEGLOT_SLUG ]; //phpcs:ignore
-				$options_bdd        = $this->option_services->get_options_bdd();
+
+				$options_bdd        = $this->option_services->get_options_bdd_v3();
 				$has_first_settings = isset( $options_bdd['has_first_settings'] ) ? $options_bdd['has_first_settings'] : true;
+
 				$options            = $this->sanitize_options_settings( $options, $has_first_settings );
 				$response           = $this->option_services->save_options_to_weglot( $options,  $has_first_settings );
 				if ( $response['success'] ) {
 					update_option( sprintf( '%s-%s', WEGLOT_SLUG, 'api_key_private' ), $options['api_key_private'] );
 					update_option( sprintf( '%s-%s', WEGLOT_SLUG, 'api_key' ), $response['result']['api_key'] );
 
-
-
-					if ( $options_bdd['has_first_settings'] ) {
+					if ( $has_first_settings ) {
 						$options_bdd['has_first_settings']      = false;
 						$options_bdd['show_box_first_settings'] = true;
 						$this->option_services->set_options( $options_bdd );

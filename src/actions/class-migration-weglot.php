@@ -36,17 +36,9 @@ class Migration_Weglot implements Hooks_Interface_Weglot {
 		}
 
 		$weglot_version = get_option( 'weglot_version' );
-		if ( ! $weglot_version && version_compare( WEGLOT_LATEST_VERSION, '2.0', '<' ) ) {
-			$this->migration_services->update_v200();
-		}
 
-		if ( $weglot_version && version_compare( $weglot_version, '2.2.0', '>=' ) && version_compare( $weglot_version, '2.3.0', '<' ) ) {
-			$this->migration_services->update_v230();
+		if ( $weglot_version && version_compare( $weglot_version, '2.3.0', '>=' ) && version_compare( $weglot_version, '3.0.0', '<' ) ) {
+			update_option( 'weglot_version', WEGLOT_VERSION );
 		}
-
-		// if ( $weglot_version && version_compare( $weglot_version, '2.3.0', '>=' ) && version_compare( $weglot_version, '3.0.0', '<' ) ) {
-		// Morphism::setMapper( 'WeglotWP\Models\Schema_Option_Migration_V3', Schema_Option_Migration_V3::get_schema_migration_options_v3() );
-		// $this->migration_services->update_v300();
-		// }
 	}
 }
