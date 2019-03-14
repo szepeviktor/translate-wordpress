@@ -38,7 +38,7 @@ class Custom_Url_Service_Weglot {
 
 		$condition_test_custom_url = isset( $request_without_language[ $index_entries ] ) && ! is_admin() && ! empty( $custom_urls ) && ! is_post_type_archive() && ! is_category() && ! is_tax() && ! is_archive();
 
-		if ( apply_filters( 'weglot_condition_test_custom_url', $condition_test_custom_url ) ) {
+		if ( apply_filters( 'weglot_condition_test_custom_url', $condition_test_custom_url, $url_lang, $key_code ) ) {
 			$slug_in_work             = $request_without_language[ $index_entries ];
 
 			// Search from original slug
