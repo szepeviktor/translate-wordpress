@@ -1,5 +1,6 @@
 jQuery(document).ready(function ($) {
 	$('#update-nav-menu').bind('click', function (e) {
+
 		if (e.target && e.target.className && -1 != e.target.className.indexOf('item-edit')) {
 
 			$("input[value='#weglot_switcher'][type=text]").parents('.menu-item-settings').each(function () {
@@ -22,8 +23,8 @@ jQuery(document).ready(function ($) {
 
 				$(this).append($('<input>').attr({
 					type: 'hidden',
-					id: 'edit-menu-item-pll-detect-' + id,
-					name: 'menu-item-pll-detect[' + id + ']',
+					id: 'edit-menu-item-weglot-detect-' + id,
+					name: 'menu-item-weglot-detect[' + id + ']',
 					value: 1
 				}));
 
@@ -42,13 +43,14 @@ jQuery(document).ready(function ($) {
 						id: `edit-menu-item-${
 							option.key
 						}-${id}`,
-						name: `menu-item-${
+						name: `menu-item-weglot-${
 							option.key
 						}[${id}]`,
 						value: 1
 					});
 
-					if( weglot_data.options[ option.key ] === 1 ){
+
+					if (weglot_data.options && weglot_data.options[`menu-item-${id}`] && weglot_data.options[`menu-item-${id}`][ option.key ] === 1 ){
 						checkbox.prop("checked", true);
 					}
 

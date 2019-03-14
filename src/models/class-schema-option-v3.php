@@ -92,7 +92,8 @@ class Schema_Option_V3 {
 					return $custom_urls;
 				},
 			],
-			'flag_css' => 'custom_settings.button_style.flag_css',
+			'flag_css'      => 'custom_settings.button_style.flag_css',
+			'menu_switcher' => 'menu_switcher',
 		];
 
 		return $schema;

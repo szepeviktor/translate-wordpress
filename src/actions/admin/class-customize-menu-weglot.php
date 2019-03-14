@@ -50,6 +50,7 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 
 	/**
 	 * @since 2.4.0
+	 * @version 3.0.0
 	 * @param int $menu_id
 	 * @param int $menu_item_db_id
 	 * @return void
@@ -65,13 +66,23 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 
 		check_admin_referer( 'update-nav_menu', 'update-nav-menu-nonce' );
 
-		$options = $this->option_services->get_option( 'menu_switcher' );
-
-		foreach ( $options as $key => $value ) {
-			$options[ $key ] = empty( $_POST[ 'menu-item-' . $key ][ $menu_item_db_id ] ) ? 0 : 1;
+		$options_menu = $this->option_services->get_option( 'menu_switcher' );
+		if ( ! $options_menu ) {
+			$options_menu = [];
 		}
 
-		$this->option_services->set_option_by_key( 'menu_switcher', $options );
+		if ( array_key_exists( 'menu-item-weglot-dropdown', $_POST ) ) {
+			$options_menu[ 'menu-item-' . $menu_item_db_id ]['dropdown'] = empty( $_POST[ 'menu-item-weglot-dropdown' ][ $menu_item_db_id ] ) ? 0 : 1;
+		} else {
+			$options_menu[ 'menu-item-' . $menu_item_db_id ]['dropdown'] = 0;
+		}
+		if ( array_key_exists( 'menu-item-weglot-hide_current', $_POST ) ) {
+			$options_menu[ 'menu-item-' . $menu_item_db_id ]['hide_current'] = empty( $_POST[ 'menu-item-weglot-hide_current' ][ $menu_item_db_id ] ) ? 0 : 1;
+		} else {
+			$options_menu[ 'menu-item-' . $menu_item_db_id ]['hide_current'] = 0;
+		}
+
+		$this->option_services->set_option_by_key( 'menu_switcher', $options_menu );
 	}
 
 	/**
@@ -80,6 +91,7 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 	 */
 	public function nav_admin_enqueue_scripts() {
 		$screen = get_current_screen();
+
 		if ( 'nav-menus' !== $screen->base ) {
 			return;
 		}
