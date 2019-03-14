@@ -41,6 +41,7 @@ class WC_Filter_Urls_Weglot implements Hooks_Interface_Weglot {
 
 		add_filter( 'woocommerce_get_cart_url', [ '\WeglotWP\Helpers\Helper_Filter_Url_Weglot', 'filter_url_without_ajax' ] );
 		add_filter( 'woocommerce_get_checkout_url', [ '\WeglotWP\Helpers\Helper_Filter_Url_Weglot', 'filter_url_without_ajax' ] );
+		add_filter( 'woocommerce_get_myaccount_page_permalink', [ '\WeglotWP\Helpers\Helper_Filter_Url_Weglot', 'filter_url_without_ajax' ] );
 		add_filter( 'woocommerce_payment_successful_result', [ $this, 'woocommerce_filter_url_array' ] );
 		add_filter( 'woocommerce_get_checkout_order_received_url',  [ $this, 'woocommerce_filter_order_received_url' ] );
 		add_action( 'woocommerce_reset_password_notification', [ $this, 'woocommerce_filter_reset_password' ], 999 );
