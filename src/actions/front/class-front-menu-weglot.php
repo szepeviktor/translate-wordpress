@@ -90,14 +90,20 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 				$new_items[] = $item;
 				continue;
 			}
-
-			$i = 0;
+			$id = $item->ID;
+			$i  = 0;
 
 			$classes          = [ 'weglot-lang', 'menu-item-weglot' ];
 			$options          = $this->option_services->get_option( 'menu_switcher' );
 			$with_flags       = $this->option_services->get_option_button( 'with_flags' );
-			$dropdown         = $this->option_services->get_option_button( 'dropdown' );
-			$hide_current     = $this->option_services->get_option_button( 'hide_current' );
+			$dropdown         = 0;
+			if ( isset( $options[ 'menu-item-' . $id ] ) && isset( $options[ 'menu-item-' . $id ]['dropdown'] ) ) {
+				$dropdown = $options[ 'menu-item-' . $id ]['dropdown'];
+			}
+			$hide_current         = 0;
+			if ( isset( $options[ 'menu-item-' . $id ] ) && isset( $options[ 'menu-item-' . $id ]['hide_current'] ) ) {
+				$hide_current = $options[ 'menu-item-' . $id ]['hide_current'];
+			}
 
 			if ( ! $hide_current && $with_flags ) {
 				$classes   = array_merge( $classes, explode( ' ', $this->button_services->get_flag_class() ) );
