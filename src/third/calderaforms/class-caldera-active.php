@@ -27,11 +27,7 @@ class Caldera_Active implements Third_Active_Interface_Weglot {
 			include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 		}
 
-		$active = true;
-
-		if ( ! is_plugin_active( 'caldera-forms/caldera-core.php' ) ) {
-			$active = false;
-		}
+		$active = defined( 'CFCORE_VER' );
 
 		return apply_filters( 'weglot_caldera_forms_is_active', $active );
 	}
