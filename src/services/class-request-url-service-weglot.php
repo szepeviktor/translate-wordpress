@@ -147,6 +147,7 @@ class Request_Url_Service_Weglot {
 		if ( empty( $destinations ) ) {
 			return true;
 		}
+
 		return $this->get_weglot_url()->isTranslable() && $this->is_eligible_url( $this->get_full_url() );
 	}
 
@@ -233,7 +234,7 @@ class Request_Url_Service_Weglot {
 
 		$url_path_custom = null;
 		if ( ! empty( $custom_urls ) && isset( $custom_urls[ $current_language ] ) && isset( $path_without_language[ $index_entries ] ) && isset( $custom_urls[ $current_language ][ $path_without_language[ $index_entries ] ] ) ) {
-			$url_path_custom = '/' . $custom_urls[ $current_language ][ $path_without_language[ $index_entries ] ] . '/';
+			$url_path_custom = get_site_url() . '/' . $custom_urls[ $current_language ][ $path_without_language[ $index_entries ] ] . '/';
 		}
 
 		$weglot_url = $this->create_url_object( $url );

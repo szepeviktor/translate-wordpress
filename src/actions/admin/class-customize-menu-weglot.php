@@ -72,12 +72,12 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 		}
 
 		if ( array_key_exists( 'menu-item-weglot-dropdown', $_POST ) ) {
-			$options_menu[ 'menu-item-' . $menu_item_db_id ]['dropdown'] = empty( $_POST[ 'menu-item-weglot-dropdown' ][ $menu_item_db_id ] ) ? 0 : 1;
+			$options_menu[ 'menu-item-' . $menu_item_db_id ]['dropdown'] = empty( $_POST[ 'menu-item-weglot-dropdown' ][ $menu_item_db_id ] ) ? 0 : 1; //phpcs:ignore
 		} else {
 			$options_menu[ 'menu-item-' . $menu_item_db_id ]['dropdown'] = 0;
 		}
 		if ( array_key_exists( 'menu-item-weglot-hide_current', $_POST ) ) {
-			$options_menu[ 'menu-item-' . $menu_item_db_id ]['hide_current'] = empty( $_POST[ 'menu-item-weglot-hide_current' ][ $menu_item_db_id ] ) ? 0 : 1;
+			$options_menu[ 'menu-item-' . $menu_item_db_id ]['hide_current'] = empty( $_POST[ 'menu-item-weglot-hide_current' ][ $menu_item_db_id ] ) ? 0 : 1; //phpcs:ignore
 		} else {
 			$options_menu[ 'menu-item-' . $menu_item_db_id ]['hide_current'] = 0;
 		}

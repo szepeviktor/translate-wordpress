@@ -49,8 +49,6 @@ class Option_Service_Weglot {
 			'rtl_ltr_style'                    => '',
 			'active_wc_reload'                 => false,
 			'flag_css'                         => '',
-			'menu_switcher'                    => [],
-			'custom_urls'                      => [],
 		],
 		'allowed' => true,
 	];
@@ -62,6 +60,7 @@ class Option_Service_Weglot {
 		'has_first_settings'               => true,
 		'show_box_first_settings'          => false,
 		'menu_switcher'                    => [],
+		'custom_urls'                      => [],
 	];
 
 	/**
@@ -409,7 +408,7 @@ class Option_Service_Weglot {
 	 * @return array|false
 	 */
 	public function get_options_bdd_v3() {
-		return get_option( sprintf( '%s-%s', WEGLOT_SLUG, 'v3' ) );
+		return get_option( sprintf( '%s-%s', WEGLOT_SLUG, 'v3' ), $this->options_bdd_default );
 	}
 
 	/**
@@ -419,7 +418,7 @@ class Option_Service_Weglot {
 	 * @return Option_Service_Weglot
 	 */
 	public function set_option_by_key( $key, $value ) {
-		$options         = $this->get_options();
+		$options         = $this->get_options_bdd_v3();
 		$options[ $key ] = $value;
 		$this->set_options( $options );
 		return $this;
