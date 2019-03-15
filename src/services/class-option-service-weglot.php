@@ -20,6 +20,8 @@ use WeglotWP\Helpers\Helper_API;
 class Option_Service_Weglot {
 	protected $options_cdn = null;
 
+	protected $options_from_api = null;
+
 	/**
 	 * @var array
 	 */
@@ -128,6 +130,14 @@ class Option_Service_Weglot {
 	 * @return array
 	 */
 	public function get_options_from_api_with_api_key( $api_key ) {
+		if ( $this->options_from_api ) {
+			return [
+				'success' => true,
+				'result'  => $this->options_from_api,
+			];
+		}
+
+
 		$url      = sprintf( '%s/projects/settings?api_key=%s', Helper_API::get_api_url(), $api_key );
 
 		$response = wp_remote_get( $url, [
@@ -158,9 +168,11 @@ class Option_Service_Weglot {
 				$options['custom_settings']['menu_switcher']  = $menu_options_services->get_options_default();
 			}
 
+			$this->options_from_api = $options;
+
 			return [
 				'success' => true,
-				'result'  => (array) Morphism::map( 'WeglotWP\Models\Schema_Option_V3', $options ),
+				'result'  => $options,
 			];
 		} catch ( \Exception $e ) {
 			return [
@@ -220,9 +232,15 @@ class Option_Service_Weglot {
 			return wp_parse_args( $this->get_options_bdd_v3(), $this->get_options_from_v2() );
 		}
 
-		$response = $this->get_options_from_cdn_with_api_key(
-			$api_key
-		);
+		if ( is_admin() ) {
+			$response = $this->get_options_from_api_with_api_key(
+				$this->get_api_key_private()
+			);
+		} else {
+			$response = $this->get_options_from_cdn_with_api_key(
+				$api_key
+			);
+		}
 
 		if ( $response['success'] ) {
 			$options = $response['result'];

@@ -69,13 +69,9 @@ class Pages_Weglot implements Hooks_Interface_Weglot {
 		}
 
 		$api_key_private  = $this->option_services->get_api_key_private();
-		$response         = $this->option_services->get_options_from_api_with_api_key( $api_key_private );
+		$response         = $this->option_services->get_options( $api_key_private );
 
-		if ( $response['success'] ) {
-			$this->options = $response['result'];
-		} else {
-			$this->options = $this->option_services->get_options();
-		}
+		$this->options = $this->option_services->get_options();
 
 		try {
 			$user_info = $this->user_api_services->get_user_info();
