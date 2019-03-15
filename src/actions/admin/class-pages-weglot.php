@@ -68,9 +68,6 @@ class Pages_Weglot implements Hooks_Interface_Weglot {
 			$this->tab_active = sanitize_text_field( wp_unslash( $_GET['tab'] ) ); // phpcs:ignore
 		}
 
-		$api_key_private  = $this->option_services->get_api_key_private();
-		$response         = $this->option_services->get_options( $api_key_private );
-
 		$this->options = $this->option_services->get_options();
 
 		try {

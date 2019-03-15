@@ -79,14 +79,25 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 				$options            = $this->sanitize_options_settings( $options, $has_first_settings );
 				$response           = $this->option_services->save_options_to_weglot( $options,  $has_first_settings );
 				if ( $response['success'] ) {
-					update_option( sprintf( '%s-%s', WEGLOT_SLUG, 'api_key_private' ), $options['api_key_private'] );
-					update_option( sprintf( '%s-%s', WEGLOT_SLUG, 'api_key' ), $response['result']['api_key'] );
+					$api_key_private        = $this->option_services->get_api_key_private();
 
 					if ( $has_first_settings ) {
 						$options_bdd['has_first_settings']      = false;
 						$options_bdd['show_box_first_settings'] = true;
-						$this->option_services->set_options( $options_bdd );
 					}
+
+					$option_v2 = $this->option_services->get_options_from_v2();
+					if ( ! $api_key_private && $option_v2 ) {
+						$options_bdd['custom_urls']             = $option_v2['custom_urls'];
+						$options_bdd['menu_switcher']           = $option_v2['menu_switcher'];
+						$options_bdd['has_first_settings']      = $option_v2['has_first_settings'];
+						$options_bdd['show_box_first_settings'] = $option_v2['show_box_first_settings'];
+					}
+
+					$this->option_services->set_options( $options_bdd );
+
+					update_option( sprintf( '%s-%s', WEGLOT_SLUG, 'api_key_private' ), $options['api_key_private'] );
+					update_option( sprintf( '%s-%s', WEGLOT_SLUG, 'api_key' ), $response['result']['api_key'] );
 				}
 				break;
 		}

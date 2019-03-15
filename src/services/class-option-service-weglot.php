@@ -137,7 +137,6 @@ class Option_Service_Weglot {
 			];
 		}
 
-
 		$url      = sprintf( '%s/projects/settings?api_key=%s', Helper_API::get_api_url(), $api_key );
 
 		$response = wp_remote_get( $url, [
@@ -187,6 +186,7 @@ class Option_Service_Weglot {
 	 */
 	public function get_options_from_v2() {
 		$options_v2 = get_option( WEGLOT_SLUG );
+		// $options_v2 = json_decode( file_get_contents(WEGLOT_DIR . '/settings-example.json'), true);
 
 		if ( $options_v2 ) {
 			if ( array_key_exists( 'api_key', $options_v2 ) ) {
@@ -198,9 +198,7 @@ class Option_Service_Weglot {
 			return $options_v2;
 		}
 
-		$options_default = $this->get_options_default();
-
-		return (array) Morphism::map( 'WeglotWP\Models\Schema_Option_V3', $options_default );
+		return $this->get_options_default();
 	}
 
 	/**
@@ -226,31 +224,30 @@ class Option_Service_Weglot {
 	 * @return array
 	 */
 	public function get_options() {
-		$api_key = $this->get_api_key();
+		$api_key         = $this->get_api_key();
+		$api_key_private = $this->get_api_key_private();
 
-		if ( ! $api_key ) {
-			return wp_parse_args( $this->get_options_bdd_v3(), $this->get_options_from_v2() );
-		}
 
-		if ( is_admin() ) {
+		if ( is_admin() && $api_key_private ) {
 			$response = $this->get_options_from_api_with_api_key(
-				$this->get_api_key_private()
+				$api_key_private
 			);
 		} else {
-			$response = $this->get_options_from_cdn_with_api_key(
-				$api_key
-			);
+			if ( ! is_admin() && $api_key ) {
+				$response = $this->get_options_from_cdn_with_api_key(
+					$api_key
+				);
+			} else {
+				return $this->get_options_from_v2();
+			}
 		}
 
 		if ( $response['success'] ) {
 			$options = $response['result'];
 		}
 
-		$options['api_key_private'] = $this->get_api_key_private();
-
-		if ( empty( $options['custom_settings']['menu_switcher'] ) ) {
-			$menu_options_services                        = weglot_get_service( 'Menu_Options_Service_Weglot' );
-			$options['custom_settings']['menu_switcher']  = $menu_options_services->get_options_default();
+		if ( $api_key_private ) {
+			$options['api_key_private'] = $api_key_private;
 		}
 
 		$options = apply_filters( 'weglot_get_options', array_merge( $this->options_bdd_default, $this->get_options_bdd_v3(), $options ) );
@@ -362,8 +359,12 @@ class Option_Service_Weglot {
 		$exclude_urls          = [];
 		if ( ! empty( $list_exclude_urls ) ) {
 			foreach ( $list_exclude_urls as $item ) {
-				$regex          = new Regex( $item['type'], $request_url_services->url_to_relative( $item['value'] ) );
-				$exclude_urls[] = $regex->getRegex();
+				if ( is_array( $item ) ) {
+					$regex          = new Regex( $item['type'], $request_url_services->url_to_relative( $item['value'] ) );
+					$exclude_urls[] = $regex->getRegex();
+				} else {
+					$exclude_urls[] = $item;
+				}
 			}
 		}
 		$exclude_urls[]   = '/wp-login.php';
