@@ -13,7 +13,7 @@
     }
   ],
   "require": {
-    "weglot/weglot-php": "^0.5.20",
+    "weglot/weglot-php": "0.5.20",
     "galbar/jsonpath": "dev-master"
   },
   "require-dev": {
