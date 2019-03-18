@@ -4,7 +4,7 @@ Tags: translate,translation,language,multilingual,bilingual,international,locali
 Requires at least: 4.5
 Tested up to: 5.1
 Requires PHP: 5.4
-Stable tag: 2.6.0
+Stable tag: 2.7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -152,6 +152,9 @@ Weglot Translate is easy to set up:
 See changelog for upgrade changes.
 
 == Changelog ==
+
+= 2.7.0 (18/03/2019) =
+* Changed : Improve Compatibility with Caldera Forms
 
 = 2.6.0 (06/03/2019) =
 * Add : Prevent elementor ajax action on 2.5
