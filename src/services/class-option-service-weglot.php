@@ -227,7 +227,6 @@ class Option_Service_Weglot {
 		$api_key         = $this->get_api_key();
 		$api_key_private = $this->get_api_key_private();
 
-
 		if ( is_admin() && $api_key_private ) {
 			$response = $this->get_options_from_api_with_api_key(
 				$api_key_private
