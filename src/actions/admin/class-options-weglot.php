@@ -165,10 +165,16 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 			$options['excluded_paths'] = array_values( $options['excluded_paths'] );
 		}
 
+		foreach ( $options['excluded_paths'] as $key => $item ) {
+			if ( empty( $item['value'] ) ) {
+				unset( $options['excluded_paths'][ $key ] );
+			}
+		}
+
 		if ( ! isset( $options['excluded_blocks'] ) ) {
 			$options['excluded_blocks'] = [];
 		}
 
-		return $options ;
+		return $options;
 	}
 }
