@@ -97,7 +97,7 @@ $languages = array_values( $languages );
 										value="<?php echo esc_attr( $type ); ?>"
 										<?php echo selected( $type_option, $type ); ?>
 									>
-										<?php echo esc_attr( $type ); ?>
+										<?php echo esc_attr( Helper_Excluded_Type::get_label_type( $type ) ); ?>
 									</option>
 								<?php endforeach; ?>
 							</select>
@@ -304,7 +304,7 @@ $languages = array_values( $languages );
 			name="<?php echo esc_attr( sprintf( '%s[excluded_paths][{KEY}][type]', WEGLOT_SLUG ) ); ?>"
 		>
 			<?php foreach ( Helper_Excluded_Type::get_excluded_type() as $type ) : ?>
-				<option value="<?php echo esc_attr( $type ); ?>"><?php echo esc_attr( $type ); ?></option>
+				<option value="<?php echo esc_attr( $type ); ?>"><?php echo esc_attr( Helper_Excluded_Type::get_label_type( $type ) ); ?></option>
 			<?php endforeach; ?>
 		</select>
 		<input
