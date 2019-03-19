@@ -26,6 +26,8 @@ class Option_Service_Weglot {
 	 * @var array
 	 */
 	protected $options_default = [
+		'api_key_private'                  => '',
+		'api_key'                          => '',
 		'has_first_settings'               => true,
 		'show_box_first_settings'          => false,
 		'language_from'                    => 'en',
@@ -198,7 +200,7 @@ class Option_Service_Weglot {
 			return $options_v2;
 		}
 
-		return $this->get_options_default();
+		return (array) Morphism::map( 'WeglotWP\Models\Schema_Option_V3', $this->get_options_default() );
 	}
 
 	/**

@@ -81,17 +81,17 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 				if ( $response['success'] ) {
 					$api_key_private        = $this->option_services->get_api_key_private();
 
-					if ( $has_first_settings ) {
-						$options_bdd['has_first_settings']      = false;
-						$options_bdd['show_box_first_settings'] = true;
-					}
-
 					$option_v2 = $this->option_services->get_options_from_v2();
 					if ( ! $api_key_private && $option_v2 ) {
 						$options_bdd['custom_urls']             = $option_v2['custom_urls'];
 						$options_bdd['menu_switcher']           = $option_v2['menu_switcher'];
 						$options_bdd['has_first_settings']      = $option_v2['has_first_settings'];
 						$options_bdd['show_box_first_settings'] = $option_v2['show_box_first_settings'];
+					}
+
+					if ( $has_first_settings ) {
+						$options_bdd['has_first_settings']      = false;
+						$options_bdd['show_box_first_settings'] = true;
 					}
 
 					$this->option_services->set_options( $options_bdd );
