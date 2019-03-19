@@ -35,11 +35,11 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 	 */
 	public function hooks() {
 		add_action( 'admin_post_weglot_save_settings', [ $this, 'weglot_save_settings' ] );
-		// $api_key = $this->option_services->get_option( 'api_key' );
-		// if ( empty( $api_key ) && ( ! isset( $_GET['page'] ) || strpos( $_GET['page'], 'weglot-settings' ) === false) ) { // phpcs:ignore
-		// 	//We don't show the notice if we are on Weglot configuration
-		// 	add_action( 'admin_notices', [ '\WeglotWP\Notices\No_Configuration_Weglot', 'admin_notice' ] );
-		// }
+		$api_key = $this->option_services->get_api_key( true );
+		if ( empty( $api_key ) && ( ! isset( $_GET['page'] ) || strpos( $_GET['page'], 'weglot-settings' ) === false) ) { // phpcs:ignore
+			//We don't show the notice if we are on Weglot configuration
+			add_action( 'admin_notices', [ '\WeglotWP\Notices\No_Configuration_Weglot', 'admin_notice' ] );
+		}
 	}
 
 	/**
