@@ -83,7 +83,7 @@ class Schema_Option_V3 {
 			'has_first_settings'      => 'has_first_settings',
 			'show_box_first_settings' => 'show_box_first_settings',
 			'custom_urls'             => 'custom_urls',
-			'flag_css'                => 'custom_settings.button_style.flag_css',
+			'flag_css'                => 'flag_css',
 			'menu_switcher'           => 'menu_switcher',
 		];
 

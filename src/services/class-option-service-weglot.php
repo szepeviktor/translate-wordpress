@@ -65,6 +65,7 @@ class Option_Service_Weglot {
 		'show_box_first_settings'          => false,
 		'menu_switcher'                    => [],
 		'custom_urls'                      => [],
+		'flag_css'                         => '',
 	];
 
 	/**

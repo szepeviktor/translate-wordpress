@@ -94,6 +94,10 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 						$options_bdd['show_box_first_settings'] = true;
 					}
 
+					if ( array_key_exists( 'flag_css', $options ) ) {
+						$options_bdd['flag_css'] = $options['flag_css'];
+					}
+
 					$this->option_services->set_options( $options_bdd );
 
 					update_option( sprintf( '%s-%s', WEGLOT_SLUG, 'api_key_private' ), $options['api_key_private'] );
