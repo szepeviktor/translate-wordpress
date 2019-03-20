@@ -74,10 +74,10 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 				$options            = $_POST[ WEGLOT_SLUG ]; //phpcs:ignore
 
 				$options_bdd        = $this->option_services->get_options_bdd_v3();
-				$has_first_settings = isset( $options_bdd['has_first_settings'] ) ? $options_bdd['has_first_settings'] : true;
-
+				$has_first_settings = $this->option_services->get_has_first_settings();
 				$options            = $this->sanitize_options_settings( $options, $has_first_settings );
 				$response           = $this->option_services->save_options_to_weglot( $options,  $has_first_settings );
+
 				if ( $response['success'] ) {
 					$api_key_private        = $this->option_services->get_api_key_private();
 
@@ -177,6 +177,10 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 
 		if ( ! isset( $options['excluded_blocks'] ) ) {
 			$options['excluded_blocks'] = [];
+		}
+
+		if ( ! isset( $options['auto_switch_fallback'] ) ) {
+			$options['auto_switch_fallback'] = 'en';
 		}
 
 		return $options;

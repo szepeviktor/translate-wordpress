@@ -222,6 +222,23 @@ class Option_Service_Weglot {
 	}
 
 	/**
+	 * @since 3.0.0
+	 * @param bool $compatibility
+	 * @return bool
+	 */
+	public function get_has_first_settings( $compatibility = false ) {
+		$options = $this->get_options();
+
+		if ( ! $compatibility || array_key_exists( 'has_first_settings', $options ) ) {
+			return $options['has_first_settings'];
+		}
+
+		$options = $this->get_options_from_v2();
+
+		return $options['has_first_settings'];
+	}
+
+	/**
 	 * @since 2.0
 	 * @version 3.0.0
 	 * @return array
