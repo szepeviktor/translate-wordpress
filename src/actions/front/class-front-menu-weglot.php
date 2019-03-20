@@ -44,6 +44,7 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 
 		add_filter( 'wp_get_nav_menu_items', [ $this, 'weglot_wp_get_nav_menu_items' ], 20 );
 		add_filter( 'nav_menu_link_attributes', [ $this, 'add_nav_menu_link_attributes' ], 10, 2 );
+		add_filter( 'wp_nav_menu_objects', [ $this, 'wp_nav_menu_objects' ] );
 
 		if ( $this->option_services->get_option( 'is_menu' ) ) {
 			add_filter( 'wp_nav_menu_items', [ $this, 'weglot_fallback_menu' ] );
@@ -157,8 +158,55 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 			}
 			$offset += $i - 1;
 		}
+
 		return $new_items;
 	}
+
+	/**
+	 * @since 2.7.0
+	 * @param object $item
+	 * @return array
+	 */
+	public function get_ancestors( $item ) {
+		$ids     = array();
+		$_anc_id = (int) $item->db_id;
+		while ( ( $_anc_id = get_post_meta( $_anc_id, '_menu_item_menu_item_parent', true ) ) && ! in_array( $_anc_id, $ids ) ) {
+			$ids[] = $_anc_id;
+		}
+		return $ids;
+	}
+
+	/**
+	 * @since 2.7.0
+	 * @param array $items
+	 * @return array
+	 */
+	public function wp_nav_menu_objects( $items ) {
+		$r_ids = $k_ids = array();
+
+		foreach ( $items as $item ) {
+			if ( ! empty( $item->classes ) && is_array( $item->classes ) ) {
+				if ( in_array( 'menu-item-weglot', $item->classes ) ) {
+					$item->current = false;
+					$item->classes = array_diff( $item->classes, array( 'current-menu-item' ) );
+					$r_ids         = array_merge( $r_ids, $this->get_ancestors( $item ) ); // Remove the classes for these ancestors
+				} elseif ( in_array( 'current-menu-item', $item->classes ) ) {
+					$k_ids = array_merge( $k_ids, $this->get_ancestors( $item ) ); // Keep the classes for these ancestors
+				}
+			}
+		}
+
+		$r_ids = array_diff( $r_ids, $k_ids );
+
+		foreach ( $items as $item ) {
+			if ( ! empty( $item->db_id ) && in_array( $item->db_id, $r_ids ) ) {
+				$item->classes = array_diff( $item->classes, array( 'current-menu-ancestor', 'current-menu-parent', 'current_page_parent', 'current_page_ancestor' ) );
+			}
+		}
+
+		return $items;
+	}
+
 
 	/**
 	 * @since 2.0
