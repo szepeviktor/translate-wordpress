@@ -136,6 +136,7 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 					$classes   = array_merge( $classes, explode( ' ', $this->button_services->get_flag_class() ) );
 				}
 
+				$add_classes[] = 'weglot-' . $language->getIso639();
 				if ( $with_flags ) {
 					$add_classes[] = $language->getIso639();
 				}
@@ -201,6 +202,17 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 		foreach ( $items as $item ) {
 			if ( ! empty( $item->db_id ) && in_array( $item->db_id, $r_ids ) ) {
 				$item->classes = array_diff( $item->classes, array( 'current-menu-ancestor', 'current-menu-parent', 'current_page_parent', 'current_page_ancestor' ) );
+			}
+		}
+
+		if ( apply_filters( 'weglot_active_current_menu_item', false ) ) {
+			$current_language = weglot_get_current_language();
+			foreach ($items as $item) {
+				if ( ! empty($item->classes) && is_array($item->classes)) {
+					if (in_array('menu-item-weglot', $item->classes) && in_array( 'weglot-' . $current_language, $item->classes)) {
+						$item->classes[] = 'current-menu-item';
+					}
+				}
 			}
 		}
 
