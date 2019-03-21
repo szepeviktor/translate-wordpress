@@ -31,6 +31,7 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 	 * @see Hooks_Interface_Weglot
 	 *
 	 * @since 2.0
+	 * @version 3.0.0
 	 * @return void
 	 */
 	public function hooks() {

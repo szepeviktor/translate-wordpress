@@ -53,7 +53,7 @@ class Button_Service_Weglot {
 	 */
 	public function get_name_with_language_entry( $language_entry ) {
 		$with_name   = $this->option_services->get_option_button( 'with_name' );
-		$is_fullname = $this->option_services->get_option_button( 'full_name' );
+		$is_fullname = $this->option_services->get_option( 'is_fullname' );
 		$name        = '';
 
 		if ( $with_name ) {
