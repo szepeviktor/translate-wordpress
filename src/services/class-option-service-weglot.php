@@ -100,7 +100,7 @@ class Option_Service_Weglot {
 		}
 
 		$key      = str_replace( 'wg_', '', $api_key );
-		$url      = sprintf( '%s%s.json', 'https://cdn.weglot.com/projects-settings/', $key );
+		$url      = sprintf( '%s%s.json', Helper_API::get_cdn_url(), $key );
 
 		$response = wp_remote_get( $url, [
 			'timeout'     => 15,
