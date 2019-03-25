@@ -121,6 +121,7 @@ class Option_Service_Weglot {
 		$exclude_urls[]   = '/sitemaps_xsl.xsl';
 		$exclude_urls[]   = '/sitemaps.xml';
 		$exclude_urls[]   = 'wp-comments-post.php';
+		$exclude_urls[]   = '/ct_template'; // Compatibility Oxygen
 
 		return apply_filters( 'weglot_exclude_urls', $exclude_urls );
 	}

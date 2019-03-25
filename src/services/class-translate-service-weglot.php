@@ -41,6 +41,7 @@ class Translate_Service_Weglot {
 	public function weglot_translate() {
 		$this->set_original_language( weglot_get_original_language() );
 		$this->set_current_language( $this->request_url_services->get_current_language() );
+
 		ob_start( [ $this, 'weglot_treat_page' ] );
 	}
 

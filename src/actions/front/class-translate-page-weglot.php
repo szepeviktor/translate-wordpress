@@ -88,6 +88,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			'mailster_get_template', // Mailster Pro,
 			'mmp_map_settings', // MMP Map,
 			'elementor_ajax', // Elementor since 2.5
+			'ct_get_svg_icon_sets', // Oxygen
 		] );
 
 		if ( 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['action'] ) && in_array( $_POST['action'], $action_ajax_no_translate ) ) { //phpcs:ignore
