@@ -292,8 +292,8 @@ class Option_Service_Weglot {
 		$response    = wp_remote_post( sprintf( '%s/projects/settings?api_key=%s', Helper_API::get_api_url(), $options['api_key_private'] ),  [
 			'body'        => json_encode( $options ), //phpcs:ignore
 			'headers'     => [
-				'technology'   => 'wordpress',
-				'Content-Type' => 'application/json; charset=utf-8',
+				'weglot-integration'   => 'WordPress Plugin',
+				'Content-Type'         => 'application/json; charset=utf-8',
 			],
 		] );
 
