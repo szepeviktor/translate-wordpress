@@ -28,12 +28,12 @@ define('WEGLOT_BNAME', plugin_basename(__FILE__));
 define('WEGLOT_DIR', __DIR__ );
 define('WEGLOT_DIR_LANGUAGES', WEGLOT_DIR . '/languages');
 define('WEGLOT_DIR_DIST', WEGLOT_DIR . '/dist');
-define('WEGLOT_DEBUG', false);
 
 define('WEGLOT_DIRURL', plugin_dir_url(__FILE__));
 define('WEGLOT_URL_DIST', WEGLOT_DIRURL . 'dist');
 define('WEGLOT_LATEST_VERSION', '2.6.0');
 define('WEGLOT_LIB_PARSER', '1');
+define('WEGLOT_DEBUG', false);
 define('WEGLOT_DEV', true);
 
 define('WEGLOT_TEMPLATES', WEGLOT_DIR . '/templates');

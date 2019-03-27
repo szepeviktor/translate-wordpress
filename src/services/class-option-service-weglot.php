@@ -293,7 +293,6 @@ class Option_Service_Weglot {
 			'body'        => json_encode( $options ), //phpcs:ignore
 			'headers'     => [
 				'technology'           => 'wordpress',
-				'weglot-integration'   => 'WordPress Plugin',
 				'Content-Type'         => 'application/json; charset=utf-8',
 			],
 		] );
