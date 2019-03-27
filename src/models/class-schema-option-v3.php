@@ -82,7 +82,16 @@ class Schema_Option_V3 {
 			'translate_amp'           => 'custom_settings.translate_amp',
 			'has_first_settings'      => 'has_first_settings',
 			'show_box_first_settings' => 'show_box_first_settings',
-			'custom_urls'             => 'custom_urls',
+			'custom_urls'             => (object) [
+				'path' => 'custom_urls',
+				'fn'   => function( $custom_urls ) {
+					if ( $custom_urls ) {
+						return $custom_urls;
+					}
+
+					return [];
+				},
+			],
 			'flag_css'                => 'flag_css',
 			'menu_switcher'           => 'menu_switcher',
 		];
