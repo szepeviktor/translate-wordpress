@@ -16,7 +16,7 @@ abstract class Helper_Filter_Url_Weglot {
 	/**
 	 * @since 3.0.0
 	 * @param Weglot\Util\Url $url
-	 * @return void
+	 * @return string
 	 */
 	protected static function prevent_subfolder_install( $url ) {
 		$current_and_original_language   = weglot_get_current_and_original_language();
