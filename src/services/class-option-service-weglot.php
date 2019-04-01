@@ -149,7 +149,7 @@ class Option_Service_Weglot {
 		if ( is_wp_error( $response ) ) {
 			return [
 				'success' => false,
-				'result'  => [],
+				'result'  => $this->options_default,
 			];
 		}
 
@@ -158,8 +158,8 @@ class Option_Service_Weglot {
 
 			if ( null === $body ) {
 				return [
-					'success' => true,
-					'result'  => $this->get_options_from_v2(),
+					'success' => false,
+					'result'  => $this->options_default,
 				];
 			}
 
@@ -261,9 +261,7 @@ class Option_Service_Weglot {
 			}
 		}
 
-		if ( $response['success'] ) {
-			$options = $response['result'];
-		}
+		$options = $response['result'];
 
 		if ( $api_key_private ) {
 			$options['api_key_private'] = $api_key_private;
