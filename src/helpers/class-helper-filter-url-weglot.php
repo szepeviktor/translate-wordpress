@@ -14,6 +14,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 abstract class Helper_Filter_Url_Weglot {
 
 	/**
+	 * @since 3.0.0
+	 * @param Weglot\Util\Url $url
+	 * @return void
+	 */
+	protected static function prevent_subfolder_install( $url ) {
+		$current_and_original_language   = weglot_get_current_and_original_language();
+
+		$url_translate   = $url->getForLanguage( $current_and_original_language['current'] );
+		$double_language = sprintf( '/%s/%s/', $current_and_original_language['current'], $current_and_original_language['current'] );
+
+		if ( strpos( $url_translate, $double_language ) === false ) {
+			return $url_translate;
+		}
+
+		return $url->getForLanguage( $current_and_original_language['original'] );
+	}
+
+	/**
 	 * @since 2.0.2
 	 * @param string $url
 	 * @return string
@@ -41,7 +59,7 @@ abstract class Helper_Filter_Url_Weglot {
 
 		$url = $request_url_service->create_url_object( $url );
 
-		return $url->getForLanguage( $current_and_original_language['current'] );
+		return apply_filters( 'weglot_helper_filter_url_lambda', self::prevent_subfolder_install( $url ) );
 	}
 
 	/**
@@ -91,7 +109,7 @@ abstract class Helper_Filter_Url_Weglot {
 
 		$url = $request_url_service->create_url_object( $url_filter );
 
-		return $url->getForLanguage( $current_and_original_language['current'] );
+		return apply_filters( 'weglot_helper_filter_url_without_ajax', self::prevent_subfolder_install( $url ) );
 	}
 
 	/**
