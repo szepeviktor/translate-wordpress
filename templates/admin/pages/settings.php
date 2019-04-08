@@ -16,7 +16,6 @@ $url_form = wp_nonce_url(
 	),
 	'weglot_save_settings'
 );
-var_dump($this->options);
 
 ?>
 
