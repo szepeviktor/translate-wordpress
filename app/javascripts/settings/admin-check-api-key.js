@@ -12,7 +12,7 @@ const init_admin_button_preview = function () {
 				return;
 			}
 
-			function validApiKey(data){
+			function validApiKey(response){
 
 				$(".weglot-keyres").remove();
 				$("#api_key_private").after(
@@ -25,7 +25,7 @@ const init_admin_button_preview = function () {
 				);
 
 				const evt = new CustomEvent("weglotCheckApi", {
-					detail: data
+					detail: response
 				});
 
 				window.dispatchEvent(evt);
