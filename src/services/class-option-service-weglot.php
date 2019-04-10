@@ -99,6 +99,19 @@ class Option_Service_Weglot {
 			];
 		}
 
+		$cache_transient = apply_filters( 'weglot_get_options_from_cdn_cache', true );
+
+		if( $cache_transient ){
+			$options = get_transient( 'weglot_cache_cdn', false );
+			if( $options ){
+				$this->options_cdn = $options;
+				return [
+					'success' => true,
+					'result'  => $this->options_cdn,
+				];
+			}
+		}
+
 		$key      = str_replace( 'wg_', '', $api_key );
 		$url      = sprintf( '%s%s.json', Helper_API::get_cdn_url(), $key );
 
@@ -116,6 +129,9 @@ class Option_Service_Weglot {
 		try {
 			$body              = json_decode( $response['body'], true );
 			$this->options_cdn = $body;
+
+			set_transient( 'weglot_cache_cdn', $body, apply_filters( 'weglot_get_options_from_cdn_cache_duration', 300 ) );
+
 			return [
 				'success' => true,
 				'result'  => $body,
