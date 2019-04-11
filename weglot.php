@@ -34,7 +34,7 @@ define('WEGLOT_URL_DIST', WEGLOT_DIRURL . 'dist');
 define('WEGLOT_LATEST_VERSION', '2.6.0');
 define('WEGLOT_LIB_PARSER', '1');
 define('WEGLOT_DEBUG', false);
-define('WEGLOT_DEV', true);
+define('WEGLOT_DEV', false);
 
 define('WEGLOT_TEMPLATES', WEGLOT_DIR . '/templates');
 define('WEGLOT_TEMPLATES_ADMIN', WEGLOT_TEMPLATES . '/admin');
