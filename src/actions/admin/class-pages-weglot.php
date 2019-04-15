@@ -64,6 +64,8 @@ class Pages_Weglot implements Hooks_Interface_Weglot {
 		$this->tabs       = Helper_Tabs_Admin_Weglot::get_full_tabs();
 		$this->tab_active = Helper_Tabs_Admin_Weglot::SETTINGS;
 
+		delete_transient( 'weglot_cache_cdn' );
+
 		if ( isset( $_GET['tab'] ) ) { // phpcs:ignore
 			$this->tab_active = sanitize_text_field( wp_unslash( $_GET['tab'] ) ); // phpcs:ignore
 		}
