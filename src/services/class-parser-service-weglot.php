@@ -3,6 +3,7 @@
 namespace WeglotWP\Services;
 
 use WeglotWP\Models\Hooks_Interface_Weglot;
+use WeglotWP\Helpers\Helper_API;
 
 
 use Weglot\Client\Client;
@@ -40,6 +41,25 @@ class Parser_Service_Weglot {
 	}
 
 	/**
+	 * @since 3.0.0
+	 * @return Client
+	 */
+	public function get_client() {
+		$api_key            = $this->option_services->get_api_key( true );
+		$translation_engine = $this->option_services->get_translation_engine();
+		if ( ! $translation_engine || empty( $translation_engine ) ) {
+			$translation_engine = 2;
+		}
+
+		$client = new Client( $api_key, $translation_engine, [
+			'host'    => Helper_API::get_api_url(),
+		] );
+		$client->getHttpClient()->addHeader( 'weglot-integration: WordPress Plugin' );
+
+		return $client;
+	}
+
+	/**
 	 * @since 2.0
 	 * @version 2.2.2
 	 * @return array
@@ -52,12 +72,12 @@ class Parser_Service_Weglot {
 			}, $exclude_blocks);
 		}
 
-		$api_key        = $this->option_services->get_option( 'api_key' );
 		$config         = apply_filters( 'weglot_parser_config_provider', new ServerConfigProvider() );
 		if ( ! ( $config instanceof ConfigProviderInterface ) ) {
 			$config = new ServerConfigProvider();
 		}
-		$client         = new Client( $api_key );
+
+		$client = $this->get_client();
 
 		if ( '2' === WEGLOT_LIB_PARSER ) {
 			$listeners = $this->dom_listeners_services->get_dom_listeners();

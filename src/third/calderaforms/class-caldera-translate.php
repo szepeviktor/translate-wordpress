@@ -55,7 +55,7 @@ class Caldera_Translate {
 			$word_collection->addOne( new WordEntry( $value, WordType::TEXT ) );
 		}
 
-		$client    = new Client( weglot_get_option( 'api_key' ) );
+		$client    = $this->parser_services->get_client();
 		$translate = new Translate( $translate, $client );
 
 		return $translate->handle();
@@ -88,7 +88,7 @@ class Caldera_Translate {
 
 			$encoded = true;
 
-			if ( in_array( $current_language, apply_filters('weglot_caldera_translate_languages_encoded_output', ['fr'] ), true ) ) {
+			if ( in_array( $current_language, apply_filters( 'weglot_caldera_translate_languages_encoded_output', [ 'fr' ] ), true ) ) {
 				$encoded = false;
 			}
 

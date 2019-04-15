@@ -7,7 +7,7 @@ Author: Weglot Translate team
 Author URI: https://weglot.com/
 Text Domain: weglot
 Domain Path: /languages/
-Version: 2.7.0
+Version: 3.0.0
 */
 
 /**
@@ -22,18 +22,19 @@ if ( ! defined('ABSPATH')) {
 define('WEGLOT_NAME', 'Weglot');
 define('WEGLOT_SLUG', 'weglot-translate');
 define('WEGLOT_OPTION_GROUP', 'group-weglot-translate');
-define('WEGLOT_VERSION', '2.7.0');
+define('WEGLOT_VERSION', '3.0.0');
 define('WEGLOT_PHP_MIN', '5.4');
 define('WEGLOT_BNAME', plugin_basename(__FILE__));
 define('WEGLOT_DIR', __DIR__ );
 define('WEGLOT_DIR_LANGUAGES', WEGLOT_DIR . '/languages');
 define('WEGLOT_DIR_DIST', WEGLOT_DIR . '/dist');
-define('WEGLOT_DEBUG', false);
 
 define('WEGLOT_DIRURL', plugin_dir_url(__FILE__));
 define('WEGLOT_URL_DIST', WEGLOT_DIRURL . 'dist');
-define('WEGLOT_LATEST_VERSION', '1.13.1');
+define('WEGLOT_LATEST_VERSION', '2.7.0');
 define('WEGLOT_LIB_PARSER', '1');
+define('WEGLOT_DEBUG', false);
+define('WEGLOT_DEV', false);
 
 define('WEGLOT_TEMPLATES', WEGLOT_DIR . '/templates');
 define('WEGLOT_TEMPLATES_ADMIN', WEGLOT_TEMPLATES . '/admin');

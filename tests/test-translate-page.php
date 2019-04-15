@@ -6,9 +6,18 @@ use Weglot\Parser\ConfigProvider\ManualConfigProvider;
 
 class TranslatePageTest extends WP_UnitTestCase {
 	public function test_translation_content_links_internal() {
+		add_filter( 'weglot_get_api_key', function() {
+			return ApiKey::get_api_key();
+		});
+
 		add_filter( 'weglot_get_options', function( $options ) {
-			$options['api_key'] = getenv( 'API_KEY' );
-			$options['destination_language'] = [ 'fr' ];
+			$options['language_from'] = 'en';
+			$options['languages'] = [
+				[
+					'language_to' => 'fr',
+					'enabled' => true,
+				],
+			];
 			$options['allowed'] = true;
 			return $options;
 		});

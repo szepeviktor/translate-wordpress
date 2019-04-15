@@ -45,10 +45,6 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 		add_filter( 'wp_get_nav_menu_items', [ $this, 'weglot_wp_get_nav_menu_items' ], 20 );
 		add_filter( 'nav_menu_link_attributes', [ $this, 'add_nav_menu_link_attributes' ], 10, 2 );
 		add_filter( 'wp_nav_menu_objects', [ $this, 'wp_nav_menu_objects' ] );
-
-		if ( $this->option_services->get_option( 'is_menu' ) ) {
-			add_filter( 'wp_nav_menu_items', [ $this, 'weglot_fallback_menu' ] );
-		}
 	}
 
 	/**
@@ -94,23 +90,31 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 				$new_items[] = $item;
 				continue;
 			}
-
-			$i = 0;
+			$id = $item->ID;
+			$i  = 0;
 
 			$classes          = [ 'weglot-lang', 'menu-item-weglot' ];
-			$with_flags       = $this->option_services->get_option( 'with_flags' );
 			$options          = $this->option_services->get_option( 'menu_switcher' );
+			$with_flags       = $this->option_services->get_option_button( 'with_flags' );
+			$dropdown         = 0;
+			if ( isset( $options[ 'menu-item-' . $id ] ) && isset( $options[ 'menu-item-' . $id ]['dropdown'] ) ) {
+				$dropdown = $options[ 'menu-item-' . $id ]['dropdown'];
+			}
+			$hide_current         = 0;
+			if ( isset( $options[ 'menu-item-' . $id ] ) && isset( $options[ 'menu-item-' . $id ]['hide_current'] ) ) {
+				$hide_current = $options[ 'menu-item-' . $id ]['hide_current'];
+			}
 
-			if ( ! $options['hide_current'] && $with_flags ) {
+			if ( ! $hide_current && $with_flags ) {
 				$classes   = array_merge( $classes, explode( ' ', $this->button_services->get_flag_class() ) );
 			}
 
 			$languages        = weglot_get_languages_configured();
 			$current_language = $this->request_url_services->get_current_language_entry();
 
-			if ( $options['dropdown'] ) {
+			if ( $dropdown ) {
 				$title = __( 'Choose your language', 'weglot' );
-				if ( ! $options['hide_current'] ) {
+				if ( ! $hide_current ) {
 					$title      = $this->button_services->get_name_with_language_entry( $current_language );
 				}
 				$item->title      = apply_filters( 'weglot_menu_parent_menu_item_title', $title );
@@ -126,13 +130,13 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 				}
 
 				if (
-					( $options['dropdown'] && $current_language->getIso639() === $language->getIso639() ) ||
-					( $options['hide_current'] && $current_language->getIso639() === $language->getIso639() ) ) {
+					( $dropdown && $current_language->getIso639() === $language->getIso639() ) ||
+					( $hide_current && $current_language->getIso639() === $language->getIso639() ) ) {
 					continue;
 				}
 
 				$add_classes = [];
-				if ( $options['hide_current'] && $with_flags ) { // Just for children without flag classes
+				if ( $hide_current && $with_flags ) { // Just for children without flag classes
 					$classes   = array_merge( $classes, explode( ' ', $this->button_services->get_flag_class() ) );
 				}
 
@@ -150,7 +154,7 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 				$language_item->lang       = $language->getIso639();
 				$language_item->classes    = array_merge( $classes, $add_classes );
 				$language_item->menu_order += $offset + $i++;
-				if ( $options['dropdown'] ) {
+				if ( $dropdown ) {
 					$language_item->menu_item_parent = $item->db_id;
 					$language_item->db_id            = 0;
 				}
@@ -183,7 +187,7 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 	 * @return array
 	 */
 	public function wp_nav_menu_objects( $items ) {
-		$r_ids = $k_ids = array();
+		$r_ids = $k_ids = [];
 
 		foreach ( $items as $item ) {
 			if ( ! empty( $item->classes ) && is_array( $item->classes ) ) {
@@ -207,9 +211,9 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 
 		if ( apply_filters( 'weglot_active_current_menu_item', false ) ) {
 			$current_language = weglot_get_current_language();
-			foreach ($items as $item) {
-				if ( ! empty($item->classes) && is_array($item->classes)) {
-					if (in_array('menu-item-weglot', $item->classes) && in_array( 'weglot-' . $current_language, $item->classes)) {
+			foreach ( $items as $item ) {
+				if ( ! empty( $item->classes ) && is_array( $item->classes ) ) {
+					if ( in_array( 'menu-item-weglot', $item->classes, true ) && in_array( 'weglot-' . $current_language, $item->classes, true ) ) {
 						$item->classes[] = 'current-menu-item';
 					}
 				}

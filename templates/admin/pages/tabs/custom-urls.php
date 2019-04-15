@@ -16,19 +16,19 @@ use Weglot\WeglotContext;
 
 	<?php foreach ($options['custom_urls'] as $lang => $urls): ?>
 
-	<h3><?php esc_html_e('Lang : ', 'weglot'); ?><?php echo $lang; ?></h3>
+	<h3><?php esc_html_e( 'Lang : ', 'weglot' ); ?><?php echo $lang; ?></h3>
 
 	<div style="display:flex;">
 			<div style="flex:5; margin-right:10px;">
-				<?php esc_html_e('Base URL :', 'weglot'); ?>
+				<?php esc_html_e( 'Base URL :', 'weglot' ); ?>
 			</div>
 			<div style="flex:5;">
-				<?php esc_html_e('Custom URL :', 'weglot'); ?>
+				<?php esc_html_e( 'Custom URL :', 'weglot' ); ?>
 			</div>
 			<div style="flex:1;"></div>
 		</div>
 	<?php
-	foreach ($urls as $key => $value) {
+	foreach ( $urls as $key => $value ) {
 		$keyGenerate = sprintf('%s-%s-%s', $lang, $key, $value); ?>
 		<div style="display:flex;" id="<?php echo $keyGenerate; ?>">
 			<div style="margin-right:10px; flex:5;">

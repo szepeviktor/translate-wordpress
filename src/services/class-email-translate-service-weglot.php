@@ -21,6 +21,7 @@ class Email_Translate_Service_Weglot {
 	 */
 	public function __construct() {
 		$this->option_services           = weglot_get_service( 'Option_Service_Weglot' );
+		$this->parser_services           = weglot_get_service( 'Parser_Service_Weglot' );
 	}
 
 
@@ -43,12 +44,12 @@ class Email_Translate_Service_Weglot {
 			$exclude_blocks     = $this->option_services->get_exclude_blocks();
 
 			$config             = new ServerConfigProvider();
-			$client             = new Client( $api_key );
+			$client             = $this->parser_services->get_client();
 			$parser             = new Parser( $client, $config, $exclude_blocks );
 			$translated_subject = $parser->translate( '<p>' . $args['subject'] . '</p>', $original_language, $language ); //phpcs:ignore
 
 			$config             = new ServerConfigProvider();
-			$client             = new Client( $api_key );
+			$client             = $this->parser_services->get_client();
 			$parser             = new Parser( $client, $config, $exclude_blocks );
 			$translated_message = $parser->translate( $args['message'], $original_language, $language ); //phpcs:ignore
 

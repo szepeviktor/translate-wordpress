@@ -123,9 +123,8 @@ const init_admin_select = function(){
         load_destination_selectize();
 
         window.addEventListener("weglotCheckApi", (data) => {
-
             let limit = 1000
-            const plan = data.detail.answer.plan
+            const plan = data.detail.plan
 
             if (
                 plan <= 0 ||

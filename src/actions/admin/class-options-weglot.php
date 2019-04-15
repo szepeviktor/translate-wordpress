@@ -7,6 +7,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use WeglotWP\Helpers\Helper_Tabs_Admin_Weglot;
+use WeglotWP\Helpers\Helper_Pages_Weglot;
+use WeglotWP\Helpers\Helper_Flag_Type;
 
 use WeglotWP\Models\Hooks_Interface_Weglot;
 
@@ -29,11 +31,12 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 	 * @see Hooks_Interface_Weglot
 	 *
 	 * @since 2.0
+	 * @version 3.0.0
 	 * @return void
 	 */
 	public function hooks() {
-		add_action( 'admin_init', [ $this, 'weglot_options_init' ] );
-		$api_key = $this->option_services->get_option( 'api_key' );
+		add_action( 'admin_post_weglot_save_settings', [ $this, 'weglot_save_settings' ] );
+		$api_key = $this->option_services->get_api_key( true );
 		if ( empty( $api_key ) && ( ! isset( $_GET['page'] ) || strpos( $_GET['page'], 'weglot-settings' ) === false) ) { // phpcs:ignore
 			//We don't show the notice if we are on Weglot configuration
 			add_action( 'admin_notices', [ '\WeglotWP\Notices\No_Configuration_Weglot', 'admin_notice' ] );
@@ -47,160 +50,142 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 	 */
 	public function activate() {
 		update_option( 'weglot_version', WEGLOT_VERSION );
-		$options            = $this->option_services->get_options();
-
-		$this->option_services->set_options( $options );
 	}
 
+
 	/**
-	 * Register setting options
-	 *
-	 * @see admin_init
-	 * @since 2.0
-	 *
+	 * @since 3.0.0
 	 * @return void
 	 */
-	public function weglot_options_init() {
-		register_setting( WEGLOT_OPTION_GROUP, WEGLOT_SLUG, [ $this, 'sanitize_options' ] );
-	}
+	public function weglot_save_settings() {
+		$redirect_url = admin_url( 'admin.php?page=' . Helper_Pages_Weglot::SETTINGS );
+		if ( ! isset( $_GET['tab'] ) || ! isset( $_GET['_wpnonce'] ) ) { //phpcs:ignore
+			wp_redirect( $redirect_url );
+			return;
+		}
 
-	/**
-	 * Callback register_setting for sanitize options
-	 *
-	 * @since 2.0
-	 *
-	 * @param array $options
-	 * @return array
-	 */
-	public function sanitize_options( $options ) {
-		$tab         = ( isset( $_POST['tab'] ) ) ? $_POST['tab'] : null; //phpcs:ignore
-		$options_bdd = $this->option_services->get_options();
+		if ( ! wp_verify_nonce( $_GET[ '_wpnonce' ], 'weglot_save_settings' ) ) { //phpcs:ignore
+			wp_redirect( $redirect_url );
+			return;
+		}
 
-		$new_options = wp_parse_args( $options, $options_bdd );
-
+		$tab = $_GET[ 'tab' ]; //phpcs:ignore
 		switch ( $tab ) {
 			case Helper_Tabs_Admin_Weglot::SETTINGS:
-				$new_options = $this->sanitize_options_settings( $new_options, $options );
+				$options            = $_POST[ WEGLOT_SLUG ]; //phpcs:ignore
 
-				if ( $options_bdd['has_first_settings'] ) {
-					$new_options['has_first_settings']      = false;
-					$new_options['show_box_first_settings'] = true;
-				} else {
-					$new_options = $this->sanitize_options_appearance( $new_options, $options );
-					$new_options = $this->sanitize_options_advanced( $new_options, $options );
-				}
-				break;
-			case Helper_Tabs_Admin_Weglot::SUPPORT:
-				$new_options['active_wc_reload'] = isset( $options['active_wc_reload'] ) ? 1 : 0;
-				break;
-			case Helper_Tabs_Admin_Weglot::CUSTOM_URLS:
-				if ( null === $options ) {
-					$new_options['custom_urls'] = [];
+				$options_bdd        = $this->option_services->get_options_bdd_v3();
+				$has_first_settings = $this->option_services->get_has_first_settings();
+				$options            = $this->sanitize_options_settings( $options, $has_first_settings );
+				$response           = $this->option_services->save_options_to_weglot( $options,  $has_first_settings );
+
+				if ( $response['success'] ) {
+					delete_transient( 'weglot_cache_cdn' );
+
+					$api_key_private        = $this->option_services->get_api_key_private();
+
+					$option_v2 = $this->option_services->get_options_from_v2();
+					if ( ! $api_key_private && $option_v2 ) {
+						$options_bdd['custom_urls']             = $option_v2['custom_urls'];
+						$options_bdd['menu_switcher']           = $option_v2['menu_switcher'];
+						$options_bdd['has_first_settings']      = $option_v2['has_first_settings'];
+						$options_bdd['show_box_first_settings'] = $option_v2['show_box_first_settings'];
+					}
+
+					if ( $has_first_settings ) {
+						$options_bdd['has_first_settings']      = false;
+						$options_bdd['show_box_first_settings'] = true;
+					}
+
+					if ( array_key_exists( 'flag_css', $options ) ) {
+						$options_bdd['flag_css'] = $options['flag_css'];
+					}
+
+					$this->option_services->set_options( $options_bdd );
+
+					update_option( sprintf( '%s-%s', WEGLOT_SLUG, 'api_key_private' ), $options['api_key_private'] );
+					update_option( sprintf( '%s-%s', WEGLOT_SLUG, 'api_key' ), $response['result']['api_key'] );
 				}
 				break;
 		}
 
-		return $new_options;
+		wp_redirect( $redirect_url ); //phpcs:ignore
 	}
+
 
 	/**
 	 * @since 2.0
 	 * @version 2.0.6
-	 * @param array $new_options
 	 * @param array $options
+	 * @param mixed $has_first_settings
 	 * @return array
 	 */
-	public function sanitize_options_settings( $new_options, $options ) {
-		$user_info        = $this->user_api_services->get_user_info( $new_options['api_key'] );
+	public function sanitize_options_settings( $options, $has_first_settings = false ) {
+		$user_info        = $this->user_api_services->get_user_info( $options['api_key_private'] );
 		$plans            = $this->user_api_services->get_plans();
-		$options_bdd      = $this->option_services->get_options();
-
-		$old_destination_languages = array_diff( $options_bdd['destination_language'], $new_options['destination_language'] );
-
-		if ( ! empty( $old_destination_languages ) ) {
-			foreach ( $old_destination_languages as $destination_language ) {
-				$nav_menu = get_page_by_title( sprintf( '[weglot_menu_title-%s]', $destination_language ), 'OBJECT', 'nav_menu_item' ); //phpcs:ignore
-				if ( ! $nav_menu ) {
-					continue;
-				}
-				wp_delete_post( $nav_menu->ID, true );
-			}
-		}
 
 		// Limit language
 		if (
 			$user_info['plan'] <= 0 ||
 			in_array( $user_info['plan'], $plans['starter_free']['ids'] ) // phpcs:ignore
 		) {
-			$new_options['destination_language'] = array_splice( $options['destination_language'], 0, $plans['starter_free']['limit_language'] );
+			$options['languages'] = array_splice( $options['languages'], 0, $plans['starter_free']['limit_language'] );
 		} elseif (
 			in_array( $user_info['plan'], $plans['business']['ids'] ) // phpcs:ignore
 		) {
-			$new_options['destination_language'] = array_splice( $options['destination_language'], 0, $plans['business']['limit_language'] );
+			$options['languages'] = array_splice( $options['languages'], 0, $plans['business']['limit_language'] );
 		}
 
-		if ( isset( $options['exclude_urls'] ) ) {
-			$new_options['exclude_urls'] = array_filter( $options['exclude_urls'], function( $value ) {
-				return '' !== $value;
-			} );
-		} else {
-			$new_options['exclude_urls'] = [];
+		$default_options = $this->option_services->get_options_default();
+
+		$options['custom_settings']['button_style']['is_dropdown']    = isset( $options['custom_settings']['button_style']['is_dropdown'] );
+		$options['custom_settings']['button_style']['with_flags']     = isset( $options['custom_settings']['button_style']['with_flags'] );
+		$options['custom_settings']['button_style']['full_name']      = isset( $options['custom_settings']['button_style']['full_name'] );
+		$options['custom_settings']['button_style']['with_name']      = isset( $options['custom_settings']['button_style']['with_name'] );
+
+		if ( $has_first_settings ) {
+			$options['custom_settings']['button_style']['is_dropdown'] = $default_options['custom_settings']['button_style']['is_dropdown'];
+			$options['custom_settings']['button_style']['with_flags']  = $default_options['custom_settings']['button_style']['with_flags'];
+			$options['custom_settings']['button_style']['full_name']   = $default_options['custom_settings']['button_style']['full_name'];
+			$options['custom_settings']['button_style']['with_name']   = $default_options['custom_settings']['button_style']['with_name'];
 		}
 
-		if ( isset( $options['exclude_blocks'] ) ) {
-			$new_options['exclude_blocks'] = array_filter( $options['exclude_blocks'], function( $value ) {
-				return '' !== $value;
-			} );
-		} else {
-			$new_options['exclude_blocks'] = [];
-		}
+		$options['custom_settings']['button_style']['custom_css']   = isset( $options['custom_settings']['button_style']['custom_css'] ) ? $options['custom_settings']['button_style']['custom_css'] : '';
 
-		return $new_options;
-	}
+		$options['custom_settings']['button_style']['flag_type']    = isset( $options['custom_settings']['button_style']['flag_type'] ) ? $options['custom_settings']['button_style']['flag_type'] : Helper_Flag_Type::RECTANGLE_MAT;
 
-	/**
-	 * @since 2.0
-	 * @version 2.4.0
-	 * @param array $new_options
-	 * @param array $options
-	 * @return array
-	 */
-	public function sanitize_options_advanced( $new_options, $options ) {
-		$new_options['auto_redirect']               = isset( $options['auto_redirect'] ) ? 1 : 0;
-		$new_options['email_translate']             = isset( $options['email_translate'] ) ? 1 : 0;
-		$new_options['translate_amp']               = isset( $options['translate_amp'] ) ? 1 : 0;
-		$new_options['active_search']               = isset( $options['active_search'] ) ? 1 : 0;
-		$new_options['private_mode']['active']      = isset( $options['private_mode']['active'] ) ? 1 : 0;
+		$options['custom_settings']['translate_email']              = isset( $options['custom_settings']['translate_email'] );
+		$options['custom_settings']['translate_search']             = isset( $options['custom_settings']['translate_search'] );
+		$options['custom_settings']['translate_amp']                = isset( $options['custom_settings']['translate_amp'] );
 
-		$languages = weglot_get_languages_configured();
-
-		foreach ( $languages as $key => $lang ) {
-			if ( ! $lang ) {
+		$options['auto_switch']                = isset( $options['auto_switch'] );
+		foreach ( $options['languages'] as $key => $language ) {
+			if ( 'active' === $key ) {
 				continue;
 			}
-			$new_options['private_mode'][ $lang->getIso639() ] = isset( $options['private_mode'][  $lang->getIso639() ] ) ? 1 : 0;
+			$options['languages'][ $key ]['enabled'] = ! isset( $options['languages'][ $key ]['enabled'] );
 		}
 
-		return $new_options;
-	}
+		if ( ! isset( $options['excluded_paths'] ) ) {
+			$options['excluded_paths'] = [];
+		} else {
+			$options['excluded_paths'] = array_values( $options['excluded_paths'] );
+		}
 
-	/**
-	 * @since 2.0
-	 * @param array $new_options
-	 * @param array $options
-	 * @return array
-	 */
-	public function sanitize_options_appearance( $new_options, $options ) {
-		$new_options['is_menu']      = isset( $options['is_menu'] ) ? 1 : 0;
-		$new_options['is_fullname']  = isset( $options['is_fullname'] ) ? 1 : 0;
-		$new_options['with_name']    = isset( $options['with_name'] ) ? 1 : 0;
-		$new_options['is_dropdown']  = isset( $options['is_dropdown'] ) ? 1 : 0;
-		$new_options['with_flags']   = isset( $options['with_flags'] ) ? 1 : 0;
+		foreach ( $options['excluded_paths'] as $key => $item ) {
+			if ( empty( $item['value'] ) ) {
+				unset( $options['excluded_paths'][ $key ] );
+			}
+		}
 
-		$new_options['type_flags']      = isset( $options['type_flags'] ) ? $options['type_flags'] : '0';
-		$new_options['override_css']    = isset( $options['override_css'] ) ? $options['override_css'] : '';
-		$new_options['flag_css']        = isset( $options['flag_css'] ) ? $options['flag_css'] : '';
+		if ( ! isset( $options['excluded_blocks'] ) ) {
+			$options['excluded_blocks'] = [];
+		}
 
-		return $new_options;
+		if ( ! isset( $options['auto_switch_fallback'] ) ) {
+			$options['auto_switch_fallback'] = 'en';
+		}
+
+		return $options;
 	}
 }

@@ -23,6 +23,12 @@ use WeglotWP\Helpers\Helper_Json_Inline_Weglot;
 class Other_Translate_Service_Weglot {
 	protected $max_chars = 500;
 
+	/**
+	 * @since 3.0.0
+	 */
+	public function __construct() {
+		$this->parser_services = weglot_get_service( 'Parser_Service_Weglot' );
+	}
 
 	/**
 	 * @since 2.0
@@ -58,8 +64,8 @@ class Other_Translate_Service_Weglot {
 			$word_collection->addOne( new WordEntry( $value, WordType::TEXT ) );
 		}
 
-		$client    = new Client( weglot_get_option( 'api_key' ) );
-		$translate = new Translate( $translate, $client );
+		$client           = $this->parser_services->get_client();
+		$translate        = new Translate( $translate, $client );
 
 		$object = $translate->handle();
 

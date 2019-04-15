@@ -4,6 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 use WeglotWP\Helpers\Helper_Tabs_Admin_Weglot;
+use WeglotWP\Helpers\Helper_Flag_Type;
 
 $options_available = [
 	'type_flags' => [
@@ -41,6 +42,8 @@ $options_available = [
 	],
 ];
 
+
+
 ?>
 <style id="weglot-css-flag-css"></style>
 <style id="weglot-css-inline"></style>
@@ -68,7 +71,7 @@ $options_available = [
 			</th>
 			<td class="forminp forminp-text">
 				<input
-					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['is_dropdown']['key'] ) ); ?>"
+					name="<?php echo esc_attr( sprintf( '%s[custom_settings][button_style][is_dropdown]', WEGLOT_SLUG ) ); ?>"
 					id="<?php echo esc_attr( $options_available['is_dropdown']['key'] ); ?>"
 					type="checkbox"
 					<?php checked( $this->options[ $options_available['is_dropdown']['key'] ], 1 ); ?>
@@ -84,7 +87,7 @@ $options_available = [
 			</th>
 			<td class="forminp forminp-text">
 				<input
-					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['with_flags']['key'] ) ); ?>"
+					name="<?php echo esc_attr( sprintf( '%s[custom_settings][button_style][with_flags]', WEGLOT_SLUG ) ); ?>"
 					id="<?php echo esc_attr( $options_available['with_flags']['key'] ); ?>"
 					type="checkbox"
 					<?php checked( $this->options[ $options_available['with_flags']['key'] ], 1 ); ?>
@@ -101,19 +104,35 @@ $options_available = [
 			<td class="forminp forminp-text">
 				<select
 					class="wg-input-select"
-					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['type_flags']['key'] ) ); ?>"
+					name="<?php echo esc_attr( sprintf( '%s[custom_settings][button_style][flag_type]', WEGLOT_SLUG ) ); ?>"
 					id="<?php echo esc_attr( $options_available['type_flags']['key'] ); ?>"
 				>
-					<option <?php selected( $this->options[ $options_available['type_flags']['key'] ], '0' ); ?> value="0">
+					<option
+						<?php selected( $this->options[ $options_available['type_flags']['key'] ], Helper_Flag_Type::RECTANGLE_MAT ); ?>
+						data-value="<?php echo esc_attr( Helper_Flag_Type::get_flag_number_with_type( Helper_Flag_Type::RECTANGLE_MAT ) ); ?>"
+						value="<?php echo esc_attr( Helper_Flag_Type::RECTANGLE_MAT ); ?>"
+					>
 						<?php esc_html_e( 'Rectangle mat', 'weglot' ); ?>
 					</option>
-					<option <?php selected( $this->options[ $options_available['type_flags']['key'] ], '1' ); ?> value="1">
+					<option
+						<?php selected( $this->options[ $options_available['type_flags']['key'] ], Helper_Flag_Type::SHINY ); ?>
+						data-value="<?php echo esc_attr( Helper_Flag_Type::get_flag_number_with_type( Helper_Flag_Type::SHINY ) ); ?>"
+						value="<?php echo esc_attr( Helper_Flag_Type::SHINY ); ?>"
+					>
 						<?php esc_html_e( 'Rectangle shiny', 'weglot' ); ?>
 					</option>
-					<option <?php selected( $this->options[ $options_available['type_flags']['key'] ], '2' ); ?> value="2">
+					<option
+						<?php selected( $this->options[ $options_available['type_flags']['key'] ], Helper_Flag_Type::SQUARE ); ?>
+						data-value="<?php echo esc_attr( Helper_Flag_Type::get_flag_number_with_type( Helper_Flag_Type::SQUARE ) ); ?>"
+						value="<?php echo esc_attr( Helper_Flag_Type::SQUARE ); ?>"
+					>
 						<?php esc_html_e( 'Square', 'weglot' ); ?>
 					</option>
-					<option <?php selected( $this->options[ $options_available['type_flags']['key'] ], '3' ); ?> value="3">
+					<option
+						<?php selected( $this->options[ $options_available['type_flags']['key'] ], Helper_Flag_Type::CIRCLE ); ?>
+						data-value="<?php echo esc_attr( Helper_Flag_Type::get_flag_number_with_type( Helper_Flag_Type::CIRCLE ) ); ?>"
+						value="<?php echo esc_attr( Helper_Flag_Type::CIRCLE ); ?>"
+					>
 						<?php esc_html_e( 'Circle', 'weglot' ); ?>
 					</option>
 				</select>
@@ -196,7 +215,7 @@ $options_available = [
 			</th>
 			<td class="forminp forminp-text">
 				<input
-					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['with_name']['key'] ) ); ?>"
+					name="<?php echo esc_attr( sprintf( '%s[custom_settings][button_style][with_name]', WEGLOT_SLUG ) ); ?>"
 					id="<?php echo esc_attr( $options_available['with_name']['key'] ); ?>"
 					type="checkbox"
 					<?php checked( $this->options[ $options_available['with_name']['key'] ], 1 ); ?>
@@ -212,7 +231,7 @@ $options_available = [
 			</th>
 			<td class="forminp forminp-text">
 				<input
-				name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['is_fullname']['key'] ) ); ?>"
+				name="<?php echo esc_attr( sprintf( '%s[custom_settings][button_style][full_name]', WEGLOT_SLUG ) ); ?>"
 				id="<?php echo esc_attr( $options_available['is_fullname']['key'] ); ?>"
 				type="checkbox"
 					<?php checked( $this->options[ $options_available['is_fullname']['key'] ], 1 ); ?>
@@ -235,7 +254,7 @@ $options_available = [
 					type="text"
 					rows="10"
 					cols="30"
-					name="<?php echo esc_attr( sprintf( '%s[%s]', WEGLOT_SLUG, $options_available['override_css']['key'] ) ); ?>" placeholder=".country-selector {
+					name="<?php echo esc_attr( sprintf( '%s[custom_settings][button_style][custom_css]', WEGLOT_SLUG ) ); ?>" placeholder=".country-selector {
   margin-bottom: 20px;
 }"><?php echo $this->options[ $options_available['override_css']['key'] ]; //phpcs:ignore?></textarea>
 		</tr>

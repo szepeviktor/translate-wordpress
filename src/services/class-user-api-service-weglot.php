@@ -6,13 +6,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use WeglotWP\Helpers\Helper_API;
+
 /**
  * @since 2.0
  */
 class User_Api_Service_Weglot {
-	const API_BASE      = 'https://api.weglot.com';
-	const API_BASE_OLD  = 'https://weglot.com/api/';
-
 	protected $user_info = null;
 
 	/**
@@ -34,7 +33,7 @@ class User_Api_Service_Weglot {
 
 	/**
 	 * @since 2.0
-	 * @version 2.0.1
+	 * @version 3.0.0
 	 * @return array
 	 * @param null|string $api_key
 	 */
@@ -48,8 +47,9 @@ class User_Api_Service_Weglot {
 		}
 
 		try {
-			$results   = $this->do_request( self::API_BASE_OLD . 'user-info?api_key=' . $api_key, null );
+			$results   = $this->do_request( Helper_API::get_api_url() . '/projects/owner?api_key=' . $api_key, null );
 			$json      = \json_decode( $results, true );
+
 			if ( \json_last_error() !== JSON_ERROR_NONE ) {
 				throw new \Exception( 'Unknown error with Weglot Api (0001) : ' . \json_last_error() );
 			}
@@ -67,12 +67,12 @@ class User_Api_Service_Weglot {
 				$answer          = $json['answer'];
 				$this->user_info = $answer;
 				return $this->user_info;
-			} else {
-				throw new \Exception( 'Unknown error with Weglot Api (0002) : ' . $json );
 			}
+
+			throw new \Exception( 'Unknown error with Weglot Api (0002) : ' . $json );
 		} catch ( \Exception $e ) {
 			return [
-				'allowed' => true,
+				'allowed' => false,
 			];
 		}
 	}

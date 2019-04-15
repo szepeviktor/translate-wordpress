@@ -6,6 +6,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use WeglotWP\Helpers\Helper_Flag_Type;
+
 /**
  * Button services
  *
@@ -27,29 +29,31 @@ class Button_Service_Weglot {
 
 	/**
 	 * @since 2.3.0
+	 * @version 3.0.0
 	 * @return string
 	 */
 	public function get_flag_class() {
-		$options    = $this->option_services->get_options();
-		$type_flags = $options['type_flags'];
-		$with_flags = $options['with_flags'];
+		$type_flags = $this->option_services->get_option_button( 'type_flags' );
+		$with_flags = $this->option_services->get_option_button( 'with_flags' );
 
 		$flag_class = $with_flags ? 'weglot-flags ' : '';
-		$flag_class .= '0' === $type_flags ? '' : 'flag-' . $type_flags . ' ';
+		$type_flags = Helper_Flag_Type::get_flag_number_with_type( $type_flags );
+		if ( '0' !== $type_flags ) {
+			$flag_class .= sprintf( 'flag-%s ', $type_flags );
+		}
 
 		return apply_filters( 'weglot_get_flag_class', $flag_class );
 	}
 
 	/**
 	 * @since 2.3.0
-	 *
+	 * @version 3.0.0
 	 * @param LanguageEntry $language_entry
 	 * @return string
 	 */
 	public function get_name_with_language_entry( $language_entry ) {
-		$options     = $this->option_services->get_options();
-		$with_name   = $options['with_name'];
-		$is_fullname = $options['is_fullname'];
+		$with_name   = $this->option_services->get_option_button( 'with_name' );
+		$is_fullname = $this->option_services->get_option( 'is_fullname' );
 		$name        = '';
 
 		if ( $with_name ) {
@@ -61,12 +65,11 @@ class Button_Service_Weglot {
 
 	/**
 	 * @since 2.3.0
-	 *
+	 * @version 3.0.0
 	 * @return string
 	 */
 	public function get_class_dropdown() {
-		$options              = $this->option_services->get_options();
-		$is_dropdown          = $options['is_dropdown'];
+		$is_dropdown          = $this->option_services->get_option_button( 'is_dropdown' );
 		$class                = $is_dropdown ? 'weglot-dropdown ' : 'weglot-inline ';
 
 		return apply_filters( 'weglot_get_class_dropdown', $class );

@@ -7,10 +7,21 @@ use Weglot\Parser\ConfigProvider\ManualConfigProvider;
 
 class HreflangPageTest extends WP_UnitTestCase {
 	public function test_hreflang_page() {
+		add_filter( 'weglot_get_api_key', function() {
+			return ApiKey::get_api_key();
+		});
 		add_filter( 'weglot_get_options', function( $options ) {
-			$options['api_key'] = getenv( 'API_KEY' );
-			$options['orignal_language'] = 'en';
-			$options['destination_language'] = [ 'fr', 'es' ];
+			$options['language_from'] = 'en';
+			$options['languages'] = [
+				[
+					'language_to' => 'fr',
+					'enabled' => true,
+				],
+				[
+					'language_to' => 'es',
+					'enabled' => true,
+				],
+			];
 			$options['allowed'] = true;
 			return $options;
 		});
@@ -36,13 +47,21 @@ class HreflangPageTest extends WP_UnitTestCase {
 	}
 
 	public function test_hreflang_private_page() {
+		add_filter( 'weglot_get_api_key', function() {
+			return ApiKey::get_api_key();
+		});
+
 		add_filter( 'weglot_get_options', function( $options ) {
-			$options['api_key'] = getenv( 'API_KEY' );
-			$options['orignal_language'] = 'en';
-			$options['destination_language'] = [ 'fr', 'es' ];
-			$options['private_mode'] = [
-				'active' => true,
-				'fr'     => true,
+			$options['language_from'] = 'en';
+			$options['languages'] = [
+				[
+					'language_to' => 'fr',
+					'enabled' => true,
+				],
+				[
+					'language_to' => 'es',
+					'enabled' => false,
+				],
 			];
 			$options['allowed'] = true;
 			return $options;
@@ -64,7 +83,7 @@ class HreflangPageTest extends WP_UnitTestCase {
 		$href_lang_service = new Href_Lang_Service_Weglot();
 		$out               = $href_lang_service->generate_href_lang_tags(); //phpcs:ignore
 
-		$this->assertFalse( strpos( $out, 'hreflang="fr"' ) );
+		$this->assertNotFalse( strpos( $out, 'hreflang="fr"' ) );
 		$this->assertFalse( strpos( $out, 'hreflang="es"' ) );
 	}
 
@@ -72,11 +91,23 @@ class HreflangPageTest extends WP_UnitTestCase {
 		global $wp_query;
 		$wp_query->is_home = true;
 
+		add_filter( 'weglot_get_api_key', function() {
+			return ApiKey::get_api_key();
+		});
+
 		add_filter( 'weglot_get_options', function( $options ) {
-			$options['api_key'] = getenv( 'API_KEY' );
-			$options['original_language'] = 'en';
-			$options['destination_language'] = [ 'fr', 'es' ];
-			$options['auto_redirect'] = true;
+			$options['language_from'] = 'en';
+			$options['languages'] = [
+				[
+					'language_to' => 'fr',
+					'enabled' => true,
+				],
+				[
+					'language_to' => 'es',
+					'enabled' => true,
+				],
+			];
+			$options['auto_switch'] = true;
 			$options['allowed'] = true;
 			return $options;
 		});

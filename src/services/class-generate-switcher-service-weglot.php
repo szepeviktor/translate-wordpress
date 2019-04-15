@@ -42,7 +42,7 @@ class Generate_Switcher_Service_Weglot {
 
 	/**
 	 * @since 2.3.0
-	 * @version 2.4.0
+	 * @version 3.0.0
 	 * @param string $dom
 	 * @return string
 	 */
@@ -51,53 +51,6 @@ class Generate_Switcher_Service_Weglot {
 			$dom .= sprintf( $this->string_version, WEGLOT_VERSION );
 			return $dom;
 		}
-
-		if ( strpos( $dom, '[weglot_menu' ) === false ) {
-			return $dom;
-		}
-
-
-
-		$languages_configured = $this->language_services->get_languages_configured();
-		$options              = $this->option_services->get_options();
-		$is_fullname          = $options['is_fullname'];
-		$with_name            = $options['with_name'];
-
-		$url                  = $this->request_url_services->get_weglot_url();
-
-		foreach ( $languages_configured as $language ) {
-			$shortcode_title                        = sprintf( '\[weglot_menu_title-%s\]', $language->getIso639() );
-			$shortcode_title_without_bracket        = sprintf( 'weglot_menu_title-%s', $language->getIso639() );
-			$shortcode_title_html                   = str_replace( '\[', '%5B', $shortcode_title );
-			$shortcode_title_html                   = str_replace( '\]', '%5D', $shortcode_title_html );
-			$shortcode_url                          = sprintf( '(http|https):\/\/\[weglot_menu_current_url-%s\]', $language->getIso639() );
-			$shortcode_url_html                     = str_replace( '\[', '%5B', $shortcode_url );
-			$shortcode_url_html                     = str_replace( '\]', '%5D', $shortcode_url_html );
-
-			$name = $this->button_services->get_name_with_language_entry( $language );
-
-			$dom                  = preg_replace( '#' . $shortcode_title . '#i', $name, $dom );
-			$dom                  = preg_replace( '#' . $shortcode_title_html . '#i', $name, $dom );
-			$dom                  = preg_replace( '#' . $shortcode_title_without_bracket . '#i', $name, $dom );
-
-			$link_menu = $this->custom_url_services->get_link_button_with_key_code( $language->getIso639() );
-
-			// Compatibility Menu HTTPS if not work. Since 2.0.6
-			if (
-					(
-						is_ssl() ||
-						isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && 'https' === $_SERVER['HTTP_X_FORWARDED_PROTO'] // phpcs:ignore
-					) &&
-					strpos( $link_menu, 'https://' ) === false
-				) {
-				$link_menu = str_replace( 'http', 'https', $link_menu );
-			}
-
-			$dom                  = preg_replace( '#' . $shortcode_url . '#i', $link_menu, $dom );
-			$dom                  = preg_replace( '#' . $shortcode_url_html . '#i', $link_menu, $dom );
-		}
-
-		$dom .= sprintf( $this->string_version, WEGLOT_VERSION );
 
 		return apply_filters( 'weglot_replace_weglot_menu', $dom );
 	}

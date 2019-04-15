@@ -31,6 +31,7 @@ abstract class Helper_Keys_Json_Weglot {
 		return apply_filters( 'weglot_keys_translate_json', self::$keys );
 	}
 
+
 	/**
 	 * @since 2.4.0
 	 * @param string $key

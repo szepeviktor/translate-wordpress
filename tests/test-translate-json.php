@@ -6,10 +6,18 @@ use Weglot\Parser\ConfigProvider\ManualConfigProvider;
 
 class TranslateJsonTest extends WP_UnitTestCase {
 	protected function init_filters() {
+		add_filter( 'weglot_get_api_key', function() {
+			return ApiKey::get_api_key();
+		});
+
 		add_filter( 'weglot_get_options', function( $options ) {
-			$options['api_key'] = getenv( 'API_KEY' );
-			$options['original_language'] = 'en';
-			$options['destination_language'] = [ 'fr' ];
+			$options['language_from'] = 'en';
+			$options['languages'] = [
+				[
+					'language_to' => 'fr',
+					'enabled' => true,
+				],
+			];
 			$options['allowed'] = true;
 			return $options;
 		});
@@ -85,10 +93,11 @@ class TranslateJsonTest extends WP_UnitTestCase {
 			false
 		);
 
-		$this->assertContains( "Petit titre sur l'extrait", $dom->__toString() );
-		$this->assertContains( "C'est votre premier post", $dom->__toString() );
-		$this->assertContains( 'http:\/\/weglot-plugin.local\/fr\/2019\/01\/09\/hello-world\/', $dom->__toString() );
-		$this->assertContains( 'http:\/\/weglot-plugin.local\/fr\/2019\/01\/28\/a-little-test\/', $dom->__toString() );
+		$str = $dom->__toString();
+		$this->assertContains( 'Petit titre', $str );
+		$this->assertContains( 'Avec une carotte', $str );
+		$this->assertContains( 'http:\/\/weglot-plugin.local\/fr\/2019\/01\/09\/hello-world\/', $str );
+		$this->assertContains( 'http:\/\/weglot-plugin.local\/fr\/2019\/01\/28\/a-little-test\/', $str );
 	}
 
 	public function test_translation_api_request_with_path_empty() {
@@ -107,9 +116,10 @@ class TranslateJsonTest extends WP_UnitTestCase {
 			false
 		);
 
-		$this->assertContains( "Petit titre sur l'extrait", $dom->__toString() );
-		$this->assertContains( "C'est votre premier post", $dom->__toString() );
-		$this->assertContains( 'http:\/\/weglot-plugin.local\/fr\/2019\/01\/09\/hello-world\/', $dom->__toString() );
-		$this->assertContains( 'http:\/\/weglot-plugin.local\/fr\/2019\/01\/28\/a-little-test\/', $dom->__toString() );
+		$str = $dom->__toString();
+		$this->assertContains( 'Petit titre', $str );
+		$this->assertContains( 'Avec une carotte', $str );
+		$this->assertContains( 'http:\/\/weglot-plugin.local\/fr\/2019\/01\/09\/hello-world\/', $str );
+		$this->assertContains( 'http:\/\/weglot-plugin.local\/fr\/2019\/01\/28\/a-little-test\/', $str );
 	}
 }

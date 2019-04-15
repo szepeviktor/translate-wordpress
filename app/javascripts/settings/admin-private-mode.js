@@ -20,7 +20,8 @@ const init_private_mode = function () {
 	}
 
 	document.addEventListener('DOMContentLoaded', () => {
-		if (document.querySelector('#private_mode').length != 0){
+		const private_mode = document.querySelector("#private_mode")
+		if (private_mode && private_mode.length != 0){
 			execute();
 		}
 	})
