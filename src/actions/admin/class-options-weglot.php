@@ -80,6 +80,8 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 				$response           = $this->option_services->save_options_to_weglot( $options,  $has_first_settings );
 
 				if ( $response['success'] ) {
+					delete_transient( 'weglot_cache_cdn' );
+
 					$api_key_private        = $this->option_services->get_api_key_private();
 
 					$option_v2 = $this->option_services->get_options_from_v2();

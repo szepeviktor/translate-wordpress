@@ -139,7 +139,7 @@ function weglot_get_exclude_urls() {
  * @return bool
  */
 function weglot_get_translate_amp_translation() {
-	return weglot_get_option( 'translate_amp' );
+	return Context_Weglot::weglot_get_context()->get_service( 'Option_Service_Weglot' )->get_option_custom_settings( 'translate_amp' );
 }
 
 /**

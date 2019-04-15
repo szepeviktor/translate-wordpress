@@ -322,6 +322,25 @@ class Option_Service_Weglot {
 	}
 
 	/**
+	 * @since 3.0.0
+	 * @param string $key
+	 * @return string|null
+	 */
+	public function get_option_custom_settings( $key ){
+		$options = $this->get_options();
+
+		if( ! array_key_exists( 'custom_settings', $options ) ){
+			return $this->get_option( $key );
+		}
+
+		if ( ! array_key_exists( $key, $options['custom_settings'] ) ) {
+			return null;
+		}
+
+		return $options['custom_settings'][ $key ];
+	}
+
+	/**
 	 * @since 2.0
 	 * @param string $key
 	 * @return array
@@ -408,7 +427,6 @@ class Option_Service_Weglot {
 		$exclude_urls[]   = '/ct_template'; // Compatibility Oxygen
 
 		$translate_amp = weglot_get_translate_amp_translation();
-
 		if ( ! $translate_amp ) {
 			$exclude_urls[] = weglot_get_service( 'Amp_Service_Weglot' )->get_regex();
 		}
