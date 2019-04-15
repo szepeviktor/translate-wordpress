@@ -276,7 +276,6 @@ class Option_Service_Weglot {
 				return $this->get_options_from_v2();
 			}
 		}
-
 		$options = $response['result'];
 
 		if ( $api_key_private ) {

@@ -25,6 +25,9 @@ class Schema_Option_V3 {
 				'path' => 'languages',
 				'fn'   => function( $languages ) {
 					$destinations = [];
+					if( !$languages ){
+						return $destinations;
+					}
 					foreach ( $languages as $item ) {
 						$destinations[] = $item['language_to'];
 					}
@@ -35,7 +38,10 @@ class Schema_Option_V3 {
 			'private_mode'         => (object) [
 				'path' => 'languages',
 				'fn'   => function( $languages ) {
-					$private = [];
+					$private = [ 'active' => false ];
+					if( !$languages ){
+						return $private;
+					}
 					foreach ( $languages as $item ) {
 						if ( ! $item['enabled'] ) {
 							$private[ $item['language_to'] ] = true;
@@ -55,6 +61,9 @@ class Schema_Option_V3 {
 				'path' => 'excluded_blocks',
 				'fn'   => function( $excluded_blocks ) {
 					$excluded = [];
+					if( !$excluded_blocks ){
+						return $excluded;
+					}
 					foreach ( $excluded_blocks as $item ) {
 						$excluded[] = $item['value'];
 					}
