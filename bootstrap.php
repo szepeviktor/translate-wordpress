@@ -93,6 +93,7 @@ abstract class Context_Weglot {
 			'\WeglotWP\Actions\Front\Search_Weglot',
 			'\WeglotWP\Actions\Front\Redirect_Comment',
 			'\WeglotWP\Actions\Admin\Ajax_User_Info',
+			'\WeglotWP\Actions\Front\Clean_Options',
 		];
 
 		self::$context->set_actions( $actions );
