@@ -187,7 +187,7 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 	 * @return array
 	 */
 	public function wp_nav_menu_objects( $items ) {
-		$r_ids = $k_ids = array();
+		$r_ids = $k_ids = [];
 
 		foreach ( $items as $item ) {
 			if ( ! empty( $item->classes ) && is_array( $item->classes ) ) {
@@ -211,9 +211,9 @@ class Front_Menu_Weglot implements Hooks_Interface_Weglot {
 
 		if ( apply_filters( 'weglot_active_current_menu_item', false ) ) {
 			$current_language = weglot_get_current_language();
-			foreach ($items as $item) {
-				if ( ! empty($item->classes) && is_array($item->classes)) {
-					if (in_array('menu-item-weglot', $item->classes) && in_array( 'weglot-' . $current_language, $item->classes)) {
+			foreach ( $items as $item ) {
+				if ( ! empty( $item->classes ) && is_array( $item->classes ) ) {
+					if ( in_array( 'menu-item-weglot', $item->classes, true ) && in_array( 'weglot-' . $current_language, $item->classes, true ) ) {
 						$item->classes[] = 'current-menu-item';
 					}
 				}

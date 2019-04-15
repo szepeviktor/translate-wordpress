@@ -87,7 +87,7 @@ class Translate_Json_Service {
 					try {
 						$parser                            = $this->parser_services->get_parser();
 						$words                             = $parser->parse( $val );
-						if ( ! $words instanceof WordCollection ) {
+						if ( ! $words instanceof WordCollection || $words->count() < 1 ) {
 							continue;
 						}
 						$this->collections                 = array_merge( $this->collections, $words->jsonSerialize() );
@@ -105,7 +105,7 @@ class Translate_Json_Service {
 						try {
 							$parser                    = $this->parser_services->get_parser();
 							$words                     = $parser->parse( $val );
-							if ( ! $words instanceof WordCollection ) {
+							if ( ! $words instanceof WordCollection || $words->count() < 1 ) {
 								continue;
 							}
 							$this->collections         = array_merge( $this->collections, $words->jsonSerialize() );

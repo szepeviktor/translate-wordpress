@@ -101,9 +101,9 @@ class Option_Service_Weglot {
 
 		$cache_transient = apply_filters( 'weglot_get_options_from_cdn_cache', true );
 
-		if( $cache_transient ){
+		if( $cache_transient ) {
 			$options = get_transient( 'weglot_cache_cdn', false );
-			if( $options ){
+			if( $options ) {
 				$this->options_cdn = $options;
 				return [
 					'success' => true,
@@ -229,12 +229,11 @@ class Option_Service_Weglot {
 		$api_key = get_option( sprintf( '%s-%s', WEGLOT_SLUG, 'api_key' ), false );
 
 		if ( ! $compatibility || $api_key ) {
-			return $api_key;
+			return apply_filters( 'weglot_get_api_key', $api_key );
 		}
 
 		$options = $this->get_options_from_v2();
-
-		return $options['api_key'];
+		return apply_filters( 'weglot_get_api_key', $options['api_key'] );
 	}
 
 	/**
@@ -344,8 +343,11 @@ class Option_Service_Weglot {
 	 */
 	public function get_option_button( $key ) {
 		$options = $this->get_options();
-
-		if ( array_key_exists( 'custom_settings', $options ) && array_key_exists( $key, $options['custom_settings']['button_style'] ) ) {
+		if (
+			array_key_exists( 'custom_settings', $options ) &&
+			is_array( $options['custom_settings'] ) &&
+			array_key_exists( $key, $options['custom_settings']['button_style'] )
+		) {
 			return $options['custom_settings']['button_style'][ $key ];
 		}
 

@@ -87,11 +87,15 @@ class Language_Service_Weglot {
 	 * @param null|string $type
 	 */
 	public function get_languages_configured( $type = null ) {
-		$languages[]      = weglot_get_original_language();
+		$languages = [];
+		$original_language = weglot_get_original_language();
+
+		if( $original_language ){
+			$languages[] = $original_language;
+		}
 		$languages        = array_merge( $languages, weglot_get_destination_languages() );
 
 		$languages_object = [];
-
 		foreach ( $languages as $language ) {
 			switch ( $type ) {
 				case 'code':
@@ -113,6 +117,7 @@ class Language_Service_Weglot {
 	 * @return LanguageEntry
 	 */
 	public function get_current_language_entry_from_key( $key_code ) {
+
 		$languages = $this->get_languages_available();
 
 		if ( isset( $languages[ $key_code ] ) ) {

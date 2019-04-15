@@ -88,7 +88,7 @@ class Caldera_Translate {
 
 			$encoded = true;
 
-			if ( in_array( $current_language, apply_filters('weglot_caldera_translate_languages_encoded_output', ['fr'] ), true ) ) {
+			if ( in_array( $current_language, apply_filters( 'weglot_caldera_translate_languages_encoded_output', [ 'fr' ] ), true ) ) {
 				$encoded = false;
 			}
 

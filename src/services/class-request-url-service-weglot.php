@@ -121,6 +121,10 @@ class Request_Url_Service_Weglot {
 			}
 		}
 
+		if( empty( $current_language ) ){
+			return apply_filters( 'weglot_default_current_language_empty', 'en' );
+		}
+
 		if ( $with_filter ) {
 			return apply_filters( 'weglot_translate_current_language', $current_language );
 		}

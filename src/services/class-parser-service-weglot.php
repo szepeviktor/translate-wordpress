@@ -54,7 +54,7 @@ class Parser_Service_Weglot {
 		$client = new Client( $api_key, $translation_engine, [
 			'host'    => Helper_API::get_api_url(),
 		] );
-		$client->getHttpClient()->addHeader('weglot-integration: WordPress Plugin');
+		$client->getHttpClient()->addHeader( 'weglot-integration: WordPress Plugin' );
 
 		return $client;
 	}
