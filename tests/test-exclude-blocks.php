@@ -6,11 +6,27 @@ use Weglot\Parser\ConfigProvider\ManualConfigProvider;
 
 class ExcludeBlocksTest extends WP_UnitTestCase {
 	public function test_exclude_blocks() {
+		add_filter( 'weglot_get_api_key', function() {
+			return ApiKey::get_api_key();
+		});
+
 		add_filter( 'weglot_get_options', function( $options ) {
-			$options['api_key'] = getenv( 'API_KEY' );
-			$options['orignal_language'] = 'en';
-			$options['destination_language'] = [ 'fr', 'es' ];
-			$options['exclude_blocks'] = [ '.site-branding .site-description' ];
+			$options['language_from'] = 'en';
+			$options['languages'] = [
+				[
+					'language_to' => 'fr',
+					'enabled' => true,
+				],
+				[
+					'language_to' => 'es',
+					'enabled' => true,
+				],
+			];
+			$options['excluded_blocks'] = [
+				[
+					'value' => '.site-branding .site-description',
+				],
+			];
 			$options['allowed'] = true;
 			return $options;
 		});

@@ -7,10 +7,21 @@ use Weglot\Parser\ConfigProvider\ManualConfigProvider;
 
 class LinkTest extends WP_UnitTestCase {
 	public function test_link_hashtag() {
+		add_filter( 'weglot_get_api_key', function() {
+			return ApiKey::get_api_key();
+		});
 		add_filter( 'weglot_get_options', function( $options ) {
-			$options['api_key'] = getenv( 'API_KEY' );
-			$options['orignal_language'] = 'en';
-			$options['destination_language'] = [ 'fr', 'es' ];
+			$options['language_from'] = 'en';
+			$options['languages'] = [
+				[
+					'language_to' => 'fr',
+					'enabled' => true,
+				],
+				[
+					'language_to' => 'es',
+					'enabled' => true,
+				],
+			];
 			$options['allowed'] = true;
 			return $options;
 		});
