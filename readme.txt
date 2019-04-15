@@ -4,7 +4,7 @@ Tags: translate,translation,language,multilingual,bilingual,international,locali
 Requires at least: 4.5
 Tested up to: 5.1
 Requires PHP: 5.4
-Stable tag: 2.7.0
+Stable tag: 3.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -152,6 +152,11 @@ Weglot Translate is easy to set up:
 See changelog for upgrade changes.
 
 == Changelog ==
+
+= 3.0.0 (16/04/2019) =
+* New major version
+* Link between WordPress options and Weglot dashboard options
+* Bugfix: Fixed an error on the JSON translation
 
 = 2.7.0 (18/03/2019) =
 * Changed : Improve Compatibility with Caldera Forms
