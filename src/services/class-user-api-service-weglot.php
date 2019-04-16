@@ -72,7 +72,7 @@ class User_Api_Service_Weglot {
 			throw new \Exception( 'Unknown error with Weglot Api (0002) : ' . $json );
 		} catch ( \Exception $e ) {
 			return [
-				'allowed' => false,
+				'not_exist' => false,
 			];
 		}
 	}

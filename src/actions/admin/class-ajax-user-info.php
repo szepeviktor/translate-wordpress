@@ -41,7 +41,7 @@ class Ajax_User_Info implements Hooks_Interface_Weglot {
 
 		$response = $this->user_services->get_user_info( $api_key );
 
-		if ( ! $response['allowed'] ) {
+		if ( array_key_exists( 'not_exist', $response ) && ! $response['not_exist'] ) {
 			wp_send_json_error();
 			return;
 		}
