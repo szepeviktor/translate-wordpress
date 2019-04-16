@@ -21,11 +21,11 @@ class User_Api_Service_Weglot {
 	public function get_plans() {
 		return [
 			'starter_free' => [
-				'ids'            => [ 18, 19, 1001, 1002 ],
+				'ids'            => [ 2, 3 ],
 				'limit_language' => 1,
 			],
 			'business' => [
-				'ids'            => [ 1, 4, 1003, 1004 ],
+				'ids'            => [ 4, 5 ],
 				'limit_language' => 5,
 			],
 		];
@@ -87,12 +87,12 @@ class User_Api_Service_Weglot {
 		$plans            = $this->get_plans();
 		$limit            = 1000;
 		if (
-			$user_info['plan'] <= 0 ||
-			in_array( $user_info['plan'], $plans['starter_free']['ids'] ) // phpcs:ignore
+			$user_info['plan_id'] <= 1 ||
+			in_array( $user_info['plan_id'], $plans['starter_free']['ids'] ) // phpcs:ignore
 		) {
 			$limit = $plans['starter_free']['limit_language'];
 		} elseif (
-			in_array( $user_info['plan'], $plans['business']['ids'] ) // phpcs:ignore
+			in_array( $user_info['plan_id'], $plans['business']['ids'] ) // phpcs:ignore
 		) {
 			$limit = $plans['business']['limit_language'];
 		}

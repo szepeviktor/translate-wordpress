@@ -126,12 +126,12 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 
 		// Limit language
 		if (
-			$user_info['plan'] <= 0 ||
-			in_array( $user_info['plan'], $plans['starter_free']['ids'] ) // phpcs:ignore
+			$user_info['plan_id'] <= 1 ||
+			in_array( $user_info['plan_id'], $plans['starter_free']['ids'] ) // phpcs:ignore
 		) {
 			$options['languages'] = array_splice( $options['languages'], 0, $plans['starter_free']['limit_language'] );
 		} elseif (
-			in_array( $user_info['plan'], $plans['business']['ids'] ) // phpcs:ignore
+			in_array( $user_info['plan_id'], $plans['business']['ids'] ) // phpcs:ignore
 		) {
 			$options['languages'] = array_splice( $options['languages'], 0, $plans['business']['limit_language'] );
 		}
