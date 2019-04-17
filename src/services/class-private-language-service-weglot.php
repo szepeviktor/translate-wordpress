@@ -27,7 +27,7 @@ class Private_Language_Service_Weglot {
 
 	/**
 	 * @since 2.3.0
-	 *
+	 * @version 3.0.1
 	 * @param string $key_lang
 	 * @return boolean
 	 */
