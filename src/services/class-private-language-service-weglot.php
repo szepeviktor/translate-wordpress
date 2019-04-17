@@ -34,6 +34,10 @@ class Private_Language_Service_Weglot {
 	public function is_active_private_mode_for_lang( $key_lang ) {
 		$private_mode_languages    = $this->option_services->get_option( 'private_mode' );
 
+		if ( ! is_array( $private_mode_languages ) ) {
+			return false;
+		}
+
 		if ( ! array_key_exists( 'active', $private_mode_languages ) || ! $private_mode_languages['active'] ) {
 			return false;
 		}
