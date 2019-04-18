@@ -301,7 +301,7 @@ class Option_Service_Weglot {
 	 */
 	public function save_options_to_weglot( $options ) {
 		$response    = wp_remote_post( sprintf( '%s/projects/settings?api_key=%s', Helper_API::get_api_url(), $options['api_key_private'] ),  [
-			'body'        => json_encode( $options ),
+			'body'        => json_encode( $options ), //phpcs: ignore
 			'headers'     => [
 				'technology'           => 'wordpress',
 				'Content-Type'         => 'application/json; charset=utf-8',
@@ -325,10 +325,10 @@ class Option_Service_Weglot {
 	 * @param string $key
 	 * @return string|null
 	 */
-	public function get_option_custom_settings( $key ){
+	public function get_option_custom_settings( $key ) {
 		$options = $this->get_options();
 
-		if( ! array_key_exists( 'custom_settings', $options ) ){
+		if( ! array_key_exists( 'custom_settings', $options ) ) {
 			return $this->get_option( $key );
 		}
 
