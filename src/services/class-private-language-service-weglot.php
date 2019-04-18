@@ -62,6 +62,10 @@ class Private_Language_Service_Weglot {
 			return false;
 		}
 
+		if ( ! is_array( $private_mode_languages ) ) {
+			return false;
+		}
+
 		if ( ! array_key_exists( 'active', $private_mode_languages ) ) {
 			return false;
 		}
