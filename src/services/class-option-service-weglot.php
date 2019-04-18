@@ -185,7 +185,6 @@ class Option_Service_Weglot {
 				$menu_options_services                        = weglot_get_service( 'Menu_Options_Service_Weglot' );
 				$options['custom_settings']['menu_switcher']  = $menu_options_services->get_options_default();
 			}
-
 			$this->options_from_api = $options;
 
 			return [
@@ -302,7 +301,7 @@ class Option_Service_Weglot {
 	 */
 	public function save_options_to_weglot( $options ) {
 		$response    = wp_remote_post( sprintf( '%s/projects/settings?api_key=%s', Helper_API::get_api_url(), $options['api_key_private'] ),  [
-			'body'        => json_encode( $options ), //phpcs:ignore
+			'body'        => json_encode( $options ),
 			'headers'     => [
 				'technology'           => 'wordpress',
 				'Content-Type'         => 'application/json; charset=utf-8',
