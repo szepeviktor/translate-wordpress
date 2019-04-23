@@ -55,7 +55,7 @@ class Caldera_Translate {
 			$word_collection->addOne( new WordEntry( $value, WordType::TEXT ) );
 		}
 
-		$client    = $this->parser_services->get_client();
+		$client    = weglot_get_service( 'Parser_Service_Weglot' )->get_client();
 		$translate = new Translate( $translate, $client );
 
 		return $translate->handle();
