@@ -69,12 +69,12 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 			return;
 		}
 
-		$tab = $_GET[ 'tab' ]; //phpcs:ignore
+		$tab         = $_GET[ 'tab' ]; //phpcs:ignore
+		$options     = $_POST[ WEGLOT_SLUG ]; //phpcs:ignore
+		$options_bdd = $this->option_services->get_options_bdd_v3();
 		switch ( $tab ) {
 			case Helper_Tabs_Admin_Weglot::SETTINGS:
-				$options            = $_POST[ WEGLOT_SLUG ]; //phpcs:ignore
 
-				$options_bdd        = $this->option_services->get_options_bdd_v3();
 				$has_first_settings = $this->option_services->get_has_first_settings();
 				$options            = $this->sanitize_options_settings( $options, $has_first_settings );
 				$response           = $this->option_services->save_options_to_weglot( $options,  $has_first_settings );
@@ -106,6 +106,30 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 					update_option( sprintf( '%s-%s', WEGLOT_SLUG, 'api_key_private' ), $options['api_key_private'] );
 					update_option( sprintf( '%s-%s', WEGLOT_SLUG, 'api_key' ), $response['result']['api_key'] );
 				}
+				break;
+			case Helper_Tabs_Admin_Weglot::SUPPORT:
+				if ( array_key_exists( 'active_wc_reload', $options ) && $options['active_wc_reload'] === 'on' ) {
+					$options_bdd['active_wc_reload'] = true;
+				}
+				else {
+					$options_bdd['active_wc_reload'] = false;
+				}
+
+				$this->option_services->set_options( $options_bdd );
+				break;
+			case Helper_Tabs_Admin_Weglot::CUSTOM_URLS:
+				if (null === $options_bdd) {
+					$options_bdd['custom_urls'] = [];
+				}
+
+				if ( array_key_exists( 'custom_urls', $options ) ) {
+					$options_bdd['custom_urls'] = $options['custom_urls'];
+				}
+				else {
+					$options_bdd['custom_urls'] = [];
+				}
+
+				$this->option_services->set_options( $options_bdd );
 				break;
 		}
 

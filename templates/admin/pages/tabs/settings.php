@@ -103,6 +103,9 @@ $plans              = $this->user_api_services->get_plans();
 					<?php foreach ( $this->options[ $options_available['languages']['key'] ] as $language ) :
 
 						$language = $languages[ $language ];
+						if( ! $language ) {
+							continue;
+						}
 						?>
 						<option
 							value="<?php echo esc_attr( $language->getIso639() ); ?>"

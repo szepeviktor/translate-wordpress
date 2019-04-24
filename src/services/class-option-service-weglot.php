@@ -66,6 +66,7 @@ class Option_Service_Weglot {
 		'menu_switcher'                    => [],
 		'custom_urls'                      => [],
 		'flag_css'                         => '',
+		'active_wc_reload'                 => false,
 	];
 
 	/**
