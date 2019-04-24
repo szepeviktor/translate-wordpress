@@ -77,6 +77,10 @@ class Parser_Service_Weglot {
 			$config = new ServerConfigProvider();
 		}
 
+		if( method_exists( $config, 'loadFromServer') ){
+			$config->loadFromServer();
+		}
+
 		$client = $this->get_client();
 
 		if ( '2' === WEGLOT_LIB_PARSER ) {
