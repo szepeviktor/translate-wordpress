@@ -494,4 +494,17 @@ class Option_Service_Weglot {
 		$this->set_options( $options );
 		return $this;
 	}
+	/**
+	 * @param string $key
+	 * @return any
+	 */
+	public function get_option_by_key_v3( $key ) {
+		$options         = $this->get_options_bdd_v3();
+
+		if( ! array_key_exists( $key, $options ) ) {
+			return null;
+		}
+
+		return $options[ $key ];
+	}
 }
