@@ -68,7 +68,7 @@ You can help translate Weglot Translate plugin on [__translate.wordpress.org__](
 = Installation steps for Weglot Translate =
 Weglot Translate is easy to set up:
 
-1. Go to [https://weglot.com/register-wordpress](https://weglot.com/register-wordpress) to set up an account.
+1. Go to [https://dashboard.weglot.com/register-wordpress](https://dashboard.weglot.com/register-wordpress) to set up an account.
 2. Grab your api_key from your dashboard, it looks like "wg_XXXXXXX"
 3. Find the Weglot Translate settings page on the bottom left of your WordPress admin dashboard.
 4. Add and save your api key to Weglot Translate settings, enter your website's original language and enter the translation languages you want, separated by commas (for instance en,de,pt to have translations in English, German and Portuguese).
@@ -131,7 +131,7 @@ Weglot Translate is easy to set up:
 
 [youtube http://www.youtube.com/watch?v=cdoBED8p3HQ]
 
-1. Go to [https://weglot.com/register-wordpress](https://weglot.com/register-wordpress) to set up an account
+1. Go to [https://dashboard.weglot.com/register-wordpress](https://dashboard.weglot.com/register-wordpress) to set up an account
 2. Grab your api_key from your dashboard, it looks like "wg_XXXXXXX"
 3. Find the Weglot Translate settings page on the bottom left of your WordPress admin dashboard.
 4. Add and save your api key to Weglot Translate settings, enter your website's original language and enter the translation languages you want, separated by commas (for instance en,de,pt to have translations in English, German and Portuguese).

@@ -9,7 +9,7 @@ $options_available = [
 	'api_key_private' => [
 		'key'         => 'api_key_private',
 		'label'       => __( 'API Key', 'weglot' ),
-		'description' => __( 'Log in to <a target="_blank" href="https://weglot.com/register-wordpress">Weglot</a> to get your API key.', 'weglot' ),
+		'description' => __( 'Log in to <a target="_blank" href="https://dashboard.weglot.com/register-wordpress">Weglot</a> to get your API key.', 'weglot' ),
 	],
 	'language_from' => [
 		'key'         => 'original_language',
