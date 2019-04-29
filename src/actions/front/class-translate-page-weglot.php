@@ -88,6 +88,7 @@ class Translate_Page_Weglot implements Hooks_Interface_Weglot {
 			'elementor_ajax', // Elementor since 2.5
 			'ct_get_svg_icon_sets', // Oxygen
 			'oxy_render_nav_menu', // Oxygen
+			'hotel_booking_ajax_add_to_cart', // Hotel booking plugin
 		] );
 
 		if ( 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['action'] ) && in_array( $_POST['action'], $action_ajax_no_translate ) ) { //phpcs:ignore
