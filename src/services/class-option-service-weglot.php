@@ -120,15 +120,14 @@ class Option_Service_Weglot {
 			'timeout'     => 15,
 		] );
 
-		if ( is_wp_error( $response ) ) {
-			return [
-				'success' => false,
-				'result'  => [],
-			];
-		}
-
 		try {
-			$body              = json_decode( $response['body'], true );
+			if ( is_wp_error( $response ) ) {
+				$response = $this->get_options_from_api_with_api_key( $this->get_api_key_private() );
+				$body = $response["result"];
+			}
+			else{
+				$body  = json_decode( $response['body'], true );
+			}
 			$this->options_cdn = $body;
 
 			set_transient( 'weglot_cache_cdn', $body, apply_filters( 'weglot_get_options_from_cdn_cache_duration', 300 ) );
