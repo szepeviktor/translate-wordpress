@@ -65,6 +65,7 @@ abstract class Context_Weglot {
 			'\WeglotWP\Services\Href_Lang_Service_Weglot',
 			'\WeglotWP\Services\Menu_Options_Service_Weglot',
 			'\WeglotWP\Services\Translate_Json_Service',
+			'\WeglotWP\Services\Translate_Json_Ld',
 		];
 
 		self::$context->set_services( $services );

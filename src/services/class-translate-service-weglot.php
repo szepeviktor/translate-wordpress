@@ -31,6 +31,7 @@ class Translate_Service_Weglot {
 		$this->other_translate_services         = weglot_get_service( 'Other_Translate_Service_Weglot' );
 		$this->translate_json_service           = weglot_get_service( 'Translate_Json_Service' );
 		$this->generate_switcher_service        = weglot_get_service( 'Generate_Switcher_Service_Weglot' );
+		$this->translate_json_ld_services       = weglot_get_service( 'Translate_Json_Ld' );
 	}
 
 
@@ -118,6 +119,7 @@ class Translate_Service_Weglot {
 						$translated_content = weglot_get_service( 'Caldera_Translate' )->translate_words( $translated_content );
 					}
 
+					$translated_content = $this->translate_json_ld_services->handle( $translated_content );
 					$translated_content = $this->other_translate_services->translate_words( $translated_content );
 
 					$translated_content = apply_filters( 'weglot_html_treat_page', $translated_content );
