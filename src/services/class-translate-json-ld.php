@@ -48,6 +48,18 @@ class Translate_Json_Ld {
 
 	/**
 	 * @since 3.0.3
+	 * @var integer
+	 */
+	protected $index_json_collections = [];
+
+	/**
+	 * @since 3.0.3
+	 * @var integer
+	 */
+	protected $limit_json_collections = [];
+
+	/**
+	 * @since 3.0.3
 	 * @var array
 	 */
 	protected $keys_json_ld_translate = [
@@ -67,7 +79,7 @@ class Translate_Json_Ld {
 	}
 
 	/**
-	 * @since 2.6.0
+	 * @since 3.0.3
 	 *
 	 * @param array $json
 	 * @param string $path
@@ -141,11 +153,10 @@ class Translate_Json_Ld {
 	}
 
 	/**
-	 * @since 2.6.0
-	 * @param array $json
-	 * @return JsonObject
+	 * @since 3.0.3
+	 * @return string
 	 */
-	protected function translate_json_strings( $json ) {
+	protected function handle_translate_jsons() {
 		$parser = $this->parser_services->get_parser();
 
 		// Translate endpoint parameters
@@ -159,81 +170,95 @@ class Translate_Json_Ld {
 		}
 
 		$params      = array_merge( $params, $parser->getConfigProvider()->asArray() );
-		$json_object = new JsonObject( $json );
 
-		try {
-			$translate       = new TranslateEntry( $params );
-			$word_collection = $translate->getInputWords();
-			foreach ( $this->collections as $value ) {
-				$word_collection->addOne( new WordEntry( $value['w'], $value['t'] ) );
-			}
-		} catch ( \Exception $e ) {
-			return $json_object;
+		$translate       = new TranslateEntry( $params );
+		$word_collection = $translate->getInputWords();
+		foreach ( $this->collections as $value ) {
+			$word_collection->addOne( new WordEntry( $value['w'], $value['t'] ) );
 		}
-
-
 
 		$translate   = new Translate( $translate, $parser->getClient() );
-		$translated  = $translate->handle();
+		return $translate->handle();
 
-		$output_words = $translated->getOutputWords();
+	}
 
-		if ( $output_words->count() !== count( $this->collections ) || $output_words->count() === 0 ) {
-			return $json_object;
-		}
+	/**
+	 *
+	 * @param string $json
+	 * @param string $key
+	 * @param array $data
+	 * @return void
+	 */
+	protected function replace_json_content( $json, $key, $data ){
 
-		$input_words = $translated->getInputWords();
-		$i           = 0;
+		$json_object = new JsonObject( $json );
 
-		foreach ( $this->indexes as $path => $index ) {
+		list( $output_words, $input_words ) = $data;
+
+		$array_keys_indexes = array_keys($this->indexes);
+		for ( $i= $this->index_json_collections[$key]; $i < $this->limit_json_collections[$key] ; $i++) {
+
+			$path = $array_keys_indexes[$i];
+			$index = $this->indexes[ $path ];
+			$y = 0;
 
 			do {
-				if ( is_null( $input_words[ $i ] ) || is_null( $output_words[ $i ] ) ) {
-					$i++;
+				if ( is_null( $input_words[ $y ] ) || is_null( $output_words[ $y ] ) ) {
+					$y++;
 					continue;
 				}
 
-				$input_word  = $input_words[ $i ]->getWord();
-				$output_word = $output_words[ $i ]->getWord();
+				$input_word  = $input_words[ $y ]->getWord();
+				$output_word = $output_words[ $y ]->getWord();
 				$str         = $json_object->get( $path )[0];
 
 				$json_object->set( $path, str_replace( $input_word, $output_word, $str ) );
-				$i++;
-			} while ( $i < $index['limit'] );
+				$y++;
+			} while ( $y < $index['limit'] );
 		}
 
-		return $json_object;
+		return json_decode( $json_object->getJson(), JSON_PRETTY_PRINT );
 	}
-
-
-	/**
-	 * @since 2.6.0
-	 * @param array $json
-	 * @return array
-	 */
-	public function replace_json_links( $json ) {
-		$replace_urls = apply_filters( 'weglot_ajax_replace_urls', [ 'redirecturl', 'url', 'link' ] );
-
-		foreach ( $json as $key => $val ) {
-			if ( is_array( $val ) ) {
-				$json[ $key ] = $this->replace_json_links( $val );
-			} else {
-				if ( Helper_Json_Inline_Weglot::is_ajax_html( $val ) ) {
-					$json[ $key ] = $this->replace_url_services->replace_link_in_dom( $val );
-				} else {
-					if ( in_array( $key,  $replace_urls, true ) ) {
-						$json[ $key ] = $this->replace_link_services->replace_url( $val );
-					}
-				}
-			}
-		}
-
-		return $json;
-	}
-
 
 	/**
 	 * @since 3.0.3
+	 * @param array simple_html_dom_node $jsons
+	 * @param array $translated_words
+	 * @return array simple_html_dom_node
+	 */
+	public function replace_jsons_translated( $jsons, $translated_words ){
+		$output_words = $translated_words->getOutputWords();
+
+		if ( $output_words->count() !== count( $this->collections ) || $output_words->count() === 0 ) {
+			return $jsons;
+		}
+
+		$input_words = $translated_words->getInputWords();
+		$i           = 0;
+
+		foreach ( $jsons as $key => $row ) {
+			$json = json_decode($row->innertext, true);
+			if ( json_last_error() !== JSON_ERROR_NONE) {
+				continue;
+			}
+
+			$json = $this->replace_json_content($json, $key, [
+				$output_words,
+				$input_words
+			]);
+
+			$row->innertext = json_encode($json, JSON_PRETTY_PRINT);
+
+		}
+
+		return $jsons;
+
+	}
+
+	/**
+	 * @since 3.0.3
+	 * @param string $dom
+	 * @return string
 	 */
 	public function handle( $dom ) {
 
@@ -247,19 +272,28 @@ class Translate_Json_Ld {
 
 		$this->keys_json_ld_translate = apply_filters( 'weglot_keys_json_ld_translate', $this->keys_json_ld_translate );
 
-		foreach ( $dom->find( 'script[type="application/ld+json"]' ) as $k => $row ) {
-			$this->indexes = [];
-			$this->collections = [];
+		$jsons = $dom->find( 'script[type="application/ld+json"]' );
+		foreach ( $jsons as $key => $row ) {
 			$json = json_decode($row->innertext, true);
 			if ( json_last_error() !== JSON_ERROR_NONE) {
 				continue;
 			}
 
+			$this->index_json_collections[$key] = count($this->collections);
 			$this->check_json_to_translate($json);
-			$json_object = $this->translate_json_strings( $json );
-			$json        = json_decode( $json_object->getJson(), JSON_PRETTY_PRINT );
-			$row->innertext = json_encode($json, JSON_PRETTY_PRINT);
+			$this->limit_json_collections[$key] = count($this->collections);
+
 		}
+
+		$translated_words = null;
+		try {
+			$translated_words = $this->handle_translate_jsons();
+		} catch (\Exception $e) {
+			return $dom->save();
+		}
+
+
+		$translated_jsons = $this->replace_jsons_translated( $jsons, $translated_words );
 
 		return $dom->save();
 	}
