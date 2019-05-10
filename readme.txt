@@ -4,7 +4,7 @@ Tags: translate, multilingual, language, translation, localization
 Requires at least: 4.5
 Tested up to: 5.1
 Requires PHP: 5.4
-Stable tag: 3.0.3
+Stable tag: 3.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -152,6 +152,9 @@ Weglot Translate is easy to set up:
 See changelog for upgrade changes.
 
 == Changelog ==
+
+= 3.0.4 (10/05/2019) =
+* Bugfix: Prevent errors due to the parser of the JSON-LD
 
 = 3.0.3 (09/05/2019) =
 * Bugfix: Weglot switcher on menu
