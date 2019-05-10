@@ -222,7 +222,6 @@ class Translate_Json_Ld {
 			} catch (\Exception $e) {
 				continue;
 			}
-
 		}
 
 		return json_decode( $json_object->getJson(), JSON_PRETTY_PRINT );
@@ -301,7 +300,11 @@ class Translate_Json_Ld {
 		}
 
 
-		$translated_jsons = $this->replace_jsons_translated( $jsons, $translated_words );
+		try {
+			$translated_jsons = $this->replace_jsons_translated( $jsons, $translated_words );
+		} catch (\Exception $e) {
+			return $dom->save();
+		}
 
 		return $dom->save();
 	}
