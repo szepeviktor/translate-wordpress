@@ -197,24 +197,32 @@ class Translate_Json_Ld {
 
 		$array_keys_indexes = array_keys($this->indexes);
 		for ( $i= $this->index_json_collections[$key]; $i < $this->limit_json_collections[$key] ; $i++) {
-
-			$path = $array_keys_indexes[$i];
-			$index = $this->indexes[ $path ];
-			$y = 0;
-
-			do {
-				if ( is_null( $input_words[ $y ] ) || is_null( $output_words[ $y ] ) ) {
-					$y++;
+			try {
+				if( !array_key_exists($i, $array_keys_indexes)){
 					continue;
 				}
 
-				$input_word  = $input_words[ $y ]->getWord();
-				$output_word = $output_words[ $y ]->getWord();
-				$str         = $json_object->get( $path )[0];
+				$path = $array_keys_indexes[$i];
+				$index = $this->indexes[ $path ];
+				$y = 0;
 
-				$json_object->set( $path, str_replace( $input_word, $output_word, $str ) );
-				$y++;
-			} while ( $y < $index['limit'] );
+				do {
+					if ( is_null( $input_words[ $y ] ) || is_null( $output_words[ $y ] ) ) {
+						$y++;
+						continue;
+					}
+
+					$input_word  = $input_words[ $y ]->getWord();
+					$output_word = $output_words[ $y ]->getWord();
+					$str         = $json_object->get( $path )[0];
+
+					$json_object->set( $path, str_replace( $input_word, $output_word, $str ) );
+					$y++;
+				} while ( $y < $index['limit'] );
+			} catch (\Exception $e) {
+				continue;
+			}
+
 		}
 
 		return json_decode( $json_object->getJson(), JSON_PRETTY_PRINT );
