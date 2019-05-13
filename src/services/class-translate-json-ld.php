@@ -267,15 +267,19 @@ class Translate_Json_Ld {
 	 * @param string $dom
 	 * @return string
 	 */
-	public function handle( $dom ) {
+	public function handle( $domString ) {
 
 		$dom = \WGSimpleHtmlDom\str_get_html(
-			$dom,
+			$domString,
 			true,
 			true,
 			WG_DEFAULT_TARGET_CHARSET,
 			false
 		);
+
+		if ($dom === false) {
+            return $domString;
+		}
 
 		$this->keys_json_ld_translate = apply_filters( 'weglot_keys_json_ld_translate', $this->keys_json_ld_translate );
 
