@@ -469,7 +469,10 @@ class Option_Service_Weglot {
 	 * @return Option_Service_Weglot
 	 */
 	public function set_options( $options ) {
-		update_option( sprintf( '%s-%s', WEGLOT_SLUG, 'v3' ), $options );
+		$key = sprintf( '%s-%s', WEGLOT_SLUG, 'v3' );
+		update_option( $key, $options );
+		wp_cache_delete ( $key );
+
 		return $this;
 	}
 

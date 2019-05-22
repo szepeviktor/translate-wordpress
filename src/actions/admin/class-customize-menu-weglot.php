@@ -83,6 +83,7 @@ class Customize_Menu_Weglot implements Hooks_Interface_Weglot {
 		}
 
 		$this->option_services->set_option_by_key( 'menu_switcher', $options_menu );
+
 	}
 
 	/**
