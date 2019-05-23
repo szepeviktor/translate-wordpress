@@ -42,7 +42,11 @@ class GF_Filter_Urls implements Hooks_Interface_Weglot {
 	 * @return array
 	 */
 	public function weglot_gform_confirmation( $data ) {
-		if( is_array( $data ) && ! array_key_exists( 'redirect', $data ) ){
+		if( ! is_array( $data ) ){
+			return $data;
+		}
+
+		if( ! array_key_exists( 'redirect', $data ) ){
 			return $data;
 		}
 
