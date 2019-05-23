@@ -156,7 +156,7 @@ See changelog for upgrade changes.
 = 3.0.5 (22/05/2019) =
 * Bugfix: Prevent array key exists for Gravity Form
 * Bugfix: Save menu Weglot Switcher
-* Bugfix: Check DOM on json-ld
+* Bugfix: Check DOM on json-ld and inactive by default
 
 = 3.0.4 (10/05/2019) =
 * Bugfix: Prevent errors due to the parser of the JSON-LD

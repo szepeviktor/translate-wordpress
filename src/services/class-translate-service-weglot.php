@@ -119,7 +119,7 @@ class Translate_Service_Weglot {
 						$translated_content = weglot_get_service( 'Caldera_Translate' )->translate_words( $translated_content );
 					}
 
-					if( apply_filters( 'weglot_translate_json_ld', true ) ){
+					if( apply_filters( 'weglot_translate_json_ld', false ) ) {
 						$translated_content = $this->translate_json_ld_services->handle( $translated_content );
 					}
 
