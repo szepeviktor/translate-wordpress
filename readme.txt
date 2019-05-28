@@ -4,7 +4,7 @@ Tags: translate, multilingual, language, translation, localization
 Requires at least: 4.5
 Tested up to: 5.1
 Requires PHP: 5.4
-Stable tag: 3.0.5
+Stable tag: 3.0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -152,6 +152,12 @@ Weglot Translate is easy to set up:
 See changelog for upgrade changes.
 
 == Changelog ==
+
+= 3.0.6 (28/05/2019) =
+* Add: Compatibility with WP Forms
+* Add: Reset postdata filter for custom URLs
+* Bugfix: Auto switch fallback
+* Bugfix: Custom url on is_front_page
 
 = 3.0.5 (22/05/2019) =
 * Bugfix: Prevent array key exists for Gravity Form
