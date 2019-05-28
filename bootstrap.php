@@ -34,6 +34,7 @@ abstract class Context_Weglot {
 
 		self::$context = new Bootstrap_Weglot();
 
+		// If PHP > 5.6, it will be possible to autoload the classes without listing them
 		$services = [
 			'\WeglotWP\Services\Button_Service_Weglot',
 			'\WeglotWP\Services\Request_Url_Service_Weglot',
@@ -54,6 +55,8 @@ abstract class Context_Weglot {
 			'\WeglotWP\Third\CalderaForms\Caldera_Translate',
 			'\WeglotWP\Third\CalderaForms\Caldera_Active',
 			'\WeglotWP\Third\Gravityforms\GF_Active',
+			'\WeglotWP\Third\WPForms\WPForms_Active',
+			'\WeglotWP\Third\WPForms\WPForms_Translate',
 			'\WeglotWP\Services\User_Api_Service_Weglot',
 			'\WeglotWP\Services\Other_Translate_Service_Weglot',
 			'\WeglotWP\Services\Dom_Checkers_Service_Weglot',
@@ -70,6 +73,7 @@ abstract class Context_Weglot {
 
 		self::$context->set_services( $services );
 
+		// If PHP > 5.6, it will be possible to autoload the classes without listing them
 		$actions = [
 			'\WeglotWP\Actions\Email_Translate_Weglot',
 			'\WeglotWP\Actions\Register_Widget_Weglot',
