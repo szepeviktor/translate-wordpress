@@ -56,7 +56,6 @@ use Weglot\WeglotContext;
 			$('.custom-url').on('keyup', function(e){
 				const key = $(this).data('key')
 				const lang = $(this).data('lang')
-				console.log(key)
 				$('.base-url-' + key).attr('name', 'weglot-translate[custom_urls][' + lang + '][' + e.target.value + ']')
 			})
 

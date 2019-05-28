@@ -28,6 +28,11 @@ class Custom_Url_Service_Weglot {
 	 * @return string
 	 */
 	public function get_link( $key_code, $add_no_redirect = true ) {
+
+		if( apply_filters( 'weglot_need_reset_postdata', false ) ) {
+			wp_reset_postdata();
+		}
+
 		global $post;
 		$weglot_url                = $this->request_url_services->get_weglot_url();
 		$request_without_language  = array_filter( explode( '/', $weglot_url->getPath() ), 'strlen' );
