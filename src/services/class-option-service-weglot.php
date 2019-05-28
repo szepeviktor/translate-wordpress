@@ -33,7 +33,7 @@ class Option_Service_Weglot {
 		'language_from'                    => 'en',
 		'languages'                        => [],
 		'auto_switch'                      => false,
-		'auto_switch_fallback'             => 'en',
+		'auto_switch_fallback'             => null,
 		'excluded_blocks'                  => [],
 		'excluded_paths'                   => [],
 		'custom_settings'                  => [

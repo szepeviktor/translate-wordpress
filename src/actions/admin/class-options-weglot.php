@@ -209,9 +209,9 @@ class Options_Weglot implements Hooks_Interface_Weglot {
 			$options['excluded_blocks'] = [];
 		}
 
-		if ( ! isset( $options['auto_switch_fallback'] ) ) {
+		/*if ( ! isset( $options['auto_switch_fallback'] ) ) {
 			$options['auto_switch_fallback'] = 'en';
-		}
+		}*/
 
 		return $options;
 	}
