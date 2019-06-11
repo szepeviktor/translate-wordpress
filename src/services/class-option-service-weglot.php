@@ -47,6 +47,7 @@ class Option_Service_Weglot {
 				'custom_css'    => '',
 			],
 			'rtl_ltr_style'                    => '',
+			'active_wc_reload'                 => true,
 			'flag_css'                         => '',
 		],
 		'allowed' => true,
@@ -61,7 +62,7 @@ class Option_Service_Weglot {
 		'menu_switcher'                    => [],
 		'custom_urls'                      => [],
 		'flag_css'                         => '',
-		'active_wc_reload'                 => false,
+		'active_wc_reload'                 => true,
 	];
 
 	/**
@@ -382,6 +383,7 @@ class Option_Service_Weglot {
 		$exclude_blocks[]   = '#query-monitor';
 		$exclude_blocks[]   = '.menu-item-weglot';
 		$exclude_blocks[]   = '.menu-item-weglot a';
+		$exclude_blocks[]   = '.mini-cart-counter';
 
 		return apply_filters( 'weglot_exclude_blocks', $exclude_blocks );
 	}
