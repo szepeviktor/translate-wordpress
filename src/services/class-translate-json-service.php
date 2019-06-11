@@ -182,9 +182,14 @@ class Translate_Json_Service {
 				$output_word = $output_words[ $i ]->getWord();
 				$str         = $json_object->get( $path )[0];
 
+				if(apply_filters('need_html_entity_decode', true)){
+					$str = html_entity_decode($str);
+					$input_word = html_entity_decode($input_word);
+				}
+
 				$json_object->set( $path, str_replace( $input_word, $output_word, $str ) );
 				$i++;
-			} while ( $i < $index['limit'] );
+			} while ( $i < $index['limit'] );	
 		}
 
 		return $json_object;
