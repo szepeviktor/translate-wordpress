@@ -19,5 +19,5 @@ class Ninja_Form_Json_Setting extends RegexChecker
 
     const TYPE = SourceType::SOURCE_JSON;
 
-    const KEYS = array( "title" , "label" , "validateRequiredField" , "formErrorsCorrectErrors");
+    const KEYS = array( "title" , "changeEmailErrorMsg" , "changeDateErrorMsg" , "confirmFieldErrorMsg" , "fieldNumberNumMinError" , "fieldNumberNumMaxError" , "fieldNumberIncrementBy" , "fieldTextareaRTEInsertLink" , "fieldTextareaRTEInsertMedia" , "fieldTextareaRTESelectAFile" , "formErrorsCorrectErrors" , "validateRequiredField" , "honeypotHoneypotError" , "fileUploadOldCodeFileUploadInProgress" , "previousMonth" , "nextMonth" , "fieldsMarkedRequired");
 }

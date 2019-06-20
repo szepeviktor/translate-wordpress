@@ -19,5 +19,5 @@ class Ninja_Form_Json_Fields extends RegexChecker
 
     const TYPE = SourceType::SOURCE_JSON;
 
-    const KEYS = array( "title" , "label" );
+    const KEYS = array( "label" , "help_text" , "value" );
 }
