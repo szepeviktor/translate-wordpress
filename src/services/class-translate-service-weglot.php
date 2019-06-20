@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Weglot\Client\Api\Exception\ApiError;
 use WeglotWP\Helpers\Helper_Json_Inline_Weglot;
 use WeglotWP\Helpers\Helper_Keys_Json_Weglot;
 
@@ -100,14 +101,18 @@ class Translate_Service_Weglot {
 		try {
 			switch ( $type ) {
 				case 'json':
-					$json       = \json_decode( $content, true );
+                   /*
+				    $json       = \json_decode( $content, true );
 					$content    = $this->translate_json_service->translate_json( $json );
 					$content    = apply_filters( 'weglot_json_treat_page', $content );
 
 					return wp_json_encode( $content );
+*/
+                    $translated_content = $parser->translate( $content, $this->original_language, $this->current_language );
+                    return $translated_content;
 				case 'html':
 					$translated_content = $parser->translate( $content, $this->original_language, $this->current_language ); // phpcs:ignore
-					if ( $this->wc_active_services->is_active() ) {
+					/*if ( $this->wc_active_services->is_active() ) {
 						// Improve this with multiple service
 						$translated_content = weglot_get_service( 'WC_Translate_Weglot' )->translate_words( $translated_content );
 					}
@@ -129,7 +134,7 @@ class Translate_Service_Weglot {
 					}
 
 					$translated_content = $this->other_translate_services->translate_words( $translated_content );
-
+*/
 					$translated_content = apply_filters( 'weglot_html_treat_page', $translated_content );
 
 					return $this->weglot_render_dom( $translated_content );

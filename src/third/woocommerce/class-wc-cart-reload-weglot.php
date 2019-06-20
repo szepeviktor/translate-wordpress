@@ -53,6 +53,13 @@ class WC_Cart_Reload_Weglot implements Hooks_Interface_Weglot {
 		<script>
 			document.addEventListener('DOMContentLoaded', function(){
 
+                Object.keys(window.sessionStorage).forEach(function(element) {
+                    if(element.startsWith("wc_cart_hash_") || element.startsWith("wc_fragments_")) {
+                        window.sessionStorage.removeItem(element);
+                    }
+                });
+
+
 				jQuery( '<?php echo esc_attr( $click_selector ); ?>' ).on('click', function(e) {
 					e.preventDefault();
 					var href = jQuery(this).attr('href')

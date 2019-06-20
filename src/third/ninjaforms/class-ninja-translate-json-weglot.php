@@ -25,6 +25,8 @@ use WeglotWP\Helpers\Helper_Json_Inline_Weglot;
  */
 class Ninja_Translate_Json_Weglot {
 
+
+
 	/**
 	 * @since 3.0.0
 	 */
