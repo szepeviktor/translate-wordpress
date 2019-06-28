@@ -57,7 +57,7 @@ class WC_Cart_Reload_Weglot implements Hooks_Interface_Weglot {
                     if(element.startsWith("wc_cart_hash_") || element.startsWith("wc_fragments_")) {
                         window.sessionStorage.removeItem(element);
                     }
-                });
+                }); //TODO : remove this and only reload on change click
 
 
 				jQuery( '<?php echo esc_attr( $click_selector ); ?>' ).on('click', function(e) {

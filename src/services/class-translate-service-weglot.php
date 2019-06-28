@@ -112,6 +112,7 @@ class Translate_Service_Weglot {
                     return $translated_content;
 				case 'html':
 					$translated_content = $parser->translate( $content, $this->original_language, $this->current_language ); // phpcs:ignore
+                    //return serialize($translated_content);
 					/*if ( $this->wc_active_services->is_active() ) {
 						// Improve this with multiple service
 						$translated_content = weglot_get_service( 'WC_Translate_Weglot' )->translate_words( $translated_content );
