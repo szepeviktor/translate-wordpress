@@ -19,5 +19,5 @@ class Wc_Json_Address extends RegexChecker
 
     const TYPE = SourceType::SOURCE_JSON;
 
-    const KEYS = array( "label" , "placeholder" , "i18n_required_text" , "i18n_optional_text"  );
+    public static $KEYS = array( "label" , "placeholder" , "i18n_required_text" , "i18n_optional_text"  );
 }

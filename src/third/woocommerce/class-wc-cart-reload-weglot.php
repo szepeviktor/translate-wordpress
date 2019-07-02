@@ -21,7 +21,7 @@ class WC_Cart_Reload_Weglot implements Hooks_Interface_Weglot {
 	 * @return void
 	 */
 	public function __construct() {
-		$this->wc_active_services        = weglot_get_service( 'WC_Active_Weglot' );
+		$this->wc_active_services        = weglot_get_service( 'Wc_Active' );
 	}
 
 	/**
@@ -52,13 +52,6 @@ class WC_Cart_Reload_Weglot implements Hooks_Interface_Weglot {
 		?>
 		<script>
 			document.addEventListener('DOMContentLoaded', function(){
-
-                Object.keys(window.sessionStorage).forEach(function(element) {
-                    if(element.startsWith("wc_cart_hash_") || element.startsWith("wc_fragments_")) {
-                        window.sessionStorage.removeItem(element);
-                    }
-                }); //TODO : remove this and only reload on change click
-
 
 				jQuery( '<?php echo esc_attr( $click_selector ); ?>' ).on('click', function(e) {
 					e.preventDefault();

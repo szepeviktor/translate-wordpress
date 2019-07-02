@@ -1,6 +1,6 @@
 <?php
 
-namespace WeglotWP\Regexcheckers;
+namespace WeglotWP\Third\Ninjaforms\Regexcheckers;
 
 use Weglot\Parser\Check\Regex\RegexChecker;
 use Weglot\Util\SourceType;
@@ -19,5 +19,5 @@ class Ninja_Form_Json_Fields extends RegexChecker
 
     const TYPE = SourceType::SOURCE_JSON;
 
-    const KEYS = array( "label" , "help_text" , "value" );
+    public static $KEYS = array( "label" , "help_text" , "value" );
 }

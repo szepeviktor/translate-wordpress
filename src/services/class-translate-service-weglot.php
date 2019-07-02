@@ -26,14 +26,14 @@ class Translate_Service_Weglot {
 		$this->replace_url_services             = weglot_get_service( 'Replace_Url_Service_Weglot' );
 		$this->replace_link_services            = weglot_get_service( 'Replace_Link_Service_Weglot' );
 		$this->parser_services                  = weglot_get_service( 'Parser_Service_Weglot' );
-		$this->wc_active_services               = weglot_get_service( 'WC_Active_Weglot' );
-		$this->ninja_active_services            = weglot_get_service( 'Ninja_Active_Weglot' );
-		$this->caldera_active_services          = weglot_get_service( 'Caldera_Active' );
-		$this->wpforms_active_services          = weglot_get_service( 'WPForms_Active' );
+		//$this->wc_active_services               = weglot_get_service( 'Wc_Active' );
+		//$this->ninja_active_services            = weglot_get_service( 'Ninja_Active_Weglot' );
+		//$this->caldera_active_services          = weglot_get_service( 'Caldera_Active' );
+		//$this->wpforms_active_services          = weglot_get_service( 'WPForms_Active' );
 		$this->other_translate_services         = weglot_get_service( 'Other_Translate_Service_Weglot' );
-		$this->translate_json_service           = weglot_get_service( 'Translate_Json_Service' );
+		//$this->translate_json_service           = weglot_get_service( 'Translate_Json_Service' );
 		$this->generate_switcher_service        = weglot_get_service( 'Generate_Switcher_Service_Weglot' );
-		$this->translate_json_ld_services       = weglot_get_service( 'Translate_Json_Ld' );
+		//$this->translate_json_ld_services       = weglot_get_service( 'Translate_Json_Ld' );
 	}
 
 

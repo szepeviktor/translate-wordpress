@@ -19,5 +19,5 @@ class Wc_Json_Add_Cart extends RegexChecker
 
     const TYPE = SourceType::SOURCE_JSON;
 
-    const KEYS = array( "i18n_view_cart" );
+    public static $KEYS = array( "i18n_view_cart" );
 }

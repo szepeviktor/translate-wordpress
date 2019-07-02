@@ -48,14 +48,14 @@ abstract class Context_Weglot {
 			'\WeglotWP\Services\Dom_Listeners_Service_Weglot',
 			'\WeglotWP\Services\Parser_Service_Weglot',
 			'\WeglotWP\Third\Woocommerce\WC_Translate_Weglot',
-			'\WeglotWP\Third\Woocommerce\WC_Active_Weglot',
-			'\WeglotWP\Third\NinjaForms\Ninja_Active_Weglot',
-			'\WeglotWP\Third\NinjaForms\Ninja_Translate_Json_Weglot',
+			'\WeglotWP\Third\Woocommerce\Wc_Active',
+			'\WeglotWP\Third\NinjaForms\Ninja_Active',
+			//'\WeglotWP\Third\NinjaForms\Ninja_Translate_Json_Weglot',
 			'\WeglotWP\Third\Amp\Amp_Service_Weglot',
-			'\WeglotWP\Third\CalderaForms\Caldera_Translate',
-			'\WeglotWP\Third\CalderaForms\Caldera_Active',
-			'\WeglotWP\Third\Gravityforms\GF_Active',
-			'\WeglotWP\Third\WPForms\WPForms_Active',
+			'\WeglotWP\Third\Calderaforms\Caldera_Translate',
+			'\WeglotWP\Third\Calderaforms\Caldera_Active',
+			'\WeglotWP\Third\Gravityforms\Gf_Active',
+			'\WeglotWP\Third\WPForms\Wpforms_Active',
 			'\WeglotWP\Third\WPForms\WPForms_Translate',
 			'\WeglotWP\Services\User_Api_Service_Weglot',
 			'\WeglotWP\Services\Other_Translate_Service_Weglot',
@@ -68,14 +68,14 @@ abstract class Context_Weglot {
 			'\WeglotWP\Services\Private_Language_Service_Weglot',
 			'\WeglotWP\Services\Href_Lang_Service_Weglot',
 			'\WeglotWP\Services\Menu_Options_Service_Weglot',
-			'\WeglotWP\Services\Translate_Json_Service',
-			'\WeglotWP\Services\Translate_Json_Ld',
+			//'\WeglotWP\Services\Translate_Json_Service',
+			//'\WeglotWP\Services\Translate_Json_Ld',
 		];
 
 		self::$context->set_services( $services );
 
 		// If PHP > 5.6, it will be possible to autoload the classes without listing them
-		$actions = [
+		$actions = [ //TODO : remove old translate JSON class
 			'\WeglotWP\Actions\Email_Translate_Weglot',
 			'\WeglotWP\Actions\Register_Widget_Weglot',
 			'\WeglotWP\Actions\Admin\Pages_Weglot',
@@ -92,7 +92,7 @@ abstract class Context_Weglot {
 			'\WeglotWP\Third\Woocommerce\WC_Filter_Urls_Weglot',
 			'\WeglotWP\Third\Gravityforms\GF_Filter_Urls',
 			'\WeglotWP\Third\Woocommerce\WC_Cart_Reload_Weglot',
-			'\WeglotWP\Third\CalderaForms\Caldera_I18n_Inline',
+			'\WeglotWP\Third\Calderaforms\Caldera_I18n_Inline',
 			'\WeglotWP\Third\Amp\Amp_Enqueue_Weglot',
 			'\WeglotWP\Actions\Admin\Metabox_Url_Translate_Weglot',
 			'\WeglotWP\Actions\Front\Front_Menu_Weglot',

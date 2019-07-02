@@ -19,5 +19,5 @@ class Elementor_Json_Template_Finder_Results extends RegexChecker
     
     const TYPE = SourceType::SOURCE_TEXT;
 
-    const KEYS = array(  );
+    public static $KEYS = array(  );
 }

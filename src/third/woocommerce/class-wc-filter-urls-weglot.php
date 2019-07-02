@@ -23,7 +23,7 @@ class WC_Filter_Urls_Weglot implements Hooks_Interface_Weglot {
 	public function __construct() {
 		$this->request_url_services      = weglot_get_service( 'Request_Url_Service_Weglot' );
 		$this->option_services           = weglot_get_service( 'Option_Service_Weglot' );
-		$this->wc_active_services        = weglot_get_service( 'WC_Active_Weglot' );
+		$this->wc_active_services        = weglot_get_service( 'Wc_Active' );
 		$this->replace_url_services      = weglot_get_service( 'Replace_Url_Service_Weglot' );
 	}
 
