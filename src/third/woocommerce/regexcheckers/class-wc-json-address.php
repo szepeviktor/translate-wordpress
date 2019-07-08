@@ -1,6 +1,6 @@
 <?php
 
-namespace WeglotWP\Regexcheckers;
+namespace WeglotWP\Third\Woocommerce\Regexcheckers;
 
 use Weglot\Parser\Check\Regex\RegexChecker;
 use Weglot\Util\SourceType;
