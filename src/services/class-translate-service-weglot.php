@@ -101,43 +101,12 @@ class Translate_Service_Weglot {
 		try {
 			switch ( $type ) {
 				case 'json':
-                   /*
-				    $json       = \json_decode( $content, true );
-					$content    = $this->translate_json_service->translate_json( $json );
-					$content    = apply_filters( 'weglot_json_treat_page', $content );
-
-					return wp_json_encode( $content );
-*/
                     $translated_content = $parser->translate( $content, $this->original_language, $this->current_language );
+                    $translated_content    = apply_filters( 'weglot_json_treat_page', $translated_content );
                     return $translated_content;
 				case 'html':
 					$translated_content = $parser->translate( $content, $this->original_language, $this->current_language ); // phpcs:ignore
-                    //return serialize($translated_content);
-					/*if ( $this->wc_active_services->is_active() ) {
-						// Improve this with multiple service
-						$translated_content = weglot_get_service( 'WC_Translate_Weglot' )->translate_words( $translated_content );
-					}
-					if ( $this->ninja_active_services->is_active() ) {
-						// Improve this with multiple service
-						$translated_content = weglot_get_service( 'Ninja_Translate_Json_Weglot' )->translate_words( $translated_content );
-					}
-					if ( $this->caldera_active_services->is_active() ) {
-						// Improve this with multiple service
-						$translated_content = weglot_get_service( 'Caldera_Translate' )->translate_words( $translated_content );
-					}
-					if ( $this->wpforms_active_services->is_active() ) {
-						// Improve this with multiple service
-						$translated_content = weglot_get_service( 'WPForms_Translate' )->translate_words( $translated_content );
-					}
-
-					if( apply_filters( 'weglot_translate_json_ld', false ) ) {
-						$translated_content = $this->translate_json_ld_services->handle( $translated_content );
-					}
-
-					$translated_content = $this->other_translate_services->translate_words( $translated_content );
-*/
 					$translated_content = apply_filters( 'weglot_html_treat_page', $translated_content );
-
 					return $this->weglot_render_dom( $translated_content );
 				default:
 					$name_filter = sprintf( 'weglot_%s_treat_page', $type );
@@ -158,42 +127,6 @@ class Translate_Service_Weglot {
 			}
 			return $content;
 		}
-	}
-
-	/**
-	 * @since 2.3.0
-	 * @version 2.4.0
-	 * @param array $array
-	 * @return array
-	 */
-	public function translate_array( $array ) {
-		$array_not_ajax_html = apply_filters( 'weglot_array_not_ajax_html', [ 'redirecturl', 'url' ] );
-		foreach ( $array as $key => $val ) {
-			if ( is_array( $val ) ) {
-				$array[ $key ] = $this->translate_array( $val );
-			} else {
-				if ( $this->is_ajax_html( $val ) ) {
-					try {
-						$parser         = $this->parser_services->get_parser();
-						$array[ $key ]  = $parser->translate( $val, $this->original_language, $this->current_language ); //phpcs:ignore
-					} catch ( \Exception $e ) {
-						continue;
-					}
-				} elseif ( in_array( $key,  $array_not_ajax_html, true ) ) {
-					$array[$key] = $this->replace_link_services->replace_url( $val ); //phpcs:ignore
-				} else {
-					if ( Helper_Keys_Json_Weglot::translate_key_for_path( $key ) ) {
-						try {
-							$parser         = $this->parser_services->get_parser();
-							$array[ $key ]  = $parser->translate( $val, $this->original_language, $this->current_language ); //phpcs:ignore
-						} catch ( \Exception $e ) {
-							continue;
-						}
-					}
-				}
-			}
-		}
-		return $array;
 	}
 
 

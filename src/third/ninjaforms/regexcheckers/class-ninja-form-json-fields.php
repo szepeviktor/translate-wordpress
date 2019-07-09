@@ -13,11 +13,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * @since 2.0.7
  */
-class Ninja_Form_Json_Fields extends RegexChecker
+class Ninja_Form_Json_Fields
 {
     const REGEX = '#form.fields=(.*?);#';
 
     const TYPE = SourceType::SOURCE_JSON;
+
+    const VAR_NUMBER = 1;
 
     public static $KEYS = array( "label" , "help_text" , "value" );
 }
