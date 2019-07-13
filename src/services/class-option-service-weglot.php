@@ -424,6 +424,7 @@ class Option_Service_Weglot {
 		$exclude_urls[]   = '/sitemaps.xml';
 		$exclude_urls[]   = 'wp-comments-post.php';
 		$exclude_urls[]   = '/ct_template'; // Compatibility Oxygen
+		$exclude_urls[]   = '/main-sitemap.xsl'; // SEO by Rank Math
 
 		$translate_amp = weglot_get_translate_amp_translation();
 		if ( ! $translate_amp ) {
