@@ -166,7 +166,7 @@ class Translate_Service_Weglot {
 			if ( is_array( $val ) ) {
 				$array[ $key ] = $this->translate_array( $val );
 			} else {
-				if ( $this->is_ajax_html( $val ) ) {
+				if ( Helper_Json_Inline_Weglot::is_ajax_html( $val ) ) {
 					try {
 						$parser         = $this->parser_services->get_parser();
 						$array[ $key ]  = $parser->translate( $val, $this->original_language, $this->current_language ); //phpcs:ignore

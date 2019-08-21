@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Weglot\Util\Regex\RegexEnum;
 use WeglotWP\Helpers\Helper_Excluded_Type;
 use WeglotWP\Helpers\Helper_Flag_Type;
 
@@ -51,7 +52,7 @@ class Schema_Option_Migration_V3 {
 					$objects = [];
 					foreach ( $urls as $item ) {
 						$objects[] = [
-							'type'  => Helper_Excluded_Type::MATCH_REGEX,
+							'type'  => RegexEnum::MATCH_REGEX,
 							'value' => $item,
 						];
 					}

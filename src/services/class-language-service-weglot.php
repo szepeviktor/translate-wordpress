@@ -9,6 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Weglot\Client\Endpoint\Languages;
 use Weglot\Client\Client;
+use Weglot\Client\Api\LanguageEntry;
 use Weglot\Client\Api\LanguageCollection;
 use Weglot\Client\Factory\Languages as LanguagesFactory;
 

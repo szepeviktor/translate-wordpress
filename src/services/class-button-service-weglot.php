@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Weglot\Client\Api\LanguageEntry;
 use WeglotWP\Helpers\Helper_Flag_Type;
 
 /**

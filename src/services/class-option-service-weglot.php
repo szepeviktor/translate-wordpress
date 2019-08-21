@@ -498,7 +498,7 @@ class Option_Service_Weglot {
 	}
 	/**
 	 * @param string $key
-	 * @return any
+	 * @return mixed
 	 */
 	public function get_option_by_key_v3( $key ) {
 		$options         = $this->get_options_bdd_v3();

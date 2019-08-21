@@ -41,7 +41,7 @@ class Search_Weglot implements Hooks_Interface_Weglot {
 
 	/**
 	 * @since 2.4.0
-	 * @param WP_Query $query
+	 * @param \WP_Query $query
 	 * @return void
 	 */
 	public function pre_get_posts_translate( $query ) {

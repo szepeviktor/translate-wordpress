@@ -15,7 +15,7 @@ abstract class Helper_Filter_Url_Weglot {
 
 	/**
 	 * @since 3.0.0
-	 * @param Weglot\Util\Url $url
+	 * @param \Weglot\Util\Url $url
 	 * @return string
 	 */
 	protected static function prevent_subfolder_install( $url ) {
